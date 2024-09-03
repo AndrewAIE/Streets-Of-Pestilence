@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 namespace QTESystem
 {
 
@@ -31,6 +32,7 @@ namespace QTESystem
         
         private ActionState m_actionState;        
         private GameObject m_enemy;
+        private GameObject m_player;
 
         private enum PlayerStance
         {
@@ -55,6 +57,7 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             m_activeActionList = new List<QTEAction>();
+            m_player = GetComponent<GameObject>();
         }
 
         private void Start()
@@ -72,9 +75,7 @@ namespace QTESystem
         private void OnDisable()
         {
             m_actionMap.actionTriggered -= onActionInput;
-            InputActions.Enable();
-            
-            
+            InputActions.Disable();            
         }
 
         // Update is called once per frame
@@ -202,8 +203,7 @@ namespace QTESystem
 
         private void beginningOfEncounter()
         {
-            //enable controls for QTE Event
-            
+            //enable controls for QTE Event            
             EnterEncounterState(EncounterState.beginningOfStream);
         }
         
@@ -274,6 +274,7 @@ namespace QTESystem
             InputActions.Disable();            
             m_actionMap.actionTriggered -= onActionInput;
             m_qteDisplay.DeactivatePoiseBar();
+            
         }
 
         #endregion

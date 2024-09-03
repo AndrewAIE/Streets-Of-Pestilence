@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerController;
 
 public class EnemyDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    EnemyController m_enemy;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        m_enemy = transform.parent.GetComponentInParent<EnemyController>();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            PlayerManager player = other.GetComponent<PlayerManager>();
+            player.EnterCombat(m_enemy.EncounterData, m_enemy.transform.parent.gameObject);
+                
+        }
     }
 }

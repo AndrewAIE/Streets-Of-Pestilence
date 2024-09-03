@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using QTESystem;
+using UnityEngine.InputSystem;
 
 namespace PlayerController
 {
@@ -30,6 +32,8 @@ namespace PlayerController
         [HideInInspector] public SFXController _sfx;
         [HideInInspector] public CameraController _camera;
         [HideInInspector] public CharacterController _character;
+        private QTERunner m_qteRunner;
+        private PlayerInput m_playerInput;
         #endregion
 
         /************************************* METHODS ********************************************/
@@ -46,6 +50,16 @@ namespace PlayerController
             
             //get character controller
             _character = GetComponent<CharacterController>();
+
+            m_qteRunner = GetComponent<QTERunner>();
+            m_playerInput = GetComponent<PlayerInput>();
+        }
+
+        public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
+        {
+            m_playerInput.enabled = false;
+            m_qteRunner.enabled = true;
+            m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
 
         private void Update()
