@@ -111,12 +111,10 @@ namespace QTESystem
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
-            //load data from encounter and start the neutral stream
-            
+            //load data from encounter and start the neutral stream            
             m_encounterData = _encounterData;
             m_enemy = _enemy;
-            EnterEncounterState(EncounterState.beginningOfEncounter);
-            
+            EnterEncounterState(EncounterState.beginningOfEncounter);            
         }
 
         public List<QTEInput> GetStreamActionInputs()
@@ -144,6 +142,8 @@ namespace QTESystem
                     EnterStance(PlayerStance.NeutralStance);
                     EnterEncounterState(EncounterState.beginningOfStream);
                     m_qteDisplay.ActivatePoiseBar();
+                    m_poiseValue = 0;
+                    m_qteDisplay.UpdatePoiseBar(m_poiseValue);
                     break;
 
                 case EncounterState.beginningOfStream:
@@ -270,11 +270,9 @@ namespace QTESystem
         }
 
         private void endOfEncounter()
-        {
-            InputActions.Disable();            
-            m_actionMap.actionTriggered -= onActionInput;
+        {            
             m_qteDisplay.DeactivatePoiseBar();
-            
+            this.enabled = false;
         }
 
         #endregion
@@ -366,7 +364,7 @@ namespace QTESystem
         public void PoiseValueCheck()
         {
             //adjust poise value based of successes and falures in stream
-            m_poiseValue += m_changeInPoiseValue / 2;
+            m_poiseValue += m_changeInPoiseValue;
 
             //change to appropriate stance based off of poise value
             //switch (m_playerStance)
