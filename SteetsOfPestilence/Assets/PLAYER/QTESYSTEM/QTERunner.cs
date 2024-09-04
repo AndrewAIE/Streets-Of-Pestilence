@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -13,16 +10,21 @@ namespace QTESystem
     public class QTERunner : MonoBehaviour
     {
         public QTEInputs InputActions;
-        private InputActionMap m_actionMap;        
+        private InputActionMap m_actionMap;
+        
         private QTEEncounterData m_encounterData;
-        private QTEStreamData m_activeStreamData;
-        private List<QTEAction> m_activeActionList;
+        private List<QTEStreamData> m_activeStreamData;
+        private List<QTEStreamData> m_waitingStreams;
+        private QTEStreamData m_activeStream;        
         private QTEAction m_activeAction;
+        
+
+
         [SerializeField]
         private QTEDisplay m_qteDisplay;
-        
-        private int m_streamPosition;
+        private List<QTEInput> m_activeDisplayList;
 
+        private int m_streamPosition;
         private int m_poiseValue = 0;
         private int m_changeInPoiseValue;
         
@@ -33,6 +35,8 @@ namespace QTESystem
         private ActionState m_actionState;        
         private GameObject m_enemy;
         private GameObject m_player;
+
+        
 
         private enum PlayerStance
         {
@@ -56,8 +60,9 @@ namespace QTESystem
         private void Awake()
         {
             InputActions = new QTEInputs();
-            m_activeActionList = new List<QTEAction>();
+            m_activeDisplayList = new List<QTEInput>();
             m_player = GetComponent<GameObject>();
+            
         }
 
         private void Start()
@@ -112,7 +117,7 @@ namespace QTESystem
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
             //load data from encounter and start the neutral stream            
-            m_encounterData = _encounterData;
+            m_encounterData = _encounterData;            
             m_enemy = _enemy;
             EnterEncounterState(EncounterState.beginningOfEncounter);            
         }
@@ -120,11 +125,11 @@ namespace QTESystem
         public List<QTEInput> GetStreamActionInputs()
         {
             List<QTEInput> actions = new List<QTEInput>();
-            for (int i = 0; i < m_activeStreamData.Actions.Count; i++)
+            for (int i = 0; i < m_activeStream.Actions.Count; i++)
             {
-                for (int j = 0; j < m_activeStreamData.Actions[i].InputList.Count; j++)
+                for (int j = 0; j < m_activeStream.Actions[i].InputList.Count; j++)
                 {
-                    actions.Add(m_activeStreamData.Actions[i].InputList[j]);
+                    actions.Add(m_activeStream.Actions[i].InputList[j]);
                 }
             }
             return actions;
@@ -139,27 +144,30 @@ namespace QTESystem
             {                
                 case EncounterState.beginningOfEncounter:
 
-                    EnterStance(PlayerStance.NeutralStance);
-                    EnterEncounterState(EncounterState.beginningOfStream);
+                    EnterStance(PlayerStance.NeutralStance);                                       
                     m_qteDisplay.ActivatePoiseBar();
                     m_poiseValue = 0;
-                    m_qteDisplay.UpdatePoiseBar(m_poiseValue);
+                    m_qteDisplay.UpdatePoiseBar(m_poiseValue);                    
+                    m_waitingStreams = new List<QTEStreamData>();
+                    for (int i = 0; i < m_encounterData.NeutralStreamData.Count; i++)
+                    {
+                        m_waitingStreams.Add(Instantiate(m_activeStreamData[i]));
+                    }
                     break;
 
                 case EncounterState.beginningOfStream:
 
-                    //reset change in poise bar value and stream iterator
+                    //reset change in poise bar value and stream iterator                    
                     m_changeInPoiseValue = 0;
                     m_streamPosition = 0;
-                    //activate appropriate panels in QTE Display                    ;
-                    activateStreamPanels(GetStreamActionInputs());
-                    m_qteDisplay.UpdateStanceText(m_playerStance.ToString());
-                    for(int i = 0; i < m_activeStreamData.Actions.Count; i++)
-                    {
-                        m_activeActionList.Add(Instantiate(m_activeStreamData.Actions[i]));
-                    }
+                    //select approp
+                    //activate appropriate panels in QTE Display
+                    
+                    m_activeStream = selectRandomStream();
+                    activateStreamPanels(GetStreamActionInputs());                    
+                    
                     //set new timer data and set timer to 0                    
-                    m_beginningOfStreamTimeLimit = m_activeStreamData.BeginningOfStreamPause;                    
+                    m_beginningOfStreamTimeLimit = m_activeStream.BeginningOfStreamPause;                    
                     m_timer = 0;
                     break;
 
@@ -167,8 +175,8 @@ namespace QTESystem
 
                     //set active action, set time limit and controls and activate appropriate display, enable controls
                     m_timer = 0;
-                    m_activeAction = m_activeActionList[m_streamPosition];
-                    m_activeAction.SetTimeLimit(m_activeStreamData.ActionTimer);
+                    m_activeAction = m_activeStream.Actions[m_streamPosition];
+                    m_activeAction.SetTimeLimit(m_activeStream.ActionTimer);
                     m_activeAction.SetTargetInputs(InputActions);
                     m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.blue);                    
                     break;
@@ -180,8 +188,8 @@ namespace QTESystem
                     //set new time limit and reset timer
                     m_activeAction.Started = false;
                     m_activeAction.IncorrectInput = null;
-                    m_qteDisplay.SetIconColor(GetStreamActionInputs(), Color.white);
-                    m_betweenActionTimeLimit = m_activeStreamData.BetweenActionTimer;
+                    m_qteDisplay.SetIconColor(m_activeDisplayList, Color.white);
+                    m_betweenActionTimeLimit = m_activeStream.BetweenActionTimer;
                     m_timer = 0;
                     break;
 
@@ -192,7 +200,8 @@ namespace QTESystem
                     m_streamPosition = 0;
                     m_timer = 0;
                     PoiseValueCheck();
-                    m_activeActionList.Clear();
+                    m_activeDisplayList.Clear();
+                    
                     break;
                     
                 default:
@@ -233,7 +242,7 @@ namespace QTESystem
                 default:
                     break;
             }
-            if(m_timer >= m_activeStreamData.ActionTimer)
+            if(m_timer >= m_activeStream.ActionTimer)
             {
                 if(m_actionState == ActionState.running)
                 {
@@ -249,7 +258,7 @@ namespace QTESystem
             
             if (m_timer > m_betweenActionTimeLimit)
             {
-                if (m_streamPosition >= m_activeStreamData.Actions.Count)
+                if (m_streamPosition >= m_activeStream.Actions.Count)
                 {                    
                     EnterEncounterState(EncounterState.betweenStreams);
                 }
@@ -263,7 +272,7 @@ namespace QTESystem
         private void betweenStreams()
         {
             //when timer is complete, start next stream            
-            if (m_timer > m_activeStreamData.EndOfStreamPause)
+            if (m_timer > m_activeStream.EndOfStreamPause)
             {
                 EnterEncounterState(EncounterState.beginningOfStream);
             }
@@ -272,6 +281,8 @@ namespace QTESystem
         private void endOfEncounter()
         {            
             m_qteDisplay.DeactivatePoiseBar();
+            m_waitingStreams.Clear();
+            m_activeStream = null;
             this.enabled = false;
         }
 
@@ -305,7 +316,7 @@ namespace QTESystem
             switch (m_playerStance)
             {
                 case PlayerStance.NeutralStance:
-                    m_activeStreamData = m_encounterData.NeutralStreamData;
+                    m_activeStreamData = m_encounterData.NeutralStreamData;                    
                     break;
                 case PlayerStance.OffensiveStance:
                     m_activeStreamData = m_encounterData.OffensiveStreamData;
@@ -316,6 +327,24 @@ namespace QTESystem
                 default:
                     break;
             }
+            //for (int i = 0; i < m_encounterData.NeutralStreamData.Count; i++)
+            //{
+            //    m_waitingStreams.Add(Instantiate(m_activeStreamData[i]));
+            //}
+        }
+
+        private QTEStreamData selectRandomStream()
+        {             
+            Debug.Log(m_waitingStreams.Count);
+            int selector = Random.Range(0, m_waitingStreams.Count);
+
+            QTEStreamData selectedStream = Instantiate(m_waitingStreams[selector]);
+            m_waitingStreams.RemoveAt(selector);
+            if(m_activeStream)
+            {
+                m_waitingStreams.Add(m_activeStream);
+            }
+            return selectedStream;
         }
 
         private void activateStreamPanels(List<QTEInput> _streamInputs)
@@ -355,8 +384,25 @@ namespace QTESystem
             for (int i = 0; i < panelActivator.Length; i++)
             {
                 if (panelActivator[i])
-                {
+                {                    
                     m_qteDisplay.ActivatePanel(i);
+                    switch(i)
+                    {
+                        case 0:
+                            m_activeDisplayList.Add(QTEInput.LeftTrigger);
+                            m_activeDisplayList.Add(QTEInput.RightTrigger);
+                            break;
+                        case 1:
+                            m_activeDisplayList.Add(QTEInput.LeftShoulder);
+                            m_activeDisplayList.Add(QTEInput.RightShoulder);
+                            break;
+                        case 2:
+                            m_activeDisplayList.Add(QTEInput.NorthFace);
+                            m_activeDisplayList.Add(QTEInput.EastFace);
+                            m_activeDisplayList.Add(QTEInput.SouthFace);
+                            m_activeDisplayList.Add(QTEInput.WestFace);
+                            break;
+                    }
                 }
             }
         }
@@ -418,8 +464,7 @@ namespace QTESystem
             {
                 playerLoss();
             }
-            m_qteDisplay.UpdatePoiseBar(m_poiseValue);
-            m_qteDisplay.UpdateStanceText(m_playerStance.ToString());
+            m_qteDisplay.UpdatePoiseBar(m_poiseValue);           
         }
         private void playerWin()
         {            

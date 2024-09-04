@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace QTESystem
@@ -6,8 +7,8 @@ namespace QTESystem
     public class QTEEncounterData : ScriptableObject
     {
         // Start is called before the first frame update
-        public QTEStreamData NeutralStreamData;
-        public QTEStreamData OffensiveStreamData;
-        public QTEStreamData DefensiveStreamData;
+        public List<QTEStreamData> NeutralStreamData;
+        public List<QTEStreamData> OffensiveStreamData;
+        public List<QTEStreamData> DefensiveStreamData;
     }
 }

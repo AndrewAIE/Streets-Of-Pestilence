@@ -22,8 +22,7 @@ namespace QTESystem
         private GameObject m_barObject;
         private Slider m_poiseBar;
         [SerializeField]
-        private List<GameObject> m_iconPanels;
-        public TextMeshProUGUI StanceText;
+        private List<GameObject> m_iconPanels;        
         public Image EndGameImage;     
 
 
@@ -132,11 +131,7 @@ namespace QTESystem
         {
             m_poiseBar.value = _poiseValue;
         }
-
-        public void UpdateStanceText(string _text)
-        {
-            StanceText.text = "Current Stance: " + _text;
-        }
+        
 
         public void ActivatePoiseBar()
         {
