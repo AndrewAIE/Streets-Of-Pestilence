@@ -9,6 +9,8 @@ namespace PlayerController
     public class PlayerManager : MonoBehaviour
     {
         /*************************************** VARIABLES *****************************************/
+        #region Variables
+
         #region Player Data
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
@@ -34,6 +36,8 @@ namespace PlayerController
         [HideInInspector] public CharacterController _character;
         private QTERunner m_qteRunner;
         private PlayerInput m_playerInput;
+        #endregion
+
         #endregion
 
         /************************************* METHODS ********************************************/
