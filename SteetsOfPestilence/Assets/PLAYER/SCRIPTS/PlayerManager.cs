@@ -37,6 +37,10 @@ namespace PlayerController
         #endregion
 
         /************************************* METHODS ********************************************/
+        #region Methods
+
+        /*** AWAKE AND UPDATE ***/
+        #region Awake and Update
         private void Awake()
         {
             //get player scripts
@@ -53,13 +57,6 @@ namespace PlayerController
 
             m_qteRunner = GetComponent<QTERunner>();
             m_playerInput = GetComponent<PlayerInput>();
-        }
-
-        public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
-        {
-            m_playerInput.enabled = false;
-            m_qteRunner.enabled = true;
-            m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
 
         private void Update()
@@ -83,5 +80,39 @@ namespace PlayerController
                 }
             }
         }
+
+        #endregion
+
+        /*** Enter Combat ***/
+        #region Enter Combat
+
+        public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
+        {
+            m_playerInput.enabled = false;
+            m_qteRunner.enabled = true;
+            m_qteRunner.LoadEncounter(_encounterData, _enemy);
+        }
+
+        #endregion
+
+        /*** ENABLE / DISABLE PLAYER ***/
+        #region Enable / Disable Player
+
+        public void SetPlayerActive()
+        {
+            _movement.enabled = true;
+            _camera.SetFreeLookCam_Active();
+        }
+
+        public void SetPlayerInActive()
+        {
+            _movement.enabled = false;
+            _camera.SetFreeLookCam_InActive();
+        }
+
+
+        #endregion
+
+        #endregion
     }
 }
