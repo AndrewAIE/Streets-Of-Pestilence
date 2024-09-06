@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System.Diagnostics.Tracing;
 
 
 namespace PlayerController
@@ -105,6 +106,7 @@ namespace PlayerController
         }
 
         #endregion
+
 
         //******************* FREE LOOK CAM *******************//
         #region Free Look Cam
@@ -334,6 +336,21 @@ namespace PlayerController
                     break;
             }
         }
+
+        //Set Freelook cam state
+        public void SetFreeLookCam_InActive()
+        {
+            _freeLookCam.m_XAxis.m_MaxSpeed = 0;
+            _freeLookCam.m_YAxis.m_MaxSpeed = 0;
+        }
+
+        public void SetFreeLookCam_Active()
+        {
+            _freeLookCam.m_XAxis.m_MaxSpeed = 125f;
+            _freeLookCam.m_YAxis.m_MaxSpeed = 1f;
+        }
+
+
         #endregion
 
         //******************* INFRASTRUCTURE *****************//

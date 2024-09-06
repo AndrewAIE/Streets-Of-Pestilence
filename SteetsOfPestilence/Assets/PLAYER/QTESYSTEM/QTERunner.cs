@@ -316,7 +316,7 @@ namespace QTESystem
             switch (m_playerStance)
             {
                 case PlayerStance.NeutralStance:
-                    m_activeStreamData = m_encounterData.NeutralStreamData;                    
+                    m_activeStreamData = m_encounterData.NeutralStreamData;
                     break;
                 case PlayerStance.OffensiveStance:
                     m_activeStreamData = m_encounterData.OffensiveStreamData;
