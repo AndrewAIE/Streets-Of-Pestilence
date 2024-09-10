@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 
 namespace QTESystem
@@ -36,7 +37,7 @@ namespace QTESystem
         private GameObject m_enemy;
         private GameObject m_player;
 
-        
+        float m_actionTimer;
 
         private enum PlayerStance
         {
@@ -176,9 +177,10 @@ namespace QTESystem
                     //set active action, set time limit and controls and activate appropriate display, enable controls
                     m_timer = 0;
                     m_activeAction = m_activeStream.Actions[m_streamPosition];
-                    m_activeAction.SetTimeLimit(m_activeStream.ActionTimer);
-                    m_activeAction.SetTargetInputs(InputActions);
-                    m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.blue);                    
+                    m_activeAction.SetTimeLimit(m_activeStream.ActionTimer, m_activeStream.SuccessBuffer);
+                    m_activeAction.SetTargetInputs(InputActions);                   
+                    m_qteDisplay.ActivateCue();
+                    m_actionTimer = m_activeStream.ActionTimer + (m_activeStream.SuccessBuffer / 2f);
                     break;
 
                 case EncounterState.betweenActions:
@@ -190,7 +192,7 @@ namespace QTESystem
                     m_activeAction.IncorrectInput = null;
                     m_qteDisplay.SetIconColor(m_activeDisplayList, Color.white);
                     m_betweenActionTimeLimit = m_activeStream.BetweenActionTimer;
-                    m_timer = 0;
+                    m_timer = 0;                    
                     break;
 
                 case EncounterState.betweenStreams:
@@ -200,8 +202,7 @@ namespace QTESystem
                     m_streamPosition = 0;
                     m_timer = 0;
                     PoiseValueCheck();
-                    m_activeDisplayList.Clear();
-                    
+                    m_activeDisplayList.Clear();                    
                     break;
                     
                 default:
@@ -228,8 +229,12 @@ namespace QTESystem
         private void activeAction()
         {
             // update and get state from active action
-            m_actionState = m_activeAction.ActionUpdate();
-            m_activeAction.DisplayUpdate();                        
+            m_actionState = m_activeAction.ActionUpdate(m_timer);
+            float cueSize = 1 - (m_timer / m_activeStream.ActionTimer);
+            if(m_actionState == ActionState.running)
+            {
+                m_qteDisplay.SetCueSize(cueSize);
+            }            
             // determine whether action has succeeded or failed
             switch (m_actionState)
             {
@@ -242,7 +247,8 @@ namespace QTESystem
                 default:
                     break;
             }
-            if(m_timer >= m_activeStream.ActionTimer)
+            
+            if(m_timer >= m_actionTimer)
             {
                 if(m_actionState == ActionState.running)
                 {
@@ -293,7 +299,10 @@ namespace QTESystem
             //increase poise value and enter between actions state
             m_activeAction.CompleteAction();
             m_changeInPoiseValue++;
-            m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.green);            
+            m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.green);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
 
         private void actionIncorrectInput()
@@ -302,13 +311,19 @@ namespace QTESystem
             m_activeAction.CompleteAction();
             m_changeInPoiseValue--;            
             m_qteDisplay.MissedInput(m_activeAction.InputList);
-            m_qteDisplay.IncorrectInput(m_activeAction.IncorrectInput);            
+            m_qteDisplay.IncorrectInput(m_activeAction.IncorrectInput);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
 
         private void actionTimerFail()
         {
             m_changeInPoiseValue--;            
             m_qteDisplay.MissedInput(m_activeAction.InputList);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
         private void EnterStance(PlayerStance _stance)
         {
@@ -353,30 +368,32 @@ namespace QTESystem
 
             foreach (QTEInput input in _streamInputs)
             {
+                m_qteDisplay.CreateInputPrompt(input);
                 switch (input)
                 {
+
                     case QTEInput.NorthFace:
+                        panelActivator[2] = true;                        
+                        break;
+                    case QTEInput.EastFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.EastFace:
+                    case QTEInput.SouthFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.SouthFace:
+                    case QTEInput.WestFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.WestFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.LeftShoulder:    
+                    case QTEInput.LeftShoulder:                        
                         panelActivator[1] = true;
                         break;
-                    case QTEInput.RightShoulder:
+                    case QTEInput.RightShoulder:                        
                         panelActivator[1] = true;
                         break;
-                    case QTEInput.LeftTrigger:   
+                    case QTEInput.LeftTrigger:                        
                         panelActivator[0] = true;
                         break;                    
-                    case QTEInput.RightTrigger:   
+                    case QTEInput.RightTrigger:                        
                         panelActivator[0] = true;
                         break;
                 }
@@ -486,6 +503,7 @@ namespace QTESystem
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {
+            Debug.Log("WAHOO");
             if(m_actionState == ActionState.running)
             {
                 m_activeAction?.CheckInput(_context);

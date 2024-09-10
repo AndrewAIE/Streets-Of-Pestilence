@@ -16,8 +16,7 @@ public class EnemyDetector : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             PlayerManager player = other.GetComponent<PlayerManager>();
-            player.EnterCombat(m_enemy.EncounterData, m_enemy.transform.parent.gameObject);
-                
+            player.EnterCombat(m_enemy.EncounterData, m_enemy.transform.parent.gameObject);                
         }
     }
 }
