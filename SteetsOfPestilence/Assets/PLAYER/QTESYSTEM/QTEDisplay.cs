@@ -12,8 +12,9 @@ namespace QTESystem
     {
 
         [SerializeField]
-        private Image m_northButtonIcon, m_eastButtonIcon, m_southButtonIcon, m_westButtonIcon, 
-            m_lShoulderButtonIcon, m_lTriggerButtonIcon, m_rShoulderButtonIcon, m_rTriggerButtonIcon;
+        private Image m_northButtonIcon, m_eastButtonIcon, m_southButtonIcon, m_westButtonIcon,
+            m_lShoulderButtonIcon, m_lTriggerButtonIcon, m_rShoulderButtonIcon, m_rTriggerButtonIcon,
+            m_northDirectionalButtonIcon, m_eastDirectionalButtonIcon, m_southDirectionalButtonIcon, m_westDirectionalButtonIcon;
         [SerializeField]
         private GameObject m_iconParent;
         [SerializeField]
@@ -29,7 +30,9 @@ namespace QTESystem
         [SerializeField]
         GameObject m_faceButtonCue;
         [SerializeField]
-        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
+        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue,
+            m_northDirectionalCue, m_eastDirectionalCue, m_southDirectionalCue, m_westDirectionalCue;
+
         [SerializeField]
         int m_cueStartSize;
         [HideInInspector]
@@ -93,6 +96,18 @@ namespace QTESystem
                     case QTEInput.RightTrigger:
                         m_rTriggerButtonIcon.color = _color;
                         break;
+                    case QTEInput.NorthDirectional:
+                        m_northDirectionalButtonIcon.color = _color;
+                        break;
+                    case QTEInput.EastDirectional:
+                        m_eastDirectionalButtonIcon.color = _color;
+                        break;
+                    case QTEInput.SouthDirectional:
+                        m_southDirectionalButtonIcon.color = _color;
+                        break;
+                    case QTEInput.WestDirectional:
+                        m_westDirectionalButtonIcon.color = _color;
+                        break;
                 }
             }
             m_iconsToActivate.Clear();
@@ -126,6 +141,18 @@ namespace QTESystem
                     break;
                 case "RTrigger":
                     m_rTriggerButtonIcon.color = Color.red;
+                    break;
+                case "Up":
+                    m_northDirectionalButtonIcon.color = Color.red;
+                    break;
+                case "Right":
+                    m_eastDirectionalButtonIcon.color = Color.red;
+                    break;
+                case "Down":
+                    m_southDirectionalButtonIcon.color = Color.red;
+                    break;
+                case "Left":
+                    m_westDirectionalButtonIcon.color = Color.red;
                     break;
             }
         }
@@ -180,6 +207,18 @@ namespace QTESystem
                     break;                
                 case QTEInput.RightTrigger:
                     VisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
+                    break;
+                case QTEInput.NorthDirectional:
+                    VisualCues.Add(Instantiate(m_northDirectionalCue, m_northDirectionalButtonIcon.transform));
+                    break;
+                case QTEInput.EastDirectional:
+                    VisualCues.Add(Instantiate(m_eastDirectionalCue, m_eastDirectionalButtonIcon.transform));
+                    break;
+                case QTEInput.SouthDirectional:
+                    VisualCues.Add(Instantiate(m_southDirectionalCue, m_southDirectionalButtonIcon.transform));
+                    break;
+                case QTEInput.WestDirectional:
+                    VisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
             }
         }

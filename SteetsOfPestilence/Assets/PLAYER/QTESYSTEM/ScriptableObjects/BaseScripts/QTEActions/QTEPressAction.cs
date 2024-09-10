@@ -90,7 +90,19 @@ namespace QTESystem
                         m_readyInputs.Add(_qteInputControl.Inputs.LTrigger);
                         break;                    
                     case QTEInput.RightTrigger:
-                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);
+                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);                        
+                        break;
+                    case QTEInput.NorthDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Up);
+                        break;
+                    case QTEInput.EastDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Right);
+                        break;
+                    case QTEInput.SouthDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.South);
+                        break;
+                    case QTEInput.WestDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Left);
                         break;
                     default:
                         break;

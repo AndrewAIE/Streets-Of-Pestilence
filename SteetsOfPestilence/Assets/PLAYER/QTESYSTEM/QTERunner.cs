@@ -364,14 +364,25 @@ namespace QTESystem
 
         private void activateStreamPanels(List<QTEInput> _streamInputs)
         {
-            bool[] panelActivator = { false, false, false };
+            bool[] panelActivator = { false, false, false, false };
 
             foreach (QTEInput input in _streamInputs)
             {
                 m_qteDisplay.CreateInputPrompt(input);
                 switch (input)
                 {
-
+                    case QTEInput.NorthDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.EastDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.SouthDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.WestDirectional:
+                        panelActivator[3] = true;
+                        break;
                     case QTEInput.NorthFace:
                         panelActivator[2] = true;                        
                         break;
@@ -418,6 +429,12 @@ namespace QTESystem
                             m_activeDisplayList.Add(QTEInput.EastFace);
                             m_activeDisplayList.Add(QTEInput.SouthFace);
                             m_activeDisplayList.Add(QTEInput.WestFace);
+                            break;
+                        case 3:
+                            m_activeDisplayList.Add(QTEInput.NorthDirectional);
+                            m_activeDisplayList.Add(QTEInput.EastDirectional);
+                            m_activeDisplayList.Add(QTEInput.SouthDirectional);
+                            m_activeDisplayList.Add(QTEInput.WestDirectional);
                             break;
                     }
                 }
@@ -530,7 +547,11 @@ namespace QTESystem
         LeftShoulder,
         LeftTrigger,
         RightShoulder,
-        RightTrigger
+        RightTrigger,
+        NorthDirectional,
+        EastDirectional,
+        SouthDirectional,
+        WestDirectional
     }
     #endregion
 
