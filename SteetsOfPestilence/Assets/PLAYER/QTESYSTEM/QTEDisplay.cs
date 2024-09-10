@@ -1,3 +1,4 @@
+using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,8 +24,16 @@ namespace QTESystem
         private Slider m_poiseBar;
         [SerializeField]
         private List<GameObject> m_iconPanels;        
-        public Image EndGameImage;     
-
+        
+        [Header("Visual Cue Prefabs")]
+        [SerializeField]
+        GameObject m_faceButtonCue;
+        [SerializeField]
+        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
+        [SerializeField]
+        int m_cueStartSize;
+        [HideInInspector]
+        public List<GameObject> VisualCues;
 
         // Start is called before the first frame update
         void Awake()
@@ -144,5 +153,50 @@ namespace QTESystem
             m_barObject.SetActive(false);
         }
         
+        public void CreateInputPrompt(QTEInput _input)
+        {
+            switch(_input)
+            {
+                case QTEInput.NorthFace:
+                    VisualCues.Add(Instantiate(m_faceButtonCue, m_northButtonIcon.transform));
+                    break;
+                case QTEInput.EastFace:
+                    VisualCues.Add(Instantiate(m_faceButtonCue, m_eastButtonIcon.transform));
+                    break;
+                case QTEInput.SouthFace:
+                    VisualCues.Add(Instantiate(m_faceButtonCue, m_southButtonIcon.transform));
+                    break;
+                case QTEInput.WestFace:
+                    VisualCues.Add(Instantiate(m_faceButtonCue, m_westButtonIcon.transform));
+                    break;
+                case QTEInput.LeftShoulder:
+                    VisualCues.Add(Instantiate(m_lShoulderButtonCue, m_lShoulderButtonIcon.transform));
+                    break;
+                case QTEInput.RightShoulder:
+                    VisualCues.Add(Instantiate(m_rShoulderButtonCue, m_rShoulderButtonIcon.transform));
+                    break;
+                case QTEInput.LeftTrigger:
+                    VisualCues.Add(Instantiate(m_lTriggerCue, m_lTriggerButtonIcon.transform));
+                    break;                
+                case QTEInput.RightTrigger:
+                    VisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
+                    break;
+            }
+        }
+
+        public void SetCueSize(float _sizePercentage)
+        {
+            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
+            float sizeRange = m_cueStartSize - targetSize.x;
+            Image cue = VisualCues[0].GetComponent<Image>();
+
+            cue.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
+        }
+
+        public void ActivateCue()
+        {
+            Image image = VisualCues[0].GetComponent<Image>();
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+        }        
     }
 }
