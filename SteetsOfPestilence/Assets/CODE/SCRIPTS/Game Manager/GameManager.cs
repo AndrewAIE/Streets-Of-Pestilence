@@ -1,7 +1,5 @@
 using PlayerController;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,13 +30,12 @@ public class GameManager : MonoBehaviour
 
     //*** CUTSCENE ***//
     #region Cutscene
-    [SerializeField] CutsceneManager _cutsceneManager;
-    [SerializeField] bool _hasTriggeredCutscene;
+    //[SerializeField] CutsceneManager _cutsceneManager;
+    //[SerializeField] bool _hasTriggeredCutscene;
 
     #endregion
 
     #endregion
-
 
     //*************************************** METHODS **********************************************//
     #region Methods
@@ -70,15 +67,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //trigger cutscene if not played yet
-        if (!_hasTriggeredCutscene)
+        /*if (!_hasTriggeredCutscene)
             Debug.Log("Triggered Cutscene");
-            TriggerCutscene();
+            TriggerCutscene();*/
     }
 
     private void AssignScripts()
     {
         m_PlayerManager = FindObjectOfType<PlayerManager>();
-        _cutsceneManager = FindObjectOfType<CutsceneManager>();
+        //_cutsceneManager = FindObjectOfType<CutsceneManager>();
     }
     #endregion
 
@@ -107,7 +104,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 m_PlayerManager.SetPlayerActive();
-                _cutsceneManager.TurnOff_PressAtoSkip();
+                //_cutsceneManager.TurnOff_PressAtoSkip();
                 break;
             case GameState.Paused:
                 break;
@@ -127,6 +124,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     /*** Cutscene ***/
+    /*
     #region Cutscene
     public void TriggerCutscene()
     {
@@ -142,6 +140,7 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+    */
 
     /*** RELOAD SCENE ***/
     #region Reload Scene
