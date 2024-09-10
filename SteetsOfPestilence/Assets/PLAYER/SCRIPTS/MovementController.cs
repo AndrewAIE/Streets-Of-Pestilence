@@ -50,8 +50,8 @@ namespace PlayerController
         [HideInInspector] private Vector3 _inputDirection;
         [HideInInspector] private Vector3 _currentDirection;
         [Space]
-        [HideInInspector] private float _speed;
-        [HideInInspector] private float _targetSpeed;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _targetSpeed;
         [Space]
         [SerializeField] private float _inputRotation = 0.0f;
         [SerializeField] private float _targetRotation;
@@ -125,9 +125,6 @@ namespace PlayerController
 
         private void PlayerMovement()
         {
-
-            
-
             //switch case to handle what type of movement to do
             switch (_movementMode)
             {
@@ -168,15 +165,9 @@ namespace PlayerController
             switch (_exploringState)
             {
                 case ExploringState.Stationary:
-                    
-                    if(_inputMagnitude >= _manager._data.WalkThres)
+                    if(_inputMagnitude >= 0.01f)
                     {
                         Set_ExploringState(ExploringState.Walking);
-
-                        /*if (_deltaRotation >= -1f || _deltaRotation <= 1f)
-                            Set_ExploringState(ExploringState.Walking);
-                        else
-                            Set_ExploringState(ExploringState.Turning);*/
                     }
 
                     break;
@@ -184,7 +175,8 @@ namespace PlayerController
                 case ExploringState.Walking:
                     if (_inputMagnitude >= _manager._data.RunThres)
                         Set_ExploringState(ExploringState.Running);
-                    else
+
+                    else if(_inputMagnitude <= 0.01f)
                         Set_ExploringState(ExploringState.Stationary);
                     
                     break;
@@ -196,8 +188,6 @@ namespace PlayerController
             }
 
             #endregion
-
-
         }
 
 
@@ -262,11 +252,13 @@ namespace PlayerController
             _targetRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _inputRotation, ref _rotationVelocity,
                 _manager._data.RotationSmoothTime);
 
-            // rotate to face input direction relative to camera position
-            transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
-
             #endregion
             
+            if(_exploringState != ExploringState.Stationary)
+            {
+                // rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
+            }
 
             //make direction vector3
             _targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;

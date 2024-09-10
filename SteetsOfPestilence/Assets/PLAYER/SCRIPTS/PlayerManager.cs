@@ -29,7 +29,7 @@ namespace PlayerController
 
         #region Components
         [HideInInspector] public MovementController _movement;
-        //[HideInInspector] public AnimationController _animation;
+        [HideInInspector] public AnimationController _animation;
         [HideInInspector] public InputController _input;
         [HideInInspector] public SFXController _sfx;
         [HideInInspector] public CameraController _camera;
@@ -49,7 +49,7 @@ namespace PlayerController
         {
             //get player scripts
             _movement = GetComponent<MovementController>();
-            //_animation = GetComponent<AnimationController>();
+            _animation = GetComponent<AnimationController>();
             _input = GetComponent<InputController>();
             _sfx = GetComponent<SFXController>();
 
