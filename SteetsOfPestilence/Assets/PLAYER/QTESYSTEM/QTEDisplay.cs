@@ -24,7 +24,7 @@ namespace QTESystem
         private Slider m_poiseBar;
         [SerializeField]
         private List<GameObject> m_iconPanels;        
-        public Image EndGameImage;
+        
         [Header("Visual Cue Prefabs")]
         [SerializeField]
         GameObject m_faceButtonCue;
@@ -32,6 +32,7 @@ namespace QTESystem
         GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
         [SerializeField]
         int m_cueStartSize;
+        [HideInInspector]
         public List<GameObject> VisualCues;
 
         // Start is called before the first frame update
