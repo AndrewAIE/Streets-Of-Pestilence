@@ -12,7 +12,7 @@ namespace PlayerController
         [HideInInspector] private Animator _animator;
 
         /*** Animation State ***/
-        #region Animation State
+        /*#region Animation State
         public enum RoamingState
         {
             Idle,
@@ -20,7 +20,7 @@ namespace PlayerController
         }
         public RoamingState _roamingState;
 
-        #endregion
+        #endregion*/
 
         /*** Idle State ***/
         /*
@@ -37,11 +37,11 @@ namespace PlayerController
         */
 
         /*** Locomotion State ***/
+        /*
         #region Locomotion
         [SerializeField] public float _locomotionBlend;
-
-
         #endregion
+        */
 
         /*************************** ANIMATION ID'S *************************/
         #region Animation ID's
@@ -78,7 +78,7 @@ namespace PlayerController
         private void Awake()
         {
             //get components
-            _animator = GetComponent<Animator>();
+            _animator = GetComponentInChildren<Animator>();
         }
 
         // Start is called before the first frame update
@@ -95,7 +95,7 @@ namespace PlayerController
         // Update is called once per frame
         void Update()
         {
-            //Idle();
+            /*//Idle();
             switch (_roamingState)
             {
                 case RoamingState.Idle:
@@ -104,7 +104,7 @@ namespace PlayerController
 
                 case RoamingState.Locomotion:
                     break;
-            }
+            }*/
         }
 
         #endregion

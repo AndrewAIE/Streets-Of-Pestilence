@@ -70,16 +70,16 @@ namespace PlayerController
 			move = newMoveDirection;
 
 			//animation
-			/*_manager._animation.SetAnimationFloat_InputMove(move.magnitude);
+			_manager._animation.SetAnimationFloat_InputMove(move.magnitude);
 
-			if(move.magnitude > 0)
+			/*if (move.magnitude > 0)
 			{
 				_manager._animation._roamingState = AnimationController.RoamingState.Locomotion;
 			}
 			else
 			{
-                _manager._animation._roamingState = AnimationController.RoamingState.Idle;
-            }*/
+				_manager._animation._roamingState = AnimationController.RoamingState.Idle;
+			}*/
 		} 
 
 		public void LookInput(Vector2 newLookDirection)

@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 719442988170117070}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Camera Objects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 3798763508448860147}
   - component: {fileID: 3798763508448860149}
   - component: {fileID: 702489194120394011}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -824,6 +824,7 @@ MonoBehaviour:
   _freeLookTarget: {fileID: 8809586766076604069}
   _debugMode: 0
   _movement: {fileID: 0}
+  _animation: {fileID: 0}
   _input: {fileID: 0}
   _sfx: {fileID: 0}
   _camera: {fileID: 0}
@@ -844,6 +845,8 @@ MonoBehaviour:
   _movementMode: 0
   _exploringState: 2
   _inputMagnitude: 0
+  _speed: 0
+  _targetSpeed: 0
   _inputRotation: 0
   _targetRotation: 0
   _deltaRotation: 0
@@ -889,13 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900f8b2c776163a4a9b2e14ea015bfb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roamingState: 0
-  _idleState: 0
-  _locomotionBlend: 0
-  _idleTimer: 0
-  _idleTriggerTime: 0
-  IdleMinTimer: 0
-  IdleMaxTimer: 0
 --- !u!143 &3798763508448860147
 CharacterController:
   m_ObjectHideFlags: 0
