@@ -10,16 +10,43 @@ namespace QTESystem
 {
     public class QTEDisplay : MonoBehaviour
     {
-
-        [SerializeField]
-        private Image m_northButtonIcon, m_eastButtonIcon, m_southButtonIcon, m_westButtonIcon,
-            m_lShoulderButtonIcon, m_lTriggerButtonIcon, m_rShoulderButtonIcon, m_rTriggerButtonIcon,
-            m_northDirectionalButtonIcon, m_eastDirectionalButtonIcon, m_southDirectionalButtonIcon, m_westDirectionalButtonIcon;
+        //******************** Variables *******************//
+        #region Variables
+        [Header("Button Icons")]
         [SerializeField]
         private GameObject m_iconParent;
+        [Space]
         [SerializeField]
-        private float m_activeOpacity;
+        private Image m_northButtonIcon;
+        [SerializeField]
+        private Image m_eastButtonIcon;
+        [SerializeField]
+        private Image m_southButtonIcon;
+        [SerializeField]
+        private Image m_westButtonIcon;
+        [SerializeField]
+        private Image m_lShoulderButtonIcon;
+        [SerializeField]
+        private Image m_lTriggerButtonIcon;
+        [SerializeField]
+        private Image m_rShoulderButtonIcon;
+        [SerializeField]
+        private Image m_rTriggerButtonIcon;
+        [SerializeField]
+        private Image m_northDirectionalButtonIcon;
+        [SerializeField]
+        private Image m_eastDirectionalButtonIcon;
+        [SerializeField]
+        private Image m_southDirectionalButtonIcon;
+        [SerializeField]
+        private Image m_westDirectionalButtonIcon;
+
+        [Space]
+        [Header("QTE System")]
         private List<QTEInput> m_iconsToActivate = new List<QTEInput>();
+
+        [Space]
+        [Header("Poise Bar")]
         [SerializeField]
         private GameObject m_barObject;
         private Slider m_poiseBar;
@@ -38,34 +65,40 @@ namespace QTESystem
         [HideInInspector]
         public List<GameObject> VisualCues;
 
-        // Start is called before the first frame update
-        void Awake()
-        {
-            
-        }
+        [HideInInspector]
+        public PoiseBarController poiseBarController;
 
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
+        #endregion
 
+        //******************** Methods *********************//
+        #region Methods
+
+        //*** Panel ***//
+        #region Panel
+
+        //Comment
         public void ActivatePanel(int _indicator)
         {
             m_iconPanels[_indicator].SetActive(true);
         }
 
+        //Comment
         public void DeactivatePanels()
         {
             foreach (GameObject panel in m_iconPanels)
             {
                 panel.SetActive(false);
             }
-        }        
+        }
 
+        #endregion
+
+        //*** Icon Feedback ***//
+        #region Icon Feedback
+
+        //Comment
         public void SetIconColor(List<QTEInput> _iconsToSet, Color _color)
         {
-            
             for (int i = 0; i < _iconsToSet.Count; i++)
             {
                 m_iconsToActivate.Add(_iconsToSet[i]);
@@ -113,6 +146,7 @@ namespace QTESystem
             m_iconsToActivate.Clear();
         }
 
+        //Comment
         public void IncorrectInput(string _incorrectInput)
         {
             Debug.Log(_incorrectInput);
@@ -157,29 +191,42 @@ namespace QTESystem
             }
         }
 
-        
+        //Comment
         public void MissedInput(List<QTEInput> _iconsToShake)
         {
             
         }
+
+        #endregion
+
+        //*** Poise Bar ***//
+        #region Poise Bar
         
+        //Comment
         public void UpdatePoiseBar(int _poiseValue)
         {
             m_poiseBar.value = _poiseValue;
         }
         
-
+        //Activate Poise Bar
         public void ActivatePoiseBar()
         {
             m_barObject.SetActive(true);
             m_poiseBar = m_barObject.GetComponent<Slider>();
         }
 
+        //Deactivate Poise Bar
         public void DeactivatePoiseBar()
         {
             m_barObject.SetActive(false);
         }
-        
+
+        #endregion
+
+        //*** Cue ***//
+        #region Cue
+
+        //Comment
         public void CreateInputPrompt(QTEInput _input)
         {
             switch(_input)
@@ -223,6 +270,7 @@ namespace QTESystem
             }
         }
 
+        //Comment
         public void SetCueSize(float _sizePercentage)
         {
             Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
@@ -232,10 +280,15 @@ namespace QTESystem
             cue.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
 
+        //Comment
         public void ActivateCue()
         {
             Image image = VisualCues[0].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
-        }        
+        }
+
+        #endregion
+
+        #endregion
     }
 }

@@ -17,20 +17,17 @@ public class PoiseBarController : MonoBehaviour
     [SerializeField] float _plungerX_PlayerWin;
     [SerializeField] float _plungerX_EnemyWin;
 
-    // Start is called before the first frame update
-    void Start()
+    
+    public IEnumerator UpdatePoiseBar(float deltaPoise)
     {
-        
-    }
+        _fillAmount += deltaPoise;
 
-    // Update is called once per frame
-    void Update()
-    {
         _fillMask.padding = new Vector4((_maskEnemyWin - _maskPlayerWin) * _fillAmount, 0, 0, 0);
-
         _plungerTransform.anchoredPosition = new Vector3(Mathf.Lerp(_plungerX_PlayerWin, _plungerX_EnemyWin, _fillAmount), 0, 0);
-
+        yield return null;
     }
+
+
 
 
 }

@@ -4,49 +4,125 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
-
 namespace QTESystem
 {
+    #region Public Enums
+    //comment
+    public enum ActionState
+    {
+        running,
+        success,
+        fail,
+        complete
+    }
+
+    //comment
+    public enum QTEInput
+    {
+        NorthFace,
+        EastFace,
+        SouthFace,
+        WestFace,
+        LeftShoulder,
+        LeftTrigger,
+        RightShoulder,
+        RightTrigger,
+        NorthDirectional,
+        EastDirectional,
+        SouthDirectional,
+        WestDirectional
+    }
+
+    #endregion
 
     public class QTERunner : MonoBehaviour
     {
-        public QTEInputs InputActions;
+        //******************** Variables *******************//
+        #region Variables
+
+        //*** QTE DATA ***//
+        #region QTE Data
+        //comment
         private InputActionMap m_actionMap;
+
+        //comment
+        public QTEInputs InputActions;
         
+        //comment
         private QTEEncounterData m_encounterData;
+
+        //comment
         private List<QTEStreamData> m_activeStreamData;
+
+        //comment
         private List<QTEStreamData> m_waitingStreams;
-        private QTEStreamData m_activeStream;        
+
+        //comment
+        private QTEStreamData m_activeStream;
+
+        //comment
         private QTEAction m_activeAction;
         
-
-
-        [SerializeField]
+        //comment
+        [SerializeField, Tooltip("QTE Display")]
         private QTEDisplay m_qteDisplay;
+
+        //
         private List<QTEInput> m_activeDisplayList;
 
+        #endregion
+
+        //*** Poise Bar ***//
+        #region Poise Bar
+        //comment
         private int m_streamPosition;
+
+        //comment
         private int m_poiseValue = 0;
+
+        //comment
         private int m_changeInPoiseValue;
-        
+
+        #endregion
+
+        //*** Timers ***//
+        #region Timers
         private float m_timer;        
         private float m_beginningOfStreamTimeLimit;
         private float m_betweenActionTimeLimit;
-        
+
+        float m_actionTimer;
+        #endregion
+
+        //*** Enum Variables ***//
+        #region Enum Variables
         private ActionState m_actionState;        
+        private PlayerStance m_playerStance;
+        private EncounterState m_encounterState;
+
+        #endregion
+
+        //*** Player & Enemy ***//
+        #region Player & Enemy 
         private GameObject m_enemy;
         private GameObject m_player;
 
-        float m_actionTimer;
+        #endregion
 
+        #endregion
+
+        //******************** Enums **********************//
+        #region Enums
+
+        //comment
         private enum PlayerStance
         {
             NeutralStance,
             OffensiveStance,
             DefensiveStance
         }
-        private PlayerStance m_playerStance;
 
+        //comment
         private enum EncounterState
         {
             beginningOfEncounter,
@@ -56,7 +132,14 @@ namespace QTESystem
             betweenStreams,            
             endOfEncounter            
         }
-        private EncounterState m_encounterState;
+
+        #endregion
+
+        //******************** Methods ********************//
+        #region Methods
+
+        //*** Awake, Enable, Disable ***//
+        #region Awake, Enable, Disable
 
         private void Awake()
         {
@@ -64,11 +147,6 @@ namespace QTESystem
             m_activeDisplayList = new List<QTEInput>();
             m_player = GetComponent<GameObject>();
             
-        }
-
-        private void Start()
-        {            
-                     
         }
         
         private void OnEnable()
@@ -84,7 +162,11 @@ namespace QTESystem
             InputActions.Disable();            
         }
 
-        // Update is called once per frame
+        #endregion
+
+        //*** Update ***//
+        #region Update
+
         void Update()
         {
             m_timer += Time.deltaTime;
@@ -112,8 +194,10 @@ namespace QTESystem
                     break;            
             }            
         }
-        
 
+        #endregion
+
+        //*** Loading Encoutner Data ***//
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
@@ -137,6 +221,8 @@ namespace QTESystem
         }
 
         #endregion
+
+        //*** Encoutner States ***//
         #region EncounterStates
         private void EnterEncounterState(EncounterState _encounterState)
         {
@@ -293,18 +379,25 @@ namespace QTESystem
         }
 
         #endregion
-        #region OtherFunctions
+
+        //*** Success & Fail Methods ***//
+        #region Success & Fail Methods 
+
+        //comment
         private void actionSuccess()
         {
             //increase poise value and enter between actions state
             m_activeAction.CompleteAction();
             m_changeInPoiseValue++;
+
+            //set icon colour
             m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.green);
             GameObject Holder = m_qteDisplay.VisualCues[0];
             m_qteDisplay.VisualCues.RemoveAt(0);
             Destroy(Holder);
         }
 
+        //comment
         private void actionIncorrectInput()
         {
             //decrease poise value and enter between actions state
@@ -317,6 +410,7 @@ namespace QTESystem
             Destroy(Holder);
         }
 
+        //comment
         private void actionTimerFail()
         {
             m_changeInPoiseValue--;            
@@ -325,6 +419,13 @@ namespace QTESystem
             m_qteDisplay.VisualCues.RemoveAt(0);
             Destroy(Holder);
         }
+
+        #endregion
+
+        //*** Stream Data ***//
+        #region Stream Data
+
+        //Comment
         private void EnterStance(PlayerStance _stance)
         {
             m_playerStance = _stance;
@@ -348,6 +449,7 @@ namespace QTESystem
             //}
         }
 
+        //Comment
         private QTEStreamData selectRandomStream()
         {             
             Debug.Log(m_waitingStreams.Count);
@@ -362,6 +464,7 @@ namespace QTESystem
             return selectedStream;
         }
 
+        //Comment
         private void activateStreamPanels(List<QTEInput> _streamInputs)
         {
             bool[] panelActivator = { false, false, false, false };
@@ -441,6 +544,12 @@ namespace QTESystem
             }
         }
 
+        #endregion
+
+        //*** Poise Bar and Combat Outcome ***//
+        #region Poise Bar and Combat Outcome
+
+        //Comment
         public void PoiseValueCheck()
         {
             //adjust poise value based of successes and falures in stream
@@ -492,23 +601,27 @@ namespace QTESystem
 
             if (m_poiseValue >= 10)
             {
-                playerWin();                
+                playerWin();
             }
             if (m_poiseValue <= -10)
             {
                 playerLoss();
             }
-            m_qteDisplay.UpdatePoiseBar(m_poiseValue);           
+            m_qteDisplay.UpdatePoiseBar(m_poiseValue);
         }
+        
+        //Player Win
         private void playerWin()
-        {            
+        {
             Destroy(m_enemy);
             EnterEncounterState(EncounterState.endOfEncounter);
             GetComponent<PlayerInput>().enabled = true;
 
         }
+
+        //Player Loss
         private void playerLoss()
-        {           
+        {
             EnterEncounterState(EncounterState.endOfEncounter);
 
             //ANDREW TO DO
@@ -516,7 +629,10 @@ namespace QTESystem
             //I dont know how to access game manager outside of this namespace
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
         #endregion
+
+        //*** Input ***//
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {
@@ -527,38 +643,8 @@ namespace QTESystem
             }           
         }
         #endregion
+        
+        #endregion
     }
-
-    #region PublicEnums
-    public enum ActionState
-    {
-        running,
-        success,
-        fail,
-        complete
-    }
-
-    public enum QTEInput
-    {
-        NorthFace,
-        EastFace,
-        SouthFace,
-        WestFace,
-        LeftShoulder,
-        LeftTrigger,
-        RightShoulder,
-        RightTrigger,
-        NorthDirectional,
-        EastDirectional,
-        SouthDirectional,
-        WestDirectional
-    }
-    #endregion
-
-
-
-
-
-
 }
 
