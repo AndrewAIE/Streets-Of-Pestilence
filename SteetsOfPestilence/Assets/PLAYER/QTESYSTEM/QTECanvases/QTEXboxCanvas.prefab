@@ -34,7 +34,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -109,8 +109,8 @@ RectTransform:
   m_Father: {fileID: 1398549514}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -825,7 +825,7 @@ MonoBehaviour:
   m_eastDirectionalButtonIcon: {fileID: 4562471496551248706}
   m_southDirectionalButtonIcon: {fileID: 3417008504039223854}
   m_westDirectionalButtonIcon: {fileID: 6335216547657525230}
-  m_barObject: {fileID: 2010494263}
+  m_barObject: {fileID: 0}
   m_poiseBar: {fileID: 0}
   m_iconPanels:
   - {fileID: 5913341397072606115}
@@ -850,7 +850,7 @@ MonoBehaviour:
     type: 3}
   m_westDirectionalCue: {fileID: 5740631778910348584, guid: 9d3643e0cf866e74fb632409673eb284,
     type: 3}
-  m_cueStartSize: 200
+  m_cueStartSize: 150
   VisualCues: []
   poiseBarController: {fileID: 0}
 --- !u!1 &1435086293338651667
