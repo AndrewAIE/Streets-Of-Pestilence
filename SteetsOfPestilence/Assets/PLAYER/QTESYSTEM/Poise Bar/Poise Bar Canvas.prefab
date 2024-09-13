@@ -152,12 +152,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillAmount: 0.5
+  _poise: 0
+  _maxPoise: 10
+  _minPoise: -10
   _fillMask: {fileID: 8266788564087869111}
   _maskPlayerWin: 0
   _maskEnemyWin: 995
   _plungerTransform: {fileID: 8266788564254633459}
   _plungerX_PlayerWin: -1055
   _plungerX_EnemyWin: -55
+  _timer: 0
+  _MoveTime: 0
 --- !u!1 &8266788563341458288
 GameObject:
   m_ObjectHideFlags: 0

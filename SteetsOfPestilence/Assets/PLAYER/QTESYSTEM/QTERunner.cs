@@ -74,11 +74,10 @@ namespace QTESystem
 
         //*** Poise Bar ***//
         #region Poise Bar
-        //comment
-        private int m_streamPosition;
+        [SerializeField] PoiseBarController _poiseBar;
 
         //comment
-        private int m_poiseValue = 0;
+        private int m_streamPosition;
 
         //comment
         private int m_changeInPoiseValue;
@@ -145,8 +144,7 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             m_activeDisplayList = new List<QTEInput>();
-            m_player = GetComponent<GameObject>();
-            
+            m_player = GetComponent<GameObject>();         
         }
         
         private void OnEnable()
@@ -230,11 +228,19 @@ namespace QTESystem
             switch(m_encounterState)
             {                
                 case EncounterState.beginningOfEncounter:
-
+                    //set stance to netural
                     EnterStance(PlayerStance.NeutralStance);                                       
+
+                    //turn on poise bar
                     m_qteDisplay.ActivatePoiseBar();
-                    m_poiseValue = 0;
-                    m_qteDisplay.UpdatePoiseBar(m_poiseValue);                    
+
+                    //reset poise
+                    _poiseBar.ResetPoise();
+
+                    //update visuals
+                    //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);              
+                    
+
                     m_waitingStreams = new List<QTEStreamData>();
                     for (int i = 0; i < m_encounterData.NeutralStreamData.Count; i++)
                     {
@@ -553,7 +559,7 @@ namespace QTESystem
         public void PoiseValueCheck()
         {
             //adjust poise value based of successes and falures in stream
-            m_poiseValue += m_changeInPoiseValue;
+            _poiseBar.SetPoise(m_changeInPoiseValue);
 
             //change to appropriate stance based off of poise value
             //switch (m_playerStance)
@@ -599,15 +605,16 @@ namespace QTESystem
             //
             //}
 
-            if (m_poiseValue >= 10)
+            if (_poiseBar._poise >= _poiseBar._maxPoise)
             {
                 playerWin();
             }
-            if (m_poiseValue <= -10)
+            if (_poiseBar._poise <= _poiseBar._minPoise)
             {
                 playerLoss();
             }
-            m_qteDisplay.UpdatePoiseBar(m_poiseValue);
+
+            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
         }
         
         //Player Win

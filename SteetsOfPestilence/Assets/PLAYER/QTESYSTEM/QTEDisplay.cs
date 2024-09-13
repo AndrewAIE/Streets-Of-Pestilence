@@ -49,7 +49,9 @@ namespace QTESystem
         [Header("Poise Bar")]
         [SerializeField]
         private GameObject m_barObject;
-        private Slider m_poiseBar;
+        [SerializeField]
+        private PoiseBarController m_poiseBar;
+
         [SerializeField]
         private List<GameObject> m_iconPanels;        
         
@@ -201,18 +203,18 @@ namespace QTESystem
 
         //*** Poise Bar ***//
         #region Poise Bar
-        
+/*
         //Comment
         public void UpdatePoiseBar(int _poiseValue)
         {
-            m_poiseBar.value = _poiseValue;
-        }
-        
+
+        }*/
+
         //Activate Poise Bar
         public void ActivatePoiseBar()
         {
             m_barObject.SetActive(true);
-            m_poiseBar = m_barObject.GetComponent<Slider>();
+            m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
         }
 
         //Deactivate Poise Bar

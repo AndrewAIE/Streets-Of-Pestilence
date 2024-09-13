@@ -11,11 +11,13 @@ public class EnemyDetector : MonoBehaviour
     {
         m_enemy = transform.parent.GetComponentInParent<EnemyController>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            PlayerManager player = other.GetComponent<PlayerManager>();
+            PlayerManager player = other.gameObject.GetComponent<PlayerManager>();
+            
             player.EnterCombat(m_enemy.EncounterData, m_enemy.transform.parent.gameObject);                
         }
     }
