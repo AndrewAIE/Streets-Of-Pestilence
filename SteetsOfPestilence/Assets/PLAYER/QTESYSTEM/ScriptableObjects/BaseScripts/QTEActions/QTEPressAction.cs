@@ -9,9 +9,12 @@ namespace QTESystem
     {
         List<InputAction> m_readyInputs = new List<InputAction>();     
 
-        public override void SetTimeLimit(float _timer)
+        public override void SetTimeLimit(float _timeLimit, float _successBuffer)
         {
-            m_timeLimit = _timer;            
+            m_timeLimit = _timeLimit;
+            m_successBuffer = _successBuffer;
+            m_minTime = m_timeLimit - (m_successBuffer / 2f);
+            m_maxTime = m_timeLimit + (m_successBuffer / 2f);
         }
 
         protected override ActionState onUpdate()
@@ -23,17 +26,20 @@ namespace QTESystem
         {
             bool inputCorrect = false;            
             if (_context.performed && _context.action.name != "Directional")
-            {                
-                for(int i = 0; i < m_readyInputs.Count; i++)
+            {
+                if (m_timer >= m_minTime && m_timer <= m_maxTime)
                 {
-                    if(_context.action == m_readyInputs[i])
-                    {                        
-                        m_readyInputs.RemoveAt(i);
-                        inputCorrect = true;
-                        break;
-                    }                    
+                    for (int i = 0; i < m_readyInputs.Count; i++)
+                    {
+                        if (_context.action == m_readyInputs[i])
+                        {
+                            m_readyInputs.RemoveAt(i);
+                            inputCorrect = true;
+                            break;
+                        }
+                    }
                 }
-                if(m_state == ActionState.running)
+                if (m_state == ActionState.running)
                 {
                     if (inputCorrect == false)
                     {
@@ -45,8 +51,8 @@ namespace QTESystem
                     {
                         m_state = ActionState.success;
                     }
-                }                
-            }           
+                }
+            }                       
         }       
 
         public override void DisplayUpdate()
@@ -63,7 +69,7 @@ namespace QTESystem
                 switch (input)
                 {
                     case QTEInput.NorthFace:
-                        m_readyInputs.Add(_qteInputControl.Inputs.North);
+                        m_readyInputs.Add(_qteInputControl.Inputs.North);                        
                         break;
                     case QTEInput.EastFace:
                         m_readyInputs.Add(_qteInputControl.Inputs.East);
@@ -84,7 +90,19 @@ namespace QTESystem
                         m_readyInputs.Add(_qteInputControl.Inputs.LTrigger);
                         break;                    
                     case QTEInput.RightTrigger:
-                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);
+                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);                        
+                        break;
+                    case QTEInput.NorthDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Up);
+                        break;
+                    case QTEInput.EastDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Right);
+                        break;
+                    case QTEInput.SouthDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.South);
+                        break;
+                    case QTEInput.WestDirectional:
+                        m_readyInputs.Add(_qteInputControl.Inputs.Left);
                         break;
                     default:
                         break;

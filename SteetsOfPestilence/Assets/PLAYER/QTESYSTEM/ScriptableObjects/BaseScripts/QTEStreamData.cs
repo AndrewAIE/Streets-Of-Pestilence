@@ -8,6 +8,7 @@ namespace QTESystem
     {
         public List<QTEAction> Actions;
         public float ActionTimer;
+        public float SuccessBuffer;
         public float BetweenActionTimer;
         public float BeginningOfStreamPause;
         public float EndOfStreamPause;        

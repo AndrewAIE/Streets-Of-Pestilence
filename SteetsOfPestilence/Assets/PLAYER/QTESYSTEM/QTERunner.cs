@@ -2,50 +2,126 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Windows;
 
 namespace QTESystem
 {
+    #region Public Enums
+    //comment
+    public enum ActionState
+    {
+        running,
+        success,
+        fail,
+        complete
+    }
+
+    //comment
+    public enum QTEInput
+    {
+        NorthFace,
+        EastFace,
+        SouthFace,
+        WestFace,
+        LeftShoulder,
+        LeftTrigger,
+        RightShoulder,
+        RightTrigger,
+        NorthDirectional,
+        EastDirectional,
+        SouthDirectional,
+        WestDirectional
+    }
+
+    #endregion
 
     public class QTERunner : MonoBehaviour
     {
-        public QTEInputs InputActions;
+        //******************** Variables *******************//
+        #region Variables
+
+        //*** QTE DATA ***//
+        #region QTE Data
+        //comment
         private InputActionMap m_actionMap;
+
+        //comment
+        public QTEInputs InputActions;
         
+        //comment
         private QTEEncounterData m_encounterData;
+
+        //comment
         private List<QTEStreamData> m_activeStreamData;
+
+        //comment
         private List<QTEStreamData> m_waitingStreams;
-        private QTEStreamData m_activeStream;        
+
+        //comment
+        private QTEStreamData m_activeStream;
+
+        //comment
         private QTEAction m_activeAction;
         
-
-
-        [SerializeField]
+        //comment
+        [SerializeField, Tooltip("QTE Display")]
         private QTEDisplay m_qteDisplay;
+
+        //
         private List<QTEInput> m_activeDisplayList;
 
+        #endregion
+
+        //*** Poise Bar ***//
+        #region Poise Bar
+        [SerializeField] PoiseBarController _poiseBar;
+
+        //comment
         private int m_streamPosition;
-        private int m_poiseValue = 0;
+
+        //comment
         private int m_changeInPoiseValue;
-        
+
+        #endregion
+
+        //*** Timers ***//
+        #region Timers
         private float m_timer;        
         private float m_beginningOfStreamTimeLimit;
         private float m_betweenActionTimeLimit;
-        
+
+        float m_actionTimer;
+        #endregion
+
+        //*** Enum Variables ***//
+        #region Enum Variables
         private ActionState m_actionState;        
+        private PlayerStance m_playerStance;
+        private EncounterState m_encounterState;
+
+        #endregion
+
+        //*** Player & Enemy ***//
+        #region Player & Enemy 
         private GameObject m_enemy;
         private GameObject m_player;
 
-        
+        #endregion
 
+        #endregion
+
+        //******************** Enums **********************//
+        #region Enums
+
+        //comment
         private enum PlayerStance
         {
             NeutralStance,
             OffensiveStance,
             DefensiveStance
         }
-        private PlayerStance m_playerStance;
 
+        //comment
         private enum EncounterState
         {
             beginningOfEncounter,
@@ -55,19 +131,20 @@ namespace QTESystem
             betweenStreams,            
             endOfEncounter            
         }
-        private EncounterState m_encounterState;
+
+        #endregion
+
+        //******************** Methods ********************//
+        #region Methods
+
+        //*** Awake, Enable, Disable ***//
+        #region Awake, Enable, Disable
 
         private void Awake()
         {
             InputActions = new QTEInputs();
             m_activeDisplayList = new List<QTEInput>();
-            m_player = GetComponent<GameObject>();
-            
-        }
-
-        private void Start()
-        {            
-                     
+            m_player = GetComponent<GameObject>();         
         }
         
         private void OnEnable()
@@ -83,7 +160,11 @@ namespace QTESystem
             InputActions.Disable();            
         }
 
-        // Update is called once per frame
+        #endregion
+
+        //*** Update ***//
+        #region Update
+
         void Update()
         {
             m_timer += Time.deltaTime;
@@ -111,8 +192,10 @@ namespace QTESystem
                     break;            
             }            
         }
-        
 
+        #endregion
+
+        //*** Loading Encoutner Data ***//
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
@@ -136,6 +219,8 @@ namespace QTESystem
         }
 
         #endregion
+
+        //*** Encoutner States ***//
         #region EncounterStates
         private void EnterEncounterState(EncounterState _encounterState)
         {
@@ -143,11 +228,19 @@ namespace QTESystem
             switch(m_encounterState)
             {                
                 case EncounterState.beginningOfEncounter:
-
+                    //set stance to netural
                     EnterStance(PlayerStance.NeutralStance);                                       
+
+                    //turn on poise bar
                     m_qteDisplay.ActivatePoiseBar();
-                    m_poiseValue = 0;
-                    m_qteDisplay.UpdatePoiseBar(m_poiseValue);                    
+
+                    //reset poise
+                    _poiseBar.ResetPoise();
+
+                    //update visuals
+                    //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);              
+                    
+
                     m_waitingStreams = new List<QTEStreamData>();
                     for (int i = 0; i < m_encounterData.NeutralStreamData.Count; i++)
                     {
@@ -176,9 +269,10 @@ namespace QTESystem
                     //set active action, set time limit and controls and activate appropriate display, enable controls
                     m_timer = 0;
                     m_activeAction = m_activeStream.Actions[m_streamPosition];
-                    m_activeAction.SetTimeLimit(m_activeStream.ActionTimer);
-                    m_activeAction.SetTargetInputs(InputActions);
-                    m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.blue);                    
+                    m_activeAction.SetTimeLimit(m_activeStream.ActionTimer, m_activeStream.SuccessBuffer);
+                    m_activeAction.SetTargetInputs(InputActions);                   
+                    m_qteDisplay.ActivateCue();
+                    m_actionTimer = m_activeStream.ActionTimer + (m_activeStream.SuccessBuffer / 2f);
                     break;
 
                 case EncounterState.betweenActions:
@@ -190,7 +284,7 @@ namespace QTESystem
                     m_activeAction.IncorrectInput = null;
                     m_qteDisplay.SetIconColor(m_activeDisplayList, Color.white);
                     m_betweenActionTimeLimit = m_activeStream.BetweenActionTimer;
-                    m_timer = 0;
+                    m_timer = 0;                    
                     break;
 
                 case EncounterState.betweenStreams:
@@ -200,8 +294,7 @@ namespace QTESystem
                     m_streamPosition = 0;
                     m_timer = 0;
                     PoiseValueCheck();
-                    m_activeDisplayList.Clear();
-                    
+                    m_activeDisplayList.Clear();                    
                     break;
                     
                 default:
@@ -228,8 +321,12 @@ namespace QTESystem
         private void activeAction()
         {
             // update and get state from active action
-            m_actionState = m_activeAction.ActionUpdate();
-            m_activeAction.DisplayUpdate();                        
+            m_actionState = m_activeAction.ActionUpdate(m_timer);
+            float cueSize = 1 - (m_timer / m_activeStream.ActionTimer);
+            if(m_actionState == ActionState.running)
+            {
+                m_qteDisplay.SetCueSize(cueSize);
+            }            
             // determine whether action has succeeded or failed
             switch (m_actionState)
             {
@@ -242,7 +339,8 @@ namespace QTESystem
                 default:
                     break;
             }
-            if(m_timer >= m_activeStream.ActionTimer)
+            
+            if(m_timer >= m_actionTimer)
             {
                 if(m_actionState == ActionState.running)
                 {
@@ -287,29 +385,53 @@ namespace QTESystem
         }
 
         #endregion
-        #region OtherFunctions
+
+        //*** Success & Fail Methods ***//
+        #region Success & Fail Methods 
+
+        //comment
         private void actionSuccess()
         {
             //increase poise value and enter between actions state
             m_activeAction.CompleteAction();
             m_changeInPoiseValue++;
-            m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.green);            
+
+            //set icon colour
+            m_qteDisplay.SetIconColor(m_activeAction.InputList, Color.green);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
 
+        //comment
         private void actionIncorrectInput()
         {
             //decrease poise value and enter between actions state
             m_activeAction.CompleteAction();
             m_changeInPoiseValue--;            
             m_qteDisplay.MissedInput(m_activeAction.InputList);
-            m_qteDisplay.IncorrectInput(m_activeAction.IncorrectInput);            
+            m_qteDisplay.IncorrectInput(m_activeAction.IncorrectInput);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
 
+        //comment
         private void actionTimerFail()
         {
             m_changeInPoiseValue--;            
             m_qteDisplay.MissedInput(m_activeAction.InputList);
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
         }
+
+        #endregion
+
+        //*** Stream Data ***//
+        #region Stream Data
+
+        //Comment
         private void EnterStance(PlayerStance _stance)
         {
             m_playerStance = _stance;
@@ -333,6 +455,7 @@ namespace QTESystem
             //}
         }
 
+        //Comment
         private QTEStreamData selectRandomStream()
         {             
             Debug.Log(m_waitingStreams.Count);
@@ -347,36 +470,50 @@ namespace QTESystem
             return selectedStream;
         }
 
+        //Comment
         private void activateStreamPanels(List<QTEInput> _streamInputs)
         {
-            bool[] panelActivator = { false, false, false };
+            bool[] panelActivator = { false, false, false, false };
 
             foreach (QTEInput input in _streamInputs)
             {
+                m_qteDisplay.CreateInputPrompt(input);
                 switch (input)
                 {
+                    case QTEInput.NorthDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.EastDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.SouthDirectional:
+                        panelActivator[3] = true;
+                        break;
+                    case QTEInput.WestDirectional:
+                        panelActivator[3] = true;
+                        break;
                     case QTEInput.NorthFace:
+                        panelActivator[2] = true;                        
+                        break;
+                    case QTEInput.EastFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.EastFace:
+                    case QTEInput.SouthFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.SouthFace:
+                    case QTEInput.WestFace:                        
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.WestFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.LeftShoulder:    
+                    case QTEInput.LeftShoulder:                        
                         panelActivator[1] = true;
                         break;
-                    case QTEInput.RightShoulder:
+                    case QTEInput.RightShoulder:                        
                         panelActivator[1] = true;
                         break;
-                    case QTEInput.LeftTrigger:   
+                    case QTEInput.LeftTrigger:                        
                         panelActivator[0] = true;
                         break;                    
-                    case QTEInput.RightTrigger:   
+                    case QTEInput.RightTrigger:                        
                         panelActivator[0] = true;
                         break;
                 }
@@ -402,15 +539,27 @@ namespace QTESystem
                             m_activeDisplayList.Add(QTEInput.SouthFace);
                             m_activeDisplayList.Add(QTEInput.WestFace);
                             break;
+                        case 3:
+                            m_activeDisplayList.Add(QTEInput.NorthDirectional);
+                            m_activeDisplayList.Add(QTEInput.EastDirectional);
+                            m_activeDisplayList.Add(QTEInput.SouthDirectional);
+                            m_activeDisplayList.Add(QTEInput.WestDirectional);
+                            break;
                     }
                 }
             }
         }
 
+        #endregion
+
+        //*** Poise Bar and Combat Outcome ***//
+        #region Poise Bar and Combat Outcome
+
+        //Comment
         public void PoiseValueCheck()
         {
             //adjust poise value based of successes and falures in stream
-            m_poiseValue += m_changeInPoiseValue;
+            _poiseBar.SetPoise(m_changeInPoiseValue);
 
             //change to appropriate stance based off of poise value
             //switch (m_playerStance)
@@ -456,25 +605,30 @@ namespace QTESystem
             //
             //}
 
-            if (m_poiseValue >= 10)
+            if (_poiseBar._poise >= _poiseBar._maxPoise)
             {
-                playerWin();                
+                playerWin();
             }
-            if (m_poiseValue <= -10)
+            if (_poiseBar._poise <= _poiseBar._minPoise)
             {
                 playerLoss();
             }
-            m_qteDisplay.UpdatePoiseBar(m_poiseValue);           
+
+            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
         }
+        
+        //Player Win
         private void playerWin()
-        {            
+        {
             Destroy(m_enemy);
             EnterEncounterState(EncounterState.endOfEncounter);
             GetComponent<PlayerInput>().enabled = true;
 
         }
+
+        //Player Loss
         private void playerLoss()
-        {           
+        {
             EnterEncounterState(EncounterState.endOfEncounter);
 
             //ANDREW TO DO
@@ -482,44 +636,22 @@ namespace QTESystem
             //I dont know how to access game manager outside of this namespace
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
         #endregion
+
+        //*** Input ***//
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {
+            Debug.Log("WAHOO");
             if(m_actionState == ActionState.running)
             {
                 m_activeAction?.CheckInput(_context);
             }           
         }
         #endregion
+        
+        #endregion
     }
-
-    #region PublicEnums
-    public enum ActionState
-    {
-        running,
-        success,
-        fail,
-        complete
-    }
-
-    public enum QTEInput
-    {
-        NorthFace,
-        EastFace,
-        SouthFace,
-        WestFace,
-        LeftShoulder,
-        LeftTrigger,
-        RightShoulder,
-        RightTrigger
-    }
-    #endregion
-
-
-
-
-
-
 }
 

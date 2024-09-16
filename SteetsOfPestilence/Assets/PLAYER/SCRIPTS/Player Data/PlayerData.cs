@@ -21,12 +21,6 @@ namespace PlayerController
         [Tooltip("The threshold at which the player starts sprinting")]
         public float RunThres = 0.9f;
 
-        [Tooltip("The threshold at which the player starts walking")]
-        public float WalkThres = 0.5f;
-
-        [Tooltip("The theshold at which the player starts recieving movement input")]
-        public float MoveThres = 0.1f;
-
         [Space]
 
         [Tooltip("How fast the character turns to face movement direction")]
