@@ -56,6 +56,9 @@ namespace PlayerController
 
             //get camera script
             _camera = FindObjectOfType<CameraController>();
+
+            //get the merchant
+            _merchant = FindObjectOfType<MerchantController>();
             
             //get character controller
             _character = GetComponent<CharacterController>();
@@ -105,14 +108,30 @@ namespace PlayerController
 
         public void SetPlayerActive()
         {
-            _movement.enabled = true;
+            _movement._playerMovementEnabled = true;
             _camera.SetFreeLookCam_Active();
         }
 
         public void SetPlayerInActive()
         {
-            _movement.enabled = false;
+            _movement._playerMovementEnabled = false;
             _camera.SetFreeLookCam_InActive();
+        }
+
+
+        #endregion
+
+        /*** Merchant ***/
+        #region Merchant
+        
+        public bool CheckMerchantState(MerchantController.MerchantState inputState)
+        {
+            return _merchant.CheckState(inputState);
+        }
+
+        public void SetMerchantState(MerchantController.MerchantState inputState)
+        {
+            _merchant.SetMerchantState(inputState);
         }
 
 
