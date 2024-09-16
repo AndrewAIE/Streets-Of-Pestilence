@@ -37,6 +37,7 @@ namespace PlayerController
         #region Merchant
 
         [SerializeField] public bool exit;
+		[SerializeField] public Vector2 moveSelection;
 
         #endregion
 
@@ -88,7 +89,6 @@ namespace PlayerController
 			RecenterInput(value.isPressed);
 		}
 
-
         #endregion
 
         /*** ____ Input ***/
@@ -135,8 +135,13 @@ namespace PlayerController
         {
 			ExitInput(value.isPressed);
 
-			_manager.SetMerchantState(MerchantController.MerchantState.InRange);
+			
         }
+
+		public void OnMoveSelection(InputValue value)
+		{
+			MoveSelectionInput(value.Get<Vector2>());
+		}
 
         #endregion
 
@@ -146,7 +151,21 @@ namespace PlayerController
         public void ExitInput(bool newInput)
 		{
 			exit = newInput;
-		}
+
+            _manager.SetMerchantState(MerchantController.MerchantState.InRange);
+        }
+
+		public void MoveSelectionInput(Vector2 newMoveSelection)
+		{
+			moveSelection = newMoveSelection;
+
+            if (Mathf.Abs(moveSelection.x) > 0.9f)
+            {
+                _manager._merchant.ChangeSelection(Mathf.RoundToInt(moveSelection.x));
+            }
+        }
+
+
 
         #endregion
 
@@ -168,6 +187,15 @@ namespace PlayerController
 		public void SetActionMap(string newMap)
 		{
 			_playerInput.SwitchCurrentActionMap(newMap);
+
+			if(newMap == "Player")
+			{
+				_inputMode = InputMode.Player;
+			}
+			else if(newMap == "Merchant")
+			{
+				_inputMode = InputMode.Merchant;
+			}
 		}
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 
 public class MerchantController : MonoBehaviour
@@ -22,6 +23,20 @@ public class MerchantController : MonoBehaviour
     public MerchantState _merchantState;
 
     #endregion
+
+    /*** Item Selection ***/
+    #region Item Selection
+    [Header("Item Selection")]
+    [SerializeField] int _selectionIndex;
+    [SerializeField] int minSelection;
+    [SerializeField] int maxSelection;
+    [SerializeField] Light[] _lights;
+    [SerializeField] SpriteRenderer[] _sprites;
+
+
+
+    #endregion
+
 
     /*** UI ***/
     #region UI
@@ -126,6 +141,9 @@ public class MerchantController : MonoBehaviour
         //turn on exit text
         _exitText.gameObject.SetActive(true);
 
+        //turn on selection ui
+        ChangeSelection(0);
+
         _camera.SetCameraState(CameraController.CameraState.Merchant);
         _player._input.SetActionMap(InputController.InputMode.Merchant.ToString());
     }
@@ -153,6 +171,33 @@ public class MerchantController : MonoBehaviour
 
 
     #endregion
+
+    /*** Item Selection ***/
+    #region Item Selection
+
+    public void ChangeSelection(int deltaSelection)
+    {
+        if (deltaSelection < 0 && _selectionIndex == minSelection ||
+            deltaSelection > 0 && _selectionIndex == maxSelection)
+            return;
+
+        //turn off light and sprite
+        _lights[_selectionIndex].gameObject.SetActive(false);
+        _sprites[_selectionIndex].gameObject.SetActive(false);
+
+        _selectionIndex += deltaSelection;
+
+        //turn off light and sprite
+        _lights[_selectionIndex].gameObject.SetActive(true);
+        _sprites[_selectionIndex].gameObject.SetActive(true);
+    }
+
+
+
+
+    #endregion
+
+
 
     #endregion
 
