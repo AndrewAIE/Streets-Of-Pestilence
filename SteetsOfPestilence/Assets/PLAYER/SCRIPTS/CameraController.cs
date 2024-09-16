@@ -23,10 +23,11 @@ namespace PlayerController
         [Header("Camera State")]
         [SerializeField] CameraState _cameraState;
 
-        private enum CameraState
+        public enum CameraState
         {
             FreeLook,
-            LockOn
+            LockOn,
+            Merchant
         }
 
         #endregion
@@ -62,6 +63,13 @@ namespace PlayerController
 
         #endregion
 
+        /*** MERCHANT CAM ***/
+        #region Merchant Cam
+        [SerializeField] CinemachineVirtualCamera _merchantCam;
+
+
+        #endregion
+
         #endregion
 
         /************************ METHODS **********************/
@@ -82,6 +90,12 @@ namespace PlayerController
 
             _freeLookCam.Follow = _manager._playerTransform;
             _freeLookCam.LookAt = _manager._freeLookTarget;
+
+            #endregion
+
+            //Merchant Camera 
+            #region Merchant Camera
+            _merchantCam = GameObject.FindGameObjectWithTag("Merchant Camera").GetComponent<CinemachineVirtualCamera>();
 
             #endregion
 
@@ -353,9 +367,11 @@ namespace PlayerController
 
         #endregion
 
+
+
         //******************* INFRASTRUCTURE *****************//
         #region Infrastructure
-        private void SetCameraState(CameraState inputState)
+        public void SetCameraState(CameraState inputState)
         {
             //set camera state
             _cameraState = inputState;
@@ -368,17 +384,19 @@ namespace PlayerController
             {
                 case CameraState.FreeLook:
                     _freeLookCam.Priority = 1;
-
-
                     break;
 
-
+                case CameraState.Merchant:
+                    _merchantCam.Priority = 1;
+                    break;
             }
         }
 
         private void SetCameraPriorities(int inputPriority)
         {
             _freeLookCam.Priority = inputPriority;
+
+            _merchantCam.Priority = inputPriority;
         }
 
 

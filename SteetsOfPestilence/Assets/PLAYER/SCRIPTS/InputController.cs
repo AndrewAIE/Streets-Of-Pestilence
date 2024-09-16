@@ -5,9 +5,18 @@ namespace PlayerController
 {
 	public class InputController : MonoBehaviour
 	{
-        /**************************************** VARIABLES ************************************/
-        #region Variables
-        [Header("Character Input Values")]
+		/**************************************** VARIABLES ************************************/
+		#region Variables
+		[Header("Input Mode")]
+		[SerializeField] public InputMode _inputMode;
+		public enum InputMode
+		{
+			Player,
+			Merchant
+		}
+
+        [Header("Player")]
+        #region Player
         //vector 2 showing the players movement input
         [Tooltip("vector 2 showing the players movement input")]
         [SerializeField] public Vector2 move;
@@ -22,27 +31,43 @@ namespace PlayerController
 		[Tooltip("")]
 		[SerializeField] public bool recenter;
 
-		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
+        #endregion
 
-		[HideInInspector] PlayerManager _manager;
+        [Header("Merchant")]
+        #region Merchant
+
+        [SerializeField] public bool exit;
 
         #endregion
 
-        /**************************************** METHODS ************************************/
+        [Header("Mouse Cursor Settings")]
+		public bool cursorLocked = true;
+
+		[HideInInspector] PlayerManager _manager;
+		[HideInInspector] PlayerInput _playerInput;
+
+        #endregion
+
+        /**************************************** METHODS ****************************************/
         #region Methods
 
         private void Awake()
         {
 			_manager = GetComponent<PlayerManager>();
+			_playerInput = GetComponent<PlayerInput>();
         }
 
-        /**************************************** ON ____ *************************************/
+
+        /*** Player ***/
+        #region Player
+
+        /*** ON ____ ***/
         #region On ____
 
         public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			if(_manager._movement._playerMovementEnabled)
+				MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
@@ -53,6 +78,9 @@ namespace PlayerController
 		public void OnInteract(InputValue value)
 		{
 			InteractInput(value.isPressed);
+
+			if (_manager.CheckMerchantState(MerchantController.MerchantState.InRange))
+				_manager.SetMerchantState(MerchantController.MerchantState.InShop);
 		}
 
 		public void OnRecenter(InputValue value)
@@ -60,9 +88,10 @@ namespace PlayerController
 			RecenterInput(value.isPressed);
 		}
 
+
         #endregion
 
-        /************************************** ____ Input ************************************/
+        /*** ____ Input ***/
         #region ____ Input
 
         public void MoveInput(Vector2 newMoveDirection)
@@ -71,16 +100,7 @@ namespace PlayerController
 
 			//animation
 			_manager._animation.SetAnimationFloat_InputMove(move.magnitude);
-
-			/*if (move.magnitude > 0)
-			{
-				_manager._animation._roamingState = AnimationController.RoamingState.Locomotion;
-			}
-			else
-			{
-				_manager._animation._roamingState = AnimationController.RoamingState.Idle;
-			}*/
-		} 
+		}
 
 		public void LookInput(Vector2 newLookDirection)
 		{
@@ -100,9 +120,39 @@ namespace PlayerController
 				_manager._camera.TriggerRecenter();
 		}
 
+
         #endregion
 
-        /**************************************** INFRASTRUCTURE ************************************/
+        #endregion
+
+        /*** Merchant ***/
+        #region Merchant
+
+        /*** On ___ ***/
+        #region On ___
+
+        public void OnExit(InputValue value)
+        {
+			ExitInput(value.isPressed);
+
+			_manager.SetMerchantState(MerchantController.MerchantState.InRange);
+        }
+
+        #endregion
+
+        /*** ___ Input ***/
+        #region ___ Input
+
+        public void ExitInput(bool newInput)
+		{
+			exit = newInput;
+		}
+
+        #endregion
+
+        #endregion
+
+        /*** INFRASTRUCTURE ***/
         #region Infrastructure
 
         private void OnApplicationFocus(bool hasFocus)
@@ -113,6 +163,11 @@ namespace PlayerController
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+
+		public void SetActionMap(string newMap)
+		{
+			_playerInput.SwitchCurrentActionMap(newMap);
 		}
 
         #endregion

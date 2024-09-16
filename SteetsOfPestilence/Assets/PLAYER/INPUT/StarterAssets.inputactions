@@ -34,12 +34,12 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "b8a11250-afc0-4f47-9147-b267c4bd2087",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -194,6 +194,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Recenter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Merchant",
+            "id": "9c2e3107-5951-4531-9d6a-40d1ac14a180",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "PassThrough",
+                    "id": "414704db-b550-4439-8fd0-4abf7810a7b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fbb06300-e3b1-4b89-a417-1caa9281ff60",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Exit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
