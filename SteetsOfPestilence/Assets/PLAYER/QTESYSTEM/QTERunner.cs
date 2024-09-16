@@ -163,7 +163,7 @@ namespace QTESystem
         void Update()
         {
             Timer += Time.deltaTime;
-            CurrentState.StateUpdate(Timer);
+            CurrentState.StateUpdate();
                     
         }
 

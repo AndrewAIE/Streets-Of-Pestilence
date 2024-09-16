@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Merchant
-{
+
     public class MerchantController : MonoBehaviour
     {
         /***************************** VARIABLES ****************************/
@@ -99,4 +98,4 @@ namespace Merchant
 
         #endregion
     }
-}
+
