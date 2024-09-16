@@ -24,6 +24,7 @@ namespace PlayerController
             Exploring,
             LockOn,
             Combat,
+            Merchant,
             Debug
         }
 
@@ -103,7 +104,7 @@ namespace PlayerController
 
         #endregion
 
-        /************* UPDATE ******************/
+        /*** UPDATE ***/
         #region Update
         private void Update()
         {

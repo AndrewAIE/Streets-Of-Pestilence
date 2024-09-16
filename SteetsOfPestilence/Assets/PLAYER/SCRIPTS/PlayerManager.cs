@@ -34,6 +34,7 @@ namespace PlayerController
         [HideInInspector] public SFXController _sfx;
         [HideInInspector] public CameraController _camera;
         [HideInInspector] public CharacterController _character;
+        [HideInInspector] public MerchantController _merchant;
         private QTERunner m_qteRunner;
         private PlayerInput m_playerInput;
         #endregion
