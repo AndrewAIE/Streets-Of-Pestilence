@@ -35,7 +35,7 @@ namespace PlayerController
         [HideInInspector] public CameraController _camera;
         [HideInInspector] public CharacterController _character;
         [HideInInspector] public MerchantController _merchant;
-        private QTERunner m_qteRunner;
+        private QTEManager m_qteRunner;
         private PlayerInput m_playerInput;
         #endregion
 
@@ -60,7 +60,7 @@ namespace PlayerController
             //get character controller
             _character = GetComponent<CharacterController>();
 
-            m_qteRunner = GetComponent<QTERunner>();
+            m_qteRunner = GetComponent<QTEManager>();
             m_playerInput = GetComponent<PlayerInput>();
         }
 
