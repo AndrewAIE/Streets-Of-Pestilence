@@ -69,10 +69,7 @@ namespace QTESystem
         [HideInInspector]
         public PoiseBarController poiseBarController;
 
-        #endregion
-
-        //******************** Methods *********************//
-        #region Methods
+        #endregion       
 
         //*** Panel ***//
         #region Panel
@@ -149,8 +146,7 @@ namespace QTESystem
 
         //Comment
         public void IncorrectInput(string _incorrectInput)
-        {
-            
+        {            
             switch (_incorrectInput)
             {
                 case "North":
@@ -288,6 +284,6 @@ namespace QTESystem
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
         }
         #endregion 
-        #endregion  
+       
     }
 }
