@@ -95,7 +95,8 @@ namespace PlayerController
 
             //Merchant Camera 
             #region Merchant Camera
-            _merchantCam = GameObject.FindGameObjectWithTag("Merchant Camera").GetComponent<CinemachineVirtualCamera>();
+            if(GameObject.FindGameObjectWithTag("Merchant Camera"))
+                _merchantCam = GameObject.FindGameObjectWithTag("Merchant Camera").GetComponent<CinemachineVirtualCamera>();
 
             #endregion
 
@@ -394,9 +395,11 @@ namespace PlayerController
 
         private void SetCameraPriorities(int inputPriority)
         {
-            _freeLookCam.Priority = inputPriority;
-
-            _merchantCam.Priority = inputPriority;
+            if(_freeLookCam)
+                _freeLookCam.Priority = inputPriority;
+            
+            if(_merchantCam)
+                _merchantCam.Priority = inputPriority;
         }
 
 

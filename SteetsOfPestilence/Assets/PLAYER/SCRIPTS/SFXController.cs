@@ -6,9 +6,9 @@ namespace PlayerController
 {
     public class SFXController : MonoBehaviour
     {
-        [HideInInspector] PlayerManager _manager;
+        [SerializeField] PlayerManager _manager;
 
-        /********************************* SFX ****************************//*
+        /********************************* SFX ****************************/
         #region SFX
         [Space]
         [Header("SFX")]
@@ -16,11 +16,11 @@ namespace PlayerController
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        #endregion*/
+        #endregion
 
         private void Awake()
         {
-            _manager = GetComponent<PlayerManager>();
+            _manager = GetComponentInParent<PlayerManager>();
         }
 
         /************ SFX **************/
@@ -29,10 +29,10 @@ namespace PlayerController
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                if (_manager._data.FootstepAudioClips.Length > 0)
+                if (FootstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, _manager._data.FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(_manager._data.FootstepAudioClips[index], transform.TransformPoint(_manager._character.center), _manager._data.FootstepAudioVolume);
+                    var index = Random.Range(0, FootstepAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_manager._character.center), FootstepAudioVolume);
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace PlayerController
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(_manager._data.LandingAudioClip, transform.TransformPoint(_manager._character.center), _manager._data.FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_manager._character.center), _manager._data.FootstepAudioVolume);
             }
         }
 
