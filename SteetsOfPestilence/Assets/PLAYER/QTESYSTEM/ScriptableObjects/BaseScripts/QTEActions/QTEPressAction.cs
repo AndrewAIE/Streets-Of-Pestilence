@@ -9,21 +9,33 @@ namespace QTESystem
     {
         List<InputAction> m_readyInputs = new List<InputAction>();     
 
-        public override void SetTimeLimit(float _timeLimit, float _successBuffer)
+        public override void SetData(float _timeLimit, float _successBuffer, QTEDisplay _display)
         {
+            //Set Time Data
             m_timeLimit = _timeLimit;
             m_successBuffer = _successBuffer;
             m_minTime = m_timeLimit - (m_successBuffer / 2f);
             m_maxTime = m_timeLimit + (m_successBuffer / 2f);
+            //Set QTE Display
+            m_qteDisplay = _display;            
         }
 
         protected override ActionState onUpdate()
-        {              
-            return m_state;
+        {
+            if (m_timer > m_maxTime && m_state == ActionState.running)
+            {
+                if (m_state == ActionState.running)
+                {
+                    RemoveTimingRing();
+                    m_qteDisplay.MissedInput(InputList);
+                    m_state = ActionState.fail;
+                }
+            }
+            return m_state;            
         }
 
         public override void CheckInput(InputAction.CallbackContext _context)
-        {
+        {            
             bool inputCorrect = false;            
             if (_context.performed && _context.action.name != "Directional")
             {
@@ -42,34 +54,35 @@ namespace QTESystem
                 if (m_state == ActionState.running)
                 {
                     if (inputCorrect == false)
-                    {
-                        IncorrectInput = _context.action.name;
+                    {              
+                        m_qteDisplay.MissedInput(InputList);
+                        m_qteDisplay.IncorrectInput(_context.action.name);                        
+                        RemoveTimingRing();
                         m_state = ActionState.fail;
                         return;
                     }
                     if (m_readyInputs.Count == 0)
-                    {
+                    {                       
+                        //set icon colour
+                        m_qteDisplay.SetIconColor(InputList, Color.green);
+                        RemoveTimingRing();
                         m_state = ActionState.success;
+                        return;
                     }
-                }
+                }                
             }                       
-        }       
-
-        public override void DisplayUpdate()
-        {
-            
-        }        
+        }
 
         public override void SetTargetInputs(QTEInputs _qteInputControl)
         {
             //assign values to check inputs against based on the public InputList 
-            m_readyInputs = new List<InputAction>();            
+            m_readyInputs = new List<InputAction>();
             foreach (QTEInput input in InputList)
             {
                 switch (input)
                 {
                     case QTEInput.NorthFace:
-                        m_readyInputs.Add(_qteInputControl.Inputs.North);                        
+                        m_readyInputs.Add(_qteInputControl.Inputs.North);
                         break;
                     case QTEInput.EastFace:
                         m_readyInputs.Add(_qteInputControl.Inputs.East);
@@ -88,9 +101,9 @@ namespace QTESystem
                         break;
                     case QTEInput.LeftTrigger:
                         m_readyInputs.Add(_qteInputControl.Inputs.LTrigger);
-                        break;                    
+                        break;
                     case QTEInput.RightTrigger:
-                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);                        
+                        m_readyInputs.Add(_qteInputControl.Inputs.RTrigger);
                         break;
                     case QTEInput.NorthDirectional:
                         m_readyInputs.Add(_qteInputControl.Inputs.Up);
@@ -107,7 +120,23 @@ namespace QTESystem
                     default:
                         break;
                 }
-            }            
-        }        
+            }
+        }
+
+        public void RemoveTimingRing()
+        {
+            GameObject Holder = m_qteDisplay.VisualCues[0];
+            m_qteDisplay.VisualCues.RemoveAt(0);
+            Destroy(Holder);
+        }
+
+        public override void DisplayUpdate()
+        {
+            float cueSize = 1 - (m_timer / m_timeLimit);
+            if (m_state == ActionState.running)
+            {
+                m_qteDisplay.SetCueSize(cueSize);
+            }
+        }       
     }
 }

@@ -17,11 +17,12 @@ namespace QTESystem
         protected float m_successBuffer;
         public string IncorrectInput;
         private List<Image> m_timingRings;
+        protected QTEDisplay m_qteDisplay;
        
         protected abstract ActionState onUpdate();
 
         public abstract void DisplayUpdate();
-        public abstract void SetTimeLimit(float _timer, float _successBuffer);
+        public abstract void SetData(float _timer, float _successBuffer, QTEDisplay _display);
         public abstract void SetTargetInputs(QTEInputs _qteInputControl);
 
         public abstract void CheckInput(InputAction.CallbackContext _context);
@@ -38,12 +39,7 @@ namespace QTESystem
             }
             m_timer = _timer;
             return onUpdate();
-        }
-        
-        public void CompleteAction()
-        {
-            m_state = ActionState.complete;
-        }
+        }       
     }
 }
 

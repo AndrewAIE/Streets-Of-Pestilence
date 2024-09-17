@@ -35,7 +35,7 @@ namespace QTESystem
 
     #endregion
 
-    public class QTERunner : MonoBehaviour
+    public class QTEManager : MonoBehaviour
     {
         //******************** Variables *******************//
         #region Variables
@@ -78,16 +78,15 @@ namespace QTESystem
 
         //*** Timers ***//
         #region Timers
-        private float Timer;        
-        private float m_beginningOfStreamTimeLimit;
-        private float m_betweenActionTimeLimit;
-
-        float m_actionTimer;
+        public float Timer;        
+        public float BeginningOfStreamTimeLimit;
+        public float BetweenActionTimeLimit;
+        public float ActionTimeLimit;
         #endregion
 
         //*** Enum Variables ***//
         #region Enum Variables
-        private ActionState m_actionState;        
+        public ActionState ActionState;        
         public PlayerStance CurrentPlayerStance;
         private EncounterState m_encounterState;
 
@@ -96,14 +95,19 @@ namespace QTESystem
         //*** Player & Enemy ***//
         #region Player & Enemy 
         public GameObject Enemy;
-        public GameObject Player;
+        private GameObject Player;
 
         #endregion
 
         #endregion
-        //******************** QTE Runner States **********************//
-        public RunnerState CurrentState;       
+        //******************** QTE Runner States **********************//        
+        public QTEStates CurrentState;
 
+        public EncounterStart EncounterStart = new EncounterStart();
+        public StreamStart StreamStart = new StreamStart();
+        public ActionActive ActionActive = new ActionActive();
+        public BetweenActions BetweenActions = new BetweenActions();
+        public BetweenStreams BetweenStreams = new BetweenStreams();
 
         //******************** Enums **********************//
         #region Enums
@@ -139,7 +143,7 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             ActiveDisplayList = new List<QTEInput>();
-            Player = GetComponent<GameObject>();         
+            Player = gameObject;            
         }
         
         private void OnEnable()
@@ -163,8 +167,7 @@ namespace QTESystem
         void Update()
         {
             Timer += Time.deltaTime;
-            CurrentState.StateUpdate();
-                    
+            CurrentState.StateUpdate(Timer);                    
         }
 
         #endregion
@@ -173,10 +176,25 @@ namespace QTESystem
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
-            //load data from encounter and start the neutral stream            
+            //load data from enemy encounter data and start encounter            
             EncounterData = _encounterData;            
             Enemy = _enemy;
-            EnterEncounterState(EncounterState.beginningOfEncounter);            
+            EnterStance(QTEManager.PlayerStance.NeutralStance);
+            QteDisplay.ActivatePoiseBar();
+            PoiseBar.ResetPoise();
+
+            //Load Stream Data
+            ActiveStreamData = EncounterData.NeutralStreamData;            
+            WaitingStreams = new List<QTEStreamData>();
+            for (int i = 0; i < EncounterData.NeutralStreamData.Count; i++)
+            {
+                WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
+            }
+            ActiveStream = SelectRandomStream();            
+
+            //Set Encounter State and begin Encouner
+            CurrentState = EncounterStart;
+            CurrentState.EnterState(this);
         }
 
         public List<QTEInput> GetStreamActionInputs()
@@ -192,149 +210,8 @@ namespace QTESystem
             return actions;
         }
 
-        #endregion
-
-        //*** Encoutner States ***//
-        #region EncounterStates
-        private void EnterEncounterState(EncounterState _encounterState)
+        public void EndOfEncounter()
         {
-            m_encounterState = _encounterState;
-            switch(m_encounterState)
-            {                
-                case EncounterState.beginningOfEncounter:
-                    
-                    break;
-
-                case EncounterState.beginningOfStream:
-
-                    //reset change in poise bar value and stream iterator                    
-                    ChangeInPoiseValue = 0;
-                    StreamPosition = 0;
-                    //select approp
-                    //activate appropriate panels in QTE Display
-                    
-                    ActiveStream = selectRandomStream();
-                    activateStreamPanels(GetStreamActionInputs());                    
-                    
-                    //set new timer data and set timer to 0                    
-                    m_beginningOfStreamTimeLimit = ActiveStream.BeginningOfStreamPause;                    
-                    Timer = 0;
-                    break;
-
-                case EncounterState.actionActive:
-
-                    //set active action, set time limit and controls and activate appropriate display, enable controls
-                    Timer = 0;
-                    ActiveAction = ActiveStream.Actions[StreamPosition];
-                    ActiveAction.SetTimeLimit(ActiveStream.ActionTimer, ActiveStream.SuccessBuffer);
-                    ActiveAction.SetTargetInputs(InputActions);                   
-                    QteDisplay.ActivateCue();
-                    m_actionTimer = ActiveStream.ActionTimer + (ActiveStream.SuccessBuffer / 2f);
-                    break;
-
-                case EncounterState.betweenActions:
-
-                    //increase stream iterator, reset display of icons 
-                    StreamPosition++;
-                    //set new time limit and reset timer
-                    ActiveAction.Started = false;
-                    ActiveAction.IncorrectInput = null;
-                    QteDisplay.SetIconColor(ActiveDisplayList, Color.white);
-                    m_betweenActionTimeLimit = ActiveStream.BetweenActionTimer;
-                    Timer = 0;                    
-                    break;
-
-                case EncounterState.betweenStreams:
-
-                    //deactivate icon display, reset timer and iterator, adjust poise bar
-                    QteDisplay.DeactivatePanels();
-                    StreamPosition = 0;
-                    Timer = 0;
-                    PoiseValueCheck();
-                    ActiveDisplayList.Clear();                    
-                    break;
-                    
-                default:
-                    break;
-
-            }
-        }
-
-        private void beginningOfEncounter()
-        {
-            //enable controls for QTE Event            
-            EnterEncounterState(EncounterState.beginningOfStream);
-        }
-        
-        private void beginningOfStream()
-        {
-            //When timer ends, begin Quick Time Stream            
-            if(Timer >= m_beginningOfStreamTimeLimit)
-            {
-                EnterEncounterState(EncounterState.actionActive);
-            }
-        }
-
-        private void activeAction()
-        {
-            // update and get state from active action
-            m_actionState = ActiveAction.ActionUpdate(Timer);
-            float cueSize = 1 - (Timer / ActiveStream.ActionTimer);
-            if(m_actionState == ActionState.running)
-            {
-                QteDisplay.SetCueSize(cueSize);
-            }            
-            // determine whether action has succeeded or failed
-            switch (m_actionState)
-            {
-                case ActionState.success:
-                    actionSuccess();
-                    break;
-                case ActionState.fail:
-                    actionIncorrectInput();
-                    break;
-                default:
-                    break;
-            }
-            
-            if(Timer >= m_actionTimer)
-            {
-                if(m_actionState == ActionState.running)
-                {
-                    actionTimerFail();
-                }
-                EnterEncounterState(EncounterState.betweenActions);
-            }
-        }
-
-        private void betweenActions()
-        {
-            //When timer is complete, either activate next action or end stream if there are no actions left
-            
-            if (Timer > m_betweenActionTimeLimit)
-            {
-                if (StreamPosition >= ActiveStream.Actions.Count)
-                {                    
-                    EnterEncounterState(EncounterState.betweenStreams);
-                }
-                else
-                {                    
-                    EnterEncounterState(EncounterState.actionActive);
-                }
-            }
-        }
-
-        private void betweenStreams()
-        {
-            //when timer is complete, start next stream            
-            if (Timer > ActiveStream.EndOfStreamPause)
-            {
-                EnterEncounterState(EncounterState.beginningOfStream);
-            }
-        }
-
-        private void endOfEncounter()
-        {            
             QteDisplay.DeactivatePoiseBar();
             WaitingStreams.Clear();
             ActiveStream = null;
@@ -342,49 +219,6 @@ namespace QTESystem
         }
 
         #endregion
-
-        //*** Success & Fail Methods ***//
-        #region Success & Fail Methods 
-
-        //comment
-        private void actionSuccess()
-        {
-            //increase poise value and enter between actions state
-            ActiveAction.CompleteAction();
-            ChangeInPoiseValue++;
-
-            //set icon colour
-            QteDisplay.SetIconColor(ActiveAction.InputList, Color.green);
-            GameObject Holder = QteDisplay.VisualCues[0];
-            QteDisplay.VisualCues.RemoveAt(0);
-            Destroy(Holder);
-        }
-
-        //comment
-        private void actionIncorrectInput()
-        {
-            //decrease poise value and enter between actions state
-            ActiveAction.CompleteAction();
-            ChangeInPoiseValue--;            
-            QteDisplay.MissedInput(ActiveAction.InputList);
-            QteDisplay.IncorrectInput(ActiveAction.IncorrectInput);
-            GameObject Holder = QteDisplay.VisualCues[0];
-            QteDisplay.VisualCues.RemoveAt(0);
-            Destroy(Holder);
-        }
-
-        //comment
-        private void actionTimerFail()
-        {
-            ChangeInPoiseValue--;            
-            QteDisplay.MissedInput(ActiveAction.InputList);
-            GameObject Holder = QteDisplay.VisualCues[0];
-            QteDisplay.VisualCues.RemoveAt(0);
-            Destroy(Holder);
-        }
-
-        #endregion
-
         //*** Stream Data ***//
         #region Stream Data
 
@@ -405,17 +239,12 @@ namespace QTESystem
                     break;
                 default:
                     break;
-            }
-            //for (int i = 0; i < m_encounterData.NeutralStreamData.Count; i++)
-            //{
-            //    m_waitingStreams.Add(Instantiate(m_activeStreamData[i]));
-            //}
+            }            
         }
 
         //Comment
-        private QTEStreamData selectRandomStream()
-        {             
-            Debug.Log(WaitingStreams.Count);
+        public QTEStreamData SelectRandomStream()
+        {            
             int selector = Random.Range(0, WaitingStreams.Count);
 
             QTEStreamData selectedStream = Instantiate(WaitingStreams[selector]);
@@ -428,12 +257,12 @@ namespace QTESystem
         }
 
         //Comment
-        private void activateStreamPanels(List<QTEInput> _streamInputs)
+        public void ActivateStreamPanels(List<QTEInput> _streamInputs)
         {
             bool[] panelActivator = { false, false, false, false };
-
+            
             foreach (QTEInput input in _streamInputs)
-            {
+            {                
                 QteDisplay.CreateInputPrompt(input);
                 switch (input)
                 {
@@ -452,13 +281,13 @@ namespace QTESystem
                     case QTEInput.NorthFace:
                         panelActivator[2] = true;                        
                         break;
-                    case QTEInput.EastFace:                        
+                    case QTEInput.EastFace:
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.SouthFace:                        
+                    case QTEInput.SouthFace:
                         panelActivator[2] = true;
                         break;
-                    case QTEInput.WestFace:                        
+                    case QTEInput.WestFace:
                         panelActivator[2] = true;
                         break;
                     case QTEInput.LeftShoulder:                        
@@ -497,6 +326,7 @@ namespace QTESystem
                             ActiveDisplayList.Add(QTEInput.WestFace);
                             break;
                         case 3:
+                            
                             ActiveDisplayList.Add(QTEInput.NorthDirectional);
                             ActiveDisplayList.Add(QTEInput.EastDirectional);
                             ActiveDisplayList.Add(QTEInput.SouthDirectional);
@@ -578,15 +408,14 @@ namespace QTESystem
         private void playerWin()
         {
             Destroy(Enemy);
-            EnterEncounterState(EncounterState.endOfEncounter);
+            EndOfEncounter();
             GetComponent<PlayerInput>().enabled = true;
-
         }
 
         //Player Loss
         private void playerLoss()
         {
-            EnterEncounterState(EncounterState.endOfEncounter);
+            EndOfEncounter();
 
             //ANDREW TO DO
             //Replace this with the GameManager Method ReloadScene();
@@ -600,14 +429,22 @@ namespace QTESystem
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {
-            Debug.Log("WAHOO");
-            if(m_actionState == ActionState.running)
+            
+            if (ActionState == ActionState.running)
             {
                 ActiveAction?.CheckInput(_context);
             }           
         }
+
+        internal void ResetStreamData()
+        {
+            StreamPosition = 0;
+            Timer = 0;
+            PoiseValueCheck();
+            ActiveDisplayList.Clear();
+        }
         #endregion
-        
+
         #endregion
     }
 }
