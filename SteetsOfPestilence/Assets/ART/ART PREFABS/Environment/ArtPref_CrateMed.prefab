@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7574671824301707591}
   - component: {fileID: 6144910353706953330}
   - component: {fileID: 4994266861118153016}
+  - component: {fileID: 262109068063302650}
   m_Layer: 0
   m_Name: ArtPref_CrateMed
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &262109068063302650
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9024979114775917056}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
