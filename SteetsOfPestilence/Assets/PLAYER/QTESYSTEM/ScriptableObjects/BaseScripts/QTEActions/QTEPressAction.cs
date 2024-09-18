@@ -13,12 +13,9 @@ namespace QTESystem
         {
             if (m_timer > m_maxTime && m_state == ActionState.running)
             {
-                if (m_state == ActionState.running)
-                {
-                    RemoveTimingRing();
-                    m_qteDisplay.MissedInput(InputList);
-                    m_state = ActionState.fail;
-                }
+                RemoveTimingRings(InputList.Count);
+                m_qteDisplay.MissedInput(InputList);
+                m_state = ActionState.fail;                
             }
             return m_state;            
         }
@@ -35,6 +32,7 @@ namespace QTESystem
                         if (_context.action == m_readyInputs[i])
                         {
                             m_readyInputs.RemoveAt(i);
+                            CorrectInputs++;
                             inputCorrect = true;
                             break;
                         }
@@ -45,8 +43,8 @@ namespace QTESystem
                     if (inputCorrect == false)
                     {              
                         m_qteDisplay.MissedInput(InputList);
-                        m_qteDisplay.IncorrectInput(_context.action.name);                        
-                        RemoveTimingRing();
+                        m_qteDisplay.IncorrectInput(_context.action.name);
+                        RemoveTimingRings(InputList.Count);
                         m_state = ActionState.fail;
                         return;
                     }
@@ -54,7 +52,7 @@ namespace QTESystem
                     {                       
                         //set icon colour
                         m_qteDisplay.SetIconColor(InputList, Color.green);
-                        RemoveTimingRing();
+                        RemoveTimingRings(InputList.Count);
                         m_state = ActionState.success;
                         return;
                     }
@@ -112,20 +110,32 @@ namespace QTESystem
             }
         }
 
-        public void RemoveTimingRing()
+        public void RemoveTimingRings(int _count)
         {
-            GameObject Holder = m_qteDisplay.VisualCues[0];
-            m_qteDisplay.VisualCues.RemoveAt(0);
-            Destroy(Holder);
+            if(_count > 0)
+            {
+                for (int i = 0; i < _count; i++)
+                {
+                    GameObject Holder = m_qteDisplay.VisualCues[i];
+                    m_qteDisplay.VisualCues.RemoveAt(i);
+                    Destroy(Holder);
+                }
+            }           
         }
 
         public override void DisplayUpdate()
         {
-            float cueSize = 1 - (m_timer / m_timeLimit);
-            if (m_state == ActionState.running)
+            if(m_state == ActionState.running)
             {
-                m_qteDisplay.SetCueSize(cueSize);
-            }
+                for (int i = 0; i < InputList.Count; i++)
+                {
+                    float cueSize = 1 - (m_timer / m_timeLimit);
+                    if (m_state == ActionState.running)
+                    {
+                        m_qteDisplay.SetCueSize(cueSize, i);
+                    }
+                }
+            }           
         }       
     }
 }

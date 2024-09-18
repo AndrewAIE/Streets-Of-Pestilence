@@ -185,7 +185,9 @@ namespace QTESystem
         /// Get Correct Image based on QTE InputSystem Action Names
         /// </summary>
         /// <param name="_input"></param>
-        /// <returns></returns>
+        /// <returns></returns>  
+
+
         public Image GetIcon(string _input)
         {            
             Image image;
@@ -308,20 +310,23 @@ namespace QTESystem
         }
 
         //Comment
-        public void SetCueSize(float _sizePercentage)
+        public void SetCueSize(float _sizePercentage, int _selector)
         {
             Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
             float sizeRange = m_cueStartSize - targetSize.x;
-            Image cue = VisualCues[0].GetComponent<Image>();
+            Image cue = VisualCues[_selector].GetComponent<Image>();
 
             cue.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
 
         //Comment
-        public void ActivateCue(int _iterator)
+        public void ActivateCues(int _count)
         {
-            Image image = VisualCues[_iterator].GetComponent<Image>();
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+            for(int i = 0; i < _count; i++)
+            {
+                Image image = VisualCues[i].GetComponent<Image>();
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+            }            
         }
         #endregion 
        

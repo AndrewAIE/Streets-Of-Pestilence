@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace QTESystem
 {
-    [CreateAssetMenu(fileName = "NewPressAction", menuName = "Quick Time Event/New Quick Time Action/Press Action")]
+    [CreateAssetMenu(fileName = "NewSequenceAction", menuName = "Quick Time Event/New Quick Time Action/SequenceAction")]
     public class QTESequenceAction : QTEAction
     {
         public override void CheckInput(InputAction.CallbackContext _context)
