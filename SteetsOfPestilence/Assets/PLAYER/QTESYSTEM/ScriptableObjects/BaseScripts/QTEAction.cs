@@ -22,9 +22,8 @@ namespace QTESystem
         protected abstract ActionState onUpdate();
 
         public abstract void DisplayUpdate();
-        public abstract void SetData(float _timer, float _successBuffer, QTEDisplay _display);
+        
         public abstract void SetTargetInputs(QTEInputs _qteInputControl);
-
         public abstract void CheckInput(InputAction.CallbackContext _context);
         public List<QTEInput> InputList;
 
@@ -39,7 +38,18 @@ namespace QTESystem
             }
             m_timer = _timer;
             return onUpdate();
-        }       
+        }
+
+        public void SetData(float _timeLimit, float _successBuffer, QTEDisplay _display)
+        {
+            //Set Time Data
+            m_timeLimit = _timeLimit;
+            m_successBuffer = _successBuffer;
+            m_minTime = m_timeLimit - (m_successBuffer / 2f);
+            m_maxTime = m_timeLimit + (m_successBuffer / 2f);
+            //Set QTE Display
+            m_qteDisplay = _display;
+        }
     }
 }
 

@@ -7,18 +7,7 @@ namespace QTESystem
     [CreateAssetMenu(fileName = "NewPressAction", menuName = "Quick Time Event/New Quick Time Action/Press Action")]
     public class QTEPressAction : QTEAction
     {
-        List<InputAction> m_readyInputs = new List<InputAction>();     
-
-        public override void SetData(float _timeLimit, float _successBuffer, QTEDisplay _display)
-        {
-            //Set Time Data
-            m_timeLimit = _timeLimit;
-            m_successBuffer = _successBuffer;
-            m_minTime = m_timeLimit - (m_successBuffer / 2f);
-            m_maxTime = m_timeLimit + (m_successBuffer / 2f);
-            //Set QTE Display
-            m_qteDisplay = _display;            
-        }
+        List<InputAction> m_readyInputs = new List<InputAction>();            
 
         protected override ActionState onUpdate()
         {

@@ -429,7 +429,14 @@ namespace QTESystem
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {
-            
+            if(_context.performed)
+            {
+                QteDisplay.Input(_context.action.name);
+            }
+            if(_context.canceled)
+            {
+                QteDisplay.InputReleased(_context.action.name);
+            }
             if (ActionState == ActionState.running)
             {
                 ActiveAction?.CheckInput(_context);

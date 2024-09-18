@@ -77,6 +77,7 @@ namespace QTESystem
         private void Awake()
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
+            m_audio = GetComponentInChildren<QTEAudio>();
         }
         //*** Panel ***//
         #region Panel
@@ -107,7 +108,6 @@ namespace QTESystem
             for (int i = 0; i < _iconsToSet.Count; i++)
             {
                 m_iconsToActivate.Add(_iconsToSet[i]);
-
                 switch (m_iconsToActivate[i])
                 {
                     case QTEInput.NorthFace:
@@ -154,52 +154,10 @@ namespace QTESystem
         //Comment
         public void IncorrectInput(string _incorrectInput)
         {
-            //select icon based on input
-            GameObject objectToAnimate;
-            switch (_incorrectInput)
-            {
-                case "North":
-                    objectToAnimate = m_northButtonIcon.gameObject;
-                    break;
-                case "East":
-                    objectToAnimate = m_eastButtonIcon.gameObject;                    
-                    break;
-                case "South":
-                    objectToAnimate = m_southButtonIcon.gameObject;                    
-                    break;
-                case "West":
-                    objectToAnimate = m_westButtonIcon.gameObject;                    
-                    break;
-                case "LShoulder":
-                    objectToAnimate = m_lShoulderButtonIcon.gameObject;                    
-                    break;
-                case "LTrigger":
-                    objectToAnimate = m_lTriggerButtonIcon.gameObject;                    
-                    break;
-                case "RShoulder":
-                    objectToAnimate = m_rShoulderButtonIcon.gameObject;                    
-                    break;
-                case "RTrigger":
-                    objectToAnimate = m_rTriggerButtonIcon.gameObject;                    
-                    break;
-                case "Up":
-                    objectToAnimate = m_northDirectionalButtonIcon.gameObject;                    
-                    break;
-                case "Right":
-                    objectToAnimate = m_eastDirectionalButtonIcon.gameObject;                    
-                    break;
-                case "Down":
-                    objectToAnimate = m_southDirectionalButtonIcon.gameObject;                    
-                    break;
-                case "Left":
-                    objectToAnimate = m_westDirectionalButtonIcon.gameObject;                   
-                    break;
-                default:
-                    objectToAnimate = m_northButtonIcon.gameObject;
-                    break;
-            }
+            //select icon based on input            
+            Image image = GetIcon(_incorrectInput);            
             //animate corresponding icon and play audio
-            m_iconAnimation.IncorrectInput(objectToAnimate);
+            m_iconAnimation.IncorrectInput(image.gameObject);
             m_audio.IncorrectInput();
         }
 
@@ -209,16 +167,83 @@ namespace QTESystem
             
         }
 
+        
+
+        public void Input(string _incorrectInput)
+        {
+            //get corresponding icon and send through to animation script
+            m_iconAnimation.InputButton(GetIcon(_incorrectInput));            
+        }
+
+        public void InputReleased(string _incorrectInput)
+        {   
+            //get corresponding icon and send through to animation script
+            m_iconAnimation.ReleaseButton(GetIcon(_incorrectInput));
+        }
+
+        /// <summary>
+        /// Get Correct Image based on QTE InputSystem Action Names
+        /// </summary>
+        /// <param name="_input"></param>
+        /// <returns></returns>
+        public Image GetIcon(string _input)
+        {            
+            Image image;
+            switch (_input)
+            {
+                case "North":
+                    image = m_northButtonIcon;
+                    break;
+                case "East":
+                    image = m_eastButtonIcon;
+                    break;
+                case "South":
+                    image = m_southButtonIcon;
+                    break;
+                case "West":
+                    image = m_westButtonIcon;
+                    break;
+                case "LShoulder":
+                    image = m_lShoulderButtonIcon;
+                    break;
+                case "LTrigger":
+                    image = m_lTriggerButtonIcon;
+                    break;
+                case "RShoulder":
+                    image = m_rShoulderButtonIcon;
+                    break;
+                case "RTrigger":
+                    image = m_rTriggerButtonIcon;
+                    break;
+                case "Up":
+                    image = m_northDirectionalButtonIcon;
+                    break;
+                case "Right":
+                    image = m_eastDirectionalButtonIcon;
+                    break;
+                case "Down":
+                    image = m_southDirectionalButtonIcon;
+                    break;
+                case "Left":
+                    image = m_westDirectionalButtonIcon;
+                    break;
+                default:
+                    image = null;
+                    Debug.LogWarning("QTEDisplay - GetIcon(): No Corresponding Icon to String Parameter");
+                    break;
+            }
+            return image;
+        }
         #endregion
 
         //*** Poise Bar ***//
         #region Poise Bar
-/*
-        //Comment
-        public void UpdatePoiseBar(int _poiseValue)
-        {
+        /*
+                //Comment
+                public void UpdatePoiseBar(int _poiseValue)
+                {
 
-        }*/
+                }*/
 
         //Activate Poise Bar
         public void ActivatePoiseBar()

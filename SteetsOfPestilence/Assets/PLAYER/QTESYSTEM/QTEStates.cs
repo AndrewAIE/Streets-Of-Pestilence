@@ -21,6 +21,7 @@ namespace QTESystem
         public override void EnterState(QTEManager _manager)
         {
             m_qteManager = _manager;
+            m_qteManager.PoiseBar.gameObject.SetActive(true);
             //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);            
             m_started = true;
         }
@@ -111,7 +112,7 @@ namespace QTESystem
                 ExitState();
             }            
         }
-
+        
         public override void ExitState()
         {
             m_qteManager.CurrentState.EnterState(m_qteManager); 
@@ -146,6 +147,7 @@ namespace QTESystem
                 }
                 else
                 {
+
                     m_qteManager.CurrentState = m_qteManager.BetweenStreams;
                     ExitState();
                 }                
@@ -160,12 +162,10 @@ namespace QTESystem
 
     public class BetweenStreams : QTEStates
     {
-        private float m_timeLimit;
-        
+        private float m_timeLimit;        
         public override void EnterState(QTEManager _manager)
         {
             m_qteManager = _manager;
-
             //reset stream data
             m_qteManager.ResetStreamData();
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;

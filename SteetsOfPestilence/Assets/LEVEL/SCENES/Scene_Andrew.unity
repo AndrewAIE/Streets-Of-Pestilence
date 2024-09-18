@@ -228,7 +228,7 @@ PrefabInstance:
         type: 3}
       propertyPath: EncounterData
       value: 
-      objectReference: {fileID: 11400000, guid: 086c88c81c116584caf40d701f245bd8,
+      objectReference: {fileID: 11400000, guid: bb80275a9641dc04789219aa9672691f,
         type: 2}
     - target: {fileID: 7529881823715342940, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
@@ -396,6 +396,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 917779195, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
+      propertyPath: m_poiseBar
+      value: 
+      objectReference: {fileID: 478880888}
     - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
       propertyPath: m_barObject
       value: 
@@ -420,6 +428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: QTEXboxCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056196982513412567, guid: 88cffb71ed90cd644a4ab2ebfe9cefad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5889801068438193241, guid: 88cffb71ed90cd644a4ab2ebfe9cefad,
         type: 3}
@@ -576,6 +589,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &461568647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4092845498970674093, guid: 88cffb71ed90cd644a4ab2ebfe9cefad,
+    type: 3}
+  m_PrefabInstance: {fileID: 393394555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &461568649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461568647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87c4e0fae1d3da4e9b38b81654e5134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_pressValue: 0.6
+  m_successVibrateStrength: 0.6
+  m_successVibrateLength: 0.4
+  m_incorrectVibrateStrength: 1
+  m_incorrectVibrateLength: 0.4
 --- !u!114 &478880888 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8266788563315808510, guid: 04688780e40fa204195b93039f2ca107,
