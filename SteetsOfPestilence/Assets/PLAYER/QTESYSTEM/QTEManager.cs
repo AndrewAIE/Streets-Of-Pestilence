@@ -73,6 +73,8 @@ namespace QTESystem
 
         //comment
         public int ChangeInPoiseValue;
+        public int AvailableSuccessPoints;
+        public int CurrentSuccessPoints;
 
         #endregion
 
@@ -190,7 +192,7 @@ namespace QTESystem
             {
                 WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
             }
-            ActiveStream = SelectRandomStream();            
+            ActiveStream = Instantiate(SelectRandomStream());            
 
             //Set Encounter State and begin Encouner
             CurrentState = EncounterStart;
@@ -337,6 +339,16 @@ namespace QTESystem
             }
         }
 
+        public QTEAction CreateAction()
+        {
+            return ActiveAction = Instantiate(ActiveStream.Actions[StreamPosition]);
+        }
+
+        public void DestroyAction()
+        {
+            Destroy(ActiveAction);
+        }
+
         #endregion
 
         //*** Poise Bar and Combat Outcome ***//
@@ -345,8 +357,40 @@ namespace QTESystem
         //Comment
         public void PoiseValueCheck()
         {
+            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;
+            Debug.Log(successRate);
+            int poiseChange;
+            switch(successRate)
+            {
+                case 0:
+                    poiseChange = -2;
+                    Debug.Log(poiseChange);
+                    break;
+                case < 0.5f:
+                    poiseChange = -1;
+                    Debug.Log(poiseChange);
+                    break;
+                case 0.5f:
+                    poiseChange = 0;
+                    Debug.Log(poiseChange);
+                    break;
+                case 1:
+                    poiseChange = 2;
+                    Debug.Log(poiseChange);
+                    break;
+                case > 0.5f:
+                    poiseChange = 1;
+                    Debug.Log(poiseChange);
+                    break;
+                default:
+                    poiseChange = 0;
+                    Debug.Log(poiseChange);
+                    break;
+            }
+
+
             //adjust poise value based of successes and falures in stream
-            PoiseBar.SetPoise(ChangeInPoiseValue);
+            PoiseBar.SetPoise(poiseChange);
 
             //change to appropriate stance based off of poise value
             //switch (m_playerStance)

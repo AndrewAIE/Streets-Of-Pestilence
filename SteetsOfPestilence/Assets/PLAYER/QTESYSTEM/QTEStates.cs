@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem.XR.Haptics;
 
@@ -46,7 +48,9 @@ namespace QTESystem
             m_qteManager = _manager;
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
-            m_qteManager.StreamPosition = 0;            
+            m_qteManager.StreamPosition = 0;
+            m_qteManager.AvailableSuccessPoints = 0;
+            m_qteManager.CurrentSuccessPoints = 0;
 
             //set new timer data and set timer to 0                    
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
@@ -87,12 +91,12 @@ namespace QTESystem
             m_qteManager.Timer = 0;
             
             //Set new active action
-            m_activeAction = m_qteManager.ActiveStream.Actions[m_qteManager.StreamPosition];
-            m_qteManager.ActiveAction = m_activeAction;
+            m_activeAction = m_qteManager.CreateAction();            
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;
            
-            m_display.ActivateCue(0);
+            m_display.ActivateCues(m_activeAction.InputList.Count);
             m_timeLimit = m_qteManager.ActiveStream.ActionTimer + (m_qteManager.ActiveStream.SuccessBuffer / 2f);            
         }
 
@@ -101,13 +105,25 @@ namespace QTESystem
             //update and get state from active action
             m_activeActionState = m_activeAction.ActionUpdate(_timer);
             // determine whether action has succeeded or failed
-            if (m_activeActionState == ActionState.running)
+            switch(m_activeActionState)
             {
-                m_activeAction.DisplayUpdate();
-            }                
+                case ActionState.success:
+                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;
+                    m_activeAction.CompleteAction();
+                    break;
+                case ActionState.fail:
+                    m_activeAction.CompleteAction();
+                    break;
+                case ActionState.running:
+                    m_activeAction.DisplayUpdate();
+                    break;
+                default:
+                    break;
+            }                      
 
             if (_timer >= m_timeLimit)
             {               
+                
                 m_qteManager.CurrentState = m_qteManager.BetweenActions;
                 ExitState();
             }            
@@ -115,6 +131,7 @@ namespace QTESystem
         
         public override void ExitState()
         {
+            m_qteManager.DestroyAction();
             m_qteManager.CurrentState.EnterState(m_qteManager); 
         }
     }
@@ -139,7 +156,7 @@ namespace QTESystem
         public override void StateUpdate(float _timer)
         {
             if (_timer > m_timeLimit)
-            {
+            {                
                 if (m_qteManager.StreamPosition < m_qteManager.ActiveStream.Actions.Count)
                 {
                     m_qteManager.CurrentState = m_qteManager.ActionActive;
@@ -147,7 +164,6 @@ namespace QTESystem
                 }
                 else
                 {
-
                     m_qteManager.CurrentState = m_qteManager.BetweenStreams;
                     ExitState();
                 }                
@@ -169,6 +185,8 @@ namespace QTESystem
             //reset stream data
             m_qteManager.ResetStreamData();
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
+            //set poise bar
+            m_qteManager.PoiseValueCheck();
         }
 
         public override void StateUpdate(float _timer)
