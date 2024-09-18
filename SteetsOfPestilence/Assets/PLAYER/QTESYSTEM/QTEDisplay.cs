@@ -69,8 +69,15 @@ namespace QTESystem
         [HideInInspector]
         public PoiseBarController poiseBarController;
 
+        private QTEUIAnimation m_iconAnimation;
+        private QTEAudio m_audio;
+
         #endregion       
 
+        private void Awake()
+        {
+            m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
+        }
         //*** Panel ***//
         #region Panel
 
@@ -146,46 +153,54 @@ namespace QTESystem
 
         //Comment
         public void IncorrectInput(string _incorrectInput)
-        {            
+        {
+            //select icon based on input
+            GameObject objectToAnimate;
             switch (_incorrectInput)
             {
                 case "North":
-                    m_northButtonIcon.color = Color.red;
+                    objectToAnimate = m_northButtonIcon.gameObject;
                     break;
                 case "East":
-                    m_eastButtonIcon.color = Color.red;
+                    objectToAnimate = m_eastButtonIcon.gameObject;                    
                     break;
                 case "South":
-                    m_southButtonIcon.color = Color.red;
+                    objectToAnimate = m_southButtonIcon.gameObject;                    
                     break;
                 case "West":
-                    m_westButtonIcon.color = Color.red;
+                    objectToAnimate = m_westButtonIcon.gameObject;                    
                     break;
                 case "LShoulder":
-                    m_lShoulderButtonIcon.color = Color.red;
+                    objectToAnimate = m_lShoulderButtonIcon.gameObject;                    
                     break;
                 case "LTrigger":
-                    m_lTriggerButtonIcon.color = Color.red;
+                    objectToAnimate = m_lTriggerButtonIcon.gameObject;                    
                     break;
                 case "RShoulder":
-                    m_rShoulderButtonIcon.color = Color.red;
+                    objectToAnimate = m_rShoulderButtonIcon.gameObject;                    
                     break;
                 case "RTrigger":
-                    m_rTriggerButtonIcon.color = Color.red;
+                    objectToAnimate = m_rTriggerButtonIcon.gameObject;                    
                     break;
                 case "Up":
-                    m_northDirectionalButtonIcon.color = Color.red;
+                    objectToAnimate = m_northDirectionalButtonIcon.gameObject;                    
                     break;
                 case "Right":
-                    m_eastDirectionalButtonIcon.color = Color.red;
+                    objectToAnimate = m_eastDirectionalButtonIcon.gameObject;                    
                     break;
                 case "Down":
-                    m_southDirectionalButtonIcon.color = Color.red;
+                    objectToAnimate = m_southDirectionalButtonIcon.gameObject;                    
                     break;
                 case "Left":
-                    m_westDirectionalButtonIcon.color = Color.red;
+                    objectToAnimate = m_westDirectionalButtonIcon.gameObject;                   
+                    break;
+                default:
+                    objectToAnimate = m_northButtonIcon.gameObject;
                     break;
             }
+            //animate corresponding icon and play audio
+            m_iconAnimation.IncorrectInput(objectToAnimate);
+            m_audio.IncorrectInput();
         }
 
         //Comment

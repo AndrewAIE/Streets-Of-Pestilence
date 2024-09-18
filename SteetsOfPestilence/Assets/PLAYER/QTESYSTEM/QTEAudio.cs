@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIAudio : MonoBehaviour
+public class QTEAudio : MonoBehaviour
 {
     private AudioSource m_audioSource;
     [SerializeField]
