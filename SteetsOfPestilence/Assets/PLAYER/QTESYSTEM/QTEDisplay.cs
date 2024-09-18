@@ -69,10 +69,7 @@ namespace QTESystem
         [HideInInspector]
         public PoiseBarController poiseBarController;
 
-        #endregion
-
-        //******************** Methods *********************//
-        #region Methods
+        #endregion       
 
         //*** Panel ***//
         #region Panel
@@ -149,8 +146,7 @@ namespace QTESystem
 
         //Comment
         public void IncorrectInput(string _incorrectInput)
-        {
-            Debug.Log(_incorrectInput);
+        {            
             switch (_incorrectInput)
             {
                 case "North":
@@ -213,7 +209,7 @@ namespace QTESystem
         public void ActivatePoiseBar()
         {
             m_barObject.SetActive(true);
-            m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
+            //m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
         }
 
         //Deactivate Poise Bar
@@ -282,14 +278,12 @@ namespace QTESystem
         }
 
         //Comment
-        public void ActivateCue()
+        public void ActivateCue(int _iterator)
         {
-            Image image = VisualCues[0].GetComponent<Image>();
+            Image image = VisualCues[_iterator].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
         }
-
-        #endregion
-
-        #endregion
+        #endregion 
+       
     }
 }

@@ -39,7 +39,6 @@ public class PoiseBarController : MonoBehaviour
     public void SetPoise(int deltaPoise)
     {
         _poise += deltaPoise;
-
         //do other stuff
         UpdatePoiseBar();
     }
@@ -47,9 +46,7 @@ public class PoiseBarController : MonoBehaviour
     public void ResetPoise()
     {
         _poise = 0;
-
         UpdatePoiseBar();
-
     }
 
 
