@@ -804,6 +804,7 @@ Transform:
   - {fileID: 719442988170117070}
   - {fileID: 6587296823188219961}
   - {fileID: 8633960180000983747}
+  - {fileID: 3561437069785245838}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1023,6 +1024,8 @@ MonoBehaviour:
   PoiseBar: {fileID: 0}
   StreamPosition: 0
   ChangeInPoiseValue: 0
+  AvailableSuccessPoints: 0
+  CurrentSuccessPoints: 0
   Timer: 0
   BeginningOfStreamTimeLimit: 0
   BetweenActionTimeLimit: 0
@@ -1351,6 +1354,46 @@ Transform:
   m_Father: {fileID: 4996130501743341594}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 28.91893, y: -2.1886387, z: -0.8328751}
+--- !u!1 &5135933418005489910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3561437069785245838}
+  - component: {fileID: 4636624940693164933}
+  m_Layer: 3
+  m_Name: Audio Listener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3561437069785245838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135933418005489910}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4610625970443898179}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &4636624940693164933
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135933418005489910}
+  m_Enabled: 1
 --- !u!1 &5285274453219795817
 GameObject:
   m_ObjectHideFlags: 0

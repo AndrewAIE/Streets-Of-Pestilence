@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Pixelplacement;
 using UnityEngine.UI;
-using TMPro.EditorUtilities;
-using Pixelplacement.TweenSystem;
 using UnityEngine.InputSystem;
 
 public class QTEUIAnimation : MonoBehaviour
