@@ -153,7 +153,6 @@ namespace PlayerController
         //Move Method that controls the players movement
         private void Move_Exploring()
         {
-            float storeY = 
             _speed = _manager.m_playerInputs.sprint ? _manager._data.RunningSpeed : _manager._data.WalkingSpeed;
             Vector2 motion = Vector3.zero;
             if (_manager._input.move.x != 0) motion.x += _manager._input.move.x * _speed;
@@ -162,7 +161,7 @@ namespace PlayerController
 
             _frameMotion = (transform.forward * motion.y + transform.right * motion.x);
 
-            _frameMotion = Vector3.ClampMagnitude(motion, _speed);
+            _frameMotion = Vector3.ClampMagnitude(_frameMotion, _speed);
 
             _characterController.Move(_frameMotion);
         }
