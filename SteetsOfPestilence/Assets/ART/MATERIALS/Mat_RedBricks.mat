@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_RedBricks
-  m_Shader: {fileID: -6465566751694194690, guid: 250d2f62029233146a36eecdd8071c5d,
+  m_Shader: {fileID: -6465566751694194690, guid: 17fab674a8b60f144b6af197f993c4b0,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
-        m_Texture: {fileID: 2800000, guid: e74f8d37e9f91914a979fc2633fbcde6, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normals:
@@ -56,12 +56,23 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO_Strength: 0.49
+    - _AO_Strength_A: 0
+    - _AO_Strength_B: 0
     - _Metallic_Strength: 0
+    - _Metallic_Strength_A: 0
+    - _Metallic_Strength_B: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RoughnessSlider: 0.086
+    - _Roughness_Push_A: 1
+    - _Roughness_Push_B: 1
     - _Roughness_Strength: 0.444
-    m_Colors: []
+    - _Roughness_Strength_A: 0
+    - _Roughness_Strength_B: 0
+    - _Tile: 1
+    m_Colors:
+    - _Blend_Color_A: {r: 0, g: 0, b: 0, a: 0}
+    - _Blend_Color_B: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8772455850751880459
 MonoBehaviour:
