@@ -183,8 +183,9 @@ namespace QTESystem
         {
             m_qteManager = _manager;
             //reset stream data
-            m_qteManager.ResetStreamData();
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
+            m_qteManager.ResetStreamData();
+            
             //set poise bar
             m_qteManager.PoiseValueCheck();
         }
