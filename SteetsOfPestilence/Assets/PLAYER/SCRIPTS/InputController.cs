@@ -45,7 +45,7 @@ namespace PlayerController
 		public bool cursorLocked = true;
 
 		[HideInInspector] PlayerManager _manager;
-		[HideInInspector] PlayerInput _playerInput;
+		[HideInInspector] 
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace PlayerController
         private void Awake()
         {
 			_manager = GetComponent<PlayerManager>();
-			_playerInput = GetComponent<PlayerInput>();
+			
         }
 
 
@@ -67,7 +67,7 @@ namespace PlayerController
 
         public void OnMove(InputValue value)
 		{
-			if(_manager._movement._playerMovementEnabled)
+			if(_manager._movement._canMove)
 				MoveInput(value.Get<Vector2>());
 		}
 
@@ -186,7 +186,7 @@ namespace PlayerController
 
 		public void SetActionMap(string newMap)
 		{
-			_playerInput.SwitchCurrentActionMap(newMap);
+			//_playerInput.SwitchCurrentActionMap(newMap);
 
 			if(newMap == "Player")
 			{

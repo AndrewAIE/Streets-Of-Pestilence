@@ -15,7 +15,7 @@ namespace PlayerController
         #region Movement State
         [Header("Movement State")]
         //bool that controls if movement is enabled or not
-        [SerializeField] public bool _playerMovementEnabled;
+        [SerializeField] public bool _canMove;
 
         //Movement Mode Enum that controls what type of movement the player is doing
         [SerializeField] public MovementMode _movementMode;
@@ -56,7 +56,7 @@ namespace PlayerController
         [Space]
         [SerializeField] private float _inputRotation = 0.0f;
         [SerializeField] private float _targetRotation;
-        [HideInInspector] private Vector3 _targetDirection;
+        [HideInInspector] private Vector3 _frameMotion;
         [SerializeField] private float _deltaRotation;
         [Space]
         [HideInInspector] private float _rotationVelocity;
@@ -101,7 +101,7 @@ namespace PlayerController
 
         private void Start()
         {
-            _playerMovementEnabled = true;
+            _canMove = true;
             // reset our timeouts on start
             _fallTimeoutDelta = _manager._data.FallTimeout;
         }
@@ -112,7 +112,7 @@ namespace PlayerController
         #region Update
         private void Update()
         {
-            if(_playerMovementEnabled)
+            if(_canMove)
             {
                 //call method that hnadles all player movement
                 PlayerMovement();
@@ -130,16 +130,13 @@ namespace PlayerController
 
         private void PlayerMovement()
         {
+            GroundedCheck();
+            FallAndGravity();
             //switch case to handle what type of movement to do
             switch (_movementMode)
             {
                 case MovementMode.Exploring:
-                    GroundedCheck();
-                    FallAndGravity();
-
-                    ExploringController();
                     Move_Exploring();
-
                     break;
 
                 case MovementMode.LockOn:
@@ -153,124 +150,21 @@ namespace PlayerController
 
         /*** Exploring ***/
         #region Exploring
-
-        //exploring controller handles the exploring state machine
-        private void ExploringController()
-        {
-            #region Get Input
-            //get input
-            _inputMagnitude = _manager._input.move.magnitude;
-
-            // normalise input direction
-            _inputDirection = new Vector3(_manager._input.move.x, 0.0f, _manager._input.move.y).normalized;
-
-            #endregion
-
-            #region Exploring State
-            switch (_exploringState)
-            {
-                case ExploringState.Stationary:
-                    if(_inputMagnitude >= 0.01f)
-                    {
-                        Set_ExploringState(ExploringState.Walking);
-                    }
-
-                    break;
-
-                case ExploringState.Walking:
-                    if (_inputMagnitude >= _manager._data.RunThres)
-                        Set_ExploringState(ExploringState.Running);
-
-                    else if(_inputMagnitude <= 0.01f)
-                        Set_ExploringState(ExploringState.Stationary);
-                    
-                    break;
-
-                case ExploringState.Running:
-                    if (_inputMagnitude <= _manager._data.RunThres)
-                        Set_ExploringState(ExploringState.Walking);
-                    break;
-            }
-
-            #endregion
-        }
-
-
         //Move Method that controls the players movement
         private void Move_Exploring()
         {
-            #region Find Target Speed
-            
-            //find target speed
-            switch (_exploringState)
-            {
-                case ExploringState.Running:
-                    _targetSpeed = _manager._data.RunningSpeed;
-                    break;
+            float storeY = 
+            _speed = _manager.m_playerInputs.sprint ? _manager._data.RunningSpeed : _manager._data.WalkingSpeed;
+            Vector2 motion = Vector3.zero;
+            if (_manager._input.move.x != 0) motion.x += _manager._input.move.x * _speed;
+            else motion.x = 0;
+            if (_manager._input.move.y != 0) motion.y += _manager._input.move.y * _speed;
 
-                case ExploringState.Walking:
-                    _targetSpeed = _manager._data.WalkingSpeed;
-                    break;
+            _frameMotion = (transform.forward * motion.y + transform.right * motion.x);
 
-                case ExploringState.Stationary:
-                    _targetSpeed = 0f;
-                    break;
-            }
+            _frameMotion = Vector3.ClampMagnitude(motion, _speed);
 
-            #endregion
-
-            #region Find Speed
-
-            // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_characterController.velocity.x, 0.0f, _characterController.velocity.z).magnitude;
-
-            //set speed offset to 0.1f
-            float speedOffset = 0.1f;
-
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < _targetSpeed - speedOffset ||
-                currentHorizontalSpeed > _targetSpeed + speedOffset)
-            {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, _targetSpeed * _inputMagnitude,
-                    Time.deltaTime * _manager._data.SpeedChangeRate);
-
-                // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
-                //set speed to target speed
-                _speed = _targetSpeed;
-            }
-
-            #endregion
-
-            #region Rotation
-
-            //get input rotation by doing maths on the input direction
-            _inputRotation = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
-                                Camera.main.transform.eulerAngles.y;
-
-            //set the target and smooth damp it
-            _targetRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _inputRotation, ref _rotationVelocity,
-                _manager._data.RotationSmoothTime);
-
-            #endregion
-            
-            if(_exploringState != ExploringState.Stationary)
-            {
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
-            }
-
-            //make direction vector3
-            _targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            // move the player
-            _characterController.Move(_targetDirection.normalized * (_speed * Time.deltaTime) +
-                                new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            _characterController.Move(_frameMotion);
         }
 
         #endregion

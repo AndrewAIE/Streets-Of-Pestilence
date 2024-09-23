@@ -11,6 +11,7 @@ namespace PlayerController
         /*************************************** VARIABLES *****************************************/
         #region Variables
 
+
         #region Player Data
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
@@ -35,8 +36,16 @@ namespace PlayerController
         [HideInInspector] internal CameraController _camera { get; private set; }
         [HideInInspector] internal MerchantController _merchant { get; private set; }
         private QTEManager m_qteRunner;
-        private PlayerInput m_playerInput;
+        
+        
         #endregion
+        #region Input
+        internal Movement m_playerInputs { get; private set; }
+        private MovementInputs m_movementInputs;
+        private InputAction m_moveInput, m_lookInput, m_recenterInput, m_interactInput, m_sprintInput;
+
+        #endregion
+
 
         #endregion
 
@@ -44,7 +53,7 @@ namespace PlayerController
         #region Methods
 
         /*** AWAKE AND UPDATE ***/
-        #region Awake and Update
+        #region Startup
         private void Awake()
         {
             //get player scripts
@@ -61,17 +70,40 @@ namespace PlayerController
             
 
             m_qteRunner = GetComponent<QTEManager>();
-            m_playerInput = GetComponent<PlayerInput>();
+            
+        }
+        private void OnEnable()
+        {
+            m_movementInputs = new MovementInputs();
+            m_moveInput = m_movementInputs.Player.Move;
+            m_moveInput.Enable();
+            m_lookInput = m_movementInputs.Player.Look;
+            m_lookInput.Enable();
+            m_recenterInput = m_movementInputs.Player.Recenter;
+            m_recenterInput.Enable();
+            m_interactInput = m_movementInputs.Player.Interact;
+            m_interactInput.Enable();
+            m_sprintInput = m_movementInputs.Player.Sprint;
+            m_sprintInput.Enable();
+        }
+        private void OnDisable()
+        {
+            m_moveInput.Disable();
+            m_lookInput.Disable();
+            m_recenterInput.Disable();
+            m_interactInput.Disable();
+            m_sprintInput.Disable();
         }
 
+
+        #endregion
+        #region Updates
         private void Update()
         {
+            GatherInput();
+
             if(Input.GetKeyDown(KeyCode.BackQuote))
                 _debugMode = !_debugMode;
-            
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-                Application.Quit();
 
             if (_debugMode)
             {
@@ -93,7 +125,7 @@ namespace PlayerController
 
         public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
         {
-            m_playerInput.enabled = false;
+            
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
@@ -105,13 +137,13 @@ namespace PlayerController
 
         public void SetPlayerActive()
         {
-            _movement._playerMovementEnabled = true;
+            _movement._canMove = true;
             _camera.SetFreeLookCam_Active();
         }
 
-        public void SetPlayerInActive()
+        public void SetPlayerInactive()
         {
-            _movement._playerMovementEnabled = false;
+            _movement._canMove = false;
             _camera.SetFreeLookCam_InActive();
         }
 
@@ -133,7 +165,31 @@ namespace PlayerController
 
 
         #endregion
+        /*** Input Management ***/
+        #region Inputs
+
+        private void GatherInput()
+        {
+            m_playerInputs = new Movement {
+                movement = m_moveInput.ReadValue<Vector2>(),
+                lookMovement = m_lookInput.ReadValue<Vector2>(),
+                sprint = m_sprintInput.IsPressed(),
+                recenter = m_recenterInput.WasPressedThisFrame(),
+                interact = m_interactInput.WasPressedThisFrame()
+            };
+        }
 
         #endregion
+
+        #endregion
+    }
+    
+    internal struct Movement
+    {
+        public Vector2 movement;
+        public Vector2 lookMovement;
+        public bool sprint;
+        public bool recenter;
+        public bool interact;
     }
 }
