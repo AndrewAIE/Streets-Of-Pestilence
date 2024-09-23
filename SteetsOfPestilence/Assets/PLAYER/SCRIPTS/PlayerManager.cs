@@ -24,17 +24,16 @@ namespace PlayerController
 
         #region Debugging
         [Header("Debugging")]
-        [SerializeField] public bool _debugMode;
+        [SerializeField] private bool _debugMode;
         #endregion
-
+        
         #region Components
-        [HideInInspector] public MovementController _movement;
-        [HideInInspector] public AnimationController _animation;
-        [HideInInspector] public InputController _input;
-        [HideInInspector] public SFXController _sfx;
-        [HideInInspector] public CameraController _camera;
-        [HideInInspector] public CharacterController _character;
-        [HideInInspector] public MerchantController _merchant;
+        [HideInInspector] internal MovementController _movement { get; private set; }
+        [HideInInspector] internal AnimationController _animation { get; private set; }
+        [HideInInspector] internal InputController _input { get; private set; }
+        [HideInInspector] internal SFXController _sfx { get; private set; }
+        [HideInInspector] internal CameraController _camera { get; private set; }
+        [HideInInspector] internal MerchantController _merchant { get; private set; }
         private QTEManager m_qteRunner;
         private PlayerInput m_playerInput;
         #endregion
@@ -60,8 +59,6 @@ namespace PlayerController
             //get the merchant
             _merchant = FindObjectOfType<MerchantController>();
             
-            //get character controller
-            _character = GetComponent<CharacterController>();
 
             m_qteRunner = GetComponent<QTEManager>();
             m_playerInput = GetComponent<PlayerInput>();

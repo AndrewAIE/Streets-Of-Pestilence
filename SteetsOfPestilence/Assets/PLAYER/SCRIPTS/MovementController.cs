@@ -71,18 +71,21 @@ namespace PlayerController
         #region Falling
         [Header("Player Grounded")]
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-        public bool _grounded = true;
+        [SerializeReference] protected bool _grounded = true;
+        [SerializeField] private LayerMask _groundLayers;
 
         #endregion
 
         /*** COMPONENTS ***/
         #region Components
-        [HideInInspector] private PlayerManager _manager;
-
+        protected PlayerManager _manager;
+        protected CharacterController _characterController;
         #endregion
 
         #endregion
-
+        #region Getters
+        public Vector3 centerPoint => _characterController.center;
+        #endregion
         /******************************* METHODS ********************************/
         #region Methods
 
@@ -93,6 +96,7 @@ namespace PlayerController
         {
             //get manager
             _manager = GetComponent<PlayerManager>();
+            _characterController = GetComponent<CharacterController>();
         }
 
         private void Start()
@@ -218,7 +222,7 @@ namespace PlayerController
             #region Find Speed
 
             // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_manager._character.velocity.x, 0.0f, _manager._character.velocity.z).magnitude;
+            float currentHorizontalSpeed = new Vector3(_characterController.velocity.x, 0.0f, _characterController.velocity.z).magnitude;
 
             //set speed offset to 0.1f
             float speedOffset = 0.1f;
@@ -265,7 +269,7 @@ namespace PlayerController
             _targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
             // move the player
-            _manager._character.Move(_targetDirection.normalized * (_speed * Time.deltaTime) +
+            _characterController.Move(_targetDirection.normalized * (_speed * Time.deltaTime) +
                                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
         }
 
@@ -308,7 +312,7 @@ namespace PlayerController
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _inputRotation, 0.0f) * Vector3.forward;
 
-            _manager._character.Move(targetDirection.normalized * (targetSpeed * Time.deltaTime));
+            _characterController.Move(targetDirection.normalized * (targetSpeed * Time.deltaTime));
 
 
         }
@@ -364,10 +368,13 @@ namespace PlayerController
         private void GroundedCheck()
         {
             // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - _manager._data.GroundedOffset,
+            /*Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - _manager._data.GroundedOffset,
                 transform.position.z);
             _grounded = Physics.CheckSphere(spherePosition, _manager._data.GroundedRadius, _manager._data.GroundLayers,
-                QueryTriggerInteraction.Ignore);
+                QueryTriggerInteraction.Ignore);*/
+
+            _grounded = Physics.SphereCast(_characterController.center, _characterController.radius, Vector3.down, out RaycastHit hitInfo, (_characterController.height / 5 + .1f), _groundLayers, QueryTriggerInteraction.Ignore);
+
 
             // update animator if using character
             //_manager._animation._animator.SetBool(_manager._animation._animIDGrounded, _manager._character.isGrounded);
@@ -377,5 +384,7 @@ namespace PlayerController
         #endregion
 
         #endregion
+
+        
     }
 }
