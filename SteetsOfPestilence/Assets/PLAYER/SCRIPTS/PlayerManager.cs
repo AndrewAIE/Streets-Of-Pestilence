@@ -31,16 +31,15 @@ namespace PlayerController
         #region Components
         [HideInInspector] internal MovementController _movement { get; private set; }
         [HideInInspector] internal AnimationController _animation { get; private set; }
-        [HideInInspector] internal InputController _input { get; private set; }
+        internal CameraController _cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
-        [HideInInspector] internal CameraController _camera { get; private set; }
-        [HideInInspector] internal MerchantController _merchant { get; private set; }
+        [HideInInspector] internal MerchantController[] _merchants { get; private set; }
         private QTEManager m_qteRunner;
         
         
         #endregion
         #region Input
-        internal Movement m_playerInputs { get; private set; }
+        internal InputStruct m_input { get; private set; }
         private MovementInputs m_movementInputs;
         private InputAction m_moveInput, m_lookInput, m_recenterInput, m_interactInput, m_sprintInput;
 
@@ -59,14 +58,14 @@ namespace PlayerController
             //get player scripts
             _movement = GetComponent<MovementController>();
             _animation = GetComponent<AnimationController>();
-            _input = GetComponent<InputController>();
+
             _sfx = GetComponent<SFXController>();
 
             //get camera script
-            _camera = FindObjectOfType<CameraController>();
+            _cameraController = FindObjectOfType<CameraController>();
 
             //get the merchant
-            _merchant = FindObjectOfType<MerchantController>();
+            _merchants = FindObjectsOfType<MerchantController>();
             
 
             m_qteRunner = GetComponent<QTEManager>();
@@ -135,34 +134,29 @@ namespace PlayerController
         /*** ENABLE / DISABLE PLAYER ***/
         #region Enable / Disable Player
 
-        public void SetPlayerActive()
+        public void SetPlayerActive(bool active)
         {
-            _movement._canMove = true;
-            _camera.SetFreeLookCam_Active();
+            _movement._canMove = active;
+            _cameraController.SetFreeLookCam_Active(active);
         }
-
-        public void SetPlayerInactive()
-        {
-            _movement._canMove = false;
-            _camera.SetFreeLookCam_InActive();
-        }
-
-
+       
         #endregion
 
         /*** Merchant ***/
-        #region Merchant
+        #region Interactions
         
-        public bool CheckMerchantState(MerchantController.MerchantState inputState)
+        private void Interact()
         {
-            return _merchant.CheckState(inputState);
+            CheckForMechants();
         }
 
-        public void SetMerchantState(MerchantController.MerchantState inputState)
+        private void CheckForMechants()
         {
-            _merchant.SetMerchantState(inputState);
-        }
+            foreach (MerchantController mechant in _merchants)
+            {
 
+            }
+        }
 
         #endregion
         /*** Input Management ***/
@@ -170,13 +164,14 @@ namespace PlayerController
 
         private void GatherInput()
         {
-            m_playerInputs = new Movement {
+            m_input = new InputStruct {
                 movement = m_moveInput.ReadValue<Vector2>(),
-                lookMovement = m_lookInput.ReadValue<Vector2>(),
+                look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
                 recenter = m_recenterInput.WasPressedThisFrame(),
-                interact = m_interactInput.WasPressedThisFrame()
             };
+            if (m_interactInput.WasPressedThisFrame()) Interact();
+
         }
 
         #endregion
@@ -184,12 +179,11 @@ namespace PlayerController
         #endregion
     }
     
-    internal struct Movement
+    internal struct InputStruct
     {
         public Vector2 movement;
-        public Vector2 lookMovement;
+        public Vector2 look;
         public bool sprint;
         public bool recenter;
-        public bool interact;
     }
 }

@@ -103,10 +103,10 @@ public class GameManager : MonoBehaviour
         switch (m_Gamestate)
         {
             case GameState.Cutscene:
-                m_PlayerManager.SetPlayerInactive();
+                m_PlayerManager.SetPlayerActive(false);
                 break;
             case GameState.Playing:
-                m_PlayerManager.SetPlayerActive();
+                m_PlayerManager.SetPlayerActive(true);
                 //_cutsceneManager.TurnOff_PressAtoSkip();
                 break;
             case GameState.Paused:

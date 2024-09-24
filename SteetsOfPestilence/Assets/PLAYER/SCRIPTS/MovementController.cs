@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 namespace PlayerController
 {
@@ -11,13 +12,13 @@ namespace PlayerController
         /*** MOVEMENT ***/
         #region Movement
 
-        /*** Movement State ***/
+        /*** InputStruct\ State ***/
         #region Movement State
-        [Header("Movement State")]
+        [Header("InputStruct State")]
         //bool that controls if movement is enabled or not
         [SerializeField] public bool _canMove;
 
-        //Movement Mode Enum that controls what type of movement the player is doing
+        //InputStruct\ Mode Enum that controls what type of movement the player is doing
         [SerializeField] public MovementMode _movementMode;
         public enum MovementMode
         {
@@ -29,7 +30,7 @@ namespace PlayerController
         }
 
         //ENum that displays what the player is doing while exploring
-        [SerializeField] public ExploringState _exploringState;
+        [SerializeField] private ExploringState _exploringState;
         public enum ExploringState
         {
             Stationary,
@@ -46,22 +47,16 @@ namespace PlayerController
 
         // player
 
-        [Header("Movement Variables")]
-        [SerializeField] private float _inputMagnitude;
-        [HideInInspector] private Vector3 _inputDirection;
-        [HideInInspector] private Vector3 _currentDirection;
+        [Header("InputStruct Variables")]
         [Space]
         [SerializeField] private float _speed;
-        [SerializeField] private float _targetSpeed;
-        [Space]
-        [SerializeField] private float _inputRotation = 0.0f;
-        [SerializeField] private float _targetRotation;
-        [HideInInspector] private Vector3 _frameMotion;
-        [SerializeField] private float _deltaRotation;
-        [Space]
-        [HideInInspector] private float _rotationVelocity;
-        [HideInInspector] private float _verticalVelocity;
 
+        [Space]
+        [SerializeField] private float _targetRotation;
+        [SerializeReference] private Vector3 _motionDirection;
+        [Space]
+        [HideInInspector] private float _verticalVelocity;
+        
         // timeout deltatime
         private float _fallTimeoutDelta;
 
@@ -80,6 +75,8 @@ namespace PlayerController
         #region Components
         protected PlayerManager _manager;
         protected CharacterController _characterController;
+        internal Camera _camera { get; private set; }
+        private Transform m_Mesh;
         #endregion
 
         #endregion
@@ -97,6 +94,8 @@ namespace PlayerController
             //get manager
             _manager = GetComponent<PlayerManager>();
             _characterController = GetComponent<CharacterController>();
+            _camera = Camera.main;
+            m_Mesh = GetComponentInChildren<Animator>().transform;
         }
 
         private void Start()
@@ -136,6 +135,7 @@ namespace PlayerController
             switch (_movementMode)
             {
                 case MovementMode.Exploring:
+                    Rotate_Exploring();
                     Move_Exploring();
                     break;
 
@@ -143,7 +143,7 @@ namespace PlayerController
 
                     break;
                 case MovementMode.Debug:
-                    Move_Debug();
+                    //Move_Debug();
                     break;
             }
         }
@@ -153,17 +153,29 @@ namespace PlayerController
         //Move Method that controls the players movement
         private void Move_Exploring()
         {
-            _speed = _manager.m_playerInputs.sprint ? _manager._data.RunningSpeed : _manager._data.WalkingSpeed;
+            _speed = _manager.m_input.sprint ? _manager._data.RunningSpeed : _manager._data.WalkingSpeed;
             Vector2 motion = Vector3.zero;
-            if (_manager._input.move.x != 0) motion.x += _manager._input.move.x * _speed;
+            Vector2 input = _manager.m_input.movement;
+            if (input.x != 0) motion.x += input.x * _speed;
             else motion.x = 0;
-            if (_manager._input.move.y != 0) motion.y += _manager._input.move.y * _speed;
+            if (input.y != 0) motion.y += input.y * _speed;
 
-            _frameMotion = (transform.forward * motion.y + transform.right * motion.x);
+            Vector3 forward = _camera.transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
 
-            _frameMotion = Vector3.ClampMagnitude(_frameMotion, _speed);
+            _motionDirection = (forward * motion.y) + (_camera.transform.right * motion.x);
 
-            _characterController.Move(_frameMotion);
+            _motionDirection = Vector3.ClampMagnitude(_motionDirection, _speed);
+            _manager._animation.SetAnimationFloat_InputMove(input.magnitude);
+            _characterController.Move(_motionDirection * Time.deltaTime);
+        }
+
+       
+        private void Rotate_Exploring()
+        {  
+            if(_motionDirection.magnitude > 0)
+                m_Mesh.transform.forward = _motionDirection.normalized;
         }
 
         #endregion
@@ -172,43 +184,7 @@ namespace PlayerController
 
         /*** Debug Move ***/
         #region Debug
-        private void Move_Debug()
-        {
-            float _inputMagnitude = _manager._input.move.magnitude;
 
-            float targetSpeed;
-
-            if (_inputMagnitude >= 0.5f)
-            {
-                targetSpeed = _manager._data.DebugSpeed;
-            }
-            else
-            {
-                targetSpeed = 0.0f;
-            }
-
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_manager._input.move.x, 0.0f, _manager._input.move.y).normalized;
-
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_manager._input.move != Vector2.zero)
-            {
-                _inputRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  Camera.main.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _inputRotation, ref _rotationVelocity,
-                    _manager._data.RotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _inputRotation, 0.0f) * Vector3.forward;
-
-            _characterController.Move(targetDirection.normalized * (targetSpeed * Time.deltaTime));
-
-
-        }
 
         #endregion
 
@@ -267,7 +243,6 @@ namespace PlayerController
                 QueryTriggerInteraction.Ignore);*/
 
             _grounded = Physics.SphereCast(_characterController.center, _characterController.radius, Vector3.down, out RaycastHit hitInfo, (_characterController.height / 5 + .1f), _groundLayers, QueryTriggerInteraction.Ignore);
-
 
             // update animator if using character
             //_manager._animation._animator.SetBool(_manager._animation._animIDGrounded, _manager._character.isGrounded);

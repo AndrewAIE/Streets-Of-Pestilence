@@ -145,13 +145,13 @@ public class MerchantController : MonoBehaviour
         ChangeSelection(0);
 
         _camera.SetCameraState(CameraController.CameraState.Merchant);
-        _player._input.SetActionMap(InputController.InputMode.Merchant.ToString());
+      //  _player.m_input.SetActionMap(InputController.InputMode.Merchant.ToString());
     }
 
     private void To_InRangeFromInShop()
     {
         _camera.SetCameraState(CameraController.CameraState.FreeLook);
-        _player._input.SetActionMap(InputController.InputMode.Player.ToString());
+    //    _player.m_input.SetActionMap(InputController.InputMode.Player.ToString());
     }
 
     private void To_Idle()
