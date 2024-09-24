@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8204123735367372459}
   - component: {fileID: 9222003877845164349}
   m_Layer: 0
-  m_Name: ArtPref_Fence
+  m_Name: ArtPref_Fence_Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8346114762214497162}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -5298253115503163798, guid: 8ffb4dc33d6540648a30f516ddac05f1, type: 3}
 --- !u!23 &9222003877845164349
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,6 +62,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b48d94edf662920409d3ee6052a04c51, type: 2}
+  - {fileID: 2100000, guid: 0c1ddeca1c0071747b7e5d74c5a86426, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
