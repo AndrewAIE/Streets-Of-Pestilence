@@ -94,9 +94,7 @@ namespace QTESystem
             m_activeAction = m_qteManager.CreateAction();            
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;
-           
-            m_display.ActivateCues(m_activeAction.InputList.Count);
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;            
             m_timeLimit = m_qteManager.ActiveStream.ActionTimer + (m_qteManager.ActiveStream.SuccessBuffer / 2f);            
         }
 
@@ -108,7 +106,7 @@ namespace QTESystem
             switch(m_activeActionState)
             {
                 case ActionState.success:
-                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;
+                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;                    
                     m_activeAction.CompleteAction();
                     break;
                 case ActionState.fail:
@@ -121,9 +119,8 @@ namespace QTESystem
                     break;
             }                      
 
-            if (_timer >= m_timeLimit)
-            {               
-                
+            if (m_activeAction.TimeUp())
+            {                
                 m_qteManager.CurrentState = m_qteManager.BetweenActions;
                 ExitState();
             }            

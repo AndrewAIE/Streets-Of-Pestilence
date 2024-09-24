@@ -151,6 +151,48 @@ namespace QTESystem
             m_iconsToActivate.Clear();
         }
 
+        public void SetIconColor(QTEInput _iconToSet, Color _color)
+        {
+            switch (_iconToSet)
+            {
+                case QTEInput.NorthFace:
+                    m_northButtonIcon.color = _color;
+                    break;
+                case QTEInput.EastFace:
+                    m_eastButtonIcon.color = _color;
+                    break;
+                case QTEInput.SouthFace:
+                    m_southButtonIcon.color = _color;
+                    break;
+                case QTEInput.WestFace:
+                    m_westButtonIcon.color = _color;
+                    break;
+                case QTEInput.LeftShoulder:
+                    m_lShoulderButtonIcon.color = _color;
+                    break;
+                case QTEInput.LeftTrigger:
+                    m_lTriggerButtonIcon.color = _color;
+                    break;
+                case QTEInput.RightShoulder:
+                    m_rShoulderButtonIcon.color = _color;
+                    break;
+                case QTEInput.RightTrigger:
+                    m_rTriggerButtonIcon.color = _color;
+                    break;
+                case QTEInput.NorthDirectional:
+                    m_northDirectionalButtonIcon.color = _color;
+                    break;
+                case QTEInput.EastDirectional:
+                    m_eastDirectionalButtonIcon.color = _color;
+                    break;
+                case QTEInput.SouthDirectional:
+                    m_southDirectionalButtonIcon.color = _color;
+                    break;
+                case QTEInput.WestDirectional:
+                    m_westDirectionalButtonIcon.color = _color;
+                    break;
+            }
+        }
         //Comment
         public void IncorrectInput(string _incorrectInput)
         {
@@ -167,12 +209,37 @@ namespace QTESystem
             
         }
 
-        
+        public void SuccessfulInput(List<QTEInput> _icons)
+        {
+            SetIconColor(_icons, Color.green);
+            StartCoroutine("ResetIconColor", _icons);
+        }
 
-        public void Input(string _incorrectInput)
+        public void SuccessfulInput(QTEInput _icon)
+        {            
+            SetIconColor(_icon, Color.green);
+            StartCoroutine("ResetIconColor", _icon);
+        }
+
+
+        private IEnumerator ResetIconColor(List<QTEInput> _icons)
+        {
+            
+            yield return new WaitForSeconds(0.2f);
+            Debug.Log("STOP BEING GREEN PLEASE");
+            SetIconColor(_icons, Color.white);
+        }
+
+        private IEnumerator ResetIconColor(QTEInput _icon)
+        {
+            yield return new WaitForSeconds(0.2f);
+            SetIconColor(_icon, Color.white);
+        }
+
+        public void Input(string _input)
         {
             //get corresponding icon and send through to animation script
-            m_iconAnimation.InputButton(GetIcon(_incorrectInput));            
+            m_iconAnimation.InputButton(GetIcon(_input));            
         }
 
         public void InputReleased(string _incorrectInput)
@@ -306,7 +373,7 @@ namespace QTESystem
                 case QTEInput.WestDirectional:
                     VisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
-            }
+            }            
         }
 
         //Comment
@@ -320,15 +387,18 @@ namespace QTESystem
         }
 
         //Comment
-        public void ActivateCues(int _count)
-        {
-            for(int i = 0; i < _count; i++)
-            {
-                Image image = VisualCues[i].GetComponent<Image>();
-                image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
-            }            
+        public void ActivateCue(int _count)
+        {            
+            Image image = VisualCues[_count].GetComponent<Image>();
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);                       
         }
-        #endregion 
-       
+
+        public void DeactivateCue(int _count)
+        {
+            Image image = VisualCues[_count].GetComponent<Image>();
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+        }
+        #endregion
+
     }
 }

@@ -358,8 +358,7 @@ namespace QTESystem
         //Comment
         public void PoiseValueCheck()
         {
-            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;
-            Debug.Log(successRate);
+            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;            
             int poiseChange;
             switch(successRate)
             {
@@ -401,7 +400,6 @@ namespace QTESystem
         {
             Destroy(Enemy);
             EndOfEncounter();
-
             GetComponent<PlayerInput>().enabled = true;
         }
 
