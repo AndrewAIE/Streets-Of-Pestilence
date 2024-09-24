@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Metallic
-  m_Shader: {fileID: -6465566751694194690, guid: f8e697c2cbf0b914cb1315953fe9abec,
+  m_Shader: {fileID: -6465566751694194690, guid: 75d42189d9b7f1c45a66b9b0e5bc56a2,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -48,7 +48,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    m_Colors: []
+    m_Colors:
+    - _Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 0}
   m_BuildTextureStacks: []

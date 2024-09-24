@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_WindowDoor
-  m_Shader: {fileID: -6465566751694194690, guid: 250d2f62029233146a36eecdd8071c5d,
+  m_Shader: {fileID: -6465566751694194690, guid: 17fab674a8b60f144b6af197f993c4b0,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -100,6 +100,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO_Strength: 0
+    - _AO_Strength_A: 0
+    - _AO_Strength_B: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -116,21 +118,31 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _Metallic_Strength: 0
+    - _Metallic_Strength_A: 0
+    - _Metallic_Strength_B: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Rotation: 0
+    - _Roughness_Push_A: 1
+    - _Roughness_Push_B: 1
     - _Roughness_Strength: 0
+    - _Roughness_Strength_A: 0
+    - _Roughness_Strength_B: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Tile: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Blend_Color_A: {r: 0, g: 0, b: 0, a: 0}
+    - _Blend_Color_B: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
