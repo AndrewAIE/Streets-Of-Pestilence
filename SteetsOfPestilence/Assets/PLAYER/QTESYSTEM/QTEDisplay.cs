@@ -206,7 +206,19 @@ namespace QTESystem
         //Comment
         public void MissedInput(List<QTEInput> _iconsToShake)
         {
-            
+            foreach(QTEInput input in _iconsToShake)
+            {
+                Image image = GetIcon(input);
+                //animate corresponding icon and play audio
+                m_iconAnimation.IncorrectInput(image.gameObject);
+            }
+        }
+
+        public void MissedInput(QTEInput _iconsToShake)
+        {
+            Image image = GetIcon(_iconsToShake);
+            //animate corresponding icon and play audio
+            m_iconAnimation.IncorrectInput(image.gameObject);
         }
 
         public void SuccessfulInput(List<QTEInput> _icons)
@@ -303,16 +315,53 @@ namespace QTESystem
             }
             return image;
         }
+
+        public Image GetIcon(QTEInput _input)
+        {
+            switch (_input)
+            {
+                case QTEInput.NorthFace:
+                    return m_northButtonIcon;                    
+                case QTEInput.EastFace:
+                    return m_eastButtonIcon;
+                    
+                case QTEInput.SouthFace:
+                    return m_southButtonIcon;
+                    
+                case QTEInput.WestFace:
+                    return m_westButtonIcon;
+                    
+                case QTEInput.LeftShoulder:
+                    return m_lShoulderButtonIcon;
+                    
+                case QTEInput.LeftTrigger:
+                    return m_lTriggerButtonIcon;
+                    
+                case QTEInput.RightShoulder:
+                    return m_rShoulderButtonIcon;
+                    
+                case QTEInput.RightTrigger:
+                    return m_rTriggerButtonIcon;
+                    
+                case QTEInput.NorthDirectional:
+                    return m_northDirectionalButtonIcon;
+                    
+                case QTEInput.EastDirectional:
+                    return m_eastDirectionalButtonIcon;
+                    
+                case QTEInput.SouthDirectional:
+                    return m_southDirectionalButtonIcon;
+                    
+                case QTEInput.WestDirectional:
+                    return m_westDirectionalButtonIcon;
+                default:
+                    return m_northButtonIcon;
+            }
+        }
         #endregion
 
         //*** Poise Bar ***//
-        #region Poise Bar
-        /*
-                //Comment
-                public void UpdatePoiseBar(int _poiseValue)
-                {
-
-                }*/
+        #region Poise Bar      
 
         //Activate Poise Bar
         public void ActivatePoiseBar()
@@ -373,8 +422,17 @@ namespace QTESystem
                 case QTEInput.WestDirectional:
                     VisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
-            }            
+            }
+            Debug.Log(_input);
         }
+
+        public void AnimateCue(float _targetTime, int _selector)
+        {
+            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
+            Image image = VisualCues[_selector].GetComponent<Image>();
+            m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
+        }
+
 
         //Comment
         public void SetCueSize(float _sizePercentage, int _selector)

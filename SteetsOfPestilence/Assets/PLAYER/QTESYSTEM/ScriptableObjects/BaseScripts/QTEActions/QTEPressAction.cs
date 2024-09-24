@@ -6,8 +6,7 @@ namespace QTESystem
 {
     [CreateAssetMenu(fileName = "NewPressAction", menuName = "Quick Time Event/New Quick Time Action/Press Action")]
     public class QTEPressAction : QTEAction
-    {
-                 
+    {         
 
         protected override ActionState onUpdate()
         {
@@ -21,7 +20,7 @@ namespace QTESystem
                     m_state = ActionState.fail;
                 }
             }
-            
+            CheckSuccessWindow();
             return m_state;            
         }
 
@@ -30,6 +29,7 @@ namespace QTESystem
             for (int i = 0; i < InputList.Count; i++)
             {
                 m_qteDisplay.ActivateCue(i);
+                m_qteDisplay.AnimateCue(m_maxTime, 0);
             }
         }
 
@@ -38,7 +38,7 @@ namespace QTESystem
             bool inputCorrect = false;            
             if (m_state == ActionState.running && _context.action.name != "Directional")
             {
-                if (m_timer >= m_minTime && m_timer <= m_maxTime)
+                if (m_successWindow)
                 {
                     for (int i = 0; i < m_readyInputs.Count; i++)
                     {
@@ -72,17 +72,27 @@ namespace QTESystem
 
         public override void DisplayUpdate()
         {
-            if(m_state == ActionState.running)
+            //if(m_state == ActionState.running)
+            //{
+            //    for (int i = 0; i < InputList.Count; i++)
+            //    {
+            //        float cueSize = 1 - (m_timer / m_timeLimit);
+            //        if (m_state == ActionState.running)
+            //        {
+            //            m_qteDisplay.SetCueSize(cueSize, i);
+            //        }
+            //    }
+            //}           
+        }
+
+        protected override void CheckSuccessWindow()
+        {
+            if (m_timer >= m_minTime && m_timer <= m_maxTime)
             {
-                for (int i = 0; i < InputList.Count; i++)
-                {
-                    float cueSize = 1 - (m_timer / m_timeLimit);
-                    if (m_state == ActionState.running)
-                    {
-                        m_qteDisplay.SetCueSize(cueSize, i);
-                    }
-                }
-            }           
-        }       
+                m_successWindow = true;
+                return;
+            }
+            m_successWindow = false;
+        }
     }
 }

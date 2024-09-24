@@ -193,34 +193,35 @@ PrefabInstance:
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.92
+      value: 3.0333343
       objectReference: {fileID: 0}
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.79
+      value: -3.614143
       objectReference: {fileID: 0}
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9993094
+      value: 0.7326896
       objectReference: {fileID: 0}
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.03715951
+      value: -0.027245203
       objectReference: {fileID: 0}
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.6795478
       objectReference: {fileID: 0}
     - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -4.656613e-10
+      value: -0.025269117
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8772453626612883465, guid: dc41b6ebed8156145a6d956db49685a8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dc41b6ebed8156145a6d956db49685a8, type: 3}
 --- !u!1001 &244456679
 PrefabInstance:
@@ -418,6 +419,10 @@ PrefabInstance:
       propertyPath: m_barObject
       value: 
       objectReference: {fileID: 1841844318}
+    - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
+      propertyPath: m_cueStartSize
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
       propertyPath: m_eastDirectionalButtonIcon
       value: 

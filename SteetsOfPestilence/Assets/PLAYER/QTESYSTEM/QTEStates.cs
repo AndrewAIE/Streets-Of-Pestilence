@@ -24,6 +24,7 @@ namespace QTESystem
         {
             m_qteManager = _manager;
             m_qteManager.PoiseBar.gameObject.SetActive(true);
+            m_qteManager.SelectStream();
             //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);            
             m_started = true;
         }
@@ -45,6 +46,7 @@ namespace QTESystem
         private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
         {
+            
             m_qteManager = _manager;
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
@@ -106,7 +108,10 @@ namespace QTESystem
             switch(m_activeActionState)
             {
                 case ActionState.success:
-                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;                    
+                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;
+                    Debug.Log("Action Correct Inputs " + m_activeAction.CorrectInputs);
+                    Debug.Log("Total Correct Inputs " + m_qteManager.CurrentSuccessPoints);
+                    
                     m_activeAction.CompleteAction();
                     break;
                 case ActionState.fail:
@@ -182,7 +187,8 @@ namespace QTESystem
             //reset stream data
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
             m_qteManager.ResetStreamData();
-            
+            m_qteManager.SelectStream();
+
             //set poise bar
             m_qteManager.PoiseValueCheck();
         }

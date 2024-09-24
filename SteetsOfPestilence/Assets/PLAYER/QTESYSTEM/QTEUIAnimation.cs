@@ -2,6 +2,7 @@ using UnityEngine;
 using Pixelplacement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class QTEUIAnimation : MonoBehaviour
 {
@@ -17,16 +18,18 @@ public class QTEUIAnimation : MonoBehaviour
     }
 
     public void FailAction(GameObject _icon)
-    {
-
+    {         
+        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
+        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);        
+        Invoke("StopControllerVibrate", m_incorrectVibrateLength);
     }
 
     public void IncorrectInput(GameObject _icon)
     {
-        Tween.Shake(_icon.transform, _icon.transform.localPosition, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
+        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
         Invoke("StopControllerVibrate", m_incorrectVibrateLength);
-    }
+    }      
 
     public void InputButton(Image _icon)
     {
@@ -42,5 +45,10 @@ public class QTEUIAnimation : MonoBehaviour
     public void StopControllerVibrate()
     {
         Gamepad.current.SetMotorSpeeds(0, 0);
+    }
+
+    public void StartRingAnimation(RectTransform _ring, Vector2 _targetSize, float _timer)
+    {
+        Tween.Size(_ring, _targetSize, _timer, 0);
     }
 }

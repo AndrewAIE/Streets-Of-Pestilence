@@ -25,10 +25,11 @@ namespace QTESystem
         [HideInInspector]
         public int CorrectInputs = 0;
         protected List<InputAction> m_readyInputs = new List<InputAction>();
+        protected bool m_successWindow = false;
 
         protected abstract ActionState onUpdate();
         protected abstract void onStart();
-
+        protected abstract void CheckSuccessWindow();
         public abstract void DisplayUpdate();
         public void RemoveTimingRings(int _count)
         {
