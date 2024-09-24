@@ -256,7 +256,7 @@ namespace QTESystem
 
         //Deactivate Poise Bar
         public void DeactivatePoiseBar()
-        {
+        {            
             m_barObject.SetActive(false);
         }
 

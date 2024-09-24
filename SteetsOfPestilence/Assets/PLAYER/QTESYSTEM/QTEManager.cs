@@ -215,6 +215,7 @@ namespace QTESystem
         public void EndOfEncounter()
         {
             QteDisplay.DeactivatePoiseBar();
+            QteDisplay.DeactivatePanels();
             WaitingStreams.Clear();
             ActiveStream = null;
             this.enabled = false;
@@ -363,79 +364,27 @@ namespace QTESystem
             switch(successRate)
             {
                 case 0:
-                    poiseChange = -2;
-                    Debug.Log(poiseChange);
+                    poiseChange = -2;                    
                     break;
                 case < 0.5f:
-                    poiseChange = -1;
-                    Debug.Log(poiseChange);
+                    poiseChange = -1;                    
                     break;
                 case 0.5f:
-                    poiseChange = 0;
-                    Debug.Log(poiseChange);
+                    poiseChange = 0;                    
                     break;
                 case 1:
-                    poiseChange = 2;
-                    Debug.Log(poiseChange);
+                    poiseChange = 2;                    
                     break;
                 case > 0.5f:
-                    poiseChange = 1;
-                    Debug.Log(poiseChange);
+                    poiseChange = 1;                   
                     break;
                 default:
-                    poiseChange = 0;
-                    Debug.Log(poiseChange);
+                    poiseChange = 0;                    
                     break;
             }
 
-
             //adjust poise value based of successes and falures in stream
             PoiseBar.SetPoise(poiseChange);
-
-            //change to appropriate stance based off of poise value
-            //switch (m_playerStance)
-            //{
-            //    case PlayerStance.NeutralStance:
-            //        if (m_poiseValue >= 4)
-            //        {
-            //            EnterStance(PlayerStance.OffensiveStance);
-            //            break;
-            //        }
-            //        if (m_poiseValue <= -4)
-            //        {
-            //            EnterStance(PlayerStance.DefensiveStance);
-            //            break;
-            //        }
-            //        break;
-            //    case PlayerStance.DefensiveStance:
-            //        if (m_poiseValue > -4)
-            //        {
-            //            EnterStance(PlayerStance.NeutralStance);
-            //            break;
-            //        }
-            //        if (m_poiseValue <= -10)
-            //        {
-            //            playerLoss();
-            //            break;
-            //        }
-            //        break;
-            //    case PlayerStance.OffensiveStance:
-            //        if (m_poiseValue < 4)
-            //        {
-            //            EnterStance(PlayerStance.NeutralStance);
-            //            break;
-            //        }
-            //        if (m_poiseValue >= 10)
-            //        {
-            //            playerWin();
-            //            break;
-            //        }
-            //        break;
-            //    default:
-            //        break;
-            //
-            //}
-
             if (PoiseBar._poise >= PoiseBar._maxPoise)
             {
                 playerWin();
@@ -444,7 +393,6 @@ namespace QTESystem
             {
                 playerLoss();
             }
-
             //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
         }
         
@@ -453,6 +401,7 @@ namespace QTESystem
         {
             Destroy(Enemy);
             EndOfEncounter();
+
             GetComponent<PlayerInput>().enabled = true;
         }
 
@@ -490,9 +439,8 @@ namespace QTESystem
         internal void ResetStreamData()
         {
             StreamPosition = 0;
-            Timer = 0;
-            PoiseValueCheck();
-            ActiveDisplayList.Clear();
+            Timer = 0;            
+            ActiveDisplayList.Clear();            
         }
         #endregion
 
