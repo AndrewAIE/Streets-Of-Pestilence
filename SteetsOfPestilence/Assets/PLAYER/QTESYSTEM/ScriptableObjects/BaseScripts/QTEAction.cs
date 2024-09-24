@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,13 +18,14 @@ namespace QTESystem
         protected float m_successBuffer;
         public string IncorrectInput;
         private List<Image> m_timingRings;
+        protected QTEDisplay m_qteDisplay;        
+        public int CorrectInputs = 0;
        
         protected abstract ActionState onUpdate();
 
         public abstract void DisplayUpdate();
-        public abstract void SetTimeLimit(float _timer, float _successBuffer);
+        
         public abstract void SetTargetInputs(QTEInputs _qteInputControl);
-
         public abstract void CheckInput(InputAction.CallbackContext _context);
         public List<QTEInput> InputList;
 
@@ -39,8 +41,19 @@ namespace QTESystem
             m_timer = _timer;
             return onUpdate();
         }
-        
-        public void CompleteAction()
+
+        public void SetData(float _timeLimit, float _successBuffer, QTEDisplay _display)
+        {
+            //Set Time Data
+            m_timeLimit = _timeLimit;
+            m_successBuffer = _successBuffer;
+            m_minTime = m_timeLimit - (m_successBuffer / 2f);
+            m_maxTime = m_timeLimit + (m_successBuffer / 2f);
+            //Set QTE Display
+            m_qteDisplay = _display;
+        }
+
+        internal void CompleteAction()
         {
             m_state = ActionState.complete;
         }

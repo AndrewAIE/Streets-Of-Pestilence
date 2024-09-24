@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 429368458621301571}
   - component: {fileID: 2867131039336737885}
   - component: {fileID: 8795791010425184888}
+  - component: {fileID: 527506117257171817}
   m_Layer: 0
   m_Name: ArtPref_SidewalkMiddle
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1ffb341cb51fe544884c804d7ab09fdf, type: 2}
+  - {fileID: 5561349426305759274, guid: 72d9398faf8473845bcb2653398746ac, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &527506117257171817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581802753466558713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5, y: 0.1, z: 2.25}
+  m_Center: {x: 2.25, y: -0.05, z: 1.125}

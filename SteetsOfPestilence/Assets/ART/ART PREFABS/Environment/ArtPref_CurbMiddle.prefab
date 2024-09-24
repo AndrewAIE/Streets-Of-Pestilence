@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2849803202320942001}
   - component: {fileID: 635791761928532302}
   - component: {fileID: 7734579951153150060}
+  - component: {fileID: 4564259361916611599}
   m_Layer: 0
   m_Name: ArtPref_CurbMiddle
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4564259361916611599
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8391291313793901996}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5, y: 0.16999999, z: 0.35}
+  m_Center: {x: 2.25, y: -0.010000002, z: 0.175}

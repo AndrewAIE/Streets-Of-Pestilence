@@ -69,11 +69,16 @@ namespace QTESystem
         [HideInInspector]
         public PoiseBarController poiseBarController;
 
-        #endregion
+        private QTEUIAnimation m_iconAnimation;
+        private QTEAudio m_audio;
 
-        //******************** Methods *********************//
-        #region Methods
+        #endregion       
 
+        private void Awake()
+        {
+            m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
+            m_audio = GetComponentInChildren<QTEAudio>();
+        }
         //*** Panel ***//
         #region Panel
 
@@ -103,7 +108,6 @@ namespace QTESystem
             for (int i = 0; i < _iconsToSet.Count; i++)
             {
                 m_iconsToActivate.Add(_iconsToSet[i]);
-
                 switch (m_iconsToActivate[i])
                 {
                     case QTEInput.NorthFace:
@@ -150,46 +154,11 @@ namespace QTESystem
         //Comment
         public void IncorrectInput(string _incorrectInput)
         {
-            Debug.Log(_incorrectInput);
-            switch (_incorrectInput)
-            {
-                case "North":
-                    m_northButtonIcon.color = Color.red;
-                    break;
-                case "East":
-                    m_eastButtonIcon.color = Color.red;
-                    break;
-                case "South":
-                    m_southButtonIcon.color = Color.red;
-                    break;
-                case "West":
-                    m_westButtonIcon.color = Color.red;
-                    break;
-                case "LShoulder":
-                    m_lShoulderButtonIcon.color = Color.red;
-                    break;
-                case "LTrigger":
-                    m_lTriggerButtonIcon.color = Color.red;
-                    break;
-                case "RShoulder":
-                    m_rShoulderButtonIcon.color = Color.red;
-                    break;
-                case "RTrigger":
-                    m_rTriggerButtonIcon.color = Color.red;
-                    break;
-                case "Up":
-                    m_northDirectionalButtonIcon.color = Color.red;
-                    break;
-                case "Right":
-                    m_eastDirectionalButtonIcon.color = Color.red;
-                    break;
-                case "Down":
-                    m_southDirectionalButtonIcon.color = Color.red;
-                    break;
-                case "Left":
-                    m_westDirectionalButtonIcon.color = Color.red;
-                    break;
-            }
+            //select icon based on input            
+            Image image = GetIcon(_incorrectInput);            
+            //animate corresponding icon and play audio
+            m_iconAnimation.IncorrectInput(image.gameObject);
+            m_audio.IncorrectInput();
         }
 
         //Comment
@@ -198,27 +167,96 @@ namespace QTESystem
             
         }
 
+        
+
+        public void Input(string _incorrectInput)
+        {
+            //get corresponding icon and send through to animation script
+            m_iconAnimation.InputButton(GetIcon(_incorrectInput));            
+        }
+
+        public void InputReleased(string _incorrectInput)
+        {   
+            //get corresponding icon and send through to animation script
+            m_iconAnimation.ReleaseButton(GetIcon(_incorrectInput));
+        }
+
+        /// <summary>
+        /// Get Correct Image based on QTE InputSystem Action Names
+        /// </summary>
+        /// <param name="_input"></param>
+        /// <returns></returns>  
+
+
+        public Image GetIcon(string _input)
+        {            
+            Image image;
+            switch (_input)
+            {
+                case "North":
+                    image = m_northButtonIcon;
+                    break;
+                case "East":
+                    image = m_eastButtonIcon;
+                    break;
+                case "South":
+                    image = m_southButtonIcon;
+                    break;
+                case "West":
+                    image = m_westButtonIcon;
+                    break;
+                case "LShoulder":
+                    image = m_lShoulderButtonIcon;
+                    break;
+                case "LTrigger":
+                    image = m_lTriggerButtonIcon;
+                    break;
+                case "RShoulder":
+                    image = m_rShoulderButtonIcon;
+                    break;
+                case "RTrigger":
+                    image = m_rTriggerButtonIcon;
+                    break;
+                case "Up":
+                    image = m_northDirectionalButtonIcon;
+                    break;
+                case "Right":
+                    image = m_eastDirectionalButtonIcon;
+                    break;
+                case "Down":
+                    image = m_southDirectionalButtonIcon;
+                    break;
+                case "Left":
+                    image = m_westDirectionalButtonIcon;
+                    break;
+                default:
+                    image = null;
+                    Debug.LogWarning("QTEDisplay - GetIcon(): No Corresponding Icon to String Parameter");
+                    break;
+            }
+            return image;
+        }
         #endregion
 
         //*** Poise Bar ***//
         #region Poise Bar
-/*
-        //Comment
-        public void UpdatePoiseBar(int _poiseValue)
-        {
+        /*
+                //Comment
+                public void UpdatePoiseBar(int _poiseValue)
+                {
 
-        }*/
+                }*/
 
         //Activate Poise Bar
         public void ActivatePoiseBar()
         {
             m_barObject.SetActive(true);
-            m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
+            //m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
         }
 
         //Deactivate Poise Bar
         public void DeactivatePoiseBar()
-        {
+        {            
             m_barObject.SetActive(false);
         }
 
@@ -272,24 +310,25 @@ namespace QTESystem
         }
 
         //Comment
-        public void SetCueSize(float _sizePercentage)
+        public void SetCueSize(float _sizePercentage, int _selector)
         {
             Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
             float sizeRange = m_cueStartSize - targetSize.x;
-            Image cue = VisualCues[0].GetComponent<Image>();
+            Image cue = VisualCues[_selector].GetComponent<Image>();
 
             cue.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
 
         //Comment
-        public void ActivateCue()
+        public void ActivateCues(int _count)
         {
-            Image image = VisualCues[0].GetComponent<Image>();
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+            for(int i = 0; i < _count; i++)
+            {
+                Image image = VisualCues[i].GetComponent<Image>();
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+            }            
         }
-
-        #endregion
-
-        #endregion
+        #endregion 
+       
     }
 }
