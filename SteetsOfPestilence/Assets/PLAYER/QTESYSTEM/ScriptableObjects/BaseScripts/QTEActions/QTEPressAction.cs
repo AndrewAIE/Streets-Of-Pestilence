@@ -13,9 +13,9 @@ namespace QTESystem
             if(m_timer > m_maxTime)
             {
                 m_timeUp = true;
+                RemoveTimingRings(InputList.Count);
                 if (m_state == ActionState.running)
                 {
-                    RemoveTimingRings(InputList.Count);
                     m_qteDisplay.MissedInput(InputList);
                     m_state = ActionState.fail;
                 }
@@ -46,6 +46,7 @@ namespace QTESystem
                         {
                             m_readyInputs.RemoveAt(i);
                             CorrectInputs++;
+                            m_qteDisplay.DeactivateCue(InputList.Count);
                             inputCorrect = true;
                             break;
                         }
@@ -55,7 +56,7 @@ namespace QTESystem
                 {
                     m_qteDisplay.MissedInput(InputList);
                     m_qteDisplay.IncorrectInput(_context.action.name);
-                    RemoveTimingRings(InputList.Count);
+                    m_qteDisplay.DeactivateCue(InputList.Count);
                     m_state = ActionState.fail;
                     return;
                 }
@@ -63,7 +64,7 @@ namespace QTESystem
                 {
                     //set icon colour
                     m_qteDisplay.SetIconColor(InputList, Color.green);
-                    RemoveTimingRings(InputList.Count);
+                    m_qteDisplay.DeactivateCue(InputList.Count);
                     m_state = ActionState.success;
                     return;
                 }                              
