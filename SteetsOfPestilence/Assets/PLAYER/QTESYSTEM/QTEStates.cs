@@ -24,6 +24,7 @@ namespace QTESystem
         {
             m_qteManager = _manager;
             m_qteManager.PoiseBar.gameObject.SetActive(true);
+            m_qteManager.SelectStream();
             //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);            
             m_started = true;
         }
@@ -45,6 +46,7 @@ namespace QTESystem
         private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
         {
+            
             m_qteManager = _manager;
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
@@ -94,9 +96,7 @@ namespace QTESystem
             m_activeAction = m_qteManager.CreateAction();            
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;
-           
-            m_display.ActivateCues(m_activeAction.InputList.Count);
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;            
             m_timeLimit = m_qteManager.ActiveStream.ActionTimer + (m_qteManager.ActiveStream.SuccessBuffer / 2f);            
         }
 
@@ -108,22 +108,18 @@ namespace QTESystem
             switch(m_activeActionState)
             {
                 case ActionState.success:
-                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;
+                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;                    
                     m_activeAction.CompleteAction();
                     break;
                 case ActionState.fail:
                     m_activeAction.CompleteAction();
-                    break;
-                case ActionState.running:
-                    m_activeAction.DisplayUpdate();
-                    break;
+                    break;                
                 default:
                     break;
             }                      
 
-            if (_timer >= m_timeLimit)
-            {               
-                
+            if (m_activeAction.TimeUp())
+            {                
                 m_qteManager.CurrentState = m_qteManager.BetweenActions;
                 ExitState();
             }            
@@ -185,7 +181,7 @@ namespace QTESystem
             //reset stream data
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
             m_qteManager.ResetStreamData();
-            
+            m_qteManager.SelectStream();
             //set poise bar
             m_qteManager.PoiseValueCheck();
         }

@@ -192,11 +192,23 @@ namespace QTESystem
             {
                 WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
             }
-            ActiveStream = Instantiate(SelectRandomStream());            
+            SelectStream();                      
 
             //Set Encounter State and begin Encouner
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
+        }
+
+        public void SelectStream()
+        {
+            if(WaitingStreams.Count == 0)
+            {
+                ActiveStream = Instantiate(ActiveStream);
+            }
+            else
+            {
+                ActiveStream = Instantiate(SelectRandomStream());
+            }            
         }
 
         public List<QTEInput> GetStreamActionInputs()
@@ -307,10 +319,12 @@ namespace QTESystem
                         break;
                 }
             }
+            QteDisplay.DeactivatePanels();
             for (int i = 0; i < panelActivator.Length; i++)
             {
                 if (panelActivator[i])
-                {                    
+                {
+                    
                     QteDisplay.ActivatePanel(i);
                     switch(i)
                     {
@@ -358,8 +372,7 @@ namespace QTESystem
         //Comment
         public void PoiseValueCheck()
         {
-            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;
-            Debug.Log(successRate);
+            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;            
             int poiseChange;
             switch(successRate)
             {
@@ -401,7 +414,6 @@ namespace QTESystem
         {
             Destroy(Enemy);
             EndOfEncounter();
-
             GetComponent<PlayerInput>().enabled = true;
         }
 
@@ -425,15 +437,16 @@ namespace QTESystem
             if(_context.performed)
             {
                 QteDisplay.Input(_context.action.name);
+                if (ActionState == ActionState.running)
+                {
+                    ActiveAction?.CheckInput(_context);
+                }
             }
             if(_context.canceled)
             {
                 QteDisplay.InputReleased(_context.action.name);
             }
-            if (ActionState == ActionState.running)
-            {
-                ActiveAction?.CheckInput(_context);
-            }           
+                    
         }
 
         internal void ResetStreamData()
