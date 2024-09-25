@@ -108,18 +108,12 @@ namespace QTESystem
             switch(m_activeActionState)
             {
                 case ActionState.success:
-                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;
-                    Debug.Log("Action Correct Inputs " + m_activeAction.CorrectInputs);
-                    Debug.Log("Total Correct Inputs " + m_qteManager.CurrentSuccessPoints);
-                    
+                    m_qteManager.CurrentSuccessPoints += m_activeAction.CorrectInputs;                    
                     m_activeAction.CompleteAction();
                     break;
                 case ActionState.fail:
                     m_activeAction.CompleteAction();
-                    break;
-                case ActionState.running:
-                    m_activeAction.DisplayUpdate();
-                    break;
+                    break;                
                 default:
                     break;
             }                      

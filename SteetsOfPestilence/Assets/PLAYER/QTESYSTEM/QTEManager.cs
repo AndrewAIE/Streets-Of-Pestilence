@@ -319,10 +319,12 @@ namespace QTESystem
                         break;
                 }
             }
+            QteDisplay.DeactivatePanels();
             for (int i = 0; i < panelActivator.Length; i++)
             {
                 if (panelActivator[i])
-                {                    
+                {
+                    
                     QteDisplay.ActivatePanel(i);
                     switch(i)
                     {

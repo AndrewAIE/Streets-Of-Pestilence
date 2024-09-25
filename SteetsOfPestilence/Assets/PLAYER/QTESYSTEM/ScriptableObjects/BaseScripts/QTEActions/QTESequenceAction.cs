@@ -45,7 +45,7 @@ namespace QTESystem
                     {
                         //activate cue ring
                         m_qteDisplay.ActivateCue(i);
-                        m_qteDisplay.AnimateCue(m_displayLeadInTime, i);
+                        m_qteDisplay.AnimateCue(m_displayLeadInTime, i, InputList[i]);
                         m_startedBools[i] = true;
                         //stop iterating through loops if all bools are activated
                         if (i == m_startedBools.Length - 1)
@@ -69,28 +69,10 @@ namespace QTESystem
             if (m_timer >= m_maxTime && m_state == ActionState.running)
             {
                 m_state = ActionState.success;
-                m_timeUp = true;
-                for (int i = 0; i < InputList.Count; i++)
-                {
-                    m_qteDisplay.VisualCues.RemoveAt(0);
-                }
+                m_timeUp = true;                
             }
             return m_state;
-        }
-
-        public override void DisplayUpdate()
-        {            
-           // //Animate the Rings
-           // for(int i = 0; i < m_actionTimeLimits.Length; i++)
-           // {
-           //     if (m_state == ActionState.running && m_startedBools[i] == true)
-           //     {
-           //         float cueSize = 1 - (m_timer / m_actionTimeLimits[i]);
-           //         m_qteDisplay.SetCueSize(cueSize, i);
-           //     }
-           // }
-           // //Destroy each ring at the appropriate time
-        }
+        }        
 
         public override void CheckInput(InputAction.CallbackContext _context)
         {            

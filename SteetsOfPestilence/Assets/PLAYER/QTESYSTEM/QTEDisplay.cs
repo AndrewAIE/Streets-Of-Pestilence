@@ -426,9 +426,9 @@ namespace QTESystem
             }            
         }
 
-        public void AnimateCue(float _targetTime, int _selector)
+        public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
-            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
+            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta * 0.8f;
             Image image = VisualCues[_selector].GetComponent<Image>();
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
@@ -439,9 +439,9 @@ namespace QTESystem
         {
             Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
             float sizeRange = m_cueStartSize - targetSize.x;
-            Image cue = VisualCues[_selector].GetComponent<Image>();
+            Image image = VisualCues[_selector].GetComponent<Image>();
 
-            cue.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
+            image.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
 
         //Comment

@@ -14,8 +14,7 @@ namespace QTESystem
             {
                 m_timeUp = true;                
                 if (m_state == ActionState.running)
-                {
-                    RemoveTimingRings(InputList.Count);
+                {                                        
                     m_qteDisplay.MissedInput(InputList);
                     m_state = ActionState.fail;
                 }
@@ -29,7 +28,7 @@ namespace QTESystem
             for (int i = 0; i < InputList.Count; i++)
             {
                 m_qteDisplay.ActivateCue(i);
-                m_qteDisplay.AnimateCue(m_timeLimit, i);
+                m_qteDisplay.AnimateCue(m_timeLimit, i, InputList[i]);
             }
         }
 
@@ -54,8 +53,7 @@ namespace QTESystem
                     if (m_readyInputs.Count == 0)
                     {
                         //set icon colour
-                        m_qteDisplay.SetIconColor(InputList, Color.green);
-                        RemoveTimingRings(InputList.Count);
+                        m_qteDisplay.SetIconColor(InputList, Color.green);                        
                         m_state = ActionState.success;
                         return;
                     }                    
@@ -63,27 +61,11 @@ namespace QTESystem
                 if (inputCorrect == false)
                 {
                     m_qteDisplay.MissedInput(InputList);
-                    m_qteDisplay.IncorrectInput(_context.action.name);
-                    RemoveTimingRings(InputList.Count);
+                    m_qteDisplay.IncorrectInput(_context.action.name);                    
                     m_state = ActionState.fail;                    
                 }                                            
             }                       
-        }       
-
-        public override void DisplayUpdate()
-        {
-            //if(m_state == ActionState.running)
-            //{
-            //    for (int i = 0; i < InputList.Count; i++)
-            //    {
-            //        float cueSize = 1 - (m_timer / m_timeLimit);
-            //        if (m_state == ActionState.running)
-            //        {
-            //            m_qteDisplay.SetCueSize(cueSize, i);
-            //        }
-            //    }
-            //}           
-        }
+        }        
 
         protected override void CheckSuccessWindow()
         {
