@@ -15,7 +15,7 @@ namespace QTESystem
         private int m_activeTimeSlot;
         private bool[] m_startedBools;                
         private bool m_allStartBoolsActivated = false;
-        private bool m_finalSuccess = false;
+        private bool m_finalIcon = false;
         [SerializeField]
         private float m_displayLeadInTime, m_timeBetweenInputs;
         
@@ -25,11 +25,11 @@ namespace QTESystem
             m_actionTimeLimits = new float[InputList.Count];
             m_startedBools = new bool[InputList.Count];                      
             for (int i = 0; i < m_actionTimeLimits.Length; i++)
-            {
-                
-                m_actionTimeLimits[i] = m_timeLimit + (i * m_timeBetweenInputs);
+            {                
+                m_actionTimeLimits[i] = m_timeLimit + (i * m_timeBetweenInputs) + m_displayLeadInTime;
                 m_startedBools[i] = false;                
             }
+            //m_actionTimeLimits[0] += m_displayLeadInTime;
             m_maxTime = m_actionTimeLimits[m_actionTimeLimits.Length - 1] + (m_successBuffer / 2);
             m_activeTimeSlot = 0;    
         }
@@ -56,7 +56,17 @@ namespace QTESystem
                     }
                 }
             }
-            if (m_timer >= m_maxTime)
+            if (m_state == ActionState.running)
+            {
+                CheckSuccessWindow();
+                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_finalIcon)
+                {
+                    m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
+                    m_qteDisplay.DeactivateCue(m_activeTimeSlot);                    
+                    m_activeTimeSlot++;
+                }
+            }
+            if (m_timer >= m_maxTime && m_state == ActionState.running)
             {
                 m_state = ActionState.success;
                 m_timeUp = true;
@@ -64,18 +74,7 @@ namespace QTESystem
                 {
                     m_qteDisplay.VisualCues.RemoveAt(0);
                 }
-            }                     
-
-            if (m_state == ActionState.running)
-            {
-                CheckSuccessWindow();
-                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_finalSuccess)
-                {
-                    m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
-                    m_qteDisplay.DeactivateCue(m_activeTimeSlot);                    
-                    m_activeTimeSlot++;
-                }
-            }            
+            }
             return m_state;
         }
 
@@ -107,17 +106,21 @@ namespace QTESystem
                     }
                     else
                     {
-                        m_finalSuccess = true;
+                        m_finalIcon = true;
                     }
                     CorrectInputs++;                                       
                     return;
                 }
-                m_qteDisplay.MissedInput(InputList);
+                m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
                 m_qteDisplay.IncorrectInput(_context.action.name);
                 m_qteDisplay.DeactivateCue(m_activeTimeSlot);
                 if (m_activeTimeSlot < m_startedBools.Length - 1 && m_startedBools[m_activeTimeSlot + 1])
                 {
                     m_activeTimeSlot++;
+                }
+                else
+                {
+                    m_finalIcon = true;
                 }
             }
         }

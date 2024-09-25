@@ -12,10 +12,10 @@ namespace QTESystem
         {
             if(m_timer > m_maxTime)
             {
-                m_timeUp = true;
-                RemoveTimingRings(InputList.Count);
+                m_timeUp = true;                
                 if (m_state == ActionState.running)
                 {
+                    RemoveTimingRings(InputList.Count);
                     m_qteDisplay.MissedInput(InputList);
                     m_state = ActionState.fail;
                 }
@@ -29,7 +29,7 @@ namespace QTESystem
             for (int i = 0; i < InputList.Count; i++)
             {
                 m_qteDisplay.ActivateCue(i);
-                m_qteDisplay.AnimateCue(m_maxTime, 0);
+                m_qteDisplay.AnimateCue(m_timeLimit, i);
             }
         }
 
@@ -46,28 +46,27 @@ namespace QTESystem
                         {
                             m_readyInputs.RemoveAt(i);
                             CorrectInputs++;
-                            m_qteDisplay.DeactivateCue(InputList.Count);
+                            m_qteDisplay.DeactivateCue(i);
                             inputCorrect = true;
                             break;
                         }
                     }
+                    if (m_readyInputs.Count == 0)
+                    {
+                        //set icon colour
+                        m_qteDisplay.SetIconColor(InputList, Color.green);
+                        RemoveTimingRings(InputList.Count);
+                        m_state = ActionState.success;
+                        return;
+                    }                    
                 }
                 if (inputCorrect == false)
                 {
                     m_qteDisplay.MissedInput(InputList);
                     m_qteDisplay.IncorrectInput(_context.action.name);
-                    m_qteDisplay.DeactivateCue(InputList.Count);
-                    m_state = ActionState.fail;
-                    return;
-                }
-                if (m_readyInputs.Count == 0)
-                {
-                    //set icon colour
-                    m_qteDisplay.SetIconColor(InputList, Color.green);
-                    m_qteDisplay.DeactivateCue(InputList.Count);
-                    m_state = ActionState.success;
-                    return;
-                }                              
+                    RemoveTimingRings(InputList.Count);
+                    m_state = ActionState.fail;                    
+                }                                            
             }                       
         }       
 

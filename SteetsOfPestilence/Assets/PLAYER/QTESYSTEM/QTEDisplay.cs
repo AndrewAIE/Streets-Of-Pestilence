@@ -72,12 +72,13 @@ namespace QTESystem
         private QTEUIAnimation m_iconAnimation;
         private QTEAudio m_audio;
 
+        private int m_activeCueIterator;
         #endregion       
 
         private void Awake()
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
-            m_audio = GetComponentInChildren<QTEAudio>();
+            m_audio = GetComponentInChildren<QTEAudio>();            
         }
         //*** Panel ***//
         #region Panel
@@ -422,8 +423,7 @@ namespace QTESystem
                 case QTEInput.WestDirectional:
                     VisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
-            }
-            Debug.Log(_input);
+            }            
         }
 
         public void AnimateCue(float _targetTime, int _selector)
@@ -448,7 +448,7 @@ namespace QTESystem
         public void ActivateCue(int _count)
         {            
             Image image = VisualCues[_count].GetComponent<Image>();
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);                       
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);            
         }
 
         public void DeactivateCue(int _count)
