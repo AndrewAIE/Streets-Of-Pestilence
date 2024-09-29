@@ -92,6 +92,7 @@ namespace QTESystem
             }
         }
         public abstract void CheckInput(InputAction.CallbackContext _context);
+        public abstract void OnRelease(InputAction.CallbackContext _context);
         public List<QTEInput> InputList;
 
         protected bool m_timeUp;
@@ -130,7 +131,7 @@ namespace QTESystem
         {
             RemoveTimingRings();
             m_state = ActionState.complete;
-        }
+        }       
     }
 }
 

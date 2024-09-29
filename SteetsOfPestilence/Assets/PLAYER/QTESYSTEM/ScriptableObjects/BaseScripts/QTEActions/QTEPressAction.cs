@@ -27,7 +27,7 @@ namespace QTESystem
         {            
             for (int i = 0; i < InputList.Count; i++)
             {
-                m_qteDisplay.ActivateCue(i);
+                m_qteDisplay.ActivateCue(i, Color.white);
                 m_qteDisplay.AnimateCue(m_timeLimit, i, InputList[i]);
             }
         }
@@ -65,8 +65,7 @@ namespace QTESystem
                     m_state = ActionState.fail;                    
                 }                                            
             }                       
-        }        
-
+        }
         protected override void CheckSuccessWindow()
         {
             if (m_timer >= m_minTime && m_timer <= m_maxTime)
@@ -75,6 +74,11 @@ namespace QTESystem
                 return;
             }
             m_successWindow = false;
+        }
+
+        public override void OnRelease(InputAction.CallbackContext _context)
+        {
+            
         }
     }
 }

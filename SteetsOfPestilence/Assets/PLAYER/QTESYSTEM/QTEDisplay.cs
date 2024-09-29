@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 namespace QTESystem
 {
@@ -73,6 +75,8 @@ namespace QTESystem
         private QTEAudio m_audio;
 
         private int m_activeCueIterator;
+        [SerializeField]
+        private int m_successTimer;
         #endregion       
 
         private void Awake()
@@ -222,8 +226,9 @@ namespace QTESystem
             m_iconAnimation.IncorrectInput(image.gameObject);
         }
 
-        public void SuccessfulInput(List<QTEInput> _icons)
+        public void SuccessfulInput(List<QTEInput> _icons, Image _ring)
         {
+            
             SetIconColor(_icons, Color.green);
             StartCoroutine("ResetIconColor", _icons);
         }
@@ -433,6 +438,12 @@ namespace QTESystem
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
 
+        public void ShakeCue(int _selector, float _timer)
+        {
+            Image image = VisualCues[_selector].GetComponent<Image>();
+            RectTransform ring = image.rectTransform;
+            m_iconAnimation.HoldShake(ring, _timer);
+        }
 
         //Comment
         public void SetCueSize(float _sizePercentage, int _selector)
@@ -445,16 +456,26 @@ namespace QTESystem
         }
 
         //Comment
-        public void ActivateCue(int _count)
+        public void ActivateCue(int _count, Color _color)
         {            
             Image image = VisualCues[_count].GetComponent<Image>();
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);            
+            image.color = _color;
+            
         }
 
         public void DeactivateCue(int _count)
         {
             Image image = VisualCues[_count].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+        }
+
+        internal void AnimateMashCue(float _timeLimit, int _selector, QTEInput _input)
+        {
+            Vector2 ringSize = GetIcon(_input).rectTransform.sizeDelta;
+            Image image = VisualCues[_selector].GetComponent<Image>();
+            image.rectTransform.sizeDelta = ringSize;
+            m_iconAnimation.FlashRing(image, _timeLimit);
+
         }
         #endregion
 

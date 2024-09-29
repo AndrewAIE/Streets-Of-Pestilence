@@ -444,7 +444,8 @@ namespace QTESystem
             }
             if(_context.canceled)
             {
-                QteDisplay.InputReleased(_context.action.name);
+                 QteDisplay.InputReleased(_context.action.name);
+                ActiveAction?.OnRelease(_context);
             }
                     
         }

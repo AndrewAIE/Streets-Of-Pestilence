@@ -13,7 +13,7 @@ namespace QTESystem
     {        
         private float[] m_actionTimeLimits;
         private int m_activeTimeSlot;
-        private bool[] m_startedBools;                
+        private bool[] m_activeBools;                
         private bool m_allStartBoolsActivated = false;
         private bool m_finalIcon = false;
         [SerializeField]
@@ -23,11 +23,11 @@ namespace QTESystem
         {
             //create timers and bools for each input of the sequence
             m_actionTimeLimits = new float[InputList.Count];
-            m_startedBools = new bool[InputList.Count];                      
+            m_activeBools = new bool[InputList.Count];                      
             for (int i = 0; i < m_actionTimeLimits.Length; i++)
             {                
                 m_actionTimeLimits[i] = m_timeLimit + (i * m_timeBetweenInputs) + m_displayLeadInTime;
-                m_startedBools[i] = false;                
+                m_activeBools[i] = false;                
             }
             //m_actionTimeLimits[0] += m_displayLeadInTime;
             m_maxTime = m_actionTimeLimits[m_actionTimeLimits.Length - 1] + (m_successBuffer / 2);
@@ -39,16 +39,16 @@ namespace QTESystem
             if(!m_allStartBoolsActivated)
             {
                 //Turn on bools as it reaches the appropriate time
-                for (int i = 0; i < m_startedBools.Length; i++)
+                for (int i = 0; i < m_activeBools.Length; i++)
                 {                    
-                    if (m_startedBools[i] == false && m_timer >= m_actionTimeLimits[i] - m_displayLeadInTime)
+                    if (m_activeBools[i] == false && m_timer >= m_actionTimeLimits[i] - m_displayLeadInTime)
                     {
                         //activate cue ring
-                        m_qteDisplay.ActivateCue(i);
+                        m_qteDisplay.ActivateCue(i, Color.white);
                         m_qteDisplay.AnimateCue(m_displayLeadInTime, i, InputList[i]);
-                        m_startedBools[i] = true;
+                        m_activeBools[i] = true;
                         //stop iterating through loops if all bools are activated
-                        if (i == m_startedBools.Length - 1)
+                        if (i == m_activeBools.Length - 1)
                         {
                             m_allStartBoolsActivated = true;
                             break;
@@ -58,6 +58,11 @@ namespace QTESystem
             }
             if (m_state == ActionState.running)
             {
+                if (m_timer >= m_maxTime)
+                {
+                    m_state = ActionState.success;
+                    m_timeUp = true;
+                }
                 CheckSuccessWindow();
                 if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_finalIcon)
                 {
@@ -66,11 +71,7 @@ namespace QTESystem
                     m_activeTimeSlot++;
                 }
             }
-            if (m_timer >= m_maxTime && m_state == ActionState.running)
-            {
-                m_state = ActionState.success;
-                m_timeUp = true;                
-            }
+            
             return m_state;
         }        
 
@@ -82,7 +83,7 @@ namespace QTESystem
                 {
                     m_qteDisplay.SuccessfulInput(InputList[m_activeTimeSlot]);
                     m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                    if(m_activeTimeSlot < m_startedBools.Length - 1)
+                    if(m_activeTimeSlot < m_activeBools.Length - 1)
                     {
                         m_activeTimeSlot++;
                     }
@@ -90,13 +91,13 @@ namespace QTESystem
                     {
                         m_finalIcon = true;
                     }
-                    CorrectInputs++;                                       
+                    CorrectInputs++;
                     return;
-                }
+                }                
                 m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
                 m_qteDisplay.IncorrectInput(_context.action.name);
-                m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                if (m_activeTimeSlot < m_startedBools.Length - 1 && m_startedBools[m_activeTimeSlot + 1])
+                m_qteDisplay.DeactivateCue(m_activeTimeSlot);                
+                if (m_activeTimeSlot < m_activeBools.Length - 1 && m_activeBools[m_activeTimeSlot])
                 {
                     m_activeTimeSlot++;
                 }
@@ -115,6 +116,11 @@ namespace QTESystem
                 return;
             }
             m_successWindow = false;
+        }
+
+        public override void OnRelease(InputAction.CallbackContext _context)
+        {
+            
         }
     }
 }
