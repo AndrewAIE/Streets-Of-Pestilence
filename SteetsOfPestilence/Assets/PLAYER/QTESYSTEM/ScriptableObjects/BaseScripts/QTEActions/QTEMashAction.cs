@@ -15,13 +15,17 @@ public class QTEMashAction : QTEAction
     protected override ActionState onUpdate()
     {
         if(m_timer >= m_timeLimit + (m_timePerPress * m_mashTarget) && m_state == ActionState.running)
-        {
-            m_timeUp = true;
+        {            
             if(m_mashCount < m_mashTarget)
             {
                 return m_state = ActionState.fail;
             }
         }
+        if(m_timer >= m_maxTime)
+        {
+            m_timeUp = true;
+        }
+
         return m_state;
     }
     public override void CheckInput(InputAction.CallbackContext _context)
@@ -35,6 +39,11 @@ public class QTEMashAction : QTEAction
                 {
                     m_mashCount++;
                     inputCorrect = true;
+                    m_qteDisplay.SetIconColor(InputList, Color.green);
+                    if(m_mashCount >= m_mashTarget)
+                    {
+                        m_state = ActionState.success;
+                    }
                     break;
                 }
             }  
@@ -59,6 +68,7 @@ public class QTEMashAction : QTEAction
 
     protected override void onStart()
     {
+        m_maxTime = m_timeLimit * 2 + (m_timePerPress * m_mashTarget);
         for (int i = 0; i < InputList.Count; i++)
         {
             m_qteDisplay.ActivateCue(i, Color.white);

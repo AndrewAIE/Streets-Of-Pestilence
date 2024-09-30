@@ -120,6 +120,7 @@ namespace QTESystem
 
             if (m_activeAction.TimeUp())
             {                
+                m_activeAction.RemoveTimingRings();
                 m_qteManager.CurrentState = m_qteManager.BetweenActions;
                 ExitState();
             }            

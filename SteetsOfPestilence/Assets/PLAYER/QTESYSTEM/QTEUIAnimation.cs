@@ -1,5 +1,6 @@
 using UnityEngine;
 using Pixelplacement;
+using Pixelplacement.TweenSystem;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -10,7 +11,7 @@ public class QTEUIAnimation : MonoBehaviour
     [Range(0,1)]
     float m_pressValue, m_successVibrateStrength, m_successVibrateLength, 
         m_incorrectVibrateStrength, m_incorrectVibrateLength; 
-
+    private TweenBase[] m_shakeTweens = new TweenBase[2];
     public void SuccessfulInput(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
         Tween.Size(_ring, _targetSize, _timer, 0);
@@ -58,9 +59,28 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void HoldShake(RectTransform _ring, float _timer)
     {
-        Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
+        if (m_shakeTweens[0] == null)
+        {
+            m_shakeTweens[0] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
+        }
+        else
+        {
+            m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
+        }
+        
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
         Invoke("StopControllerVibrate", _timer);
+    }
+
+    public void CancelShake()
+    {
+        foreach(TweenBase _tween in m_shakeTweens)
+        {
+            if(_tween != null)
+            {
+                _tween.Cancel();
+            }            
+        }
     }
 
     public void FlashRing(Image _ring, float _timer)

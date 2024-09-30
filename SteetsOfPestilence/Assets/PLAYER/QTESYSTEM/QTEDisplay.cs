@@ -433,7 +433,7 @@ namespace QTESystem
 
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
-            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta * 0.8f;
+            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;
             Image image = VisualCues[_selector].GetComponent<Image>();
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
@@ -443,6 +443,11 @@ namespace QTESystem
             Image image = VisualCues[_selector].GetComponent<Image>();
             RectTransform ring = image.rectTransform;
             m_iconAnimation.HoldShake(ring, _timer);
+        }
+
+        public void StopShake()
+        {
+            m_iconAnimation.CancelShake();
         }
 
         //Comment
@@ -469,7 +474,7 @@ namespace QTESystem
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
 
-        internal void AnimateMashCue(float _timeLimit, int _selector, QTEInput _input)
+        public void AnimateMashCue(float _timeLimit, int _selector, QTEInput _input)
         {
             Vector2 ringSize = GetIcon(_input).rectTransform.sizeDelta;
             Image image = VisualCues[_selector].GetComponent<Image>();
@@ -477,6 +482,8 @@ namespace QTESystem
             m_iconAnimation.FlashRing(image, _timeLimit);
 
         }
+
+        
         #endregion
 
     }

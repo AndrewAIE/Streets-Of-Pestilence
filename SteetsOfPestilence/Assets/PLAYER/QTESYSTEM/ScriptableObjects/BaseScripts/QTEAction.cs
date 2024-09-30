@@ -40,7 +40,6 @@ namespace QTESystem
                 Destroy(Holder);
             }            
         }
-
         public void SetTargetInputs(QTEInputs _qteInputControl)
         {
             //assign values to check inputs against based on the public InputList 
@@ -129,7 +128,7 @@ namespace QTESystem
 
         public void CompleteAction()
         {
-            RemoveTimingRings();
+            Debug.Log("setting State = Complete");
             m_state = ActionState.complete;
         }       
     }

@@ -22,23 +22,36 @@ public class QTEHoldAction : QTEAction
             m_qteDisplay.AnimateCue(m_timeLimit, i, InputList[i]);
         }
     }
-
     protected override ActionState onUpdate()
     {        
-        if(m_timer >= m_totalTime)
+        if(m_timer >= m_totalTime && m_state == ActionState.running)
         {
             m_timeUp = true;
-            if(m_held == true)
+            if (m_held == true)
             {
+                Debug.Log("success");
+                m_held = false;
+                m_qteDisplay.StopShake();
                 CorrectInputs += InputList.Count;
-                m_state = ActionState.success;
-                m_qteDisplay.SetIconColor(InputList, Color.red);
-            }           
+                Debug.Log("about to deactivate cues");
+                for (int i = 0; i < InputList.Count; i++)
+                {
+                    m_qteDisplay.DeactivateCue(i);
+                }
+                Debug.Log("About to return state = success");
+                return m_state = ActionState.success;
+            }            
+            m_state = ActionState.fail;
+            m_qteDisplay.MissedInput(InputList);                       
         }
         return m_state;
     }
     public override void CheckInput(InputAction.CallbackContext _context)
-    {
+    {        
+        if(m_state != ActionState.running)
+        {
+            return;
+        }
         CheckSuccessWindow();
         if (!m_successWindow) 
         {
@@ -48,13 +61,12 @@ public class QTEHoldAction : QTEAction
             return;
         } 
         bool inputCorrect = false;
-        if (m_state == ActionState.running && _context.action.name != "Directional")
+        if (_context.action.name != "Directional")
         {
             for (int i = 0; i < m_readyInputs.Count; i++)
             {
                 if (_context.action == m_readyInputs[i])
-                {
-                    Debug.Log("YAS");
+                {                    
                     m_readyInputs.RemoveAt(i);
                     inputCorrect = true;
                     break;
@@ -91,9 +103,8 @@ public class QTEHoldAction : QTEAction
     }
 
     public override void OnRelease(InputAction.CallbackContext _context)
-    {        
-        //this is peak code dont worry about it
-        if (!m_held)
+    {       
+        if (!m_held || m_state != ActionState.running)
         {
             return;
         }
@@ -101,16 +112,17 @@ public class QTEHoldAction : QTEAction
         {
             if (_context.action == m_inputsToBeHeld[i])
             {
+                m_qteDisplay.StopShake();
+                m_state = ActionState.fail;
+                m_held = false;
                 for (int j = 0; j < m_inputsToBeHeld.Count; j++)
                 {
                     m_qteDisplay.DeactivateCue(j);
-                    m_qteDisplay.MissedInput(InputList);
+                    m_qteDisplay.MissedInput(InputList);                    
                 }
-                m_qteDisplay.SetIconColor(InputList, Color.white);
-                m_state = ActionState.fail;
-                m_held = false;
+                m_qteDisplay.SetIconColor(InputList, Color.white);                             
                 break;
             }
-        }
+        }        
     }
 }
