@@ -87,13 +87,13 @@ namespace QTESystem
         //*** Panel ***//
         #region Panel
 
-        //Comment
+        
         public void ActivatePanel(int _indicator)
         {
             m_iconPanels[_indicator].SetActive(true);
         }
 
-        //Comment
+        
         public void DeactivatePanels()
         {
             foreach (GameObject panel in m_iconPanels)
@@ -369,14 +369,12 @@ namespace QTESystem
         //*** Poise Bar ***//
         #region Poise Bar      
 
-        //Activate Poise Bar
         public void ActivatePoiseBar()
         {
             m_barObject.SetActive(true);
             //m_poiseBar = m_barObject.GetComponent<PoiseBarController>();
         }
 
-        //Deactivate Poise Bar
         public void DeactivatePoiseBar()
         {            
             m_barObject.SetActive(false);
@@ -479,10 +477,13 @@ namespace QTESystem
             Vector2 ringSize = GetIcon(_input).rectTransform.sizeDelta;
             Image image = VisualCues[_selector].GetComponent<Image>();
             image.rectTransform.sizeDelta = ringSize;
-            m_iconAnimation.FlashRing(image, _timeLimit);
-
+            m_iconAnimation.FlashRing(image);
         }
 
+        public void StopFlash()
+        {
+            m_iconAnimation.CancelFlash();
+        }
         
         #endregion
 

@@ -12,6 +12,7 @@ public class QTEUIAnimation : MonoBehaviour
     float m_pressValue, m_successVibrateStrength, m_successVibrateLength, 
         m_incorrectVibrateStrength, m_incorrectVibrateLength; 
     private TweenBase[] m_shakeTweens = new TweenBase[2];
+    private TweenBase[] m_flashTweens = new TweenBase[2];
     public void SuccessfulInput(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
         Tween.Size(_ring, _targetSize, _timer, 0);
@@ -49,6 +50,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void StopControllerVibrate()
     {
+        Debug.Log("Stop vibrating please");
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
@@ -62,30 +64,60 @@ public class QTEUIAnimation : MonoBehaviour
         if (m_shakeTweens[0] == null)
         {
             m_shakeTweens[0] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
+            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
+            //Invoke("StopControllerVibrate", _timer);
         }
         else
         {
             m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
         }
         
-        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
-        Invoke("StopControllerVibrate", _timer);
+        
     }
 
     public void CancelShake()
     {
-        foreach(TweenBase _tween in m_shakeTweens)
+        for(int i = 0; i < m_shakeTweens.Length; i++) 
         {
-            if(_tween != null)
+            if (m_shakeTweens[i] == null)
             {
-                _tween.Cancel();
-            }            
-        }
+                continue;
+            }
+            if (m_shakeTweens[i].Status == Tween.TweenStatus.Running)
+            {
+                StopControllerVibrate();
+                m_shakeTweens[i].Cancel();
+                m_shakeTweens[i] = null;
+            }
+        }        
     }
 
-    public void FlashRing(Image _ring, float _timer)
+    public void FlashRing(Image _ring)
     {
-        Tween.Color(_ring, Color.clear, 0.1f, 0, null, Tween.LoopType.PingPong);
+        if (m_flashTweens[0] == null)
+        {
+            m_flashTweens[0] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g , _ring.color.b,0), 0.25f, 0, null, Tween.LoopType.Loop);
+        }
+        else
+        {
+            m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop);
+        }        
+    }
+
+    public void CancelFlash()
+    {
+        for (int i = 0; i < m_flashTweens.Length; i++)
+        {
+            if (m_flashTweens[i] == null)
+            {
+                continue;
+            }
+            if (m_flashTweens[i].Status == Tween.TweenStatus.Running)
+            {
+                m_flashTweens[i].Cancel();
+                m_flashTweens[i] = null;
+            }
+        }
     }
     
 }

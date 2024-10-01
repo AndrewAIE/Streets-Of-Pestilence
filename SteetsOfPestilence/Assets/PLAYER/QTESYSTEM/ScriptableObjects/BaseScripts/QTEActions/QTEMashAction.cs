@@ -14,13 +14,20 @@ public class QTEMashAction : QTEAction
     private float m_timePerPress;
     protected override ActionState onUpdate()
     {
+        //if the timer has reached the time limit without enough mash inputs, return state fail
         if(m_timer >= m_timeLimit + (m_timePerPress * m_mashTarget) && m_state == ActionState.running)
         {            
             if(m_mashCount < m_mashTarget)
             {
+                m_qteDisplay.StopFlash();
+                for (int j = 0; j < InputList.Count; j++)
+                {
+                    m_qteDisplay.DeactivateCue(j);
+                }
                 return m_state = ActionState.fail;
-            }
+            }            
         }
+        
         if(m_timer >= m_maxTime)
         {
             m_timeUp = true;
@@ -30,8 +37,12 @@ public class QTEMashAction : QTEAction
     }
     public override void CheckInput(InputAction.CallbackContext _context)
     {
+        //check if action is currently running and set input correct to false
+        if (m_state != ActionState.running)
+            return;
         bool inputCorrect = false;
-        if (m_state == ActionState.running && _context.action.name != "Directional")
+        //if the correct button is pressed, increase mash count, and set input correct to true
+        if (_context.action.name != "Directional")
         {
             for (int i = 0; i < m_readyInputs.Count; i++)
             {
@@ -40,15 +51,28 @@ public class QTEMashAction : QTEAction
                     m_mashCount++;
                     inputCorrect = true;
                     m_qteDisplay.SetIconColor(InputList, Color.green);
+                    //if the mash target has been reached, set state to success
                     if(m_mashCount >= m_mashTarget)
                     {
+                        CorrectInputs += InputList.Count;
+                        m_qteDisplay.StopFlash();                        
                         m_state = ActionState.success;
+                        for(int j = 0; j < InputList.Count; j++)
+                        {
+                            m_qteDisplay.DeactivateCue(j);
+                        }
                     }
                     break;
                 }
-            }  
+            } 
+            //if the incorrect button is pressed, fail the action
             if (inputCorrect == false)
             {
+                for (int j = 0; j < InputList.Count; j++)
+                {
+                    m_qteDisplay.DeactivateCue(j);
+                }
+                m_qteDisplay.StopFlash();
                 m_qteDisplay.MissedInput(InputList);
                 m_qteDisplay.IncorrectInput(_context.action.name);
                 m_state = ActionState.fail;
@@ -60,23 +84,19 @@ public class QTEMashAction : QTEAction
     {
 
     }
-
     protected override void CheckSuccessWindow()
     {
         
     }
-
     protected override void onStart()
     {
-        m_maxTime = m_timeLimit * 2 + (m_timePerPress * m_mashTarget);
+        m_maxTime = (m_timeLimit * 2) + (m_timePerPress * m_mashTarget);
         for (int i = 0; i < InputList.Count; i++)
         {
             m_qteDisplay.ActivateCue(i, Color.white);
             m_qteDisplay.AnimateMashCue(m_timeLimit, i, InputList[i]);
         }
-    }
-
-    
+    }    
 }
 
     
