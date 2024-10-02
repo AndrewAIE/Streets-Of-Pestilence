@@ -18,17 +18,12 @@ public class QTEHoldAction : QTEAction
         for(int i = 0; i < m_readyInputs.Count; i++)
         {
             m_inputsToBeHeld.Add(m_readyInputs[i]);
-            m_qteDisplay.ActivateCue(i, Color.red);
+            m_qteDisplay.ActivateCue(i, Color.red);            
             m_qteDisplay.AnimateCue(m_timeLimit, i, InputList[i]);
         }
     }
     protected override ActionState onUpdate()
-    {   
-        if(m_state == ActionState.running && m_timer >= m_maxTime)
-        {
-            m_state = ActionState.fail;
-            m_qteDisplay.MissedInput(InputList);
-        }
+    {       
         if(m_timer >= m_totalTime)
         {
             m_timeUp = true;
@@ -36,13 +31,15 @@ public class QTEHoldAction : QTEAction
             {                
                 m_held = false;
                 m_qteDisplay.StopShake();
-                CorrectInputs += InputList.Count;                
+                CorrectInputs += InputList.Count;
                 for (int i = 0; i < InputList.Count; i++)
                 {
-                    m_qteDisplay.DeactivateCue(i);
-                }                
+                    m_qteDisplay.SuccessfulInput(InputList[i], i);
+                }
                 return m_state = ActionState.success;
-            }                               
+            }
+            m_state = ActionState.fail;
+            m_qteDisplay.MissedInput(InputList);
         }
         return m_state;
     }
@@ -51,22 +48,22 @@ public class QTEHoldAction : QTEAction
         if(m_state != ActionState.running)
         {
             return;
-        }
-        CheckSuccessWindow();
-        if (!m_successWindow) 
-        {
-            m_qteDisplay.MissedInput(InputList);
-            m_qteDisplay.IncorrectInput(_context.action.name);
-            m_state = ActionState.fail;
-            for (int i = 0; i < m_inputsToBeHeld.Count; i++)
-            {
-                m_qteDisplay.DeactivateCue(i);
-            }
-            return;
-        } 
+        }       
+        
         bool inputCorrect = false;
         if (_context.action.name != "Directional")
         {
+            if (!CheckSuccessWindow())
+            {
+                m_qteDisplay.MissedInput(InputList);
+                m_qteDisplay.IncorrectInput(_context.action.name);
+                m_state = ActionState.fail;
+                for (int i = 0; i < m_inputsToBeHeld.Count; i++)
+                {
+                    m_qteDisplay.DeactivateCue(i);
+                }
+                return;
+            }
             for (int i = 0; i < m_readyInputs.Count; i++)
             {
                 if (_context.action == m_readyInputs[i])
@@ -100,14 +97,13 @@ public class QTEHoldAction : QTEAction
         }        
     }
 
-    protected override void CheckSuccessWindow()
+    protected override bool CheckSuccessWindow()
     {
         if (m_timer >= m_minTime && m_timer <= m_maxTime)
         {
-            m_successWindow = true;
-            return;
+            return true;
         }
-        m_successWindow = false;
+        return false;
     }
 
     public override void OnRelease(InputAction.CallbackContext _context)
@@ -115,8 +111,7 @@ public class QTEHoldAction : QTEAction
         if (!m_held)
         {
             return;
-        }
-        Debug.Log("yeehaw");
+        }        
         m_qteDisplay.StopShake();
         for (int i = 0; i < m_inputsToBeHeld.Count; i++)
         {
@@ -124,7 +119,6 @@ public class QTEHoldAction : QTEAction
             {
                 for (int j = 0; j < m_inputsToBeHeld.Count; j++)
                 {
-                    Debug.Log("OFF " + j);
                     m_qteDisplay.DeactivateCue(j);
                 }
                 m_state = ActionState.fail;

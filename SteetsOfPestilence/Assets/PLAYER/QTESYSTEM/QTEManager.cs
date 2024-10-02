@@ -377,19 +377,19 @@ namespace QTESystem
             switch(successRate)
             {
                 case 0:
-                    poiseChange = -2;                    
+                    poiseChange = -4;                    
                     break;
                 case < 0.5f:
-                    poiseChange = -1;                    
+                    poiseChange = -2;                    
                     break;
                 case 0.5f:
                     poiseChange = 0;                    
                     break;
                 case 1:
-                    poiseChange = 2;                    
+                    poiseChange = 4;                    
                     break;
                 case > 0.5f:
-                    poiseChange = 1;                   
+                    poiseChange = 2;                   
                     break;
                 default:
                     poiseChange = 0;                    
@@ -450,11 +450,22 @@ namespace QTESystem
                     
         }
 
-        internal void ResetStreamData()
+        public void ResetStreamData()
         {
             StreamPosition = 0;
             Timer = 0;            
-            ActiveDisplayList.Clear();            
+            ActiveDisplayList.Clear();
+            Invoke("DeleteCues", 0.35f);
+        }
+
+        private void DeleteCues()
+        {
+            for (int i = 0; i < QteDisplay.FinishingCues.Count; i++)
+            {
+                GameObject holder = QteDisplay.FinishingCues[0];
+                QteDisplay.FinishingCues.Remove(holder);
+                Destroy(holder);
+            }
         }
         #endregion
 

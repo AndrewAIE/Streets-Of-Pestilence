@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b95293c9f79f6047b4b658dba2354e4, type: 3}
-  m_Name: Enemy02_Stream_01
+  m_Name: TESTPRESSSTREAM
   m_EditorClassIdentifier: 
   Actions:
-  - {fileID: 11400000, guid: 457f0fbfafc2e144a98d88c923bb235d, type: 2}
-  - {fileID: 11400000, guid: d217f16b691688443aef6f73632d73cb, type: 2}
-  ActionTimer: 0.6
-  SuccessBuffer: 0.2
-  BetweenActionTimer: 0.3
-  BeginningOfStreamPause: 1
-  EndOfStreamPause: 1
+  - {fileID: 11400000, guid: 8c57d3b150680694db63e688b860f3e6, type: 2}
+  - {fileID: 11400000, guid: ab22251e14420334ca15dcbd2a0a5694, type: 2}
+  - {fileID: 11400000, guid: 5eb9fcd74dcb2f448af17f9af00e543c, type: 2}
+  ActionTimer: 0.5
+  SuccessBuffer: 0.3
+  BetweenActionTimer: 0.2
+  BeginningOfStreamPause: 0.5
+  EndOfStreamPause: 0.5

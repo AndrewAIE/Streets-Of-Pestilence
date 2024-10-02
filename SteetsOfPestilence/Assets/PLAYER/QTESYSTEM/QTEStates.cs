@@ -184,7 +184,7 @@ namespace QTESystem
             m_qteManager.ResetStreamData();
             m_qteManager.SelectStream();
             //set poise bar
-            m_qteManager.PoiseValueCheck();
+            m_qteManager.PoiseValueCheck();            
         }
 
         public override void StateUpdate(float _timer)

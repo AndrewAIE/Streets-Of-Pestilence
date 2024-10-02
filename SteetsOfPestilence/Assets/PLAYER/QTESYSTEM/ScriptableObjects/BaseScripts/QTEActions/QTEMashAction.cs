@@ -20,9 +20,11 @@ public class QTEMashAction : QTEAction
             if(m_mashCount < m_mashTarget)
             {
                 m_qteDisplay.StopFlash();
-                for (int j = 0; j < InputList.Count; j++)
+                
+                for (int i = 0; i < InputList.Count; i++)
                 {
-                    m_qteDisplay.DeactivateCue(j);
+                    m_qteDisplay.MissedInput(InputList[i]);
+                    m_qteDisplay.DeactivateCue(i);
                 }
                 return m_state = ActionState.fail;
             }            
@@ -57,9 +59,9 @@ public class QTEMashAction : QTEAction
                         CorrectInputs += InputList.Count;
                         m_qteDisplay.StopFlash();                        
                         m_state = ActionState.success;
-                        for(int j = 0; j < InputList.Count; j++)
+                        for (int j = 0; j < InputList.Count; j++)
                         {
-                            m_qteDisplay.DeactivateCue(j);
+                            m_qteDisplay.SuccessfulInput(InputList[j], j);
                         }
                     }
                     break;
@@ -68,13 +70,13 @@ public class QTEMashAction : QTEAction
             //if the incorrect button is pressed, fail the action
             if (inputCorrect == false)
             {
+                m_qteDisplay.StopFlash();
                 for (int j = 0; j < InputList.Count; j++)
                 {
                     m_qteDisplay.DeactivateCue(j);
-                }
-                m_qteDisplay.StopFlash();
+                }                
                 m_qteDisplay.MissedInput(InputList);
-                m_qteDisplay.IncorrectInput(_context.action.name);
+                m_qteDisplay.IncorrectInput(_context.action.name);                
                 m_state = ActionState.fail;
             }
         }
@@ -84,16 +86,15 @@ public class QTEMashAction : QTEAction
     {
 
     }
-    protected override void CheckSuccessWindow()
+    protected override bool CheckSuccessWindow()
     {
-        
+        return false;
     }
     protected override void onStart()
     {
         m_maxTime = (m_timeLimit * 2) + (m_timePerPress * m_mashTarget);
         for (int i = 0; i < InputList.Count; i++)
         {
-            m_qteDisplay.ActivateCue(i, Color.white);
             m_qteDisplay.AnimateMashCue(m_timeLimit, i, InputList[i]);
         }
     }    

@@ -24,20 +24,17 @@ namespace QTESystem
         protected QTEDisplay m_qteDisplay;
         [HideInInspector]
         public int CorrectInputs = 0;
-        protected List<InputAction> m_readyInputs = new List<InputAction>();
-        protected bool m_successWindow = false;
+        protected List<InputAction> m_readyInputs = new List<InputAction>();       
 
         protected abstract ActionState onUpdate();
         protected abstract void onStart();
-        protected abstract void CheckSuccessWindow();
+        protected abstract bool CheckSuccessWindow();
         
         public void RemoveTimingRings()
         {
             for (int i = 0; i < InputList.Count; i++)
-            {
-                GameObject Holder = m_qteDisplay.VisualCues[0];
-                m_qteDisplay.VisualCues.RemoveAt(0);
-                Destroy(Holder);
+            {                
+                m_qteDisplay.ActiveVisualCues.RemoveAt(0);                
             }            
         }
         public void SetTargetInputs(QTEInputs _qteInputControl)
@@ -128,7 +125,6 @@ namespace QTESystem
 
         public void CompleteAction()
         {
-            Debug.Log("setting State = Complete");
             m_state = ActionState.complete;
         }       
     }

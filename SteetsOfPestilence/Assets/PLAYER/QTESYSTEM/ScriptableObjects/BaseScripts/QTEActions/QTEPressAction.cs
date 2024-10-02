@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,16 +11,19 @@ namespace QTESystem
 
         protected override ActionState onUpdate()
         {
-            if(m_timer > m_maxTime)
+            if(m_timer >= m_maxTime)
             {
                 m_timeUp = true;                
                 if (m_state == ActionState.running)
                 {                                        
                     m_qteDisplay.MissedInput(InputList);
+                    for (int j = 0; j < InputList.Count; j++)
+                    {
+                        m_qteDisplay.DeactivateCue(j);
+                    }
                     m_state = ActionState.fail;
                 }
-            }
-            CheckSuccessWindow();
+            }            
             return m_state;            
         }
 
@@ -37,15 +41,14 @@ namespace QTESystem
             bool inputCorrect = false;            
             if (m_state == ActionState.running && _context.action.name != "Directional")
             {
-                if (m_successWindow)
+                if (CheckSuccessWindow())
                 {
                     for (int i = 0; i < m_readyInputs.Count; i++)
                     {
                         if (_context.action == m_readyInputs[i])
                         {
                             m_readyInputs.RemoveAt(i);
-                            CorrectInputs++;
-                            m_qteDisplay.DeactivateCue(i);
+                            CorrectInputs++;                            
                             inputCorrect = true;
                             break;
                         }
@@ -53,7 +56,11 @@ namespace QTESystem
                     if (m_readyInputs.Count == 0)
                     {
                         //set icon colour
-                        m_qteDisplay.SetIconColor(InputList, Color.green);                        
+                        m_qteDisplay.SetIconColor(InputList, Color.green);
+                        for(int i = 0; i < InputList.Count; i++)
+                        {
+                            m_qteDisplay.SuccessfulInput(InputList[i], i);
+                        }                        
                         m_state = ActionState.success;
                         return;
                     }                    
@@ -62,18 +69,21 @@ namespace QTESystem
                 {
                     m_qteDisplay.MissedInput(InputList);
                     m_qteDisplay.IncorrectInput(_context.action.name);                    
-                    m_state = ActionState.fail;                    
+                    m_state = ActionState.fail;
+                    for (int i = 0; i < InputList.Count; i++)
+                    {
+                        m_qteDisplay.DeactivateCue(i);
+                    }
                 }                                            
             }                       
         }
-        protected override void CheckSuccessWindow()
+        protected override bool CheckSuccessWindow()
         {
             if (m_timer >= m_minTime && m_timer <= m_maxTime)
             {
-                m_successWindow = true;
-                return;
+                return true;
             }
-            m_successWindow = false;
+            return false;
         }
 
         public override void OnRelease(InputAction.CallbackContext _context)

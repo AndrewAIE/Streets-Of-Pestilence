@@ -17,7 +17,8 @@ public class QTEUIAnimation : MonoBehaviour
     {
         Tween.Size(_ring, _targetSize, _timer, 0);
         Image image = _ring.gameObject.GetComponent<Image>();
-        Color color = new Color(image.color.r, image.color.g, image.color.b, 0);
+        image.color = Color.green;
+        Color color = new Color(0,1,0,0);
         Tween.Color(image, color, _timer, 0);
         Gamepad.current.SetMotorSpeeds(m_successVibrateStrength / 3, m_successVibrateStrength);
         Invoke("StopControllerVibrate", m_successVibrateLength);
@@ -49,8 +50,7 @@ public class QTEUIAnimation : MonoBehaviour
     }
 
     public void StopControllerVibrate()
-    {
-        Debug.Log("Stop vibrating please");
+    {        
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
@@ -65,11 +65,13 @@ public class QTEUIAnimation : MonoBehaviour
         {
             m_shakeTweens[0] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
             Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
-            //Invoke("StopControllerVibrate", _timer);
+            Invoke("StopControllerVibrate", _timer);
         }
         else
         {
             m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
+            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
+            Invoke("StopControllerVibrate", _timer);
         }
         
         
@@ -96,12 +98,20 @@ public class QTEUIAnimation : MonoBehaviour
     {
         if (m_flashTweens[0] == null)
         {
+            _ring.color = Color.white;
             m_flashTweens[0] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g , _ring.color.b,0), 0.25f, 0, null, Tween.LoopType.Loop);
         }
         else
         {
-            m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop);
+            StartCoroutine(FlashRingTwo(_ring));
         }        
+    }
+
+    private IEnumerator FlashRingTwo(Image _ring)
+    {
+        yield return new WaitForSeconds(0.125f);
+        _ring.color = Color.white;
+        m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop);
     }
 
     public void CancelFlash()

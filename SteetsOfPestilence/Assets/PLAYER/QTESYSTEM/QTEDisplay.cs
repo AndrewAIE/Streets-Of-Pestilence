@@ -66,17 +66,14 @@ namespace QTESystem
         [SerializeField]
         int m_cueStartSize;
         [HideInInspector]
-        public List<GameObject> VisualCues;
+        public List<GameObject> ActiveVisualCues, FinishingCues;
+        
 
         [HideInInspector]
         public PoiseBarController poiseBarController;
 
         private QTEUIAnimation m_iconAnimation;
-        private QTEAudio m_audio;
-
-        private int m_activeCueIterator;
-        [SerializeField]
-        private int m_successTimer;
+        private QTEAudio m_audio;        
         #endregion       
 
         private void Awake()
@@ -233,10 +230,14 @@ namespace QTESystem
             StartCoroutine("ResetIconColor", _icons);
         }
 
-        public void SuccessfulInput(QTEInput _icon)
-        {            
+        public void SuccessfulInput(QTEInput _icon, int _selector)
+        {
+            RectTransform rect = ActiveVisualCues[_selector].GetComponent<Image>().rectTransform;
+            Vector2 size = new Vector2(rect.sizeDelta.x * 3, rect.sizeDelta.y * 3); 
+            m_iconAnimation.SuccessfulInput(rect, size, 0.15f);
             SetIconColor(_icon, Color.green);
             StartCoroutine("ResetIconColor", _icon);
+            FinishingCues.Add(ActiveVisualCues[_selector]);
         }
 
 
@@ -391,54 +392,55 @@ namespace QTESystem
             switch(_input)
             {
                 case QTEInput.NorthFace:
-                    VisualCues.Add(Instantiate(m_faceButtonCue, m_northButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_northButtonIcon.transform));
                     break;
                 case QTEInput.EastFace:
-                    VisualCues.Add(Instantiate(m_faceButtonCue, m_eastButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_eastButtonIcon.transform));
                     break;
                 case QTEInput.SouthFace:
-                    VisualCues.Add(Instantiate(m_faceButtonCue, m_southButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_southButtonIcon.transform));
                     break;
                 case QTEInput.WestFace:
-                    VisualCues.Add(Instantiate(m_faceButtonCue, m_westButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_westButtonIcon.transform));
                     break;
                 case QTEInput.LeftShoulder:
-                    VisualCues.Add(Instantiate(m_lShoulderButtonCue, m_lShoulderButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_lShoulderButtonCue, m_lShoulderButtonIcon.transform));
                     break;
                 case QTEInput.RightShoulder:
-                    VisualCues.Add(Instantiate(m_rShoulderButtonCue, m_rShoulderButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_rShoulderButtonCue, m_rShoulderButtonIcon.transform));
                     break;
                 case QTEInput.LeftTrigger:
-                    VisualCues.Add(Instantiate(m_lTriggerCue, m_lTriggerButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_lTriggerCue, m_lTriggerButtonIcon.transform));
                     break;                
                 case QTEInput.RightTrigger:
-                    VisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
                     break;
                 case QTEInput.NorthDirectional:
-                    VisualCues.Add(Instantiate(m_northDirectionalCue, m_northDirectionalButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_northDirectionalCue, m_northDirectionalButtonIcon.transform));
                     break;
                 case QTEInput.EastDirectional:
-                    VisualCues.Add(Instantiate(m_eastDirectionalCue, m_eastDirectionalButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_eastDirectionalCue, m_eastDirectionalButtonIcon.transform));
                     break;
                 case QTEInput.SouthDirectional:
-                    VisualCues.Add(Instantiate(m_southDirectionalCue, m_southDirectionalButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_southDirectionalCue, m_southDirectionalButtonIcon.transform));
                     break;
                 case QTEInput.WestDirectional:
-                    VisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
+                    ActiveVisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
             }            
         }
 
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
-            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;
-            Image image = VisualCues[_selector].GetComponent<Image>();
+            SetCueSize(m_cueStartSize, _selector);
+            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta * 0.8f;
+            Image image = ActiveVisualCues[_selector].GetComponent<Image>();
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
 
         public void ShakeCue(int _selector, float _timer)
         {
-            Image image = VisualCues[_selector].GetComponent<Image>();
+            Image image = ActiveVisualCues[_selector].GetComponent<Image>();
             RectTransform ring = image.rectTransform;
             m_iconAnimation.HoldShake(ring, _timer);
         }
@@ -450,10 +452,10 @@ namespace QTESystem
 
         //Comment
         public void SetCueSize(float _sizePercentage, int _selector)
-        {
-            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta * 0.8f;
+        {            
+            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta;
             float sizeRange = m_cueStartSize - targetSize.x;
-            Image image = VisualCues[_selector].GetComponent<Image>();
+            Image image = ActiveVisualCues[_selector].GetComponent<Image>();
 
             image.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
@@ -461,21 +463,21 @@ namespace QTESystem
         //Comment
         public void ActivateCue(int _count, Color _color)
         {            
-            Image image = VisualCues[_count].GetComponent<Image>();
+            Image image = ActiveVisualCues[_count].GetComponent<Image>();
             image.color = _color;
             
         }
 
         public void DeactivateCue(int _count)
         {
-            Image image = VisualCues[_count].GetComponent<Image>();
+            Image image = ActiveVisualCues[_count].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
 
         public void AnimateMashCue(float _timeLimit, int _selector, QTEInput _input)
         {
             Vector2 ringSize = GetIcon(_input).rectTransform.sizeDelta;
-            Image image = VisualCues[_selector].GetComponent<Image>();
+            Image image = ActiveVisualCues[_selector].GetComponent<Image>();
             image.rectTransform.sizeDelta = ringSize;
             m_iconAnimation.FlashRing(image);
         }
