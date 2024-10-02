@@ -328,14 +328,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 461568649, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
-      propertyPath: m_successVibrateLength
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 461568649, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
-      propertyPath: m_successVibrateStrength
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
       propertyPath: m_poiseBar
       value: 
@@ -344,10 +336,6 @@ PrefabInstance:
       propertyPath: m_barObject
       value: 
       objectReference: {fileID: 1841844318}
-    - target: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad, type: 3}
-      propertyPath: m_cueStartSize
-      value: 101
-      objectReference: {fileID: 0}
     - target: {fileID: 774220750080844972, guid: 88cffb71ed90cd644a4ab2ebfe9cefad,
         type: 3}
       propertyPath: m_Name
@@ -927,6 +915,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: TESTENEMY
       objectReference: {fileID: 0}
+    - target: {fileID: 6065824157648596356, guid: 7370c1dc0501ae144aac2408748ac7ca,
+        type: 3}
+      propertyPath: EncounterData
+      value: 
+      objectReference: {fileID: 11400000, guid: d1936ab96d7d6e746a75c93248c8c532,
+        type: 2}
     - target: {fileID: 6344805141545761896, guid: 7370c1dc0501ae144aac2408748ac7ca,
         type: 3}
       propertyPath: m_RootOrder
