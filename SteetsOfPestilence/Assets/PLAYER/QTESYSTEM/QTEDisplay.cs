@@ -201,7 +201,7 @@ namespace QTESystem
             //select icon based on input            
             Image image = GetIcon(_incorrectInput);            
             //animate corresponding icon and play audio
-            m_iconAnimation.IncorrectInput(image.gameObject);
+            m_iconAnimation.IncorrectInput(image);
             m_audio.IncorrectInput();
         }
 
@@ -212,7 +212,7 @@ namespace QTESystem
             {
                 Image image = GetIcon(input);
                 //animate corresponding icon and play audio
-                m_iconAnimation.IncorrectInput(image.gameObject);
+                m_iconAnimation.IncorrectInput(image);
             }
         }
 
@@ -220,7 +220,7 @@ namespace QTESystem
         {
             Image image = GetIcon(_iconsToShake);
             //animate corresponding icon and play audio
-            m_iconAnimation.IncorrectInput(image.gameObject);
+            m_iconAnimation.IncorrectInput(image);
         }
 
         public void SuccessfulInput(List<QTEInput> _icons, Image _ring)
@@ -330,35 +330,25 @@ namespace QTESystem
                 case QTEInput.NorthFace:
                     return m_northButtonIcon;                    
                 case QTEInput.EastFace:
-                    return m_eastButtonIcon;
-                    
+                    return m_eastButtonIcon;                    
                 case QTEInput.SouthFace:
-                    return m_southButtonIcon;
-                    
+                    return m_southButtonIcon;                    
                 case QTEInput.WestFace:
-                    return m_westButtonIcon;
-                    
+                    return m_westButtonIcon;                    
                 case QTEInput.LeftShoulder:
-                    return m_lShoulderButtonIcon;
-                    
+                    return m_lShoulderButtonIcon;                    
                 case QTEInput.LeftTrigger:
-                    return m_lTriggerButtonIcon;
-                    
+                    return m_lTriggerButtonIcon;                    
                 case QTEInput.RightShoulder:
-                    return m_rShoulderButtonIcon;
-                    
+                    return m_rShoulderButtonIcon;                    
                 case QTEInput.RightTrigger:
-                    return m_rTriggerButtonIcon;
-                    
+                    return m_rTriggerButtonIcon;                    
                 case QTEInput.NorthDirectional:
-                    return m_northDirectionalButtonIcon;
-                    
+                    return m_northDirectionalButtonIcon;                    
                 case QTEInput.EastDirectional:
-                    return m_eastDirectionalButtonIcon;
-                    
+                    return m_eastDirectionalButtonIcon;                    
                 case QTEInput.SouthDirectional:
-                    return m_southDirectionalButtonIcon;
-                    
+                    return m_southDirectionalButtonIcon;                    
                 case QTEInput.WestDirectional:
                     return m_westDirectionalButtonIcon;
                 default:

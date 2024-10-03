@@ -31,7 +31,7 @@ public class QTEUIAnimation : MonoBehaviour
         Invoke("StopControllerVibrate", m_incorrectVibrateLength);
     }
 
-    public void IncorrectInput(GameObject _icon)
+    public void IncorrectInput(Image _icon)
     {
         Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
