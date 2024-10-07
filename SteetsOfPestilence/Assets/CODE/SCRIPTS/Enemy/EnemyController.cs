@@ -10,10 +10,19 @@ public class EnemyController : MonoBehaviour
     private PlayerManager m_player;
 
     private EnemyDetector m_detector;
+    
+
+    private void Awake()
+    {
+        m_detector = GetComponent<EnemyDetector>();
+    }
 
     private void Update()
     {
-        
+        if (m_detector.m_canSeePlayer)
+        {
+
+        }
     }
 
     public void ForceEncounter()

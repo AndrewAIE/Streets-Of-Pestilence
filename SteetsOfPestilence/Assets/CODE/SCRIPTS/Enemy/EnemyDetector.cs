@@ -11,8 +11,8 @@ public class EnemyDetector : MonoBehaviour
     public LayerMask m_obstructMask;
     public bool m_canSeePlayer { get; private set; }
 
-    private Vector3 m_targetLastKnownPos;
     private GameObject m_player;
+    private Vector3 m_lastKnownPos;
 
     private void Awake()
     {
@@ -22,11 +22,10 @@ public class EnemyDetector : MonoBehaviour
     {
         m_canSeePlayer = FieldOfViewCheck();
     }
-    [SerializeField] Vector3 direction;
     private bool FieldOfViewCheck()
     {
         Vector3 otherPos = m_player.transform.position;
-        direction = otherPos - transform.position;
+        Vector3 direction = otherPos - transform.position;
         if (direction.magnitude > m_viewRadius) return false;
         Debug.Log("in range");
 
@@ -37,6 +36,8 @@ public class EnemyDetector : MonoBehaviour
             Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
             if (hitInfo.transform.gameObject.GetComponent<PlayerManager>())
             {
+                m_lastKnownPos = hitInfo.transform.position;
+               
                 return true;
             }
         }
