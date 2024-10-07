@@ -17,9 +17,9 @@ namespace QTESystem
                 if (m_state == ActionState.running)
                 {                                        
                     m_qteDisplay.MissedInput(InputList);
-                    for (int j = 0; j < InputList.Count; j++)
+                    for (int i = 0; i < InputList.Count; i++)
                     {
-                        m_qteDisplay.DeactivateCue(j);
+                        m_qteDisplay.DeactivateCue(i);
                     }
                     m_state = ActionState.fail;
                 }

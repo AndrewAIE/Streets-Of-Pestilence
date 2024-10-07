@@ -23,7 +23,16 @@ public class QTEHoldAction : QTEAction
         }
     }
     protected override ActionState onUpdate()
-    {       
+    {      
+        if(m_timer >= m_maxTime && !m_held)
+        {
+            for (int i = 0; i < InputList.Count; i++)
+            {
+                m_qteDisplay.DeactivateCue(i);
+            }
+            m_state = ActionState.fail;
+            m_qteDisplay.MissedInput(InputList);
+        }
         if(m_timer >= m_totalTime)
         {
             m_timeUp = true;
@@ -37,9 +46,13 @@ public class QTEHoldAction : QTEAction
                     m_qteDisplay.SuccessfulInput(InputList[i], i);
                 }
                 return m_state = ActionState.success;
+            }            
+            if(m_state != ActionState.complete)
+            {
+                m_state = ActionState.fail;
+                m_qteDisplay.MissedInput(InputList);
             }
-            m_state = ActionState.fail;
-            m_qteDisplay.MissedInput(InputList);
+            
         }
         return m_state;
     }
