@@ -423,7 +423,7 @@ namespace QTESystem
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
             SetCueSize(m_cueStartSize, _selector);
-            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta * 0.8f;
+            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;
             Image image = ActiveVisualCues[_selector].GetComponent<Image>();
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
