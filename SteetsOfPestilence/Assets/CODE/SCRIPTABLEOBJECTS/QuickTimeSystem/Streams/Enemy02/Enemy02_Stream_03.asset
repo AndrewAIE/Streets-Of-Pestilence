@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b95293c9f79f6047b4b658dba2354e4, type: 3}
+  m_Name: Enemy02_Stream_03
+  m_EditorClassIdentifier: 
+  Actions:
+  - {fileID: 11400000, guid: 3318de8dbbdb22a46b8c4e9a7e790b5b, type: 2}
+  - {fileID: 11400000, guid: 03a63118dec69a54bb67984e8e17c522, type: 2}
+  ActionTimer: 0.6
+  SuccessBuffer: 0.2
+  BetweenActionTimer: 0.3
+  BeginningOfStreamPause: 0.5
+  EndOfStreamPause: 0.5

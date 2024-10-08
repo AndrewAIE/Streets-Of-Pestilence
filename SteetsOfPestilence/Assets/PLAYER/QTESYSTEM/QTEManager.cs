@@ -192,11 +192,23 @@ namespace QTESystem
             {
                 WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
             }
-            ActiveStream = Instantiate(SelectRandomStream());            
+            SelectStream();                      
 
             //Set Encounter State and begin Encouner
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
+        }
+
+        public void SelectStream()
+        {
+            if(WaitingStreams.Count == 0)
+            {
+                ActiveStream = Instantiate(ActiveStream);
+            }
+            else
+            {
+                ActiveStream = Instantiate(SelectRandomStream());
+            }            
         }
 
         public List<QTEInput> GetStreamActionInputs()
@@ -307,10 +319,12 @@ namespace QTESystem
                         break;
                 }
             }
+            QteDisplay.DeactivatePanels();
             for (int i = 0; i < panelActivator.Length; i++)
             {
                 if (panelActivator[i])
-                {                    
+                {
+                    
                     QteDisplay.ActivatePanel(i);
                     switch(i)
                     {
@@ -358,25 +372,24 @@ namespace QTESystem
         //Comment
         public void PoiseValueCheck()
         {
-            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;
-            Debug.Log(successRate);
+            float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;            
             int poiseChange;
             switch(successRate)
             {
                 case 0:
-                    poiseChange = -2;                    
+                    poiseChange = -4;                    
                     break;
                 case < 0.5f:
-                    poiseChange = -1;                    
+                    poiseChange = -2;                    
                     break;
                 case 0.5f:
                     poiseChange = 0;                    
                     break;
                 case 1:
-                    poiseChange = 2;                    
+                    poiseChange = 4;                    
                     break;
                 case > 0.5f:
-                    poiseChange = 1;                   
+                    poiseChange = 2;                   
                     break;
                 default:
                     poiseChange = 0;                    
@@ -401,7 +414,6 @@ namespace QTESystem
         {
             Destroy(Enemy);
             EndOfEncounter();
-
             GetComponent<PlayerInput>().enabled = true;
         }
 
@@ -425,22 +437,35 @@ namespace QTESystem
             if(_context.performed)
             {
                 QteDisplay.Input(_context.action.name);
+                if (ActionState == ActionState.running)
+                {
+                    ActiveAction?.CheckInput(_context);
+                }
             }
             if(_context.canceled)
             {
-                QteDisplay.InputReleased(_context.action.name);
+                 QteDisplay.InputReleased(_context.action.name);
+                ActiveAction?.OnRelease(_context);
             }
-            if (ActionState == ActionState.running)
-            {
-                ActiveAction?.CheckInput(_context);
-            }           
+                    
         }
 
-        internal void ResetStreamData()
+        public void ResetStreamData()
         {
             StreamPosition = 0;
             Timer = 0;            
-            ActiveDisplayList.Clear();            
+            ActiveDisplayList.Clear();
+            Invoke("DeleteCues", 0.35f);
+        }
+
+        private void DeleteCues()
+        {
+            for (int i = 0; i < QteDisplay.FinishingCues.Count; i++)
+            {
+                GameObject holder = QteDisplay.FinishingCues[0];
+                QteDisplay.FinishingCues.Remove(holder);
+                Destroy(holder);
+            }
         }
         #endregion
 
