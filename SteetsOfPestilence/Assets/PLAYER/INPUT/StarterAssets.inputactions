@@ -198,6 +198,65 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Merchant",
+            "id": "a49dac66-b34c-488a-a24c-3d8221b4171f",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "PassThrough",
+                    "id": "52e2d779-3e6b-4dc4-89b0-2a65a53c70f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Move Selection",
+                    "type": "Value",
+                    "id": "942670d6-79f7-4c84-934c-6aafc577ad22",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5af4a1ee-f71c-4e55-a6d9-b2f8180ecb3f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4591d86-5345-4133-ba3b-364aeaa703fa",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f9de34c-1278-415d-b12a-c74dfdf9b734",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

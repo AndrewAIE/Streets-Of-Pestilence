@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5879019724712948193}
   - component: {fileID: 4211239498212885285}
   - component: {fileID: 1273577669955853129}
+  - component: {fileID: 3264321506334129598}
   m_Layer: 0
   m_Name: ArtPref_RoadEnd
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3264321506334129598
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5043494697461134019}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5, y: 0.1, z: 1.3033702}
+  m_Center: {x: 2.25, y: -0.05, z: -0.6437448}

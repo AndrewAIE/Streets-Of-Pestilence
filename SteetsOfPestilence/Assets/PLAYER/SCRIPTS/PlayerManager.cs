@@ -34,7 +34,8 @@ namespace PlayerController
         [HideInInspector] public SFXController _sfx;
         [HideInInspector] public CameraController _camera;
         [HideInInspector] public CharacterController _character;
-        private QTERunner m_qteRunner;
+        [HideInInspector] public MerchantController _merchant;
+        private QTEManager m_qteRunner;
         private PlayerInput m_playerInput;
         #endregion
 
@@ -55,11 +56,14 @@ namespace PlayerController
 
             //get camera script
             _camera = FindObjectOfType<CameraController>();
+
+            //get the merchant
+            _merchant = FindObjectOfType<MerchantController>();
             
             //get character controller
             _character = GetComponent<CharacterController>();
 
-            m_qteRunner = GetComponent<QTERunner>();
+            m_qteRunner = GetComponent<QTEManager>();
             m_playerInput = GetComponent<PlayerInput>();
         }
 
@@ -104,14 +108,30 @@ namespace PlayerController
 
         public void SetPlayerActive()
         {
-            _movement.enabled = true;
+            _movement._playerMovementEnabled = true;
             _camera.SetFreeLookCam_Active();
         }
 
         public void SetPlayerInActive()
         {
-            _movement.enabled = false;
+            _movement._playerMovementEnabled = false;
             _camera.SetFreeLookCam_InActive();
+        }
+
+
+        #endregion
+
+        /*** Merchant ***/
+        #region Merchant
+        
+        public bool CheckMerchantState(MerchantController.MerchantState inputState)
+        {
+            return _merchant.CheckState(inputState);
+        }
+
+        public void SetMerchantState(MerchantController.MerchantState inputState)
+        {
+            _merchant.SetMerchantState(inputState);
         }
 
 

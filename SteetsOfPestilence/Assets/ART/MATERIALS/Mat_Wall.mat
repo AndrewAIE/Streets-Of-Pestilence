@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Wall
-  m_Shader: {fileID: -6465566751694194690, guid: 250d2f62029233146a36eecdd8071c5d,
+  m_Shader: {fileID: -6465566751694194690, guid: 17fab674a8b60f144b6af197f993c4b0,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -26,7 +26,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColor:
-        m_Texture: {fileID: 2800000, guid: c6adfd73ac5894541a18339a74f00d1a, type: 3}
+        m_Texture: {fileID: 2800000, guid: a5356b190fe63bd41bad8d6681f5b035, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -66,7 +66,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normals:
-        m_Texture: {fileID: 2800000, guid: 73f8bea50c01cb9469416ac9aa30b149, type: 3}
+        m_Texture: {fileID: 2800000, guid: f2a9000c728b1cb4cabbeda37d49f264, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -78,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness:
-        m_Texture: {fileID: 2800000, guid: a133d0e96a1a22f4fbe52a205a7e3abb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4dddd634fe63c6a408d49cefc66fe817, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -100,6 +100,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO_Strength: 0
+    - _AO_Strength_A: 0
+    - _AO_Strength_B: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -116,21 +118,31 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _Metallic_Strength: 0
+    - _Metallic_Strength_A: 0.877
+    - _Metallic_Strength_B: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Roughness_Strength: 0.444
+    - _Rotation: 0
+    - _Roughness_Push_A: 0
+    - _Roughness_Push_B: 1
+    - _Roughness_Strength: 1
+    - _Roughness_Strength_A: 0.345
+    - _Roughness_Strength_B: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Tile: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Blend_Color_A: {r: 1, g: 1, b: 1, a: 0}
+    - _Blend_Color_B: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

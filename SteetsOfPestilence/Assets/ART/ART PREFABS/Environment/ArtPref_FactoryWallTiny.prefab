@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2875979401397730321}
   - component: {fileID: 4381505174191730943}
   - component: {fileID: 754904269989201477}
+  - component: {fileID: 8974117984659394305}
   m_Layer: 0
   m_Name: ArtPref_FactoryWallTiny
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f43c975574f561a4b9c9e9ca1b420823, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8974117984659394305
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3550111010361252927}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.25, y: 1.3, z: 0.1}
+  m_Center: {x: 1.125, y: 0.65, z: -0.05}
