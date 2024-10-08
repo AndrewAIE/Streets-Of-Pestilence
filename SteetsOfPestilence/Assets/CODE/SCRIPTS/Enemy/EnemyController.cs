@@ -3,30 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerController;
+using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+namespace EnemyAI
 {
-    public QTEEncounterData EncounterData;
-    private PlayerManager m_player;
-
-    private EnemyDetector m_detector;
-    
-
-    private void Awake()
+    public class EnemyController : MonoBehaviour
     {
-        m_detector = GetComponent<EnemyDetector>();
-    }
+        public QTEEncounterData EncounterData;
+        private PlayerManager m_player;
 
-    private void Update()
-    {
-        if (m_detector.m_canSeePlayer)
+        private NavMeshAgent m_agent;
+        private EnemyDetector m_detector;
+
+        [SerializeField] private Vector3 m_targetPosition;
+
+        private void Awake()
         {
+            m_agent = GetComponentInParent<NavMeshAgent>();
+            m_detector = GetComponent<EnemyDetector>();
+        }
+
+        private void Update()
+        {
+            m_targetPosition = m_detector.LastPosition();
+
+            if (m_detector.m_canSeePlayer)
+            {
+                m_agent.destination = m_targetPosition;
+            }
+
 
         }
-    }
 
-    public void ForceEncounter()
-    {
-        m_player.EnterCombat(EncounterData, gameObject);
+        public void ForceEncounter()
+        {
+            m_player.EnterCombat(EncounterData, gameObject);
+        }
     }
 }
