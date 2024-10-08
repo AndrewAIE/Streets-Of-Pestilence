@@ -11,6 +11,7 @@ namespace PlayerController
         /*************************************** VARIABLES *****************************************/
         #region Variables
 
+
         #region Player Data
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
@@ -24,20 +25,26 @@ namespace PlayerController
 
         #region Debugging
         [Header("Debugging")]
-        [SerializeField] public bool _debugMode;
+        [SerializeField] private bool _debugMode;
+        #endregion
+        
+        #region Components
+        [HideInInspector] internal MovementController _movement { get; private set; }
+        [HideInInspector] internal AnimationController _animation { get; private set; }
+        internal CameraController _cameraController { get; private set; }
+        [HideInInspector] internal SFXController _sfx { get; private set; }
+        [HideInInspector] internal MerchantController[] _merchants { get; private set; }
+        private QTEManager m_qteRunner;
+        
+        
+        #endregion
+        #region Input
+        internal InputStruct m_input { get; private set; }
+        private MovementInputs m_movementInputs;
+        private InputAction m_moveInput, m_lookInput, m_recenterInput, m_interactInput, m_sprintInput;
+
         #endregion
 
-        #region Components
-        [HideInInspector] public MovementController _movement;
-        [HideInInspector] public AnimationController _animation;
-        [HideInInspector] public InputController _input;
-        [HideInInspector] public SFXController _sfx;
-        [HideInInspector] public CameraController _camera;
-        [HideInInspector] public CharacterController _character;
-        [HideInInspector] public MerchantController _merchant;
-        private QTEManager m_qteRunner;
-        private PlayerInput m_playerInput;
-        #endregion
 
         #endregion
 
@@ -45,36 +52,57 @@ namespace PlayerController
         #region Methods
 
         /*** AWAKE AND UPDATE ***/
-        #region Awake and Update
+        #region Startup
         private void Awake()
         {
             //get player scripts
             _movement = GetComponent<MovementController>();
             _animation = GetComponent<AnimationController>();
-            _input = GetComponent<InputController>();
+
             _sfx = GetComponent<SFXController>();
 
             //get camera script
-            _camera = FindObjectOfType<CameraController>();
+            _cameraController = FindObjectOfType<CameraController>();
 
             //get the merchant
-            _merchant = FindObjectOfType<MerchantController>();
+            _merchants = FindObjectsOfType<MerchantController>();
             
-            //get character controller
-            _character = GetComponent<CharacterController>();
 
             m_qteRunner = GetComponent<QTEManager>();
-            m_playerInput = GetComponent<PlayerInput>();
+            
+        }
+        private void OnEnable()
+        {
+            m_movementInputs = new MovementInputs();
+            m_moveInput = m_movementInputs.Player.Move;
+            m_moveInput.Enable();
+            m_lookInput = m_movementInputs.Player.Look;
+            m_lookInput.Enable();
+            m_recenterInput = m_movementInputs.Player.Recenter;
+            m_recenterInput.Enable();
+            m_interactInput = m_movementInputs.Player.Interact;
+            m_interactInput.Enable();
+            m_sprintInput = m_movementInputs.Player.Sprint;
+            m_sprintInput.Enable();
+        }
+        private void OnDisable()
+        {
+            m_moveInput.Disable();
+            m_lookInput.Disable();
+            m_recenterInput.Disable();
+            m_interactInput.Disable();
+            m_sprintInput.Disable();
         }
 
+
+        #endregion
+        #region Updates
         private void Update()
         {
+            GatherInput();
+
             if(Input.GetKeyDown(KeyCode.BackQuote))
                 _debugMode = !_debugMode;
-            
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-                Application.Quit();
 
             if (_debugMode)
             {
@@ -96,7 +124,7 @@ namespace PlayerController
 
         public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
         {
-            m_playerInput.enabled = false;
+            
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
@@ -106,37 +134,56 @@ namespace PlayerController
         /*** ENABLE / DISABLE PLAYER ***/
         #region Enable / Disable Player
 
-        public void SetPlayerActive()
+        public void SetPlayerActive(bool active)
         {
-            _movement._playerMovementEnabled = true;
-            _camera.SetFreeLookCam_Active();
+            _movement._canMove = active;
+            _cameraController.SetFreeLookCam_Active(active);
         }
-
-        public void SetPlayerInActive()
-        {
-            _movement._playerMovementEnabled = false;
-            _camera.SetFreeLookCam_InActive();
-        }
-
-
+       
         #endregion
 
         /*** Merchant ***/
-        #region Merchant
+        #region Interactions
         
-        public bool CheckMerchantState(MerchantController.MerchantState inputState)
+        private void Interact()
         {
-            return _merchant.CheckState(inputState);
+            CheckForMechants();
         }
 
-        public void SetMerchantState(MerchantController.MerchantState inputState)
+        private void CheckForMechants()
         {
-            _merchant.SetMerchantState(inputState);
+            foreach (MerchantController mechant in _merchants)
+            {
+
+            }
         }
 
+        #endregion
+        /*** Input Management ***/
+        #region Inputs
+
+        private void GatherInput()
+        {
+            m_input = new InputStruct {
+                movement = m_moveInput.ReadValue<Vector2>(),
+                look = m_lookInput.ReadValue<Vector2>(),
+                sprint = m_sprintInput.IsPressed(),
+                recenter = m_recenterInput.WasPressedThisFrame(),
+            };
+            if (m_interactInput.WasPressedThisFrame()) Interact();
+
+        }
 
         #endregion
 
         #endregion
+    }
+    
+    internal struct InputStruct
+    {
+        public Vector2 movement;
+        public Vector2 look;
+        public bool sprint;
+        public bool recenter;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 namespace PlayerController
 {
@@ -11,13 +12,13 @@ namespace PlayerController
         /*** MOVEMENT ***/
         #region Movement
 
-        /*** Movement State ***/
+        /*** InputStruct\ State ***/
         #region Movement State
-        [Header("Movement State")]
+        [Header("InputStruct State")]
         //bool that controls if movement is enabled or not
-        [SerializeField] public bool _playerMovementEnabled;
+        [SerializeField] public bool _canMove;
 
-        //Movement Mode Enum that controls what type of movement the player is doing
+        //InputStruct\ Mode Enum that controls what type of movement the player is doing
         [SerializeField] public MovementMode _movementMode;
         public enum MovementMode
         {
@@ -29,7 +30,7 @@ namespace PlayerController
         }
 
         //ENum that displays what the player is doing while exploring
-        [SerializeField] public ExploringState _exploringState;
+        [SerializeField] private ExploringState _exploringState;
         public enum ExploringState
         {
             Stationary,
@@ -46,22 +47,16 @@ namespace PlayerController
 
         // player
 
-        [Header("Movement Variables")]
-        [SerializeField] private float _inputMagnitude;
-        [HideInInspector] private Vector3 _inputDirection;
-        [HideInInspector] private Vector3 _currentDirection;
+        [Header("InputStruct Variables")]
         [Space]
         [SerializeField] private float _speed;
-        [SerializeField] private float _targetSpeed;
-        [Space]
-        [SerializeField] private float _inputRotation = 0.0f;
-        [SerializeField] private float _targetRotation;
-        [HideInInspector] private Vector3 _targetDirection;
-        [SerializeField] private float _deltaRotation;
-        [Space]
-        [HideInInspector] private float _rotationVelocity;
-        [HideInInspector] private float _verticalVelocity;
 
+        [Space]
+        [SerializeField] private float _targetRotation;
+        [SerializeReference] private Vector3 _motionDirection;
+        [Space]
+        [HideInInspector] private float _verticalVelocity;
+        
         // timeout deltatime
         private float _fallTimeoutDelta;
 
@@ -71,18 +66,23 @@ namespace PlayerController
         #region Falling
         [Header("Player Grounded")]
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-        public bool _grounded = true;
+        [SerializeReference] protected bool _grounded = true;
+        [SerializeField] private LayerMask _groundLayers;
 
         #endregion
 
         /*** COMPONENTS ***/
         #region Components
-        [HideInInspector] private PlayerManager _manager;
-
+        protected PlayerManager _manager;
+        protected CharacterController _characterController;
+        internal Camera _camera { get; private set; }
+        private Transform m_Mesh;
         #endregion
 
         #endregion
-
+        #region Getters
+        public Vector3 centerPoint => _characterController.center;
+        #endregion
         /******************************* METHODS ********************************/
         #region Methods
 
@@ -93,11 +93,14 @@ namespace PlayerController
         {
             //get manager
             _manager = GetComponent<PlayerManager>();
+            _characterController = GetComponent<CharacterController>();
+            _camera = Camera.main;
+            m_Mesh = GetComponentInChildren<Animator>().transform;
         }
 
         private void Start()
         {
-            _playerMovementEnabled = true;
+            _canMove = true;
             // reset our timeouts on start
             _fallTimeoutDelta = _manager._data.FallTimeout;
         }
@@ -108,7 +111,7 @@ namespace PlayerController
         #region Update
         private void Update()
         {
-            if(_playerMovementEnabled)
+            if(_canMove)
             {
                 //call method that hnadles all player movement
                 PlayerMovement();
@@ -126,192 +129,63 @@ namespace PlayerController
 
         private void PlayerMovement()
         {
+            GroundedCheck();
+            FallAndGravity();
             //switch case to handle what type of movement to do
             switch (_movementMode)
             {
                 case MovementMode.Exploring:
-                    GroundedCheck();
-                    FallAndGravity();
-
-                    ExploringController();
+                    Rotate_Exploring();
                     Move_Exploring();
-
                     break;
 
                 case MovementMode.LockOn:
 
                     break;
                 case MovementMode.Debug:
-                    Move_Debug();
+                    //Move_Debug();
                     break;
             }
         }
 
         /*** Exploring ***/
         #region Exploring
-
-        //exploring controller handles the exploring state machine
-        private void ExploringController()
-        {
-            #region Get Input
-            //get input
-            _inputMagnitude = _manager._input.move.magnitude;
-
-            // normalise input direction
-            _inputDirection = new Vector3(_manager._input.move.x, 0.0f, _manager._input.move.y).normalized;
-
-            #endregion
-
-            #region Exploring State
-            switch (_exploringState)
-            {
-                case ExploringState.Stationary:
-                    if(_inputMagnitude >= 0.01f)
-                    {
-                        Set_ExploringState(ExploringState.Walking);
-                    }
-
-                    break;
-
-                case ExploringState.Walking:
-                    if (_inputMagnitude >= _manager._data.RunThres)
-                        Set_ExploringState(ExploringState.Running);
-
-                    else if(_inputMagnitude <= 0.01f)
-                        Set_ExploringState(ExploringState.Stationary);
-                    
-                    break;
-
-                case ExploringState.Running:
-                    if (_inputMagnitude <= _manager._data.RunThres)
-                        Set_ExploringState(ExploringState.Walking);
-                    break;
-            }
-
-            #endregion
-        }
-
-
         //Move Method that controls the players movement
         private void Move_Exploring()
         {
-            #region Find Target Speed
-            
-            //find target speed
-            switch (_exploringState)
-            {
-                case ExploringState.Running:
-                    _targetSpeed = _manager._data.RunningSpeed;
-                    break;
+            _speed = _manager.m_input.sprint ? _manager._data.RunningSpeed : _manager._data.WalkingSpeed;
+            Vector2 motion = Vector3.zero;
+            Vector2 input = _manager.m_input.movement;
+            if (input.x != 0) motion.x += input.x * _speed;
+            else motion.x = 0;
+            if (input.y != 0) motion.y += input.y * _speed;
 
-                case ExploringState.Walking:
-                    _targetSpeed = _manager._data.WalkingSpeed;
-                    break;
+            Vector3 forward = _camera.transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
 
-                case ExploringState.Stationary:
-                    _targetSpeed = 0f;
-                    break;
-            }
+            _motionDirection = (forward * motion.y) + (_camera.transform.right * motion.x);
 
-            #endregion
+            _motionDirection = Vector3.ClampMagnitude(_motionDirection, _speed);
+            _manager._animation.SetAnimationFloat_InputMove(input.magnitude);
+            _characterController.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            _characterController.Move(_motionDirection * Time.deltaTime);
+        }
 
-            #region Find Speed
-
-            // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_manager._character.velocity.x, 0.0f, _manager._character.velocity.z).magnitude;
-
-            //set speed offset to 0.1f
-            float speedOffset = 0.1f;
-
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < _targetSpeed - speedOffset ||
-                currentHorizontalSpeed > _targetSpeed + speedOffset)
-            {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, _targetSpeed * _inputMagnitude,
-                    Time.deltaTime * _manager._data.SpeedChangeRate);
-
-                // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
-                //set speed to target speed
-                _speed = _targetSpeed;
-            }
-
-            #endregion
-
-            #region Rotation
-
-            //get input rotation by doing maths on the input direction
-            _inputRotation = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
-                                Camera.main.transform.eulerAngles.y;
-
-            //set the target and smooth damp it
-            _targetRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _inputRotation, ref _rotationVelocity,
-                _manager._data.RotationSmoothTime);
-
-            #endregion
-            
-            if(_exploringState != ExploringState.Stationary)
-            {
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
-            }
-
-            //make direction vector3
-            _targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            // move the player
-            _manager._character.Move(_targetDirection.normalized * (_speed * Time.deltaTime) +
-                                new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+       
+        private void Rotate_Exploring()
+        {  
+            if(_motionDirection.magnitude > 0)
+                m_Mesh.transform.forward = _motionDirection.normalized;
         }
 
         #endregion
 
 
 
-        /*** Debug Move ***/
+        /*** Debug ***/
         #region Debug
-        private void Move_Debug()
-        {
-            float _inputMagnitude = _manager._input.move.magnitude;
 
-            float targetSpeed;
-
-            if (_inputMagnitude >= 0.5f)
-            {
-                targetSpeed = _manager._data.DebugSpeed;
-            }
-            else
-            {
-                targetSpeed = 0.0f;
-            }
-
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_manager._input.move.x, 0.0f, _manager._input.move.y).normalized;
-
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_manager._input.move != Vector2.zero)
-            {
-                _inputRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  Camera.main.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _inputRotation, ref _rotationVelocity,
-                    _manager._data.RotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _inputRotation, 0.0f) * Vector3.forward;
-
-            _manager._character.Move(targetDirection.normalized * (targetSpeed * Time.deltaTime));
-
-
-        }
 
         #endregion
 
@@ -364,10 +238,12 @@ namespace PlayerController
         private void GroundedCheck()
         {
             // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - _manager._data.GroundedOffset,
+            /*Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - _manager._data.GroundedOffset,
                 transform.position.z);
             _grounded = Physics.CheckSphere(spherePosition, _manager._data.GroundedRadius, _manager._data.GroundLayers,
-                QueryTriggerInteraction.Ignore);
+                QueryTriggerInteraction.Ignore);*/
+
+            _grounded = Physics.SphereCast(_characterController.center, _characterController.radius, Vector3.down, out RaycastHit hitInfo, (_characterController.height / 5 + .1f), _groundLayers, QueryTriggerInteraction.Ignore);
 
             // update animator if using character
             //_manager._animation._animator.SetBool(_manager._animation._animIDGrounded, _manager._character.isGrounded);
@@ -377,5 +253,7 @@ namespace PlayerController
         #endregion
 
         #endregion
+
+        
     }
 }

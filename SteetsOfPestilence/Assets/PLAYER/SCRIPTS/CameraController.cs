@@ -209,8 +209,8 @@ namespace PlayerController
             //if the player is moving +
             //if the player is looking +
             //if above the look thres
-            if(_manager._input.move.magnitude > 0 && 
-               _manager._input.look.magnitude > 0)
+            if(_manager.m_input.movement.magnitude > 0 && 
+               _manager.m_input.look.magnitude > 0)
             {
                 //set state to RS
                 SetState_FreeLookCam(FreeLookCamState.Roaming_Static);
@@ -223,7 +223,7 @@ namespace PlayerController
 
             //Roaming Recentering -> Stationary Recentering
             #region RR -> SR
-            if(_manager._input.move.magnitude == 0)
+            if(_manager.m_input.movement.magnitude == 0)
             {
                 SetState_FreeLookCam(FreeLookCamState.Stationary_Recentering);
             }
@@ -239,7 +239,7 @@ namespace PlayerController
             _freeLook_RS_timer += Time.deltaTime;
 
             //reset timer if look input
-            if(_manager._input.look.magnitude > _manager._data.FreeLook_RS_LookInputThres)
+            if(_manager.m_input.look.magnitude > _manager._data.FreeLook_RS_LookInputThres)
             {
                 _freeLook_RS_timer = 0;
             }
@@ -249,7 +249,7 @@ namespace PlayerController
             //if timer is over limit &&
             //if moving
             if (_freeLook_RS_timer >= _manager._data.FreeLook_RS_TimerThres &&
-                _manager._input.move.magnitude >= 0.1f)
+                _manager.m_input.movement.magnitude >= 0.1f)
             {
                 //set state
                 SetState_FreeLookCam(FreeLookCamState.Roaming_Recenting);
@@ -260,7 +260,7 @@ namespace PlayerController
             //Roaming Static -> Stationary Static
             #region RS -> SS
             //if !moving
-            if (_manager._input.move.magnitude <= 0.1f)
+            if (_manager.m_input.movement.magnitude <= 0.1f)
             {
                 //set state
                 SetState_FreeLookCam(FreeLookCamState.Stationary_Static);
@@ -276,7 +276,7 @@ namespace PlayerController
             //Startionary Recentering to Roaming Recentering
             #region SR -> RR
             //if movement input
-            if (_manager._input.move.magnitude > 0f)
+            if (_manager.m_input.movement.magnitude > 0f)
             {
                 //set state to roaming
                 SetState_FreeLookCam(FreeLookCamState.Roaming_Recenting);
@@ -287,7 +287,7 @@ namespace PlayerController
             //Stationary Recentering to Stationary static
             #region SR -> SS
             //Set freelook cam state to stationary static if look movement detected after pause
-            if (_manager._input.look.magnitude > 0.1f)
+            if (_manager.m_input.look.magnitude > 0.1f)
             {
                 //set state
                 SetState_FreeLookCam(FreeLookCamState.Stationary_Static);
@@ -304,14 +304,14 @@ namespace PlayerController
             _freelook_SS_timer += Time.deltaTime;
 
             //reset timer if look input
-            if(_manager._input.look.magnitude >= 0.1f)
+            if(_manager.m_input.look.magnitude >= 0.1f)
             {
                 _freelook_SS_timer = 0;
             }
 
             //Stationary Static to Roaming Static
             #region SS -> RS
-            if(_manager._input.move.magnitude > 0.1f)
+            if(_manager.m_input.movement.magnitude > 0.1f)
             {
                 //set state
                 SetState_FreeLookCam(FreeLookCamState.Roaming_Static);
@@ -353,16 +353,11 @@ namespace PlayerController
         }
 
         //Set Freelook cam state
-        public void SetFreeLookCam_InActive()
-        {
-            _freeLookCam.m_XAxis.m_MaxSpeed = 0;
-            _freeLookCam.m_YAxis.m_MaxSpeed = 0;
-        }
 
-        public void SetFreeLookCam_Active()
+        internal void SetFreeLookCam_Active(bool active)
         {
-            _freeLookCam.m_XAxis.m_MaxSpeed = 125f;
-            _freeLookCam.m_YAxis.m_MaxSpeed = 1f;
+            _freeLookCam.m_XAxis.m_MaxSpeed = active ? 125f : 0;
+            _freeLookCam.m_YAxis.m_MaxSpeed = active ? 1f : 0;
         }
 
 

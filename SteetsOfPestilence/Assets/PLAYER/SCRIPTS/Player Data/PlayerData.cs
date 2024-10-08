@@ -9,7 +9,7 @@ namespace PlayerController
     {
         /************************************ MOVEMENT *******************************/
         #region Movement
-        [Header("Movement")]
+        [Header("Input")]
         [Tooltip("Move speed of the character in m/s")]
         public float WalkingSpeed = 2.0f;
 

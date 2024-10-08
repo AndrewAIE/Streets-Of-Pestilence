@@ -45,7 +45,7 @@ namespace PlayerController
 		public bool cursorLocked = true;
 
 		[HideInInspector] PlayerManager _manager;
-		[HideInInspector] PlayerInput _playerInput;
+		[HideInInspector] 
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace PlayerController
         private void Awake()
         {
 			_manager = GetComponent<PlayerManager>();
-			_playerInput = GetComponent<PlayerInput>();
+			
         }
 
 
@@ -67,7 +67,7 @@ namespace PlayerController
 
         public void OnMove(InputValue value)
 		{
-			if(_manager._movement._playerMovementEnabled)
+			if(_manager._movement._canMove)
 				MoveInput(value.Get<Vector2>());
 		}
 
@@ -80,8 +80,8 @@ namespace PlayerController
 		{
 			InteractInput(value.isPressed);
 
-			if (_manager.CheckMerchantState(MerchantController.MerchantState.InRange))
-				_manager.SetMerchantState(MerchantController.MerchantState.InShop);
+			//if (_manager.CheckMerchantState(MerchantController.MerchantState.InRange))
+			//	_manager.SetMerchantState(MerchantController.MerchantState.InShop);
 		}
 
 		public void OnRecenter(InputValue value)
@@ -116,8 +116,8 @@ namespace PlayerController
 		{
 			recenter = newInput;
 
-			if (recenter)
-				_manager._camera.TriggerRecenter();
+			//if (recenter)
+				//_manager._camera.TriggerRecenter();
 		}
 
 
@@ -152,7 +152,7 @@ namespace PlayerController
 		{
 			exit = newInput;
 
-            _manager.SetMerchantState(MerchantController.MerchantState.InRange);
+          //  _manager.SetMerchantState(MerchantController.MerchantState.InRange);
         }
 
 		public void MoveSelectionInput(Vector2 newMoveSelection)
@@ -161,7 +161,7 @@ namespace PlayerController
 
             if (Mathf.Abs(moveSelection.x) > 0.9f)
             {
-                _manager._merchant.ChangeSelection(Mathf.RoundToInt(moveSelection.x));
+                //_manager._merchants.ChangeSelection(Mathf.RoundToInt(moveSelection.x));
             }
         }
 
@@ -186,7 +186,7 @@ namespace PlayerController
 
 		public void SetActionMap(string newMap)
 		{
-			_playerInput.SwitchCurrentActionMap(newMap);
+			//_playerInput.SwitchCurrentActionMap(newMap);
 
 			if(newMap == "Player")
 			{
