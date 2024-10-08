@@ -9,6 +9,7 @@ namespace EnemyAI
     {
         [SerializeField] private float m_viewRadius = 10;
         [SerializeField] private float m_viewAngle = 50;
+        [SerializeField] private float combatDistance = 2f;
         [SerializeField] float angle;
         public LayerMask m_obstructMask;
         public bool m_canSeePlayer { get; private set; }
@@ -29,6 +30,7 @@ namespace EnemyAI
             Vector3 originPos = transform.position;
             originPos.y += 1;
             Vector3 otherPos = m_player.transform.position;
+            otherPos.y += 1;
             Vector3 direction = otherPos - originPos;
             if (direction.magnitude > m_viewRadius) return false;
             Debug.Log("in range");
@@ -38,7 +40,7 @@ namespace EnemyAI
             if (angle < m_viewAngle)
             {
                 Physics.Raycast(originPos, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
-                Debug.DrawRay(originPos, direction, Color.magenta, m_viewRadius);
+                Debug.DrawRay(originPos, direction, Color.magenta, .1f);
                 if (hitInfo.transform.gameObject == m_player)
                 {
                     m_lastKnownPos = hitInfo.transform.position;
@@ -49,6 +51,20 @@ namespace EnemyAI
             return false;
         }
 
+        internal bool EnemyIsClose()
+        {
+            Vector3 originPos = transform.position;
+            Vector3 otherPos = m_player.transform.position;
+            float distance = Vector3.Distance(originPos, otherPos);
+            dis = distance;
+            if (distance < combatDistance)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public float dis;
         internal Vector3 LastPosition()
         {
             return m_lastKnownPos;

@@ -9,7 +9,7 @@ namespace EnemyAI
 {
     public class EnemyController : MonoBehaviour
     {
-        public QTEEncounterData EncounterData;
+        public QTEEncounterData m_EncounterData;
         private PlayerManager m_player;
 
         private NavMeshAgent m_agent;
@@ -19,6 +19,7 @@ namespace EnemyAI
 
         private void Awake()
         {
+            m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
         }
@@ -30,6 +31,11 @@ namespace EnemyAI
             if (m_detector.m_canSeePlayer)
             {
                 m_agent.destination = m_targetPosition;
+
+                if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
+                {
+                    m_player.EnterCombat(m_EncounterData, transform.gameObject);
+                }
             }
 
 
@@ -37,7 +43,7 @@ namespace EnemyAI
 
         public void ForceEncounter()
         {
-            m_player.EnterCombat(EncounterData, gameObject);
+            m_player.EnterCombat(m_EncounterData, gameObject);
         }
     }
 }
