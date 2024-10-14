@@ -40,7 +40,7 @@ namespace PlayerController
         #endregion
         #region Input
         internal InputStruct m_input { get; private set; }
-        private MovementInputs m_movementInputs;
+        private PlayerInputMap m_movementInputs;
         private InputAction m_moveInput, m_lookInput, m_recenterInput, m_interactInput, m_sprintInput;
 
         #endregion
@@ -138,7 +138,7 @@ namespace PlayerController
 
         private void OnEnable()
         {
-            m_movementInputs = new MovementInputs();
+            m_movementInputs = new PlayerInputMap();
             m_moveInput = m_movementInputs.Player.Move;
             m_moveInput.Enable();
             m_lookInput = m_movementInputs.Player.Look;
