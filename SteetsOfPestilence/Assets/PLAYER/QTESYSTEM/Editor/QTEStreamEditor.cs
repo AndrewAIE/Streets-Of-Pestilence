@@ -7,6 +7,7 @@ using QTESystem;
 using UnityEngine.UIElements;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor.Timeline;
 
 [CustomEditor(typeof(QTEStreamData))]
 public class QTEStreamEditor : Editor
@@ -22,6 +23,8 @@ public class QTEStreamEditor : Editor
     FloatField m_pauseAtEnd;
     FloatField m_successBuffer;
     Button m_addNewAction;
+    List<Label> m_actionLabels;
+    List<Label> m_inputListLabels;
     List<QTEAction> m_actionList;
     List<Button> m_removeAction;
     List<Button> m_moveActionUp;
@@ -36,6 +39,8 @@ public class QTEStreamEditor : Editor
     {
         m_streamData = (QTEStreamData)target;
         m_gotData = false;
+        m_actionLabels = new List<Label>();
+        m_inputListLabels = new List<Label>();
         m_removeAction = new List<Button>();        
         m_moveActionUp = new List<Button>();
         m_moveActionDown = new List<Button>();
@@ -69,8 +74,10 @@ public class QTEStreamEditor : Editor
         customInspector.Add(new Label("Action List"));
         for(int i = 0; i < m_actionList.Count; i++)
         {
-            customInspector.Add(new Label("Action " + i + " data"));
-            customInspector.Add(new Label("Input List"));
+            m_actionLabels.Add(new Label(m_actionList[i].GetType().ToString()));
+            customInspector.Add(m_actionLabels[i]);
+            m_inputListLabels.Add(new Label("Input List"));
+            customInspector.Add(m_inputListLabels[i]);
             //Get Data and create input lists from actions
             m_inputEnums.Add(new List<EnumField>());
             for (int j = 0; j < m_actionList[i].InputList.Count; j++)
@@ -98,8 +105,8 @@ public class QTEStreamEditor : Editor
     }
 
     public void OnValidate()
-    {
-        //SetData();            
+    {        
+        
     }
 
     public void GetData()
@@ -174,11 +181,25 @@ public class QTEStreamEditor : Editor
     {
         Debug.Log("Size Of List = " + m_removeAction.Count);
         Debug.Log("Trying To Remove At " + _index);
+        customInspector.Remove(m_inputListLabels[_index]);
+        customInspector.Remove(m_actionLabels[_index]);
+        customInspector.Remove(m_removeAction[_index]);
+        customInspector.Remove(m_moveActionUp[_index]);
+        customInspector.Remove(m_moveActionDown[_index]);
+        foreach (EnumField entry in m_inputEnums[_index])
+        {
+            customInspector.Remove(entry);
+        }
+        m_inputListLabels.RemoveAt(_index); 
+        m_actionLabels.RemoveAt(_index);
+        m_streamData.Actions.RemoveAt(_index);
         m_removeAction.RemoveAt(_index);
         m_moveActionUp.RemoveAt(_index);
         m_moveActionDown.RemoveAt(_index);
         m_inputEnums.RemoveAt(_index);
-        m_actionList.RemoveAt(_index);
+        m_actionList.RemoveAt(_index);        
+        AssetDatabase.Refresh();        
+        Repaint();
     }
 
     public void MoveActionUp(int _index)
@@ -190,4 +211,6 @@ public class QTEStreamEditor : Editor
     {
         
     }
+
+    
 }
