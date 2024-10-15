@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Button text="New Press Action" display-tooltip-when-elided="true" class="popup-button" />
-    <ui:Button text="New Hold Action" display-tooltip-when-elided="true" class="popup-button" />
-    <ui:Button text="New Mash Action" display-tooltip-when-elided="true" class="popup-button" />
-    <ui:Button text="New Sequence Action" display-tooltip-when-elided="true" class="popup-button" />
+    <ui:Button text="New Press Action" name="Press" display-tooltip-when-elided="true" class="popup-button" />
+    <ui:Button text="New Hold Action" name="Hold" display-tooltip-when-elided="true" class="popup-button" />
+    <ui:Button text="New Mash Action" name="Mash" display-tooltip-when-elided="true" class="popup-button" />
+    <ui:Button text="New Sequence Action" name="Sequence" display-tooltip-when-elided="true" class="popup-button" />
 </ui:UXML>
