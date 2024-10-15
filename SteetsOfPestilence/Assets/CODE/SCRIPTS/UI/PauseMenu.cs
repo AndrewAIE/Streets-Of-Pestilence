@@ -19,7 +19,11 @@ namespace Management
         private void Start()
         {
             m_manager = GetComponentInParent<GameManager>();
-            
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EnableChildren(false);
+            Time.timeScale = 1;
+            m_manager.SetGameState(GameState.Playing);
         }
 
         public void Pause()
@@ -27,7 +31,6 @@ namespace Management
             bool pause = m_manager.m_Gamestate != GameState.Paused;
             if (pause)
             {
-                
                 EnableChildren(true);
                 Button m_firstButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(m_firstButton.gameObject);
@@ -41,6 +44,14 @@ namespace Management
                 Time.timeScale = 1;
                 m_manager.SetGameState(GameState.Playing);
             }
+        }
+        
+        private void DIsableMenu()
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EnableChildren(false);
+            Time.timeScale = 1;
+            m_manager.SetGameState(GameState.Playing);
         }
 
         private void EnableChildren(bool _enable)

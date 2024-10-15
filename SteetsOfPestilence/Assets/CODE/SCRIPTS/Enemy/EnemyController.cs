@@ -39,7 +39,7 @@ namespace EnemyAI
 
                 if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
                 {
-                    m_player.EnterCombat(m_EncounterData, transform.gameObject);
+                    m_player.EnterCombat(m_EncounterData, gameObject);
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace Management
         Playing,
         Paused
     }
-    
+
     public class GameManager : MonoBehaviour
     {
         //*************************************** VARAIBLES **********************************************//
@@ -70,7 +70,7 @@ namespace Management
         // Start is called before the first frame update
         void Start()
         {
-           
+
 
             //trigger cutscene if not played yet
             /*if (!_hasTriggeredCutscene)
@@ -104,16 +104,21 @@ namespace Management
 
         private void Update()
         {
-
-
-            if (m_pauseInput.WasPressedThisFrame()) {
-                m_PauseMenu.Pause();
+            if (SceneChanger.CurrentScene != 0)
+            {
+                if (m_pauseInput.WasPressedThisFrame())
+                {
+                    m_PauseMenu.Pause();
+                }
+                else if (m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+                {
+                    m_PauseMenu.Pause();
+                }
             }
-            else if(m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+            else if(m_Gamestate == GameState.Paused)
             {
                 m_PauseMenu.Pause();
             }
-
         }
 
 
