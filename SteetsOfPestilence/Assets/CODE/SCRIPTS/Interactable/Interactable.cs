@@ -13,7 +13,7 @@ namespace Interactables
     {
         public string interactablePrompt;
         /// <summary>
-        /// 
+        /// the interactable trigger of the GameObject
         /// </summary>
         [SerializeField] protected Collider interactableTrigger;
         
@@ -27,12 +27,19 @@ namespace Interactables
         {
 
         }
-
         public virtual void OnTriggerEnter (Collider other)
         {
+            PlayerManager player = other.GetComponent<PlayerManager>();
+            if (player == null) return;
 
-        }public virtual void OnTriggerExit()
+
+        }
+        public virtual void OnTriggerExit (Collider other)
         {
+            PlayerManager player = other.GetComponent<PlayerManager>();
+            if (player == null) return;
+
+
 
         }
 
