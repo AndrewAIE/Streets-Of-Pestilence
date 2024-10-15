@@ -323,6 +323,33 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""77e59a52-1ee4-4db4-b530-5c52f9f214a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""b98c4b8a-8283-4fe2-8bb1-11205fdf220a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""65dabaa9-853c-49a9-bd3b-9813cfa26e31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -345,6 +372,50 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19384281-221e-4ea3-ba9e-c9988b267685"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89984356-d439-494a-8b62-8c0a90f27613"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""547aa6de-2622-4b38-9e6c-1e53970efaea"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53e6f88b-f537-4e3a-a0fd-32e33d5f96ff"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -415,6 +486,9 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
+        m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        m_UI_Exit = m_UI.FindAction("Exit", throwIfNotFound: true);
+        m_UI_Use = m_UI.FindAction("Use", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -609,11 +683,17 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Navigation;
+    private readonly InputAction m_UI_Pause;
+    private readonly InputAction m_UI_Exit;
+    private readonly InputAction m_UI_Use;
     public struct UIActions
     {
         private @PlayerInputMap m_Wrapper;
         public UIActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigation => m_Wrapper.m_UI_Navigation;
+        public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputAction @Exit => m_Wrapper.m_UI_Exit;
+        public InputAction @Use => m_Wrapper.m_UI_Use;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -626,6 +706,15 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
             @Navigation.started += instance.OnNavigation;
             @Navigation.performed += instance.OnNavigation;
             @Navigation.canceled += instance.OnNavigation;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -633,6 +722,15 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
             @Navigation.started -= instance.OnNavigation;
             @Navigation.performed -= instance.OnNavigation;
             @Navigation.canceled -= instance.OnNavigation;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -702,5 +800,8 @@ public partial class @PlayerInputMap: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnNavigation(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
     }
 }

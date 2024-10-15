@@ -4,10 +4,11 @@ using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.InputSystem.UI;
 
 namespace PlayerController
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : Entity
     {
         /*************************************** VARIABLES *****************************************/
         #region Variables
@@ -127,7 +128,9 @@ namespace PlayerController
             //get the merchant
             _merchants = FindObjectsOfType<MerchantController>();
             m_qteRunner = GetComponent<QTEManager>();
-            
+
+            GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
+
         }
         private void Start()
         {
@@ -164,20 +167,20 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
-            GatherInput();
+                GatherInput();
 
-            DebugStuff();
+                DebugStuff();
 
-            if (_canMove)
-            {
-                //call method that hnadles all player movement
-                PlayerMovement();
-            }
-            else
-            {
-                //do nothing lol
-            }
-            AnimationHandler();
+                if (_canMove)
+                {
+                    //call method that hnadles all player movement
+                    PlayerMovement();
+                }
+                else
+                {
+                    //do nothing lol
+                }
+                AnimationHandler();
         }
 
         private void DebugStuff()

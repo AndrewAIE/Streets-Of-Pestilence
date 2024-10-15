@@ -1,6 +1,8 @@
 using PlayerController;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 namespace Management
@@ -23,8 +25,11 @@ namespace Management
         public PlayerManager m_PlayerManager { get; private set; }
         #endregion
         #region Menus
-        public PauseMenu m_PauseMenu { get; private set; }
+        [SerializeField] public PauseMenu m_PauseMenu;
         #endregion
+
+        private PlayerInputMap m_input;
+        private InputAction m_pauseInput, m_exitInput;
 
 
         //*** CUTSCENE ***//
@@ -43,9 +48,10 @@ namespace Management
         #region Awake & Start
         private void Awake()
         {
+            m_input = new PlayerInputMap();
+            m_PauseMenu = GetComponentInChildren<PauseMenu>();
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
-
             if (gameManagers.Length == 1)
             {
                 //set this game object to do not destroy on load
@@ -53,7 +59,7 @@ namespace Management
             }
             else
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
 
             //assign scripts
@@ -64,11 +70,26 @@ namespace Management
         // Start is called before the first frame update
         void Start()
         {
+           
+
             //trigger cutscene if not played yet
             /*if (!_hasTriggeredCutscene)
                 Debug.Log("Triggered Cutscene");
                 TriggerCutscene();*/
         }
+        private void OnEnable()
+        {
+            m_pauseInput = m_input.UI.Pause;
+            m_pauseInput.Enable();
+            m_exitInput = m_input.UI.Exit;
+            m_exitInput.Enable();
+        }
+        private void OnDisable()
+        {
+            m_pauseInput.Disable();
+            m_exitInput.Disable();
+        }
+
 
         private void AssignScripts()
         {
@@ -83,6 +104,15 @@ namespace Management
 
         private void Update()
         {
+
+
+            if (m_pauseInput.WasPressedThisFrame()) {
+                m_PauseMenu.Pause();
+            }
+            else if(m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+            {
+                m_PauseMenu.Pause();
+            }
 
         }
 
@@ -105,6 +135,7 @@ namespace Management
                     //_cutsceneManager.TurnOff_PressAtoSkip();
                     break;
                 case GameState.Paused:
+                    m_PlayerManager.SetPlayerActive(false);
                     break;
             }
         }

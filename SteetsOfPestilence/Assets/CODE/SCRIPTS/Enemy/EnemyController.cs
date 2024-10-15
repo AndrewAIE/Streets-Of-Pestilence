@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace EnemyAI
 {
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : Entity
     {
         public QTEEncounterData m_EncounterData;
         private PlayerManager m_player;
@@ -26,6 +26,11 @@ namespace EnemyAI
 
         private void Update()
         {
+            GoToPlayer();
+        }
+
+        private void GoToPlayer()
+        {
             m_targetPosition = m_detector.LastPosition();
 
             if (m_detector.m_canSeePlayer)
@@ -37,8 +42,6 @@ namespace EnemyAI
                     m_player.EnterCombat(m_EncounterData, transform.gameObject);
                 }
             }
-
-
         }
 
         public void ForceEncounter()
