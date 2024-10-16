@@ -5,39 +5,58 @@ using QTESystem;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.InputSystem.UI;
+using System.Data;
 
 namespace PlayerController
 {
+    public enum PlayerState
+    {
+        Exploring,
+        Combat,
+        Resting
+    }
+
+
     public class PlayerManager : Entity
     {
-        /*************************************** VARIABLES *****************************************/
-        #region Variables
 
-
+        // Variables
         #region Player Data
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
-        #endregion
 
+        
+
+        /// <summary>
+        /// if the user can currently control their avatar
+        /// </summary>
+        [SerializeField] public bool m_canMove;
+
+        /// <summary>
+        /// the current player state
+        /// </summary>
+        [SerializeReference] private PlayerState m_playerState;
+        private PlayerState m_previousState;
+        #endregion
         #region Camera Components
         [Header("Camera Components")]
         [SerializeField] public Transform _playerTransform;
         [SerializeField] public Transform _freeLookTarget;
         #endregion
-
         #region Debugging
         [Header("Debugging")]
         [SerializeField] private bool _debugMode;
         #endregion
-        
         #region Components
         [HideInInspector] internal AnimationController _animation { get; private set; }
         internal CameraController _cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
-        [HideInInspector] internal MerchantController[] _merchants { get; private set; }
+
+        [HideInInspector] public PlayerInteraction m_Interact;
+
         private QTEManager m_qteRunner;
-        
-        
+
+
         #endregion
         #region Input
         internal InputStruct m_input { get; private set; }
@@ -46,34 +65,6 @@ namespace PlayerController
 
         #endregion
         #region Movement
-        //bool that controls if movement is enabled or not
-        [SerializeField] public bool _canMove;
-
-        //InputStruct\ Mode Enum that controls what type of movement the player is doing
-        [SerializeField] public MovementMode _movementMode;
-        public enum MovementMode
-        {
-            Exploring,
-            LockOn,
-            Combat,
-            Merchant,
-            Debug
-        }
-
-        //ENum that displays what the player is doing while exploring
-        [SerializeField] private ExploringState _exploringState;
-        public enum ExploringState
-        {
-            Stationary,
-            Walking,
-            Running
-        }
-
-        public void Set_ExploringState(ExploringState _newState)
-        {
-            _exploringState = _newState;
-        }
-
         [Header("InputStruct Variables")]
         [Space]
         [SerializeField] private float _speed;
@@ -104,13 +95,7 @@ namespace PlayerController
         public Vector3 centerPoint => _characterController.center;
         #endregion
 
-
-#endregion
-
-        /************************************* METHODS ********************************************/
-        #region Methods
-
-        /*** AWAKE AND UPDATE ***/
+        // Functions
         #region Startup
         private void Awake()
         {
@@ -126,7 +111,10 @@ namespace PlayerController
             //get camera script
             _cameraController = FindObjectOfType<CameraController>();
             //get the merchant
-            _merchants = FindObjectsOfType<MerchantController>();
+            //_merchants = FindObjectsOfType<MerchantController>();
+            m_Interact = GetComponent<PlayerInteraction>();
+
+
             m_qteRunner = GetComponent<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
@@ -134,7 +122,7 @@ namespace PlayerController
         }
         private void Start()
         {
-            _canMove = true;
+            m_canMove = true;
 
         }
 
@@ -167,38 +155,59 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
-                GatherInput();
+            GatherInput();
+            CheckStateChange();
 
-                DebugStuff();
+            DebugStuff();
 
-                if (_canMove)
+            if (m_canMove)
+            {
+                switch (m_playerState)
                 {
-                    //call method that hnadles all player movement
-                    PlayerMovement();
+                    case PlayerState.Exploring:
+                        PlayerMovement();
+                        m_Interact.CheckForInteractable();
+                        break;
+                    case PlayerState.Resting:
+
+                        break;
+                    case PlayerState.Combat:
+
+                        break;
                 }
-                else
+            }
+
+
+           
+            AnimationHandler();
+        }
+        private void FixedUpdate()
+        {
+            
+        }
+
+        private void CheckStateChange()
+        {
+            if(m_playerState != m_previousState)
+            {
+                switch (m_playerState)
                 {
-                    //do nothing lol
+                    case PlayerState.Exploring:
+
+                        break;
+                    case PlayerState.Resting:
+
+                        break;
+                    case PlayerState.Combat:
+
+                        break;
                 }
-                AnimationHandler();
+            }
         }
 
         private void DebugStuff()
         {
-            if (Input.GetKeyDown(KeyCode.BackQuote))
-                _debugMode = !_debugMode;
 
-            if (_debugMode)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                   _movementMode = MovementMode.Debug;
-                }
-                else
-                {
-                    _movementMode = MovementMode.Exploring;
-                }
-            }
         }
 
         #endregion
@@ -207,21 +216,9 @@ namespace PlayerController
         {
             GroundedCheck();
             FallAndGravity();
-            //switch case to handle what type of movement to do
-            switch (_movementMode)
-            {
-                case MovementMode.Exploring:
-                    Rotate_Exploring();
-                    Move_Exploring();
-                    break;
 
-                case MovementMode.LockOn:
-
-                    break;
-                case MovementMode.Debug:
-                    //Move_Debug();
-                    break;
-            }
+            Rotate_Exploring();
+            Move_Exploring();
         }
         #region Exploring
         //Move Method that controls the players movement
@@ -241,7 +238,7 @@ namespace PlayerController
             _motionDirection = (forward * motion.y) + (_camera.transform.right * motion.x);
 
             _motionDirection = Vector3.ClampMagnitude(_motionDirection, _speed);
-            
+
             _characterController.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
             _characterController.Move(_motionDirection * Time.deltaTime);
         }
@@ -304,75 +301,52 @@ namespace PlayerController
         // guess what it does..... i'll give you a hint, it handles combat
         private void AnimationHandler()
         {
-            if (_canMove)
+            if (m_canMove)
                 _animation.SetAnimationFloat_InputMove(m_input.movement.magnitude);
             else
                 _animation.Idle();
         }
 
         #endregion
-        /*** Enter Combat ***/
-        #region Enter Combat
+        #region Combat
 
         public bool PlayerInCombat() => m_qteRunner.enabled;
 
         public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
         {
-            _canMove = false;
+            m_canMove = false;
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
 
         #endregion
-
-        /*** ENABLE / DISABLE PLAYER ***/
         #region Enable / Disable Player
 
         public void SetPlayerActive(bool active)
         {
-            _canMove = active;
+            m_canMove = active;
             _cameraController.SetFreeLookCam_Active(active);
         }
-       
-        #endregion
-
-        /*** Merchant ***/
-        #region Interactions
-        
-        private void Interact()
-        {
-            CheckForMechants();
-        }
-
-        private void CheckForMechants()
-        {
-            foreach (MerchantController mechant in _merchants)
-            {
-
-            }
-        }
 
         #endregion
-        /*** Input Management ***/
         #region Inputs
 
         private void GatherInput()
         {
-            m_input = new InputStruct {
+            m_input = new InputStruct
+            {
                 movement = m_moveInput.ReadValue<Vector2>(),
                 look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
                 recenter = m_recenterInput.WasPressedThisFrame(),
             };
-            if (m_interactInput.WasPressedThisFrame()) Interact();
+            if (m_interactInput.WasPressedThisFrame()) m_Interact.Interact();
 
         }
 
         #endregion
-
-        #endregion
     }
-    
+
     internal struct InputStruct
     {
         public Vector2 movement;

@@ -27,20 +27,20 @@ namespace Interactables
         {
 
         }
+
         public virtual void OnTriggerEnter (Collider other)
         {
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
 
-
+            player.m_Interact.addInteraction(this);
         }
         public virtual void OnTriggerExit (Collider other)
         {
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
 
-
-
+            player.m_Interact.removeInteraction(this);
         }
 
 
