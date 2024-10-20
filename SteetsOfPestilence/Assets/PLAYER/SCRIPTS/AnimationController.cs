@@ -11,37 +11,7 @@ namespace PlayerController
         #region Variables
         [HideInInspector] private Animator _animator;
 
-        /*** Animation State ***/
-        /*#region Animation State
-        public enum RoamingState
-        {
-            Idle,
-            Locomotion,
-        }
-        public RoamingState _roamingState;
-
-        #endregion*/
-
-        /*** Idle State ***/
-        /*
-        #region Idle State
-        public enum IdleState
-        {
-            Default,
-            Inspect,
-            Scared
-        }
-        public IdleState _idleState;
-
-        #endregion
-        */
-
-        /*** Locomotion State ***/
-        /*
-        #region Locomotion
-        [SerializeField] public float _locomotionBlend;
-        #endregion
-        */
+        internal float m_movementSpeed;
 
         /*************************** ANIMATION ID'S *************************/
         #region Animation ID's
@@ -95,53 +65,20 @@ namespace PlayerController
         // Update is called once per frame
         void Update()
         {
-            /*//Idle();
-            switch (_roamingState)
-            {
-                case RoamingState.Idle:
-                    //Idle();
-                    break;
-
-                case RoamingState.Locomotion:
-                    break;
-            }*/
+            Movement();
         }
 
         #endregion
-
-        /*** IDLE ***/
-        /*
-        private void Idle()
+        private void Movement()
         {
-            if (_idleState == IdleState.Default)
-            {
-                _idleTimer += Time.deltaTime;
+            _animator.SetFloat(_animID_Input_Move, m_movementSpeed);
+        }
+        internal void Idle()
+        {
+            m_movementSpeed = 0;
 
-                if (_idleTimer >= _idleTriggerTime)
-                {
-                    if (_lastIdle == _animID_Idle_Inspect)
-                    {
-                        _animator.SetTrigger("Idle_Scared");
-                        _lastIdle = _animID_Idle_Scared;
-                    }
-                    else
-                    {
-                        _animator.SetTrigger("Idle_Inspect");
-                        _lastIdle = _animID_Idle_Inspect;
-                    }
-
-
-                    _idleTimer = 0;
-                    _idleTriggerTime = Random.Range(IdleMinTimer, IdleMaxTimer);
-                }
-            }
         }
 
-        public void SetIdleState(IdleState state)
-        {
-            _idleState = state;
-        }
-        */
 
         private void AssignAnimationIDs()
         {
@@ -159,10 +96,8 @@ namespace PlayerController
         }
 
         //speed
-        public void SetAnimationFloat_Speed(float _inputSpeed)
-        {
-            _animator.SetFloat(_animID_Speed, _inputSpeed);
-        }
+        public void SetMovementSpeed(float _inputSpeed) => m_movementSpeed = _inputSpeed;
+
         
         //move input
         public void SetAnimationFloat_InputMove(float _inputFloat)

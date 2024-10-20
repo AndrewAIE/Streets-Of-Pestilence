@@ -32,7 +32,7 @@ namespace PlayerController
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_manager._character.center), FootstepAudioVolume);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_manager.centerPoint), FootstepAudioVolume);
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace PlayerController
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_manager._character.center), _manager._data.FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_manager.centerPoint), _manager._data.FootstepAudioVolume);
             }
         }
 
