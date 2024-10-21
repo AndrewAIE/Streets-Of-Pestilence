@@ -18,24 +18,22 @@ public class QTEUIAnimation : MonoBehaviour
         Tween.Size(_ring, _targetSize, _timer, 0);
         Image image = _ring.gameObject.GetComponent<Image>();
         image.color = Color.green;
-        Color color = new Color(0,1,0,0);
-        Tween.Color(image, color, _timer, 0);
-        Gamepad.current.SetMotorSpeeds(m_successVibrateStrength / 3, m_successVibrateStrength);
-        Invoke("StopControllerVibrate", m_successVibrateLength);
+        Color color = new Color(0, 1, 0, 0);
+        Tween.Color(image, color, _timer, 0, null, Tween.LoopType.None, null, null, false);
     }
 
     public void FailAction(GameObject _icon)
     {         
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
-        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);        
-        Invoke("StopControllerVibrate", m_incorrectVibrateLength);
+        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
+        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
+        StartCoroutine("StopControllerVibrate");
     }
 
     public void IncorrectInput(Image _icon)
     {
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0);
+        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
-        Invoke("StopControllerVibrate", m_incorrectVibrateLength);
+        StartCoroutine("StopControllerVibrate");
     }      
 
     public void InputButton(Image _icon)
@@ -49,29 +47,26 @@ public class QTEUIAnimation : MonoBehaviour
         _icon.color = Color.white;
     }
 
-    public void StopControllerVibrate()
-    {        
+    public IEnumerator StopControllerVibrate()
+    {
+        yield return new WaitForSeconds(m_incorrectVibrateLength);
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
     public void StartRingAnimation(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
-        Tween.Size(_ring, _targetSize, _timer, 0);
+        Tween.Size(_ring, _targetSize, _timer, 0, null, Tween.LoopType.None, null, null, false);
     }
 
     public void HoldShake(RectTransform _ring, float _timer)
     {
         if (m_shakeTweens[0] == null)
         {
-            m_shakeTweens[0] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
-            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
-            Invoke("StopControllerVibrate", _timer);
+            m_shakeTweens[0] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);           ;
         }
         else
         {
-            m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);
-            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
-            Invoke("StopControllerVibrate", _timer);
+            m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);            
         }
         
         
@@ -86,8 +81,7 @@ public class QTEUIAnimation : MonoBehaviour
                 continue;
             }
             if (m_shakeTweens[i].Status == Tween.TweenStatus.Running)
-            {
-                StopControllerVibrate();
+            {                
                 m_shakeTweens[i].Cancel();
                 m_shakeTweens[i] = null;
             }
@@ -99,7 +93,7 @@ public class QTEUIAnimation : MonoBehaviour
         if (m_flashTweens[0] == null)
         {
             _ring.color = Color.white;
-            m_flashTweens[0] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g , _ring.color.b,0), 0.25f, 0, null, Tween.LoopType.Loop);
+            m_flashTweens[0] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g , _ring.color.b,0), 0.25f, 0, null, Tween.LoopType.Loop, null, null, false);
         }
         else
         {
@@ -111,7 +105,7 @@ public class QTEUIAnimation : MonoBehaviour
     {
         yield return new WaitForSeconds(0.125f);
         _ring.color = Color.white;
-        m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop);
+        m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop, null, null, false);
     }
 
     public void CancelFlash()

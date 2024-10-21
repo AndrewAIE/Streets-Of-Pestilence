@@ -24,7 +24,7 @@ public class QTEHoldAction : QTEAction
     }
     protected override ActionState onUpdate()
     {      
-        if(m_timer >= m_maxTime && !m_held)
+        if(m_timer > m_maxTime + 0.1f && !m_held)
         {
             for (int i = 0; i < InputList.Count; i++)
             {

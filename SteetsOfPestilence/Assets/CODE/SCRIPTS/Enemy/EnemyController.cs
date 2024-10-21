@@ -43,9 +43,9 @@ namespace EnemyAI
                     //m_player.EnterCombat(m_EncounterData, gameObject);
                     return;
                 }
+
                 m_agent.destination = m_targetPosition;
 
-                
             }
         }
         private void FacePlayer(Vector3 _target)
