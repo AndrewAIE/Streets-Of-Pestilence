@@ -4,66 +4,68 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
-
-public class CutsceneManager : MonoBehaviour
+namespace Management
 {
-    [HideInInspector] GameManager _gameManager;
-
-
-    [Header("Playable Director")]
-    [SerializeField] private PlayableDirector _director;
-    [Space]
-
-    [SerializeField] bool _pressAtoskipActive;
-    [SerializeField] GameObject _pressAText;
-    [Space]
-    [SerializeField] bool _skipCutscene;
-    [SerializeField] float _timeToSkipTo;
-
-    private void Awake()
+    public class CutsceneManager : MonoBehaviour
     {
-        _director = GetComponent<PlayableDirector>();
-        _gameManager = FindObjectOfType<GameManager>();
-    }
+        [HideInInspector] GameManager _gameManager;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_gameManager.m_Gamestate == GameManager.GameState.Cutscene)
+        [Header("Playable Director")]
+        [SerializeField] private PlayableDirector _director;
+        [Space]
+
+        [SerializeField] bool _pressAtoskipActive;
+        [SerializeField] GameObject _pressAText;
+        [Space]
+        [SerializeField] bool _skipCutscene;
+        [SerializeField] float _timeToSkipTo;
+
+        private void Awake()
         {
-            if (Input.GetButtonDown("Fire1") && !_skipCutscene && _pressAtoskipActive)
-            {
-                SkipCutscene();
-            }
+            _director = GetComponent<PlayableDirector>();
+            _gameManager = FindObjectOfType<GameManager>();
+        }
 
-            if (Input.GetButtonDown("Fire1") && !_pressAtoskipActive)
+        // Start is called before the first frame update
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (_gameManager.m_Gamestate == GameState.Cutscene)
             {
-                _pressAText.SetActive(true);
-                _pressAtoskipActive = true;
+                if (Input.GetButtonDown("Fire1") && !_skipCutscene && _pressAtoskipActive)
+                {
+                    SkipCutscene();
+                }
+
+                if (Input.GetButtonDown("Fire1") && !_pressAtoskipActive)
+                {
+                    _pressAText.SetActive(true);
+                    _pressAtoskipActive = true;
+                }
             }
         }
-    }
 
-    public void SkipCutscene()
-    {
-        _director.time = _timeToSkipTo;
-        _skipCutscene = true;
-        TurnOff_PressAtoSkip();
-    }
+        public void SkipCutscene()
+        {
+            _director.time = _timeToSkipTo;
+            _skipCutscene = true;
+            TurnOff_PressAtoSkip();
+        }
 
-    public void TriggerCutscene()
-    {
-        _director.Play();
-    }
+        public void TriggerCutscene()
+        {
+            _director.Play();
+        }
 
-    public void TurnOff_PressAtoSkip()
-    {
-        _pressAText.SetActive(false);
+        public void TurnOff_PressAtoSkip()
+        {
+            _pressAText.SetActive(false);
+        }
     }
 }
