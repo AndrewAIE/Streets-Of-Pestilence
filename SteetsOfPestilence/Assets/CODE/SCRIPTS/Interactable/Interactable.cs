@@ -12,6 +12,7 @@ namespace Interactables
     public class Interactable : MonoBehaviour
     {
         public string interactablePrompt;
+        public float m_angle;
         /// <summary>
         /// the interactable trigger of the GameObject
         /// </summary>

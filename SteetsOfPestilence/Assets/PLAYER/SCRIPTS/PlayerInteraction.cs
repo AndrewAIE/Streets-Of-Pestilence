@@ -79,6 +79,18 @@ namespace PlayerController
             {
                 if (currentInteractableActions[i] == null)
                     currentInteractableActions.RemoveAt(i);
+
+                foreach(Interactable interact in currentInteractableActions)
+                {
+                    Vector3 otherPos = interact.transform.position;
+                    Vector3 originPos = m_player.transform.position;
+                    originPos.y += 1;
+                    otherPos.y += 1;
+
+                    Vector3 direction = otherPos - originPos;
+                    float angle = Vector3.Angle(direction, transform.forward);
+
+                }
             }
         }
 
