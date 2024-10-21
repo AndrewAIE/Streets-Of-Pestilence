@@ -236,7 +236,7 @@ namespace PlayerController
         private void FreeLookCam_RoamingStatic()
         {
             //increment timer
-            _freeLook_RS_timer += Time.deltaTime;
+            _freeLook_RS_timer += Time.unscaledDeltaTime;
 
             //reset timer if look input
             if(_manager.m_input.look.magnitude > _manager._data.FreeLook_RS_LookInputThres)
@@ -301,7 +301,7 @@ namespace PlayerController
         private void FreeLookCam_StationaryStatic()
         {
             //increment timer
-            _freelook_SS_timer += Time.deltaTime;
+            _freelook_SS_timer += Time.unscaledDeltaTime;
 
             //reset timer if look input
             if(_manager.m_input.look.magnitude >= 0.1f)
