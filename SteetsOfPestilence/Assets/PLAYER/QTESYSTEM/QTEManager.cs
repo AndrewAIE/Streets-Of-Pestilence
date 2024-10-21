@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
@@ -75,6 +76,9 @@ namespace QTESystem
         public int ChangeInPoiseValue;
         public int AvailableSuccessPoints;
         public int CurrentSuccessPoints;
+        [SerializeField]
+        public int m_poiseChangeValue = 2;
+        
 
         #endregion
 
@@ -84,6 +88,8 @@ namespace QTESystem
         public float BeginningOfStreamTimeLimit;
         public float BetweenActionTimeLimit;
         public float ActionTimeLimit;
+
+        public TimeManager TimerManager;
         #endregion
 
         //*** Enum Variables ***//
@@ -165,16 +171,14 @@ namespace QTESystem
 
         //*** Update ***//
         #region Update
-
         void Update()
         {
-            Timer += Time.deltaTime;
-            CurrentState.StateUpdate(Timer);                    
+            Timer += Time.unscaledDeltaTime;
+            CurrentState.StateUpdate(Timer);            
         }
-
         #endregion
 
-        //*** Loading Encoutner Data ***//
+        //*** Loading Encounter Data ***//
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
         {
@@ -377,19 +381,19 @@ namespace QTESystem
             switch(successRate)
             {
                 case 0:
-                    poiseChange = -4;                    
+                    poiseChange = -m_poiseChangeValue * 2;                    
                     break;
                 case < 0.5f:
-                    poiseChange = -2;                    
+                    poiseChange = -m_poiseChangeValue;                    
                     break;
                 case 0.5f:
                     poiseChange = 0;                    
                     break;
                 case 1:
-                    poiseChange = 4;                    
+                    poiseChange = m_poiseChangeValue * 2;                    
                     break;
                 case > 0.5f:
-                    poiseChange = 2;                   
+                    poiseChange = m_poiseChangeValue;                   
                     break;
                 default:
                     poiseChange = 0;                    
@@ -412,7 +416,7 @@ namespace QTESystem
         //Player Win
         private void playerWin()
         {
-            Destroy(Enemy);
+            Destroy(Enemy);            
             EndOfEncounter();
             GetComponent<PlayerInput>().enabled = true;
         }
@@ -421,7 +425,6 @@ namespace QTESystem
         private void playerLoss()
         {
             EndOfEncounter();
-
             //ANDREW TO DO
             //Replace this with the GameManager Method ReloadScene();
             //I dont know how to access game manager outside of this namespace
