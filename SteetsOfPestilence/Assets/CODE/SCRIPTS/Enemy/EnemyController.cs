@@ -37,8 +37,6 @@ namespace EnemyAI
                     m_player.EnterCombat(m_EncounterData, transform.gameObject);
                 }
             }
-
-
         }
 
         public void ForceEncounter()
