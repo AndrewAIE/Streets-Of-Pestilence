@@ -49,7 +49,7 @@ namespace PlayerController
         #endregion
         #region Components
         [HideInInspector] internal AnimationController _animation { get; private set; }
-        internal CameraController _cameraController { get; private set; }
+        internal CameraController m_cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
 
         [HideInInspector] public PlayerInteraction m_Interact;
@@ -95,6 +95,8 @@ namespace PlayerController
         public Vector3 centerPoint => _characterController.center;
         #endregion
 
+        private Vector3 m_spawnPoint; private Quaternion m_spawnRotation;
+
         // Functions
         #region Startup
         private void Awake()
@@ -109,10 +111,9 @@ namespace PlayerController
             _sfx = GetComponent<SFXController>();
 
             //get camera script
-            _cameraController = FindObjectOfType<CameraController>();
+            m_cameraController = FindObjectOfType<CameraController>();
             //get the merchant
             //_merchants = FindObjectsOfType<MerchantController>();
-            m_Interact = GetComponent<PlayerInteraction>();
 
 
             m_qteRunner = GetComponent<QTEManager>();
@@ -166,7 +167,6 @@ namespace PlayerController
                 {
                     case PlayerState.Exploring:
                         PlayerMovement();
-                        m_Interact.CheckForInteractable();
                         break;
                     case PlayerState.Resting:
 
@@ -318,6 +318,16 @@ namespace PlayerController
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
+        public void SetSpawn(Vector3 position, Quaternion rotation)
+        {
+            m_spawnPoint = position;
+            m_spawnRotation = rotation;
+        }
+        public void KillPlayer()
+        {
+            transform.position = m_spawnPoint;
+            transform.rotation = m_spawnRotation;
+        }
 
         #endregion
         #region Enable / Disable Player
@@ -325,7 +335,7 @@ namespace PlayerController
         public void SetPlayerActive(bool active)
         {
             m_canMove = active;
-            _cameraController.SetFreeLookCam_Active(active);
+            m_cameraController.SetFreeLookCam_Active(active);
         }
 
         #endregion
@@ -338,12 +348,10 @@ namespace PlayerController
                 movement = m_moveInput.ReadValue<Vector2>(),
                 look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
-                recenter = m_recenterInput.WasPressedThisFrame(),
             };
             if (m_interactInput.WasPressedThisFrame()) m_Interact.Interact();
-
+            if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
-
         #endregion
     }
 
@@ -352,6 +360,5 @@ namespace PlayerController
         public Vector2 movement;
         public Vector2 look;
         public bool sprint;
-        public bool recenter;
     }
 }
