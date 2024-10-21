@@ -82,20 +82,43 @@ namespace QTESystem
             m_audio = GetComponentInChildren<QTEAudio>();            
         }
         //*** Panel ***//
-        #region Panel
-
-        
-        public void ActivatePanel(int _indicator)
-        {
-            m_iconPanels[_indicator].SetActive(true);
-        }
-
+        [SerializeField]
+        private GameObject[] m_maskPanels;
+        #region Panel       
         
         public void DeactivatePanels()
         {
             foreach (GameObject panel in m_iconPanels)
             {
                 panel.SetActive(false);
+            }
+        }
+
+        internal void LoadUI(string _enemyType)
+        {
+            switch (_enemyType)
+            {
+                case "Rabbit":
+                    m_iconPanels[0].SetActive(true);
+                    m_iconPanels[2].SetActive(true);
+                    m_maskPanels[0].SetActive(true);
+                    break;
+                case "Rat":
+                    m_iconPanels[1].SetActive(true);
+                    m_iconPanels[2].SetActive(true);
+                    m_maskPanels[2].SetActive(true);
+                    break;
+                case "Dog":
+                    m_iconPanels[2].SetActive(true);
+                    m_maskPanels[1].SetActive(true);
+                    break;
+                case "Boss":
+                    m_iconPanels[0].SetActive(true);
+                    m_iconPanels[1].SetActive(true);
+                    m_iconPanels[2].SetActive(true);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -476,7 +499,9 @@ namespace QTESystem
         {
             m_iconAnimation.CancelFlash();
         }
+
         
+
         #endregion
 
     }

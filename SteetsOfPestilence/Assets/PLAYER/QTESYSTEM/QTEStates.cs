@@ -25,7 +25,9 @@ namespace QTESystem
             m_qteManager = _manager;
             m_qteManager.PoiseBar.gameObject.SetActive(true);
             m_qteManager.SelectStream();
-            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);            
+            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
+            //ACTIVATE THE APPROPRIA
+            
             m_started = true;
         }
 
@@ -56,8 +58,7 @@ namespace QTESystem
 
             //set new timer data and set timer to 0                    
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
-            m_qteManager.Timer = 0;
-            m_qteManager.ActivateStreamPanels(m_qteManager.GetStreamActionInputs());
+            m_qteManager.Timer = 0;            
         }
 
         public override void StateUpdate(float _timer)

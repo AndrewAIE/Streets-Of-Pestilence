@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -228,6 +229,11 @@ namespace QTESystem
             return actions;
         }
 
+        public void LoadUI(string _enemyType)
+        {
+            QteDisplay.LoadUI(_enemyType);
+        }
+
         public void EndOfEncounter()
         {
             QteDisplay.DeactivatePoiseBar();
@@ -273,90 +279,7 @@ namespace QTESystem
                 WaitingStreams.Add(ActiveStream);
             }
             return selectedStream;
-        }
-
-        //Comment
-        public void ActivateStreamPanels(List<QTEInput> _streamInputs)
-        {
-            bool[] panelActivator = { false, false, false, false };
-            
-            foreach (QTEInput input in _streamInputs)
-            {                
-                QteDisplay.CreateInputPrompt(input);
-                switch (input)
-                {
-                    case QTEInput.NorthDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.EastDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.SouthDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.WestDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.NorthFace:
-                        panelActivator[2] = true;                        
-                        break;
-                    case QTEInput.EastFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.SouthFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.WestFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.LeftShoulder:                        
-                        panelActivator[1] = true;
-                        break;
-                    case QTEInput.RightShoulder:                        
-                        panelActivator[1] = true;
-                        break;
-                    case QTEInput.LeftTrigger:                        
-                        panelActivator[0] = true;
-                        break;                    
-                    case QTEInput.RightTrigger:                        
-                        panelActivator[0] = true;
-                        break;
-                }
-            }
-            QteDisplay.DeactivatePanels();
-            for (int i = 0; i < panelActivator.Length; i++)
-            {
-                if (panelActivator[i])
-                {
-                    
-                    QteDisplay.ActivatePanel(i);
-                    switch(i)
-                    {
-                        case 0:
-                            ActiveDisplayList.Add(QTEInput.LeftTrigger);
-                            ActiveDisplayList.Add(QTEInput.RightTrigger);
-                            break;
-                        case 1:
-                            ActiveDisplayList.Add(QTEInput.LeftShoulder);
-                            ActiveDisplayList.Add(QTEInput.RightShoulder);
-                            break;
-                        case 2:
-                            ActiveDisplayList.Add(QTEInput.NorthFace);
-                            ActiveDisplayList.Add(QTEInput.EastFace);
-                            ActiveDisplayList.Add(QTEInput.SouthFace);
-                            ActiveDisplayList.Add(QTEInput.WestFace);
-                            break;
-                        case 3:
-                            
-                            ActiveDisplayList.Add(QTEInput.NorthDirectional);
-                            ActiveDisplayList.Add(QTEInput.EastDirectional);
-                            ActiveDisplayList.Add(QTEInput.SouthDirectional);
-                            ActiveDisplayList.Add(QTEInput.WestDirectional);
-                            break;
-                    }
-                }
-            }
-        }
+        }        
 
         public QTEAction CreateAction()
         {
