@@ -45,9 +45,9 @@ namespace QTESystem
     {
         private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
-        {
-            
+        {            
             m_qteManager = _manager;
+            m_qteManager.TimerManager.TimeSlowDown();
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
             m_qteManager.StreamPosition = 0;
@@ -161,7 +161,7 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;
+                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;                    
                     ExitState();
                 }                
             }
@@ -177,8 +177,9 @@ namespace QTESystem
     {
         private float m_timeLimit;        
         public override void EnterState(QTEManager _manager)
-        {
+        {            
             m_qteManager = _manager;
+            m_qteManager.TimerManager.TimeSpeedUp();
             //reset stream data
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
             m_qteManager.ResetStreamData();
@@ -200,6 +201,6 @@ namespace QTESystem
         public override void ExitState()
         {            
             m_qteManager.CurrentState.EnterState(m_qteManager);
-        }
+        }       
     }
 }
