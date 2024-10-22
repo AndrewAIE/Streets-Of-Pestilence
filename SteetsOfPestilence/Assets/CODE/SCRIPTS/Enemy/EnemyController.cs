@@ -20,7 +20,7 @@ namespace EnemyAI
     {
         public QTEEncounterData m_EncounterData;
         private PlayerManager m_player;
-        public EnemyType m_EType { get; private set; }
+        public EnemyType m_EType;
 
 
         #region Nav
@@ -71,7 +71,7 @@ namespace EnemyAI
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 FacePlayer();
-                m_player.EnterCombat(m_EncounterData, gameObject);
+                m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
             else if (!m_player.PlayerInCombat())
@@ -107,7 +107,7 @@ namespace EnemyAI
 
         public void ForceEncounter()
         {
-            m_player.EnterCombat(m_EncounterData, gameObject);
+            m_player.EnterCombat(m_EncounterData, this);
         }
     }
 }
