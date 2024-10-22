@@ -362,10 +362,7 @@ namespace QTESystem
         private void playerLoss()
         {
             EndOfEncounter();
-            //ANDREW TO DO
-            //Replace this with the GameManager Method ReloadScene();
-            //I dont know how to access game manager outside of this namespace
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Player.KillPlayer();            
         }
 
         #endregion
