@@ -867,6 +867,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 470273219, guid: ca121c96ebbc63443b329455f008afe9, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4079095235884604522, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: m_Name
@@ -1388,36 +1392,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Poise Bar Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563315808511, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563696557103, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563696557103, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563696557103, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563696557103, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 125
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266788563696557103, guid: 04688780e40fa204195b93039f2ca107,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04688780e40fa204195b93039f2ca107, type: 3}

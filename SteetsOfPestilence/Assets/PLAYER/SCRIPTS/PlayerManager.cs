@@ -5,6 +5,7 @@ using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
+using UnityEditor.SceneManagement;
 
 namespace PlayerController
 {
@@ -333,7 +334,11 @@ namespace PlayerController
         public void UnlockSpawn(Vector3 position, Quaternion rotation)
         {
             m_spawnPoint = new SpawnPoint(position, rotation);
-            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) m_unlockedCheckpoints.Add(m_spawnPoint); 
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) { 
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
         }
 
         public bool killplayer = false;
