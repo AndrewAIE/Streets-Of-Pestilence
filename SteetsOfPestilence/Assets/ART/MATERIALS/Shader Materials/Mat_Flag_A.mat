@@ -7,16 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Flag
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Name: Mat_Flag_A
+  m_Shader: {fileID: -6465566751694194690, guid: a7376a7328cb5c44db0c31d063a5632d,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -45,6 +45,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlagInput:
+        m_Texture: {fileID: 2800000, guid: 56e2ce668d97daa4bbc2e7f960c19851, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -58,6 +62,26 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_a2bfba2b8dc5471d9786e0196393edae_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8200f32349e7e93479ffab39410d009b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_e0623c20c21748478c048f99edab9f1f_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8200f32349e7e93479ffab39410d009b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3218ae3c00644ce1928b5241341911f2_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 56e2ce668d97daa4bbc2e7f960c19851, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_ce867a8cf05242f098c2ac83f999e8e7_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 3d022c2dc9497cf4a831b13a073b30c4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f057f0ea82f54ad5aaf41f8cb4ac6d4e_Texture_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -89,20 +113,38 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionStrength: 0
     - _EnvironmentReflections: 1
+    - _FinerDamage: 0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HorizontalTile: 1
+    - _InvertScroll: 0
     - _Metallic: 0
+    - _NormalsStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _Power: 0.265
+    - _PowerMultiply: 0.588
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Roughness: 0.976
+    - _Saturation: 0.72
+    - _Scale: 5
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 0.549
     - _SrcBlend: 1
     - _Surface: 0
+    - _TearSlider: 0.181
+    - _TearingAmount: 1.6
+    - _TearingScale: 3.9
+    - _Travel: 3.32
+    - _UseHardGradient: 0
+    - _VerticleTile: 15.4
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.InputSystem.UI;
-using System.Data;
+using EnemyAI;
+using UnityEditor.SceneManagement;
 
 namespace PlayerController
 {
@@ -15,7 +15,17 @@ namespace PlayerController
         Combat,
         Resting
     }
+    public struct SpawnPoint
+    {
+        public Vector3 position;
+        public Quaternion rotation;
 
+        public SpawnPoint(Vector3 _pos, Quaternion _rot)
+        {
+            position = _pos;
+            rotation = _rot;
+        }
+    }
 
     public class PlayerManager : Entity
     {
@@ -49,10 +59,10 @@ namespace PlayerController
         #endregion
         #region Components
         [HideInInspector] internal AnimationController _animation { get; private set; }
-        internal CameraController _cameraController { get; private set; }
+        internal CameraController m_cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
 
-        [HideInInspector] public PlayerInteraction m_Interact;
+        [HideInInspector] public PlayerUI m_playerUI;
 
         private QTEManager m_qteRunner;
 
@@ -95,6 +105,9 @@ namespace PlayerController
         public Vector3 centerPoint => _characterController.center;
         #endregion
 
+        private SpawnPoint m_spawnPoint;
+        private List<SpawnPoint> m_unlockedCheckpoints;
+
         // Functions
         #region Startup
         private void Awake()
@@ -109,11 +122,10 @@ namespace PlayerController
             _sfx = GetComponent<SFXController>();
 
             //get camera script
-            _cameraController = FindObjectOfType<CameraController>();
+            m_cameraController = FindObjectOfType<CameraController>();
             //get the merchant
             //_merchants = FindObjectsOfType<MerchantController>();
-            m_Interact = GetComponent<PlayerInteraction>();
-
+            m_playerUI = GetComponentInChildren<PlayerUI>();
 
             m_qteRunner = GetComponent<QTEManager>();
 
@@ -123,7 +135,7 @@ namespace PlayerController
         private void Start()
         {
             m_canMove = true;
-
+            m_unlockedCheckpoints = new List<SpawnPoint>();
         }
 
 
@@ -155,6 +167,8 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
+            if (killplayer) KillPlayer();
+
             GatherInput();
             CheckStateChange();
 
@@ -166,7 +180,6 @@ namespace PlayerController
                 {
                     case PlayerState.Exploring:
                         PlayerMovement();
-                        m_Interact.CheckForInteractable();
                         break;
                     case PlayerState.Resting:
 
@@ -312,11 +325,34 @@ namespace PlayerController
 
         public bool PlayerInCombat() => m_qteRunner.enabled;
 
-        public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
+        public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             m_canMove = false;
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
+        }
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+        {
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) { 
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
+        }
+
+        public bool killplayer = false;
+        public void KillPlayer()
+        {
+            m_playerUI.DeathTransition();
+            _characterController.enabled = false;
+            
+            transform.position = m_spawnPoint.position;
+            transform.rotation = m_spawnPoint.rotation;
+            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+
+            _characterController.enabled = true;
+            killplayer = false;
         }
 
         #endregion
@@ -325,7 +361,7 @@ namespace PlayerController
         public void SetPlayerActive(bool active)
         {
             m_canMove = active;
-            _cameraController.SetFreeLookCam_Active(active);
+            m_cameraController.SetFreeLookCam_Active(active);
         }
 
         #endregion
@@ -338,13 +374,15 @@ namespace PlayerController
                 movement = m_moveInput.ReadValue<Vector2>(),
                 look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
-                recenter = m_recenterInput.WasPressedThisFrame(),
             };
-            if (m_interactInput.WasPressedThisFrame()) m_Interact.Interact();
-
+            if (m_interactInput.WasPressedThisFrame()) m_playerUI.Interact();
+            if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
-
         #endregion
+
+
+
+
     }
 
     internal struct InputStruct
@@ -352,6 +390,5 @@ namespace PlayerController
         public Vector2 movement;
         public Vector2 look;
         public bool sprint;
-        public bool recenter;
     }
 }

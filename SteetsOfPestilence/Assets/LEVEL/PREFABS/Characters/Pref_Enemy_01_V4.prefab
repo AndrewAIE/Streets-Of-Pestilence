@@ -10,13 +10,24 @@ PrefabInstance:
     - target: {fileID: 4079095235884604522, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: m_Name
-      value: Pref_Enemy_01_V3
+      value: Pref_Enemy_01_V4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231910023988882352, guid: ca121c96ebbc63443b329455f008afe9,
+        type: 3}
+      propertyPath: m_EType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7231910023988882352, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: EncounterData
       value: 
       objectReference: {fileID: 11400000, guid: c62cfdd3920409f429009b1dc0db025f,
+        type: 2}
+    - target: {fileID: 7231910023988882352, guid: ca121c96ebbc63443b329455f008afe9,
+        type: 3}
+      propertyPath: m_EncounterData
+      value: 
+      objectReference: {fileID: 11400000, guid: d1936ab96d7d6e746a75c93248c8c532,
         type: 2}
     - target: {fileID: 7529881823715342940, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}

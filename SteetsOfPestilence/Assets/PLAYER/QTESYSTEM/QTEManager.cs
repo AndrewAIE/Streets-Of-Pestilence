@@ -1,9 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
+using EnemyAI;
+using PlayerController;
+
 
 namespace QTESystem
 {
@@ -102,8 +106,8 @@ namespace QTESystem
 
         //*** Player & Enemy ***//
         #region Player & Enemy 
-        public GameObject Enemy;
-        private GameObject Player;
+        public EnemyController Enemy;
+        private PlayerManager Player;
 
         #endregion
 
@@ -151,7 +155,7 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             ActiveDisplayList = new List<QTEInput>();
-            Player = gameObject;            
+            Player = GetComponent<PlayerManager>();            
         }
         
         private void OnEnable()
@@ -180,7 +184,7 @@ namespace QTESystem
 
         //*** Loading Encounter Data ***//
         #region LoadingEncounterData
-        public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
+        public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             //load data from enemy encounter data and start encounter            
             EncounterData = _encounterData;            
@@ -188,7 +192,7 @@ namespace QTESystem
             EnterStance(QTEManager.PlayerStance.NeutralStance);
             QteDisplay.ActivatePoiseBar();
             PoiseBar.ResetPoise();
-
+            LoadUI(_enemy.m_EType);
             //Load Stream Data
             ActiveStreamData = EncounterData.NeutralStreamData;            
             WaitingStreams = new List<QTEStreamData>();
@@ -228,10 +232,16 @@ namespace QTESystem
             return actions;
         }
 
+        public void LoadUI(EnemyAI.EnemyType _enemyType)
+        {
+            QteDisplay.LoadUI(_enemyType);
+        }
+
         public void EndOfEncounter()
         {
             QteDisplay.DeactivatePoiseBar();
             QteDisplay.DeactivatePanels();
+            Player.SetPlayerActive(true);
             WaitingStreams.Clear();
             ActiveStream = null;
             this.enabled = false;
@@ -261,6 +271,8 @@ namespace QTESystem
             }            
         }
 
+        
+
         //Comment
         public QTEStreamData SelectRandomStream()
         {            
@@ -275,86 +287,11 @@ namespace QTESystem
             return selectedStream;
         }
 
-        //Comment
-        public void ActivateStreamPanels(List<QTEInput> _streamInputs)
+        public void ActivateInputCues(List<QTEInput> _streamInputs)
         {
-            bool[] panelActivator = { false, false, false, false };
-            
             foreach (QTEInput input in _streamInputs)
-            {                
-                QteDisplay.CreateInputPrompt(input);
-                switch (input)
-                {
-                    case QTEInput.NorthDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.EastDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.SouthDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.WestDirectional:
-                        panelActivator[3] = true;
-                        break;
-                    case QTEInput.NorthFace:
-                        panelActivator[2] = true;                        
-                        break;
-                    case QTEInput.EastFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.SouthFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.WestFace:
-                        panelActivator[2] = true;
-                        break;
-                    case QTEInput.LeftShoulder:                        
-                        panelActivator[1] = true;
-                        break;
-                    case QTEInput.RightShoulder:                        
-                        panelActivator[1] = true;
-                        break;
-                    case QTEInput.LeftTrigger:                        
-                        panelActivator[0] = true;
-                        break;                    
-                    case QTEInput.RightTrigger:                        
-                        panelActivator[0] = true;
-                        break;
-                }
-            }
-            QteDisplay.DeactivatePanels();
-            for (int i = 0; i < panelActivator.Length; i++)
             {
-                if (panelActivator[i])
-                {
-                    
-                    QteDisplay.ActivatePanel(i);
-                    switch(i)
-                    {
-                        case 0:
-                            ActiveDisplayList.Add(QTEInput.LeftTrigger);
-                            ActiveDisplayList.Add(QTEInput.RightTrigger);
-                            break;
-                        case 1:
-                            ActiveDisplayList.Add(QTEInput.LeftShoulder);
-                            ActiveDisplayList.Add(QTEInput.RightShoulder);
-                            break;
-                        case 2:
-                            ActiveDisplayList.Add(QTEInput.NorthFace);
-                            ActiveDisplayList.Add(QTEInput.EastFace);
-                            ActiveDisplayList.Add(QTEInput.SouthFace);
-                            ActiveDisplayList.Add(QTEInput.WestFace);
-                            break;
-                        case 3:
-                            
-                            ActiveDisplayList.Add(QTEInput.NorthDirectional);
-                            ActiveDisplayList.Add(QTEInput.EastDirectional);
-                            ActiveDisplayList.Add(QTEInput.SouthDirectional);
-                            ActiveDisplayList.Add(QTEInput.WestDirectional);
-                            break;
-                    }
-                }
+                QteDisplay.CreateInputPrompt(input);
             }
         }
 
@@ -425,10 +362,7 @@ namespace QTESystem
         private void playerLoss()
         {
             EndOfEncounter();
-            //ANDREW TO DO
-            //Replace this with the GameManager Method ReloadScene();
-            //I dont know how to access game manager outside of this namespace
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Player.KillPlayer();            
         }
 
         #endregion

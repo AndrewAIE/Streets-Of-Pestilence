@@ -39,11 +39,6 @@ namespace PlayerController
         [SerializeField] private CinemachineFreeLook _freeLookCam;
         [SerializeField] private FreeLookCamState _freeLookCamState;
 
-        [Space]
-        [Header("Roaming Recentering")]
-
-        [Header("Roaming Static")]
-        [SerializeField] private float _freeLook_RS_timer;
 
         [Header("Stationary Static")]
         [SerializeField] private float _freelook_SS_timer;
@@ -166,7 +161,6 @@ namespace PlayerController
                     break;
 
                 case FreeLookCamState.Roaming_Static:
-                    _freeLook_RS_timer = 0;
                     FreeLookCam_SetRecentering(false);
                     break;
 
@@ -216,7 +210,6 @@ namespace PlayerController
                 SetState_FreeLookCam(FreeLookCamState.Roaming_Static);
 
                 //reset RS Timer
-                _freeLook_RS_timer = 0f;
             }
 
             #endregion
@@ -235,28 +228,6 @@ namespace PlayerController
         /* Free Look Cam Roaming Recentering State */
         private void FreeLookCam_RoamingStatic()
         {
-            //increment timer
-            _freeLook_RS_timer += Time.unscaledDeltaTime;
-
-            //reset timer if look input
-            if(_manager.m_input.look.magnitude > _manager._data.FreeLook_RS_LookInputThres)
-            {
-                _freeLook_RS_timer = 0;
-            }
-
-            //Roaming Static -> Roaming Recentering
-            #region RS -> RR
-            //if timer is over limit &&
-            //if moving
-            if (_freeLook_RS_timer >= _manager._data.FreeLook_RS_TimerThres &&
-                _manager.m_input.movement.magnitude >= 0.1f)
-            {
-                //set state
-                SetState_FreeLookCam(FreeLookCamState.Roaming_Recenting);
-            }
-
-            #endregion
-
             //Roaming Static -> Stationary Static
             #region RS -> SS
             //if !moving
@@ -279,7 +250,7 @@ namespace PlayerController
             if (_manager.m_input.movement.magnitude > 0f)
             {
                 //set state to roaming
-                SetState_FreeLookCam(FreeLookCamState.Roaming_Recenting);
+                SetState_FreeLookCam(FreeLookCamState.Roaming_Static);
             }
 
             #endregion

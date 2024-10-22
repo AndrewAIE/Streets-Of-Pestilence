@@ -20,7 +20,7 @@ namespace EnemyAI
     {
         public QTEEncounterData m_EncounterData;
         private PlayerManager m_player;
-        public EnemyType m_EType { get; private set; }
+        public EnemyType m_EType;
 
 
         #region Nav
@@ -48,16 +48,19 @@ namespace EnemyAI
 
         private void Update()
         {
-            if (m_detector.m_canSeePlayer)
-                m_timer = m_waitTime;
-
-            if (m_timer > 0)
+            if (!m_player.PlayerInCombat())
             {
-                GoToPlayer();
-                m_timer -= Time.deltaTime;
+                if (m_detector.m_canSeePlayer)
+                    m_timer = m_waitTime;
+
+                if (m_timer > 0)
+                {
+                    GoToPlayer();
+                    m_timer -= Time.deltaTime;
+                }
+                else
+                    Standby();
             }
-            else
-                Standby();
         }
         private void OnDestroy()
         {
@@ -71,10 +74,10 @@ namespace EnemyAI
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 FacePlayer();
-                //m_player.EnterCombat(m_EncounterData, gameObject);
+                m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
-            else if (!m_player.PlayerInCombat())
+            else
             {
                 m_agent.destination = m_targetPosition;
             }
@@ -91,9 +94,6 @@ namespace EnemyAI
                 }
 
                 m_agent.destination = m_patrolPositions[m_patrolNum];
-
-
-
             }
             else
                 m_agent.destination = m_homeDestination;
@@ -107,7 +107,7 @@ namespace EnemyAI
 
         public void ForceEncounter()
         {
-            m_player.EnterCombat(m_EncounterData, gameObject);
+            m_player.EnterCombat(m_EncounterData, this);
         }
     }
 }
