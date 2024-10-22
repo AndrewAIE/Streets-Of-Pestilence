@@ -15,7 +15,7 @@ public class QTEUIAnimation : MonoBehaviour
     private TweenBase[] m_flashTweens = new TweenBase[2];
     public void SuccessfulInput(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
-        Tween.Size(_ring, _targetSize, _timer, 0);
+        Tween.Size(_ring, _targetSize, _timer, 0, null, Tween.LoopType.None, null, null, false);
         Image image = _ring.gameObject.GetComponent<Image>();
         image.color = Color.green;
         Color color = new Color(0, 1, 0, 0);
@@ -49,7 +49,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public IEnumerator StopControllerVibrate()
     {
-        yield return new WaitForSeconds(m_incorrectVibrateLength);
+        yield return new WaitForSecondsRealtime(m_incorrectVibrateLength);
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
@@ -67,9 +67,7 @@ public class QTEUIAnimation : MonoBehaviour
         else
         {
             m_shakeTweens[1] = Tween.Shake(_ring.transform, Vector3.zero, new Vector3(5, 0, 0), _timer, 0);            
-        }
-        
-        
+        }           
     }
 
     public void CancelShake()
@@ -103,7 +101,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     private IEnumerator FlashRingTwo(Image _ring)
     {
-        yield return new WaitForSeconds(0.125f);
+        yield return new WaitForSecondsRealtime(0.125f);
         _ring.color = Color.white;
         m_flashTweens[1] = Tween.Color(_ring, new Color(_ring.color.r, _ring.color.g, _ring.color.b, 0), 0.25f, 0, null, Tween.LoopType.Loop, null, null, false);
     }
@@ -122,6 +120,5 @@ public class QTEUIAnimation : MonoBehaviour
                 m_flashTweens[i] = null;
             }
         }
-    }
-    
+    }    
 }

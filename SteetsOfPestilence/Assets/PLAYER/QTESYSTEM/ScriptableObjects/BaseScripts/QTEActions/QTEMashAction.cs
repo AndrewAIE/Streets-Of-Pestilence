@@ -28,8 +28,7 @@ public class QTEMashAction : QTEAction
                 }
                 return m_state = ActionState.fail;
             }            
-        }
-        
+        }        
         if(m_timer >= m_maxTime)
         {
             m_timeUp = true;
@@ -52,7 +51,7 @@ public class QTEMashAction : QTEAction
                 {
                     m_mashCount++;
                     inputCorrect = true;
-                    m_qteDisplay.SetIconColor(InputList, Color.green);
+                    m_qteDisplay.SetIconColor(InputList[i], Color.green);
                     //if the mash target has been reached, set state to success
                     if(m_mashCount >= m_mashTarget)
                     {
