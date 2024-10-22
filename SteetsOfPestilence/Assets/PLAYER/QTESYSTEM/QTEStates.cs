@@ -55,7 +55,7 @@ namespace QTESystem
             m_qteManager.StreamPosition = 0;
             m_qteManager.AvailableSuccessPoints = 0;
             m_qteManager.CurrentSuccessPoints = 0;
-
+            m_qteManager.ActivateInputCues(m_qteManager.GetStreamActionInputs());
             //set new timer data and set timer to 0                    
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
             m_qteManager.Timer = 0;            

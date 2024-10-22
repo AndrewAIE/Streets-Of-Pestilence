@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.InputSystem.UI;
-using System.Data;
+using EnemyAI;
 
 namespace PlayerController
 {
@@ -325,7 +324,7 @@ namespace PlayerController
 
         public bool PlayerInCombat() => m_qteRunner.enabled;
 
-        public void EnterCombat(QTEEncounterData _encounterData, GameObject _enemy)
+        public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             m_canMove = false;
             m_qteRunner.enabled = true;

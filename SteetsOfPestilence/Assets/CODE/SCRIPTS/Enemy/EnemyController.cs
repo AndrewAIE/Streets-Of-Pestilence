@@ -74,7 +74,7 @@ namespace EnemyAI
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 FacePlayer();
-                m_player.EnterCombat(m_EncounterData, gameObject);
+                m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
             else
@@ -107,7 +107,7 @@ namespace EnemyAI
 
         public void ForceEncounter()
         {
-            m_player.EnterCombat(m_EncounterData, gameObject);
+            m_player.EnterCombat(m_EncounterData, this);
         }
     }
 }

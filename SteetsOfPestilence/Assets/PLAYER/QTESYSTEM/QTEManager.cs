@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
+using EnemyAI;
+using PlayerController;
+
 
 namespace QTESystem
 {
@@ -103,8 +106,8 @@ namespace QTESystem
 
         //*** Player & Enemy ***//
         #region Player & Enemy 
-        public GameObject Enemy;
-        private GameObject Player;
+        public EnemyController Enemy;
+        private PlayerManager Player;
 
         #endregion
 
@@ -152,7 +155,7 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             ActiveDisplayList = new List<QTEInput>();
-            Player = gameObject;            
+            Player = GetComponent<PlayerManager>();            
         }
         
         private void OnEnable()
@@ -181,7 +184,7 @@ namespace QTESystem
 
         //*** Loading Encounter Data ***//
         #region LoadingEncounterData
-        public void LoadEncounter(QTEEncounterData _encounterData, GameObject _enemy)
+        public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             //load data from enemy encounter data and start encounter            
             EncounterData = _encounterData;            
@@ -189,7 +192,7 @@ namespace QTESystem
             EnterStance(QTEManager.PlayerStance.NeutralStance);
             QteDisplay.ActivatePoiseBar();
             PoiseBar.ResetPoise();
-
+            LoadUI(_enemy.m_EType);
             //Load Stream Data
             ActiveStreamData = EncounterData.NeutralStreamData;            
             WaitingStreams = new List<QTEStreamData>();
@@ -229,7 +232,7 @@ namespace QTESystem
             return actions;
         }
 
-        public void LoadUI(string _enemyType)
+        public void LoadUI(EnemyAI.EnemyType _enemyType)
         {
             QteDisplay.LoadUI(_enemyType);
         }
@@ -238,6 +241,7 @@ namespace QTESystem
         {
             QteDisplay.DeactivatePoiseBar();
             QteDisplay.DeactivatePanels();
+            Player.SetPlayerActive(true);
             WaitingStreams.Clear();
             ActiveStream = null;
             this.enabled = false;
@@ -267,6 +271,8 @@ namespace QTESystem
             }            
         }
 
+        
+
         //Comment
         public QTEStreamData SelectRandomStream()
         {            
@@ -279,7 +285,15 @@ namespace QTESystem
                 WaitingStreams.Add(ActiveStream);
             }
             return selectedStream;
-        }        
+        }
+
+        public void ActivateInputCues(List<QTEInput> _streamInputs)
+        {
+            foreach (QTEInput input in _streamInputs)
+            {
+                QteDisplay.CreateInputPrompt(input);
+            }
+        }
 
         public QTEAction CreateAction()
         {
