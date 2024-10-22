@@ -62,7 +62,7 @@ namespace PlayerController
         internal CameraController m_cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
 
-        [HideInInspector] public PlayerInteraction m_Interact;
+        [HideInInspector] public PlayerUI m_playerUI;
 
         private QTEManager m_qteRunner;
 
@@ -125,7 +125,7 @@ namespace PlayerController
             m_cameraController = FindObjectOfType<CameraController>();
             //get the merchant
             //_merchants = FindObjectsOfType<MerchantController>();
-
+            m_playerUI = GetComponentInChildren<PlayerUI>();
 
             m_qteRunner = GetComponent<QTEManager>();
 
@@ -167,6 +167,8 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
+            if (killplayer) KillPlayer();
+
             GatherInput();
             CheckStateChange();
 
@@ -334,14 +336,19 @@ namespace PlayerController
             m_spawnPoint = new SpawnPoint(position, rotation);
             if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) m_unlockedCheckpoints.Add(m_spawnPoint); 
         }
+
+        public bool killplayer = false;
         public void KillPlayer()
         {
+            m_playerUI.DeathTransition();
             _characterController.enabled = false;
-
+            
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+
             _characterController.enabled = true;
+            killplayer = false;
         }
 
         #endregion
@@ -364,7 +371,7 @@ namespace PlayerController
                 look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
             };
-            if (m_interactInput.WasPressedThisFrame()) m_Interact.Interact();
+            if (m_interactInput.WasPressedThisFrame()) m_playerUI.Interact();
             if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
         #endregion
