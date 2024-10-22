@@ -1168,6 +1168,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1803949232, guid: 902758a0982f90f4593b485fe5f4d64c, type: 3}
+      propertyPath: LandingAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8d680201e16a2b647aa111886930aabe, type: 3}
+    - target: {fileID: 1803949232, guid: 902758a0982f90f4593b485fe5f4d64c, type: 3}
+      propertyPath: FootstepAudioClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803949232, guid: 902758a0982f90f4593b485fe5f4d64c, type: 3}
+      propertyPath: FootstepAudioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 18c3a1af118deeb4083804cc20e721ec, type: 3}
+    - target: {fileID: 702489194120394011, guid: 902758a0982f90f4593b485fe5f4d64c,
+        type: 3}
+      propertyPath: PoiseBar
+      value: 
+      objectReference: {fileID: 1304829929}
+    - target: {fileID: 702489194120394011, guid: 902758a0982f90f4593b485fe5f4d64c,
+        type: 3}
+      propertyPath: QteDisplay
+      value: 
+      objectReference: {fileID: 1586408471}
+    - target: {fileID: 702489194120394011, guid: 902758a0982f90f4593b485fe5f4d64c,
+        type: 3}
+      propertyPath: TimerManager
+      value: 
+      objectReference: {fileID: 1781797962}
     - target: {fileID: 2358319036156079073, guid: 902758a0982f90f4593b485fe5f4d64c,
         type: 3}
       propertyPath: m_Alpha
@@ -1418,6 +1445,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 115125233}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1586408471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2103651636, guid: 88cffb71ed90cd644a4ab2ebfe9cefad,
+    type: 3}
+  m_PrefabInstance: {fileID: 1060464935}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7a505dfd5ceb3499c0ed9fc34b0de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745577141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,6 +1492,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1781797962 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7968454991099057734, guid: 85bd3a4930f944045bdd1a707f2ffd6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3119600047100105784}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b661a330f32ad345a5b0acb8686fcbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1782412339
 GameObject:
   m_ObjectHideFlags: 0
