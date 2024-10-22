@@ -15,7 +15,17 @@ namespace PlayerController
         Combat,
         Resting
     }
+    public struct SpawnPoint
+    {
+        public Vector3 position;
+        public Quaternion rotation;
 
+        public SpawnPoint(Vector3 _pos, Quaternion _rot)
+        {
+            position = _pos;
+            rotation = _rot;
+        }
+    }
 
     public class PlayerManager : Entity
     {
@@ -95,7 +105,8 @@ namespace PlayerController
         public Vector3 centerPoint => _characterController.center;
         #endregion
 
-        private Vector3 m_spawnPoint; private Quaternion m_spawnRotation;
+        private SpawnPoint m_spawnPoint;
+        private List<SpawnPoint> m_unlockedCheckpoints;
 
         // Functions
         #region Startup
@@ -124,7 +135,7 @@ namespace PlayerController
         private void Start()
         {
             m_canMove = true;
-
+            m_unlockedCheckpoints = new List<SpawnPoint>();
         }
 
 
@@ -318,15 +329,19 @@ namespace PlayerController
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
-        public void SetSpawn(Vector3 position, Quaternion rotation)
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
         {
-            m_spawnPoint = position;
-            m_spawnRotation = rotation;
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) m_unlockedCheckpoints.Add(m_spawnPoint); 
         }
         public void KillPlayer()
         {
-            transform.position = m_spawnPoint;
-            transform.rotation = m_spawnRotation;
+            _characterController.enabled = false;
+
+            transform.position = m_spawnPoint.position;
+            transform.rotation = m_spawnPoint.rotation;
+            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            _characterController.enabled = true;
         }
 
         #endregion
@@ -353,6 +368,10 @@ namespace PlayerController
             if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
         #endregion
+
+
+
+
     }
 
     internal struct InputStruct

@@ -77,7 +77,7 @@ namespace EnemyAI
                 m_player.EnterCombat(m_EncounterData, gameObject);
                 return;
             }
-            else if (!m_player.PlayerInCombat())
+            else
             {
                 m_agent.destination = m_targetPosition;
             }
@@ -94,9 +94,6 @@ namespace EnemyAI
                 }
 
                 m_agent.destination = m_patrolPositions[m_patrolNum];
-
-
-
             }
             else
                 m_agent.destination = m_homeDestination;

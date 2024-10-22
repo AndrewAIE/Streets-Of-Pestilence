@@ -12,8 +12,7 @@ namespace Interactables
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
 
-            player.SetSpawn(transform.position, transform.rotation);
-            Debug.Log("new spawn set");
+            player.UnlockSpawn(transform.position, transform.rotation);
         }
     }
 }
