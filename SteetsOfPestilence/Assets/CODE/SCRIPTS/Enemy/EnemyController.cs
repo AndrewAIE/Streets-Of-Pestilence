@@ -48,16 +48,19 @@ namespace EnemyAI
 
         private void Update()
         {
-            if (m_detector.m_canSeePlayer)
-                m_timer = m_waitTime;
-
-            if (m_timer > 0)
+            if (!m_player.PlayerInCombat())
             {
-                GoToPlayer();
-                m_timer -= Time.deltaTime;
+                if (m_detector.m_canSeePlayer)
+                    m_timer = m_waitTime;
+
+                if (m_timer > 0)
+                {
+                    GoToPlayer();
+                    m_timer -= Time.deltaTime;
+                }
+                else
+                    Standby();
             }
-            else
-                Standby();
         }
         private void OnDestroy()
         {
@@ -74,7 +77,7 @@ namespace EnemyAI
                 m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
-            else if (!m_player.PlayerInCombat())
+            else
             {
                 m_agent.destination = m_targetPosition;
             }
@@ -91,9 +94,6 @@ namespace EnemyAI
                 }
 
                 m_agent.destination = m_patrolPositions[m_patrolNum];
-
-
-
             }
             else
                 m_agent.destination = m_homeDestination;

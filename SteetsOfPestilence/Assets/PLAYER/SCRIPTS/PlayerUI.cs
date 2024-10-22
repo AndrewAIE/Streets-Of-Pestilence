@@ -1,4 +1,5 @@
 using Interactables;
+using Pixelplacement;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,27 +8,40 @@ using UnityEngine.UI;
 
 namespace PlayerController
 {
-    public class PlayerInteraction : MonoBehaviour
+    public class PlayerUI : MonoBehaviour
     {
         private PlayerManager m_player;
+        [Header("Death")]
+        [SerializeField] private CanvasGroup m_deathScreen;
 
-
-        private Image m_interactPanel;
+        [Header("Interaction")]
+        [SerializeField] private Image m_interactPanel;
         [SerializeField]private TextMeshProUGUI m_interactPopup;
-
 
         private List<Interactable> currentInteractableActions;
 
         private void Awake()
         {
-            m_player = GetComponent<PlayerManager>();
-            m_interactPanel = GetComponentInChildren<Image>();
-            m_interactPopup = GetComponentInChildren<TextMeshProUGUI>();
-            
+            m_player = GetComponentInParent<PlayerManager>();
         }
         private void Start()
         {
             currentInteractableActions = new List<Interactable>();
+        }
+
+        internal void DeathTransition()
+        {
+            m_player.SetPlayerActive(false);
+
+            StartCoroutine(Transition());
+        }
+
+        private IEnumerator Transition()
+        {
+            Tween.CanvasGroupAlpha(m_deathScreen, 1, 3, 0);
+            yield return new WaitForSecondsRealtime(4);
+            Tween.CanvasGroupAlpha(m_deathScreen, 0, 3, 0);
+            m_player.SetPlayerActive(true);
         }
 
         public void Interact()
@@ -107,7 +121,6 @@ namespace PlayerController
             if (currentInteractableActions.Contains(_interact))
                 currentInteractableActions.Remove(_interact);
         }
-
     }
 
 }

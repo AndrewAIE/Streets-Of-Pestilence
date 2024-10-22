@@ -5,6 +5,7 @@ using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
+using UnityEditor.SceneManagement;
 
 namespace PlayerController
 {
@@ -14,7 +15,17 @@ namespace PlayerController
         Combat,
         Resting
     }
+    public struct SpawnPoint
+    {
+        public Vector3 position;
+        public Quaternion rotation;
 
+        public SpawnPoint(Vector3 _pos, Quaternion _rot)
+        {
+            position = _pos;
+            rotation = _rot;
+        }
+    }
 
     public class PlayerManager : Entity
     {
@@ -51,7 +62,7 @@ namespace PlayerController
         internal CameraController m_cameraController { get; private set; }
         [HideInInspector] internal SFXController _sfx { get; private set; }
 
-        [HideInInspector] public PlayerInteraction m_Interact;
+        [HideInInspector] public PlayerUI m_playerUI;
 
         private QTEManager m_qteRunner;
 
@@ -94,7 +105,8 @@ namespace PlayerController
         public Vector3 centerPoint => _characterController.center;
         #endregion
 
-        private Vector3 m_spawnPoint; private Quaternion m_spawnRotation;
+        private SpawnPoint m_spawnPoint;
+        private List<SpawnPoint> m_unlockedCheckpoints;
 
         // Functions
         #region Startup
@@ -113,7 +125,7 @@ namespace PlayerController
             m_cameraController = FindObjectOfType<CameraController>();
             //get the merchant
             //_merchants = FindObjectsOfType<MerchantController>();
-
+            m_playerUI = GetComponentInChildren<PlayerUI>();
 
             m_qteRunner = GetComponent<QTEManager>();
 
@@ -123,7 +135,7 @@ namespace PlayerController
         private void Start()
         {
             m_canMove = true;
-
+            m_unlockedCheckpoints = new List<SpawnPoint>();
         }
 
 
@@ -155,6 +167,8 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
+            if (killplayer) KillPlayer();
+
             GatherInput();
             CheckStateChange();
 
@@ -317,15 +331,28 @@ namespace PlayerController
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
-        public void SetSpawn(Vector3 position, Quaternion rotation)
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
         {
-            m_spawnPoint = position;
-            m_spawnRotation = rotation;
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) { 
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
         }
+
+        public bool killplayer = false;
         public void KillPlayer()
         {
-            transform.position = m_spawnPoint;
-            transform.rotation = m_spawnRotation;
+            m_playerUI.DeathTransition();
+            _characterController.enabled = false;
+            
+            transform.position = m_spawnPoint.position;
+            transform.rotation = m_spawnPoint.rotation;
+            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+
+            _characterController.enabled = true;
+            killplayer = false;
         }
 
         #endregion
@@ -348,10 +375,14 @@ namespace PlayerController
                 look = m_lookInput.ReadValue<Vector2>(),
                 sprint = m_sprintInput.IsPressed(),
             };
-            if (m_interactInput.WasPressedThisFrame()) m_Interact.Interact();
+            if (m_interactInput.WasPressedThisFrame()) m_playerUI.Interact();
             if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
         #endregion
+
+
+
+
     }
 
     internal struct InputStruct

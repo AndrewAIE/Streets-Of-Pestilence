@@ -34,14 +34,14 @@ namespace Interactables
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
 
-            player.m_Interact.addInteraction(this);
+            player.m_playerUI.addInteraction(this);
         }
         public virtual void OnTriggerExit (Collider other)
         {
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
 
-            player.m_Interact.removeInteraction(this);
+            player.m_playerUI.removeInteraction(this);
         }
 
 
