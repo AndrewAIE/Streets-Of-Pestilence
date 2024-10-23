@@ -225,6 +225,50 @@ Transform:
   m_Father: {fileID: 5498843362090348502}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 12.002066, y: -0.6639286, z: -0.3186962}
+--- !u!1 &1339800778286033089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6947053743264029939}
+  - component: {fileID: 4398552592514836173}
+  m_Layer: 3
+  m_Name: QTEAnimation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6947053743264029939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339800778286033089}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3101069005192141725}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4398552592514836173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339800778286033089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbb8c2a1a8cab984fbe975b1dafad73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1394957132252096592
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +956,6 @@ GameObject:
   - component: {fileID: 3811996329797983042}
   - component: {fileID: 3798763508448860147}
   - component: {fileID: 3798763508448860149}
-  - component: {fileID: 702489194120394011}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -939,6 +982,7 @@ Transform:
   - {fileID: 7837962234762948986}
   - {fileID: 6583377833045844266}
   - {fileID: 3777680278631429132}
+  - {fileID: 3101069005192141725}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1110,39 +1154,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &702489194120394011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3798763508448860153}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e69b97692905274eb3ff4222f89436a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EncounterData: {fileID: 0}
-  ActiveStreamData: []
-  WaitingStreams: []
-  ActiveStream: {fileID: 0}
-  ActiveAction: {fileID: 0}
-  QteDisplay: {fileID: 0}
-  ActiveDisplayList: 
-  PoiseBar: {fileID: 0}
-  StreamPosition: 0
-  ChangeInPoiseValue: 0
-  AvailableSuccessPoints: 0
-  CurrentSuccessPoints: 0
-  m_poiseChangeValue: 2
-  Timer: 0
-  BeginningOfStreamTimeLimit: 0
-  BetweenActionTimeLimit: 0
-  ActionTimeLimit: 0
-  TimerManager: {fileID: 0}
-  ActionState: 0
-  CurrentPlayerStance: 0
-  Enemy: {fileID: 0}
 --- !u!1 &3800040899939207059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2952,6 +2963,73 @@ Transform:
   m_Father: {fileID: 6037494642201986183}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8290859323733582450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3101069005192141725}
+  - component: {fileID: 8571354803585660174}
+  m_Layer: 3
+  m_Name: QTESystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3101069005192141725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8290859323733582450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6947053743264029939}
+  m_Father: {fileID: 4610625970443898179}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8571354803585660174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8290859323733582450}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e69b97692905274eb3ff4222f89436a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EncounterData: {fileID: 0}
+  ActiveStreamData: []
+  WaitingStreams: []
+  ActiveStream: {fileID: 0}
+  ActiveAction: {fileID: 0}
+  CombatAnimation: {fileID: 0}
+  QteDisplay: {fileID: 0}
+  ActiveDisplayList: 
+  PoiseBar: {fileID: 0}
+  StreamPosition: 0
+  ChangeInPoiseValue: 0
+  AvailableSuccessPoints: 0
+  CurrentSuccessPoints: 0
+  m_poiseChangeValue: 2
+  Timer: 0
+  BeginningOfStreamTimeLimit: 0
+  BetweenActionTimeLimit: 0
+  ActionTimeLimit: 0
+  TimerManager: {fileID: 0}
+  ActionState: 0
+  CurrentPlayerStance: 0
+  Enemy: {fileID: 0}
 --- !u!1 &8419893311212550678
 GameObject:
   m_ObjectHideFlags: 0
