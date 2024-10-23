@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace PlayerController
 {
-    public class SFXController : MonoBehaviour
+    public class SFXController_Player : MonoBehaviour
     {
         /************************* VARIABLES ****************************/
         #region Variables
         [HideInInspector] PlayerManager _manager;
+        [HideInInspector] SFXTester _tester;
         [Space]
         [SerializeField] AmbienceMode ambienceMode;
 
@@ -28,19 +29,9 @@ namespace PlayerController
         [Header("Footsteps")]
         [SerializeField] SFX_SO_Footstep _footstepData;
         [SerializeField] GameObject footstepPrefab;
-        [SerializeField] bool is_running = false;
-        [Space]
-        [SerializeField] bool is_walking = false;
-        [Space]
-        [SerializeField] bool is_stone = true;
-        [Space]
-        [SerializeField] float footstepTimer;
-        [Space]
-        [SerializeField] float walk_footstepTimerMax;
-        [SerializeField] float walk_footstepTimerMin;
-        [Space]
-        [SerializeField] float run_footstepTimerMax;
-        [SerializeField] float run_footstepTimerMin;
+
+
+
 
 
         #endregion
@@ -61,6 +52,8 @@ namespace PlayerController
         #region Awake
         private void Awake()
         {
+            _tester = GetComponent<SFXTester>();
+
             //_manager = GetComponentInParent<PlayerManager>();
 
             // Concatenate all arrays into one
@@ -82,79 +75,28 @@ namespace PlayerController
                 case AmbienceMode.combat:
                     break;
             }
-
-            /*** TESTING ***/
-            #region TESTING
-
-            /*** Footsteps ***/
-            #region Footsteps
-            if (is_walking)
-            {
-                if(footstepTimer <= 0)
-                {
-                    if(is_stone)
-                    {
-                        Footstep_Walk_Stone();
-                    }
-                    else
-                    {
-                        Footstep_Walk_Mud();
-                    }
-
-                    footstepTimer = Random.Range(walk_footstepTimerMin, walk_footstepTimerMax);
-                }
-                else
-                {
-                    footstepTimer -= Time.deltaTime;
-                }
-            }
-
-            if (is_running)
-            {
-                if (footstepTimer <= 0)
-                {
-                    if (is_stone)
-                    {
-                        Footstep_Run_Stone();
-                    }
-                    else
-                    {
-                        Footstep_Run_Mud();
-                    }
-
-                    footstepTimer = Random.Range(run_footstepTimerMin, run_footstepTimerMax);
-                }
-                else
-                {
-                    footstepTimer -= Time.deltaTime;
-                }
-            }
-
-            #endregion
-
-            #endregion
         }
 
         #endregion
 
         /*** Footsteps ***/
         #region Footsteps
-        public void Footstep_Walk_Stone()
+        public void Play_Footstep_Walk_Stone()
         {
             CreateFootstep(_footstepData.SFX_footstep_stone_walk[Random.Range(0, _footstepData.SFX_footstep_stone_walk.Length)], true);
         }
 
-        public void Footstep_Run_Stone()
+        public void Play_Footstep_Run_Stone()
         {
             CreateFootstep(_footstepData.SFX_footstep_stone_run[Random.Range(0, _footstepData.SFX_footstep_stone_run.Length)], true);
         }
 
-        public void Footstep_Walk_Mud()
+        public void Play_Footstep_Walk_Mud()
         {
             CreateFootstep(_footstepData.SFX_footstep_mud_walk[Random.Range(0, _footstepData.SFX_footstep_mud_walk.Length)], false);
         }
 
-        public void Footstep_Run_Mud()
+        public void Play_Footstep_Run_Mud()
         {
             CreateFootstep(_footstepData.SFX_footstep_mud_run[Random.Range(0, _footstepData.SFX_footstep_mud_run.Length)], false);
         }
@@ -179,25 +121,10 @@ namespace PlayerController
             Destroy(audioOneshot, length);
         }
 
-        public void Set_isWalking(bool inputBool)
-        {
-            is_walking = inputBool;
-        }
-
-        public void Set_isRunning(bool inputBool)
-        {
-            is_running = inputBool;
-        }
-
-        public void Set_isStone(bool inputBool)
-        {
-            is_stone = inputBool;
-        }
+        
 
 
         #endregion
-
-
 
         /*** Ambience ***/
         #region Ambience
@@ -209,7 +136,7 @@ namespace PlayerController
         {
             if(chirpTimer <= 0)
             {
-                PlayAmbienceChirp();
+                Play_Ambience_Chirp();
                 chirpTimer = Random.Range(chirpTimerMin, chirpTimerMax);
             }
             else
@@ -218,7 +145,7 @@ namespace PlayerController
             }
         }
 
-        public void PlayAmbienceChirp()
+        public void Play_Ambience_Chirp()
         {
             CreateAmbienceChirp(_ambienceData.GetRandomAmbienceChirp(), GetPointInRange());
         }
@@ -289,7 +216,6 @@ namespace PlayerController
         #endregion
 
         #endregion
-
     }
 }
 
