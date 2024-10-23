@@ -26,7 +26,7 @@ namespace QTESystem
             m_qteManager = _manager;
             m_qteManager.PoiseBar.gameObject.SetActive(true);
             m_qteManager.SelectStream();
-            m_timeLimit = 1.5f;
+            m_timeLimit = 1f;
             //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
             //ACTIVATE THE APPROPRIA
 

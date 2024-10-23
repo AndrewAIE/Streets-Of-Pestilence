@@ -368,8 +368,9 @@ namespace QTESystem
         //Player Win
         private void playerWin()
         {
-            Destroy(Enemy);            
+            Destroy(Enemy);       
             EndOfEncounter();
+            CombatAnimation.PlayAnimation("PlayerWin");
             GetComponent<PlayerInput>().enabled = true;
         }
 
@@ -377,8 +378,9 @@ namespace QTESystem
         private void playerLoss()
         {
             EndOfEncounter();
+            CombatAnimation.PlayAnimation("EnemyWin");
             Player.KillPlayer();            
-        }
+        }       
 
         #endregion
 
