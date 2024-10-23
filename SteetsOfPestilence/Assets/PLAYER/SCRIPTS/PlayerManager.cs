@@ -127,7 +127,7 @@ namespace PlayerController
             //_merchants = FindObjectsOfType<MerchantController>();
             m_playerUI = GetComponentInChildren<PlayerUI>();
 
-            m_qteRunner = GetComponent<QTEManager>();
+            m_qteRunner = GetComponentInChildren<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
 
