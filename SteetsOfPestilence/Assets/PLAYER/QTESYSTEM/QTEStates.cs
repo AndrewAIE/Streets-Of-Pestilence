@@ -20,19 +20,27 @@ namespace QTESystem
 
     public class EncounterStart : QTEStates
     {
+        private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
         {
             m_qteManager = _manager;
             m_qteManager.PoiseBar.gameObject.SetActive(true);
             m_qteManager.SelectStream();
-            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);            
+            m_timeLimit = 1f;
+            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
+            //ACTIVATE THE APPROPRIA
+
             m_started = true;
         }
 
         public override void StateUpdate(float _timer)
-        {
-            m_qteManager.CurrentState = m_qteManager.StreamStart;
-            ExitState();
+        {            
+            if(_timer > m_timeLimit)
+            {
+                m_qteManager.CurrentState = m_qteManager.StreamStart;
+                ExitState();
+            }
+            
         }
 
         public override void ExitState()
@@ -45,19 +53,18 @@ namespace QTESystem
     {
         private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
-        {
-            
+        {            
             m_qteManager = _manager;
+            m_qteManager.TimerManager.TimeSlowDown();
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
             m_qteManager.StreamPosition = 0;
             m_qteManager.AvailableSuccessPoints = 0;
             m_qteManager.CurrentSuccessPoints = 0;
-
+            m_qteManager.ActivateInputCues(m_qteManager.GetStreamActionInputs());
             //set new timer data and set timer to 0                    
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
-            m_qteManager.Timer = 0;
-            m_qteManager.ActivateStreamPanels(m_qteManager.GetStreamActionInputs());
+            m_qteManager.Timer = 0;            
         }
 
         public override void StateUpdate(float _timer)
@@ -161,7 +168,7 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;
+                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;                    
                     ExitState();
                 }                
             }
@@ -173,25 +180,27 @@ namespace QTESystem
         }
     }
 
-    public class BetweenStreams : QTEStates
+    public class CombatAnimation : QTEStates
     {
         private float m_timeLimit;        
         public override void EnterState(QTEManager _manager)
-        {
+        {            
             m_qteManager = _manager;
+            m_qteManager.TimerManager.TimeSpeedUp();
             //reset stream data
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
             m_qteManager.ResetStreamData();
             m_qteManager.SelectStream();
             //set poise bar
-            m_qteManager.PoiseValueCheck();            
+            m_qteManager.PoiseValueCheck();
+            m_qteManager.SelectQTECombatAnimations();
         }
 
         public override void StateUpdate(float _timer)
         {
             //when timer is complete, start next stream            
-            if (_timer > m_timeLimit)
-            {
+            if (m_qteManager.CombatAnimation.EndState)
+            {                
                 m_qteManager.CurrentState = m_qteManager.StreamStart;
                 ExitState();
             }
@@ -200,6 +209,6 @@ namespace QTESystem
         public override void ExitState()
         {            
             m_qteManager.CurrentState.EnterState(m_qteManager);
-        }
+        }       
     }
 }

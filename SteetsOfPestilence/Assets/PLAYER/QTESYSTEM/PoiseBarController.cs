@@ -61,7 +61,7 @@ public class PoiseBarController : MonoBehaviour
         //set a target
         _targetAmount = NormalizePoise();
 
-        Tween.Value(_fillAmount, _targetAmount, UpdateFill, _tweenTime, 0, _tweenCurve);
+        Tween.Value(_fillAmount, _targetAmount, UpdateFill, _tweenTime, 0, _tweenCurve, Tween.LoopType.None, null, null, false);
 
         _fillAmount = _targetAmount;
     }

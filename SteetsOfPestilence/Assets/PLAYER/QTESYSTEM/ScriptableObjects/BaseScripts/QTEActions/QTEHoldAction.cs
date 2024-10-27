@@ -24,7 +24,7 @@ public class QTEHoldAction : QTEAction
     }
     protected override ActionState onUpdate()
     {      
-        if(m_timer >= m_maxTime && !m_held)
+        if(m_timer > m_maxTime + 0.1f && !m_held && m_state == ActionState.running)
         {
             for (int i = 0; i < InputList.Count; i++)
             {
@@ -47,7 +47,7 @@ public class QTEHoldAction : QTEAction
                 }
                 return m_state = ActionState.success;
             }            
-            if(m_state != ActionState.complete)
+            if(m_state == ActionState.running)
             {
                 m_state = ActionState.fail;
                 m_qteDisplay.MissedInput(InputList);
