@@ -192,7 +192,7 @@ namespace QTESystem
             //load data from enemy encounter data and start encounter            
             EncounterData = _encounterData;            
             Enemy = _enemy;
-            EnterStance(QTEManager.PlayerStance.NeutralStance);
+            EnterStance(PlayerStance.NeutralStance);
             QteDisplay.ActivatePoiseBar();
             PoiseBar.ResetPoise();
             LoadUI(_enemy.m_EType);
@@ -205,7 +205,9 @@ namespace QTESystem
             }
             SelectStream();
             SetQTEAnimators();
-            //Set Encounter State and begin Encouner
+            PoiseBar.gameObject.SetActive(true);
+            Timer = 0;
+            //Set Encounter State and begin Encounter
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
         }
@@ -238,7 +240,7 @@ namespace QTESystem
         public void SetQTEAnimators()
         {
             Animator player = Player.GetComponentInChildren<Animator>();
-            Animator enemy = Enemy.transform.parent.GetComponentInChildren<Animator>();
+            Animator enemy = Enemy.transform.parent.GetComponentInChildren<Animator>();            
             CombatAnimation.SetQTEAnimations(player, enemy);
         }
 
@@ -361,17 +363,16 @@ namespace QTESystem
             if (PoiseBar._poise <= PoiseBar._minPoise)
             {
                 playerLoss();
-            }
-            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
+            }            
         }
         
         //Player Win
         private void playerWin()
         {
-            Destroy(Enemy);       
-            EndOfEncounter();
-            CombatAnimation.PlayAnimation("PlayerWin");
-            GetComponent<PlayerInput>().enabled = true;
+            CombatAnimation.PlayAnimation("PlayerWin");            
+            Enemy.enabled = false;            
+            EndOfEncounter();            
+            Player.GetComponent<PlayerInput>().enabled = true;
         }
 
         //Player Loss
