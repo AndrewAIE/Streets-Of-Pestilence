@@ -60,7 +60,7 @@ namespace PlayerController
         #region Components
         [HideInInspector] internal AnimationController _animation { get; private set; }
         internal CameraController m_cameraController { get; private set; }
-        [HideInInspector] internal SFXController _sfx { get; private set; }
+        [HideInInspector] internal SFXController_Player _sfx { get; private set; }
 
         [HideInInspector] public PlayerUI m_playerUI;
 
@@ -119,7 +119,7 @@ namespace PlayerController
             _camera = Camera.main;
             m_Mesh = GetComponentInChildren<Animator>().transform;
 
-            _sfx = GetComponent<SFXController>();
+            _sfx = GetComponent<SFXController_Player>();
 
             //get camera script
             m_cameraController = FindObjectOfType<CameraController>();
@@ -127,7 +127,7 @@ namespace PlayerController
             //_merchants = FindObjectsOfType<MerchantController>();
             m_playerUI = GetComponentInChildren<PlayerUI>();
 
-            m_qteRunner = GetComponent<QTEManager>();
+            m_qteRunner = GetComponentInChildren<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
 

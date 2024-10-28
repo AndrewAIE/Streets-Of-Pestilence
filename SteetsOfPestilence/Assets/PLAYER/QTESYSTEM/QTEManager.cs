@@ -60,7 +60,9 @@ namespace QTESystem
        
         public QTEStreamData ActiveStream;
         
-        public QTEAction ActiveAction;        
+        public QTEAction ActiveAction;
+
+        public QTECombatAnimation CombatAnimation;
         
         [Tooltip("QTE Display")]
         public QTEDisplay QteDisplay;
@@ -119,7 +121,7 @@ namespace QTESystem
         public StreamStart StreamStart = new StreamStart();
         public ActionActive ActionActive = new ActionActive();
         public BetweenActions BetweenActions = new BetweenActions();
-        public BetweenStreams BetweenStreams = new BetweenStreams();
+        public CombatAnimation BetweenStreams = new CombatAnimation();
 
         //******************** Enums **********************//
         #region Enums
@@ -155,7 +157,8 @@ namespace QTESystem
         {
             InputActions = new QTEInputs();
             ActiveDisplayList = new List<QTEInput>();
-            Player = GetComponent<PlayerManager>();            
+            CombatAnimation = transform.parent.GetComponentInChildren<QTECombatAnimation>();
+            Player = GetComponentInParent<PlayerManager>();            
         }
         
         private void OnEnable()
@@ -200,8 +203,8 @@ namespace QTESystem
             {
                 WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
             }
-            SelectStream();                      
-
+            SelectStream();
+            SetQTEAnimators();
             //Set Encounter State and begin Encouner
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
@@ -230,6 +233,18 @@ namespace QTESystem
                 }
             }
             return actions;
+        }
+
+        public void SetQTEAnimators()
+        {
+            Animator player = Player.GetComponentInChildren<Animator>();
+            Animator enemy = Enemy.transform.parent.GetComponentInChildren<Animator>();
+            CombatAnimation.SetQTEAnimations(player, enemy);
+        }
+
+        public void SelectQTECombatAnimations()
+        {
+            CombatAnimation.SelectAnimation(PoiseBar._poise);
         }
 
         public void LoadUI(EnemyAI.EnemyType _enemyType)
@@ -353,8 +368,9 @@ namespace QTESystem
         //Player Win
         private void playerWin()
         {
-            Destroy(Enemy);            
+            Destroy(Enemy);       
             EndOfEncounter();
+            CombatAnimation.PlayAnimation("PlayerWin");
             GetComponent<PlayerInput>().enabled = true;
         }
 
@@ -362,8 +378,9 @@ namespace QTESystem
         private void playerLoss()
         {
             EndOfEncounter();
+            CombatAnimation.PlayAnimation("EnemyWin");
             Player.KillPlayer();            
-        }
+        }       
 
         #endregion
 
