@@ -17,6 +17,7 @@ namespace PlayerController
         [Header("Ambience")]
         [SerializeField] SFX_SO_Ambience _ambienceData;
         [SerializeField] GameObject ambientPrefab;
+        [SerializeField] AudioClip ambient_lastPlayed;
         [Space]
         [SerializeField] BoxCollider minRange;
         [SerializeField] BoxCollider maxRange;
@@ -29,21 +30,29 @@ namespace PlayerController
         [Header("Footsteps")]
         [SerializeField] SFX_SO_Footstep _footstepData;
         [SerializeField] GameObject footstepPrefab;
+        [SerializeField] AudioClip footstep_lastPlayedClip;
 
-
-
+        [Header("Weapon")]
+        [SerializeField] SFX_SO_Weapon _weaponData;
+        [SerializeField] Transform _clashPos;
+        [Space]
+        [SerializeField] GameObject metalClashPrefab;
+        [SerializeField] AudioClip metalClash_lastPlayedClip;
+        [Space]
+        [SerializeField] GameObject swingPrefab;
+        [SerializeField] AudioClip swing_lastPlayedClip;
 
 
         #endregion
 
         /************************ ENUM *********************************/
+
         public enum AmbienceMode
         {
             roaming,
             combat,
             none
         }
-
 
         /************************ METHODS *******************************/
         #region Methods
@@ -79,49 +88,118 @@ namespace PlayerController
 
         #endregion
 
+        /*** GetUniqueClip ***/
+        #region Get Unique Clip
+        // Method to find a new, unique clip from an array of clips
+        public AudioClip GetUniqueClip(AudioClip[] clips, AudioClip lastPlayedClip)
+        {
+            // If there's only one clip, return it (no other options available)
+            if (clips.Length <= 1) return clips[0];
+
+            AudioClip newClip;
+
+            // Loop until a unique clip is found
+            do
+            {
+                newClip = clips[Random.Range(0, clips.Length)];
+            } while (newClip == lastPlayedClip);
+
+            return newClip;
+        }
+
+        #endregion
+
         /*** Footsteps ***/
         #region Footsteps
         public void Play_Footstep_Walk_Stone()
         {
-            CreateFootstep(_footstepData.SFX_footstep_stone_walk[Random.Range(0, _footstepData.SFX_footstep_stone_walk.Length)], true);
+            footstep_lastPlayedClip = GetUniqueClip(_footstepData.SFX_footstep_stone_walk, footstep_lastPlayedClip);
+            CreateFootstep_StoneWalk(footstep_lastPlayedClip);
         }
 
         public void Play_Footstep_Run_Stone()
         {
-            CreateFootstep(_footstepData.SFX_footstep_stone_run[Random.Range(0, _footstepData.SFX_footstep_stone_run.Length)], true);
+            footstep_lastPlayedClip = GetUniqueClip(_footstepData.SFX_footstep_stone_run, footstep_lastPlayedClip);
+            CreateFootstep_StoneRun(footstep_lastPlayedClip);
         }
 
         public void Play_Footstep_Walk_Mud()
         {
-            CreateFootstep(_footstepData.SFX_footstep_mud_walk[Random.Range(0, _footstepData.SFX_footstep_mud_walk.Length)], false);
+            footstep_lastPlayedClip = GetUniqueClip(_footstepData.SFX_footstep_mud_walk, footstep_lastPlayedClip);
+            CreateFootstep_MudWalk(footstep_lastPlayedClip);
         }
 
         public void Play_Footstep_Run_Mud()
         {
-            CreateFootstep(_footstepData.SFX_footstep_mud_run[Random.Range(0, _footstepData.SFX_footstep_mud_run.Length)], false);
+            footstep_lastPlayedClip = GetUniqueClip(_footstepData.SFX_footstep_mud_run, footstep_lastPlayedClip);
+            CreateFootstep_MudRun(footstep_lastPlayedClip);
         }
 
-        private void CreateFootstep(AudioClip clip, bool isStone)
+        private void CreateFootstep_StoneWalk(AudioClip clip)
         {
             float length = clip.length;
             GameObject audioOneshot = Instantiate(footstepPrefab, Vector3.zero, Quaternion.identity, transform);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
-            audioSource.volume = Random.Range(0.8f, 1f);
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-
-            if(!isStone)
-            {
-                audioSource.volume *= 0.8f;
-            }
+            audioSource.volume = Random.Range(_footstepData.SFX_footstep_stone_walk_volumeMin, _footstepData.SFX_footstep_stone_walk_volumeMax);
+            audioSource.pitch = Random.Range(_footstepData.SFX_footstep_stone_walk_pitchMin, _footstepData.SFX_footstep_stone_walk_pitchMax);
+            audioSource.maxDistance = Random.Range(_footstepData.SFX_footstep_stone_walk_rangeMin, _footstepData.SFX_footstep_stone_walk_rangeMax);
 
             audioSource.Play();
 
             Destroy(audioOneshot, length);
         }
 
-        
+        private void CreateFootstep_StoneRun(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(footstepPrefab, Vector3.zero, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_footstepData.SFX_footstep_stone_run_volumeMin, _footstepData.SFX_footstep_stone_run_volumeMax);
+            audioSource.pitch = Random.Range(_footstepData.SFX_footstep_stone_run_pitchMin, _footstepData.SFX_footstep_stone_run_pitchMax);
+            audioSource.maxDistance = Random.Range(_footstepData.SFX_footstep_stone_run_rangeMin, _footstepData.SFX_footstep_stone_run_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        private void CreateFootstep_MudWalk(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(footstepPrefab, Vector3.zero, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_footstepData.SFX_footstep_mud_walk_volumeMin, _footstepData.SFX_footstep_mud_walk_volumeMax);
+            audioSource.pitch = Random.Range(_footstepData.SFX_footstep_mud_walk_pitchMin, _footstepData.SFX_footstep_mud_walk_pitchMax);
+            audioSource.maxDistance = Random.Range(_footstepData.SFX_footstep_mud_walk_rangeMin, _footstepData.SFX_footstep_mud_walk_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        private void CreateFootstep_MudRun(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(footstepPrefab, Vector3.zero, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_footstepData.SFX_footstep_mud_run_volumeMin, _footstepData.SFX_footstep_mud_run_volumeMax);
+            audioSource.pitch = Random.Range(_footstepData.SFX_footstep_mud_run_pitchMin, _footstepData.SFX_footstep_mud_run_pitchMax);
+            audioSource.maxDistance = Random.Range(_footstepData.SFX_footstep_mud_run_rangeMin, _footstepData.SFX_footstep_mud_run_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+
 
 
         #endregion
@@ -147,6 +225,7 @@ namespace PlayerController
 
         public void Play_Ambience_Chirp()
         {
+            ambient_lastPlayed = GetUniqueClip(_ambienceData.sfx_ambience_allChirps, ambient_lastPlayed);
             CreateAmbienceChirp(_ambienceData.GetRandomAmbienceChirp(), GetPointInRange());
         }
 
@@ -212,10 +291,64 @@ namespace PlayerController
 
         #endregion
 
+        #endregion
+
+        /*** Weapon ***/
+        #region Weapon
+
+        private void CreateMetalClash(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(metalClashPrefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_MetalClash_volumeMin, _weaponData.SFX_Weapon_MetalClash_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_MetalClash_pitchMin, _weaponData.SFX_Weapon_MetalClash_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_MetalClash_rangeMin, _weaponData.SFX_Weapon_MetalClash_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_MetalClash()
+        {
+            metalClash_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_MetalClash_clips, metalClash_lastPlayedClip);
+            CreateMetalClash(metalClash_lastPlayedClip, _clashPos.position);
+        }
+
+        private void CreateSwing(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(swingPrefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_Swing_volumeMin, _weaponData.SFX_Weapon_Swing_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_Swing_pitchMin, _weaponData.SFX_Weapon_Swing_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_Swing_rangeMin, _weaponData.SFX_Weapon_Swing_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Swing()
+        {
+            swing_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_LightSwing, swing_lastPlayedClip);
+            CreateSwing(swing_lastPlayedClip, _clashPos.position);
+        }
+
+
 
         #endregion
 
         #endregion
+
+
     }
 }
 
