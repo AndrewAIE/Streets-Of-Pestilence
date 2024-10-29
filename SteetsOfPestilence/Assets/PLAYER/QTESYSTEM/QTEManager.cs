@@ -94,8 +94,8 @@ namespace QTESystem
         public float BeginningOfStreamTimeLimit;
         public float BetweenActionTimeLimit;
         public float ActionTimeLimit;
-
-        public TimeManager TimerManager;
+        [SerializeField]
+        private SlowMotionManager m_slowMoManager;
         #endregion
 
         //*** Enum Variables ***//
@@ -150,14 +150,15 @@ namespace QTESystem
         //******************** Methods ********************//
         #region Methods
 
-        //*** Awake, Enable, Disable ***//
+        
         #region Awake, Enable, Disable
 
         private void Awake()
         {
             InputActions = new QTEInputs();
             ActiveDisplayList = new List<QTEInput>();
-            CombatAnimation = transform.parent.GetComponentInChildren<QTECombatAnimation>();
+            CombatAnimation = GetComponentInChildren<QTECombatAnimation>();
+            m_slowMoManager = GetComponentInChildren<SlowMotionManager>();
             Player = GetComponentInParent<PlayerManager>();            
         }
         
@@ -176,7 +177,7 @@ namespace QTESystem
 
         #endregion
 
-        //*** Update ***//
+        
         #region Update
         void Update()
         {
@@ -185,7 +186,7 @@ namespace QTESystem
         }
         #endregion
 
-        //*** Loading Encounter Data ***//
+        
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
         {
@@ -193,8 +194,7 @@ namespace QTESystem
             EncounterData = _encounterData;            
             Enemy = _enemy;
             EnterStance(PlayerStance.NeutralStance);
-            QteDisplay.ActivatePoiseBar();
-            PoiseBar.ResetPoise();
+            QteDisplay.ActivatePoiseBar();            
             LoadUI(_enemy.m_EType);
             //Load Stream Data
             ActiveStreamData = EncounterData.NeutralStreamData;            
@@ -206,6 +206,7 @@ namespace QTESystem
             SelectStream();
             SetQTEAnimators();
             PoiseBar.gameObject.SetActive(true);
+            PoiseBar.ResetPoise();
             Timer = 0;
             //Set Encounter State and begin Encounter
             CurrentState = EncounterStart;
@@ -249,13 +250,14 @@ namespace QTESystem
             CombatAnimation.SelectAnimation(PoiseBar._poise);
         }
 
-        public void LoadUI(EnemyAI.EnemyType _enemyType)
+        public void LoadUI(EnemyType _enemyType)
         {
             QteDisplay.LoadUI(_enemyType);
         }
 
         public void EndOfEncounter()
         {
+            Enemy.EndCombat();
             QteDisplay.DeactivatePoiseBar();
             QteDisplay.DeactivatePanels();
             Player.SetPlayerActive(true);
@@ -265,7 +267,7 @@ namespace QTESystem
         }
 
         #endregion
-        //*** Stream Data ***//
+        
         #region Stream Data
 
         //Comment
@@ -324,8 +326,8 @@ namespace QTESystem
 
         #endregion
 
-        //*** Poise Bar and Combat Outcome ***//
-        #region Poise Bar and Combat Outcome
+        
+        #region Combat and Poise Bar
 
         //Comment
         public void PoiseValueCheck()
@@ -370,22 +372,36 @@ namespace QTESystem
         private void playerWin()
         {
             CombatAnimation.PlayAnimation("PlayerWin");            
-            Enemy.enabled = false;            
             EndOfEncounter();            
-            Player.GetComponent<PlayerInput>().enabled = true;
+            Player.GetComponent<PlayerInput>().enabled = true;           
         }
 
         //Player Loss
         private void playerLoss()
         {
+            Player.SetPlayerActive(false);            
             EndOfEncounter();
-            CombatAnimation.PlayAnimation("EnemyWin");
-            Player.KillPlayer();            
+            CombatAnimation.PlayAnimation("EnemyWin");                     
         }       
 
+        public void SlowTime(bool _activate)
+        {
+            if(_activate)
+            {
+                m_slowMoManager.TimeSlowDown();
+                return;
+            }
+            m_slowMoManager.TimeSpeedUp();
+        }
+
+        public void ResetAnimationState()
+        {
+            CombatAnimation.EndState = true;
+            CombatAnimation.ResetTriggers();            
+        }
         #endregion
 
-        //*** Input ***//
+        
         #region Inputs
         private void onActionInput(InputAction.CallbackContext _context)
         {

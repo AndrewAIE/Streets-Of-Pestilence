@@ -54,7 +54,6 @@ namespace EnemyAI
             m_enemyPartycles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
 
-
             m_homeDestination = transform.position;
         }
 
