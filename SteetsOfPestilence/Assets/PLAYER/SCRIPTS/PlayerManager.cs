@@ -328,6 +328,8 @@ namespace PlayerController
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             m_canMove = false;
+            _enemy.Recentering = true;
+
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }

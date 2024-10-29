@@ -23,16 +23,16 @@ namespace EnemyAI
         private PlayerManager m_player;
         public EnemyType m_EType;
 
-        [SerializeField]private bool isDead = false;
-        public bool recenter;
+        public bool Recentering = false;
         #region Nav
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
+        private float m_defaultStoppingDistance;
 
         [SerializeField] private Vector3 m_targetPosition;
         [SerializeField] private Vector3[] m_patrolPositions;
         private Vector3 m_homeDestination;
-        [SerializeReference]private int m_patrolNum; //which patrol position to go to
+        [SerializeReference] private int m_patrolNum; //which patrol position to go to
 
         [SerializeReference] private float m_waitTime = 10, m_timer;
         #endregion
@@ -49,7 +49,7 @@ namespace EnemyAI
             m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
-
+            m_defaultStoppingDistance = m_agent.stoppingDistance;
             m_enemyPartycles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
 
@@ -60,32 +60,32 @@ namespace EnemyAI
         int died = 0;
         private void Update()
         {
-            if (!isDead)
+            if (Recentering)
             {
-                if (!m_player.PlayerInCombat())
-                {
-                    if (m_detector.m_canSeePlayer)
-                        m_timer = m_waitTime;
-
-                    if (m_timer > 0)
-                    {
-                        GoToPlayer();
-                        m_timer -= Time.deltaTime;
-                    }
-                    else
-                        Standby();
-                }
+                RecenterEnemy(m_player);
             }
-            else if (died < 1) KillEnemy();
+            else if (!m_player.PlayerInCombat())
+            {
+                if (m_detector.m_canSeePlayer)
+                    m_timer = m_waitTime;
+
+                if (m_timer > 0)
+                {
+                    GoToPlayer();
+                    m_timer -= Time.deltaTime;
+                }
+                // else
+                //Standby();
+            }
+
         }
         public void KillEnemy()
         {
-            died++;
             m_agent.enabled = false;
             m_enemyMesh.enabled = false;
             for (int i = 0; i <= m_enemyPartycles.Length; i++) m_enemyPartycles[i].Play();
             Collider[] colliders = GetComponents<Collider>();
-            foreach(Collider col in colliders)
+            foreach (Collider col in colliders)
             {
                 col.enabled = false;
             }
@@ -102,11 +102,12 @@ namespace EnemyAI
         #region Nav
         private void GoToPlayer()
         {
+            m_agent.stoppingDistance = m_defaultStoppingDistance;
             m_targetPosition = m_detector.LastPosition();
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 FacePlayer();
-                RecenterEnemy();
+
                 m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
@@ -118,12 +119,13 @@ namespace EnemyAI
 
         private void Standby()
         {
+            m_agent.stoppingDistance = 0;
             if (m_patrolPositions.Length > 0)
             {
                 float magnitude = (transform.position - m_patrolPositions[m_patrolNum]).magnitude;
-                if(magnitude < 3)
+                if (magnitude < 3)
                 {
-                    m_patrolNum = (m_patrolNum >= m_patrolPositions.Length-1) ? 0 : m_patrolNum+1;
+                    m_patrolNum = (m_patrolNum >= m_patrolPositions.Length - 1) ? 0 : m_patrolNum + 1; // either goes to next position or resets by going to first position
                 }
 
                 m_agent.destination = m_patrolPositions[m_patrolNum];
@@ -143,11 +145,22 @@ namespace EnemyAI
         {
             m_player.EnterCombat(m_EncounterData, this);
         }
-        public void RecenterEnemy()
+        private void RecenterEnemy(PlayerManager player)
         {
-            float range = 2f;
-            bool leftHit = Physics.SphereCast(transform.position, 1, Vector3.left, out RaycastHit leftInfo, range);
-            bool rightHit = Physics.SphereCast(transform.position, 1, Vector3.right, out RaycastHit rightInfo, range);
+            Vector3 centerETP = transform.position + ((player.transform.position - transform.position) / 2); // the center from enemy to player
+            Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);
+            Vector3 playerPos = player.transform.position;
+            Debug.DrawLine(transform.position, centerETP, Color.magenta);
+
+            //make agent stop exactly at point;
+            m_agent.stoppingDistance = 0;
+
+
+
+            m_agent.destination = new(playerPos.x, playerPos.y, transform.position.z);
+
+
+
 
 
         }
