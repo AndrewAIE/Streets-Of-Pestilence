@@ -10,8 +10,8 @@ public class SFX_SO_Weapon : ScriptableObject
     [Space]
     [SerializeField, Range(0, 1)] public float SFX_Weapon_MetalClash_volumeMax;
     [SerializeField, Range(0, 1)] public float SFX_Weapon_MetalClash_volumeMin;
-    [SerializeField, Range(0, 1)] public float SFX_Weapon_MetalClash_pitchMax;
-    [SerializeField, Range(0, 1)] public float SFX_Weapon_MetalClash_pitchMin;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_MetalClash_pitchMax;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_MetalClash_pitchMin;
     [SerializeField] public float SFX_Weapon_MetalClash_rangeMax;
     [SerializeField] public float SFX_Weapon_MetalClash_rangeMin;
 
@@ -21,8 +21,8 @@ public class SFX_SO_Weapon : ScriptableObject
     [Space]
     [SerializeField, Range(0, 1)] public float SFX_Weapon_Swing_volumeMax;
     [SerializeField, Range(0, 1)] public float SFX_Weapon_Swing_volumeMin;
-    [SerializeField, Range(0, 1)] public float SFX_Weapon_Swing_pitchMax;
-    [SerializeField, Range(0, 1)] public float SFX_Weapon_Swing_pitchMin;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_Swing_pitchMax;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_Swing_pitchMin;
     [SerializeField] public float SFX_Weapon_Swing_rangeMax;
     [SerializeField] public float SFX_Weapon_Swing_rangeMin;
 }

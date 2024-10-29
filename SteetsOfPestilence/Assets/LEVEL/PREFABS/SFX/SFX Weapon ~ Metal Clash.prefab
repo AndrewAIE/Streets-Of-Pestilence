@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1521540557434790496}
   - component: {fileID: 8811174230988820645}
   m_Layer: 0
-  m_Name: SFX Ambient Chirp
+  m_Name: SFX Weapon ~ Metal Clash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,8 @@ AudioSource:
   m_GameObject: {fileID: 8321035684229917699}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9179079731478730542, guid: aa9d6a8979d895649bf260839f135dc7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -53,7 +54,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 20
+  MaxDistance: 3
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -103,7 +104,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.25
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
