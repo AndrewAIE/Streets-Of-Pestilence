@@ -329,19 +329,17 @@ namespace PlayerController
         {
             m_canMove = false;
             _enemy.Recentering = true;
-
+            StartCoroutine(Recenter(_enemy.transform));
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
-        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+
+        private IEnumerator Recenter(Transform _eTrans)
         {
-            m_spawnPoint = new SpawnPoint(position, rotation);
-            Debug.Log("spawn point set at: " + m_spawnPoint.position);
-            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) { 
-                m_unlockedCheckpoints.Add(m_spawnPoint);
-                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
-            }
+            yield return new WaitForSeconds(2);
+            transform.forward = (_eTrans.position - transform.position).normalized;
         }
+
 
         public bool killplayer = false;
         public void KillPlayer()
@@ -351,7 +349,7 @@ namespace PlayerController
             
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
-            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            m_Mesh.rotation = Quaternion.identity;
 
             _characterController.enabled = true;
             killplayer = false;
@@ -382,7 +380,16 @@ namespace PlayerController
         }
         #endregion
 
-
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+        {
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint))
+            {
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
+        }
 
 
     }

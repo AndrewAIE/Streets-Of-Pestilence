@@ -59,13 +59,16 @@ namespace EnemyAI
             m_homeDestination = transform.position;
         }
 
-        int died = 0;
         private void Update()
         {
+            /*RecenterEnemy(m_player);
+            FacePlayer();
+            return;*/
             if (!isDead && !m_combatEnding)
             {
                 if (Recentering)
                 {
+                    FacePlayer();
                     RecenterEnemy(m_player);
                 }
                 else if (!m_player.PlayerInCombat())
@@ -78,8 +81,8 @@ namespace EnemyAI
                         GoToPlayer();
                         m_timer -= Time.deltaTime;
                     }
-                    // else
-                    //Standby();
+                    else
+                        Standby();
                 }
             }
         }
@@ -87,7 +90,7 @@ namespace EnemyAI
         {
             m_agent.enabled = false;
             m_enemyMesh.enabled = false;
-            for (int i = 0; i <= m_enemyPartycles.Length; i++) m_enemyPartycles[i].Play();
+            for (int i = 0; i < m_enemyPartycles.Length; i++) m_enemyPartycles[i].Play();
             Collider[] colliders = GetComponents<Collider>();
             foreach (Collider col in colliders)
             {
@@ -119,8 +122,6 @@ namespace EnemyAI
             m_targetPosition = m_detector.LastPosition();
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
-                FacePlayer();
-
                 m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
@@ -149,7 +150,7 @@ namespace EnemyAI
 
         private void FacePlayer()
         {
-
+            transform.parent.forward = (m_player.transform.position - transform.position).normalized;
         }
         #endregion
         #region Encounter
@@ -158,6 +159,7 @@ namespace EnemyAI
         {
             m_player.EnterCombat(m_EncounterData, this);
         }
+        public Vector3 alignPos;
         private void RecenterEnemy(PlayerManager player)
         {
             Vector3 centerETP = transform.position + ((player.transform.position - transform.position) / 2); // the center from enemy to player
@@ -168,14 +170,13 @@ namespace EnemyAI
             //make agent stop exactly at point;
             m_agent.stoppingDistance = 0;
 
+            float zDis = Mathf.Abs(playerPos.z - transform.position.z);
+            float xDis = Mathf.Abs(playerPos.x - transform.position.x);
+            
 
+            alignPos = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z) : new(playerPos.x, playerPos.y, transform.position.z);
 
-            m_agent.destination = new(playerPos.x, playerPos.y, transform.position.z);
-
-
-
-
-
+            m_agent.destination = alignPos;
         }
 
 
