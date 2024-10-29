@@ -83,14 +83,5 @@ public class QTECombatAnimation : MonoBehaviour
         }
     }
     
-    public void ExitState()
-    {
-        ResetTriggers();
-        EndState = true;
-    }
-
-    public void EnterSloMo()
-    {
-        
-    }
+    
 }

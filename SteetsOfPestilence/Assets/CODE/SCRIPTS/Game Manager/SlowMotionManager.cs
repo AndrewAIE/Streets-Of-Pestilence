@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class SlowMotionManager : MonoBehaviour
 {
     [SerializeField]
     private float m_slowMoSpeed, m_slowMoChangeRate;

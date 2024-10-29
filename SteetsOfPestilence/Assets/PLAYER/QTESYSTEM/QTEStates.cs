@@ -48,7 +48,7 @@ namespace QTESystem
         public override void EnterState(QTEManager _manager)
         {            
             m_qteManager = _manager;
-            m_qteManager.TimerManager.TimeSlowDown();
+            m_qteManager.SlowTime(true);
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
             m_qteManager.StreamPosition = 0;
@@ -174,7 +174,7 @@ namespace QTESystem
         public override void EnterState(QTEManager _manager)
         {            
             m_qteManager = _manager;
-            m_qteManager.TimerManager.TimeSpeedUp();
+            m_qteManager.SlowTime(false);
             //reset stream data
             m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
             m_qteManager.ResetStreamData();

@@ -31,7 +31,7 @@ namespace PlayerController
 
         internal void DeathTransition()
         {
-            m_player.SetPlayerActive(false);
+            
 
             StartCoroutine(Transition());
         }
