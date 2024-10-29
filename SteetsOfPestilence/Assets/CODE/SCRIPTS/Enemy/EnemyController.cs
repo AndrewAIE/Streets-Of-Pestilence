@@ -23,6 +23,8 @@ namespace EnemyAI
         private PlayerManager m_player;
         public EnemyType m_EType;
 
+        [SerializeField]private bool isDead = false;
+        private bool m_combatEnding;
         public bool Recentering = false;
         #region Nav
         private NavMeshAgent m_agent;
@@ -60,24 +62,26 @@ namespace EnemyAI
         int died = 0;
         private void Update()
         {
-            if (Recentering)
+            if (!isDead && !m_combatEnding)
             {
-                RecenterEnemy(m_player);
-            }
-            else if (!m_player.PlayerInCombat())
-            {
-                if (m_detector.m_canSeePlayer)
-                    m_timer = m_waitTime;
-
-                if (m_timer > 0)
+                if (Recentering)
                 {
-                    GoToPlayer();
-                    m_timer -= Time.deltaTime;
+                    RecenterEnemy(m_player);
                 }
-                // else
-                //Standby();
-            }
+                else if (!m_player.PlayerInCombat())
+                {
+                    if (m_detector.m_canSeePlayer)
+                        m_timer = m_waitTime;
 
+                    if (m_timer > 0)
+                    {
+                        GoToPlayer();
+                        m_timer -= Time.deltaTime;
+                    }
+                    // else
+                    //Standby();
+                }
+            }
         }
         public void KillEnemy()
         {
@@ -91,13 +95,22 @@ namespace EnemyAI
             }
             StartCoroutine(WaitForDestroy());
         }
-
+        public void EndCombat()
+        {
+            m_combatEnding = true;
+            StartCoroutine(WaitEndCombat());
+        }
         private IEnumerator WaitForDestroy()
         {
             yield return new WaitForSeconds(10);
             Destroy(gameObject.transform.parent.gameObject);
         }
-
+        
+        private IEnumerator WaitEndCombat()
+        {
+            yield return new WaitForSeconds(5);
+            m_combatEnding = false;
+        }
 
         #region Nav
         private void GoToPlayer()
