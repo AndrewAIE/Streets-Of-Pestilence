@@ -24,6 +24,7 @@ namespace EnemyAI
         public EnemyType m_EType;
 
         [SerializeField]private bool isDead = false;
+        private bool m_combatEnding;
         public bool recenter;
         #region Nav
         private NavMeshAgent m_agent;
@@ -60,7 +61,7 @@ namespace EnemyAI
         int died = 0;
         private void Update()
         {
-            if (!isDead)
+            if (!isDead && !m_combatEnding)
             {
                 if (!m_player.PlayerInCombat())
                 {
@@ -91,13 +92,22 @@ namespace EnemyAI
             }
             StartCoroutine(WaitForDestroy());
         }
-
+        public void EndCombat()
+        {
+            m_combatEnding = true;
+            StartCoroutine(WaitEndCombat());
+        }
         private IEnumerator WaitForDestroy()
         {
             yield return new WaitForSeconds(10);
             Destroy(gameObject.transform.parent.gameObject);
         }
-
+        
+        private IEnumerator WaitEndCombat()
+        {
+            yield return new WaitForSeconds(5);
+            m_combatEnding = false;
+        }
 
         #region Nav
         private void GoToPlayer()
