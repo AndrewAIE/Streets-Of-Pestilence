@@ -835,7 +835,8 @@ AudioSource:
   m_GameObject: {fileID: 136980115}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8876209331345345113, guid: aa9d6a8979d895649bf260839f135dc7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1777,8 +1778,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController.SFXController, Assembly-CSharp
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
         m_MethodName: SetAmbienceMode
         m_Mode: 3
         m_Arguments:
@@ -2040,7 +2041,7 @@ GameObject:
   - component: {fileID: 431305693}
   - component: {fileID: 431305694}
   m_Layer: 0
-  m_Name: Ambience Track (1)
+  m_Name: Ambient Wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2070,7 +2071,8 @@ AudioSource:
   m_GameObject: {fileID: 431305692}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7747464166942717230, guid: aa9d6a8979d895649bf260839f135dc7,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 28847c81a500a2243a3ae65f95f58af9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -2240,7 +2242,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 433835101}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
+        m_MethodName: Play_DeathScream
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &433835101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3099,7 +3113,7 @@ GameObject:
   - component: {fileID: 631116513}
   - component: {fileID: 631116512}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Play Random Chirps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4311,7 +4325,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 882694388}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
+        m_MethodName: Play_ArmourClink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &882694388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4742,7 +4768,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 924913016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
+        m_MethodName: Play_LowPoiseAmbience
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &924913016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5591,134 +5629,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032305409}
   m_CullTransparentMesh: 1
---- !u!1 &1076065568
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1076065569}
-  - component: {fileID: 1076065570}
-  m_Layer: 0
-  m_Name: Ambience Track (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1076065569
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076065568}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1587401766}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1076065570
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076065568}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1087830614
 GameObject:
   m_ObjectHideFlags: 0
@@ -5864,7 +5774,7 @@ GameObject:
   - component: {fileID: 1113900230}
   - component: {fileID: 1113900231}
   m_Layer: 0
-  m_Name: Ambience Track (2)
+  m_Name: Ambient Burning and Screams
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5894,7 +5804,8 @@ AudioSource:
   m_GameObject: {fileID: 1113900229}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7747464166942717230, guid: aa9d6a8979d895649bf260839f135dc7,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 91fbb50c684db7248a7fd2ecdbb0c220, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.04
@@ -6787,7 +6698,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1267132122}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
+        m_MethodName: Stop_LowPoiseAmbience
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1267132122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7058,134 +6981,6 @@ Transform:
   m_Father: {fileID: 1805029342}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1320233924
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1320233925}
-  - component: {fileID: 1320233926}
-  m_Layer: 0
-  m_Name: Ambience Track (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1320233925
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320233924}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1587401766}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1320233926
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320233924}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1345973378
 GameObject:
   m_ObjectHideFlags: 0
@@ -7365,134 +7160,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372517773}
   m_CullTransparentMesh: 1
---- !u!1 &1401738837
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1401738838}
-  - component: {fileID: 1401738839}
-  m_Layer: 0
-  m_Name: Ambience Track (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1401738838
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401738837}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1587401766}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1401738839
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401738837}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1428880384
 GameObject:
   m_ObjectHideFlags: 0
@@ -8129,9 +7796,6 @@ Transform:
   m_Children:
   - {fileID: 431305693}
   - {fileID: 1113900230}
-  - {fileID: 1401738838}
-  - {fileID: 1320233925}
-  - {fileID: 1076065569}
   m_Father: {fileID: 1805029342}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8553,7 +8217,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1699195826}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
+        m_MethodName: Play_BodyDrop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1699195826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8676,8 +8352,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController.SFXController, Assembly-CSharp
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
         m_MethodName: SetAmbienceMode
         m_Mode: 3
         m_Arguments:
@@ -9761,8 +9437,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController.SFXController, Assembly-CSharp
+      - m_Target: {fileID: 2122693655}
+        m_TargetAssemblyTypeName: PlayerController.SFXController_Player, Assembly-CSharp
         m_MethodName: SetAmbienceMode
         m_Mode: 3
         m_Arguments:
@@ -9956,7 +9632,7 @@ GameObject:
   - component: {fileID: 2000634814}
   - component: {fileID: 2000634815}
   m_Layer: 5
-  m_Name: Start Random Chirps
+  m_Name: Set Ambience Mode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10530,7 +10206,7 @@ GameObject:
   - component: {fileID: 2122693655}
   - component: {fileID: 2122693654}
   m_Layer: 0
-  m_Name: SFX Manager
+  m_Name: Player SFX Manager
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -10591,24 +10267,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ambienceMode: 0
   _ambienceData: {fileID: 11400000, guid: b9b297e646a661141a17383708ae71c8, type: 2}
-  ambientPrefab: {fileID: 8321035684229917699, guid: d5c0beeca26b888488b081b98b926b38,
+  ambientChirp_Prefab: {fileID: 8321035684229917699, guid: d5c0beeca26b888488b081b98b926b38,
     type: 3}
+  ambience_wind: {fileID: 431305694}
+  ambience_fire: {fileID: 1113900231}
   minRange: {fileID: 1765329034}
   maxRange: {fileID: 1256706779}
   chirpTimerMin: 5
   chirpTimerMax: 10
   _footstepData: {fileID: 11400000, guid: c05e7205df8bda449b0c6bf009e05e5d, type: 2}
-  footstepPrefab: {fileID: 8321035684229917699, guid: ba3684da16ecd964989981049c6399d8,
+  footstep_Prefab: {fileID: 8321035684229917699, guid: ba3684da16ecd964989981049c6399d8,
     type: 3}
   _weaponData: {fileID: 11400000, guid: 6c855d3cbce0c4142863287cefaf4a48, type: 2}
   _clashPos: {fileID: 1825217662}
-  metalClashPrefab: {fileID: 8321035684229917699, guid: 3df109b5cfda1784184fefce46cd08e6,
+  metalClash_Prefab: {fileID: 8321035684229917699, guid: 3df109b5cfda1784184fefce46cd08e6,
     type: 3}
-  swingPrefab: {fileID: 8321035684229917699, guid: c3b3b4fd9ff570045a010dfb14c4fa6a,
+  swing_Prefab: {fileID: 8321035684229917699, guid: c3b3b4fd9ff570045a010dfb14c4fa6a,
     type: 3}
   _playerData: {fileID: 11400000, guid: 7c0aef5f7315ac34581c4f5c9e8270c3, type: 2}
   _lampAmbience: {fileID: 136980117}
   _lowPoiseAmbience: {fileID: 1264782588}
+  armourClink_Prefab: {fileID: 8321035684229917699, guid: 18f1c18b95b0def4ba68e8d27eb3dce9,
+    type: 3}
+  bodyDrop_Prefab: {fileID: 8321035684229917699, guid: 7cd5824b9e419354fbecca0b40440bf4,
+    type: 3}
+  deathScream_Prefab: {fileID: 8321035684229917699, guid: 9ccdde810ee786f46b03593b927a94ad,
+    type: 3}
 --- !u!1 &2129683771
 GameObject:
   m_ObjectHideFlags: 0
