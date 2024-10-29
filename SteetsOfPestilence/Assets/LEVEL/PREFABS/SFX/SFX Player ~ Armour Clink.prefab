@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1521540557434790496}
   - component: {fileID: 8811174230988820645}
   m_Layer: 0
-  m_Name: SFX Enemy
+  m_Name: SFX Player ~ Armour Clink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,8 @@ AudioSource:
   m_GameObject: {fileID: 8321035684229917699}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8876209331345345113, guid: aa9d6a8979d895649bf260839f135dc7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -53,7 +54,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 10
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -65,21 +66,21 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -3.065866
-      outSlope: -3.065866
+      inSlope: -0.0058835875
+      outSlope: -0.0058835875
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.15776081
+      inWeight: 0
+      outWeight: 0.17843138
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.019897854
+      outSlope: 0.019897854
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.14509803
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -103,7 +104,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 0.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
