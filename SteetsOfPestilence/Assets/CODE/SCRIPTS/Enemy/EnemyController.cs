@@ -162,10 +162,12 @@ namespace EnemyAI
         public Vector3 alignPos;
         private void RecenterEnemy(PlayerManager player)
         {
-            Vector3 centerETP = transform.position + ((player.transform.position - transform.position) / 2); // the center from enemy to player
+             
             Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);
             Vector3 playerPos = player.transform.position;
-            Debug.DrawLine(transform.position, centerETP, Color.magenta);
+            Vector3 centerETP = transform.position + ((playerPos - transform.position) / 2); // the center from enemy to player
+            
+            //Debug.DrawLine(transform.position, centerETP, Color.magenta);
 
             //make agent stop exactly at point;
             m_agent.stoppingDistance = 0;

@@ -84,7 +84,7 @@ namespace PlayerController
         [SerializeReference] private Vector3 _motionDirection;
         [Space]
         [HideInInspector] private float _verticalVelocity;
-
+        Vector3 m_cameraDefaultPos;
         // timeout deltatime
         private float _fallTimeoutDelta;
 
@@ -119,6 +119,7 @@ namespace PlayerController
 
             _characterController = GetComponent<CharacterController>();
             _camera = Camera.main;
+            m_cameraDefaultPos = _freeLookTarget.position;
             m_Mesh = GetComponentInChildren<Animator>().transform;
 
             _sfx = GetComponent<SFXController_Player>();
@@ -132,7 +133,7 @@ namespace PlayerController
             m_qteRunner = GetComponentInChildren<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
-
+            
         }
         private void Start()
         {
@@ -188,7 +189,8 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    
+                    if (m_qteRunner.enabled == false) m_playerState = PlayerState.Exploring;
+                    MoveCameraPoint();
                     break;
             }
 
@@ -208,15 +210,16 @@ namespace PlayerController
                 switch (m_playerState)
                 {
                     case PlayerState.Exploring:
-
+                        MoveCameraPoint();
                         break;
                     case PlayerState.Resting:
 
                         break;
                     case PlayerState.Combat:
-
+                        MoveCameraPoint();
                         break;
                 }
+                m_previousState = m_playerState;
             }
         }
 
@@ -263,6 +266,27 @@ namespace PlayerController
         {
             if (_motionDirection.magnitude > 0)
                 m_Mesh.transform.forward = _motionDirection.normalized;
+        }
+
+        private void MoveCameraPoint()
+        {
+            switch (m_playerState)
+            {
+                case PlayerState.Exploring:
+                    _freeLookTarget.position = m_cameraDefaultPos;
+                    break;
+                case PlayerState.Resting:
+
+                    break;
+                case PlayerState.Combat:
+                    Vector3 playerPos = transform.position;
+                    Vector3 enemyPos = m_recenterTarget.position;
+
+                    Vector3 centerPos = playerPos + ((enemyPos - playerPos)/2);
+
+                    Debug.DrawLine(playerPos, centerPos);
+                    break;
+            }
         }
 
         #endregion
@@ -329,6 +353,7 @@ namespace PlayerController
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
+            m_playerState = PlayerState.Combat;
             m_canMove = false;
             _enemy.Recentering = true;
             m_recenterTarget = _enemy.transform;
@@ -338,7 +363,6 @@ namespace PlayerController
 
         private void Recenter(Transform _eTrans)
         {
-            
             transform.forward = (_eTrans.position - transform.position).normalized; // face the enemy transform
             m_Mesh.localRotation = Quaternion.identity;
         }
@@ -351,7 +375,7 @@ namespace PlayerController
 
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
-            m_Mesh.rotation = Quaternion.identity;
+            m_Mesh.localRotation = Quaternion.identity;
 
             _characterController.enabled = true;
             killplayer = false;
@@ -361,7 +385,6 @@ namespace PlayerController
         {
             m_playerState = PlayerState.Exploring;
             m_recenterTarget = null;
-
         }
 
         #endregion
