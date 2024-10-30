@@ -35,7 +35,7 @@ namespace PlayerController
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
 
-        
+
 
         /// <summary>
         /// if the user can currently control their avatar
@@ -93,6 +93,8 @@ namespace PlayerController
         [SerializeReference] protected bool _grounded = true;
         [SerializeField] private LayerMask _groundLayers;
 
+
+        private Transform m_recenterTarget;
         /*** COMPONENTS ***/
         #region Components
         protected CharacterController _characterController;
@@ -174,34 +176,34 @@ namespace PlayerController
 
             DebugStuff();
 
-            if (m_canMove)
+            if(m_recenterTarget != null) Recenter(m_recenterTarget);
+
+            switch (m_playerState)
             {
-                switch (m_playerState)
-                {
-                    case PlayerState.Exploring:
+                case PlayerState.Exploring:
+                    if (m_canMove)
                         PlayerMovement();
-                        break;
-                    case PlayerState.Resting:
+                    break;
+                case PlayerState.Resting:
 
-                        break;
-                    case PlayerState.Combat:
-
-                        break;
-                }
+                    break;
+                case PlayerState.Combat:
+                    
+                    break;
             }
 
 
-           
+
             AnimationHandler();
         }
         private void FixedUpdate()
         {
-            
+
         }
 
         private void CheckStateChange()
         {
-            if(m_playerState != m_previousState)
+            if (m_playerState != m_previousState)
             {
                 switch (m_playerState)
                 {
@@ -329,30 +331,37 @@ namespace PlayerController
         {
             m_canMove = false;
             _enemy.Recentering = true;
-            StartCoroutine(Recenter(_enemy.transform));
+            m_recenterTarget = _enemy.transform;
             m_qteRunner.enabled = true;
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
 
-        private IEnumerator Recenter(Transform _eTrans)
+        private void Recenter(Transform _eTrans)
         {
-            yield return new WaitForSeconds(2);
-            transform.forward = (_eTrans.position - transform.position).normalized;
+            
+            transform.forward = (_eTrans.position - transform.position).normalized; // face the enemy transform
+            m_Mesh.localRotation = Quaternion.identity;
         }
-
 
         public bool killplayer = false;
         public void KillPlayer()
         {
             m_playerUI.DeathTransition();
             _characterController.enabled = false;
-            
+
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.rotation = Quaternion.identity;
 
             _characterController.enabled = true;
             killplayer = false;
+        }
+
+        public void EndCombat()
+        {
+            m_playerState = PlayerState.Exploring;
+            m_recenterTarget = null;
+
         }
 
         #endregion
