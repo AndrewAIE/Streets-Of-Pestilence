@@ -81,7 +81,5 @@ public class QTECombatAnimation : MonoBehaviour
                 PlayAnimation("NeutralTwo");
                 break;
         }
-    }
-    
-    
+    }    
 }

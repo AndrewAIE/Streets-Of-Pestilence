@@ -91,7 +91,7 @@ namespace QTESystem
             m_activeAction = m_qteManager.CreateAction();            
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;            
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;        
                         
         }
 

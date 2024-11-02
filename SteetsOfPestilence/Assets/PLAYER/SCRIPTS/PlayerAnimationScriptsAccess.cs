@@ -35,4 +35,9 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
     {
         m_player.KillPlayer();
     }
+
+    public void ReactivatePlayerControl()
+    {
+        m_player.SetPlayerActive(true);
+    }
 }

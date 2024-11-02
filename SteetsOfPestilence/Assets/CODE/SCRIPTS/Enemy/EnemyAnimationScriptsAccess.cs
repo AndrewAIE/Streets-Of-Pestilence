@@ -18,8 +18,6 @@ namespace EnemyAi
         {
             m_enemyController.KillEnemy();
         }
-
-
     }
 }
 
