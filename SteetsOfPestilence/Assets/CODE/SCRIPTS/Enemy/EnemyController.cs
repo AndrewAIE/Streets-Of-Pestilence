@@ -5,6 +5,7 @@ using UnityEngine;
 using PlayerController;
 using UnityEngine.AI;
 using Pixelplacement.TweenSystem;
+using UnityEditorInternal;
 
 namespace EnemyAI
 {
@@ -30,6 +31,7 @@ namespace EnemyAI
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
         private float m_defaultStoppingDistance;
+        [SerializeField] private bool m_circlePath, m_forwardPath = true, m_waitingAtDestination = false;
 
         [SerializeField] private Vector3 m_targetPosition;
         [SerializeField] private Vector3[] m_patrolPositions;
@@ -134,18 +136,41 @@ namespace EnemyAI
         private void Standby()
         {
             m_agent.stoppingDistance = 0;
+            if (m_waitingAtDestination) return;
             if (m_patrolPositions.Length > 0)
             {
-                float magnitude = (transform.position - m_patrolPositions[m_patrolNum]).magnitude;
-                if (magnitude < 3)
+                if (m_circlePath)
                 {
-                    m_patrolNum = (m_patrolNum >= m_patrolPositions.Length - 1) ? 0 : m_patrolNum + 1; // either goes to next position or resets by going to first position
+                    float magnitude = (transform.position - m_patrolPositions[m_patrolNum]).magnitude;
+                    if (magnitude < 3)
+                    {
+                        m_patrolNum = (m_patrolNum >= m_patrolPositions.Length - 1) ? 0 : m_patrolNum + 1; // either goes to next position or resets by going to first position
+                    }
                 }
+                else if (m_agent.remainingDistance < 2)
+                {
+                    m_patrolNum = (m_forwardPath) ? m_patrolNum + 1 : m_patrolNum - 1;
 
-                m_agent.destination = m_patrolPositions[m_patrolNum];
+                    if (m_patrolNum >= m_patrolPositions.Length - 1) m_forwardPath = false;
+                    else if (m_patrolNum <= 0) m_forwardPath = true;
+                }
+                float waitTime = Random.Range(0, 3);
+                
+                    m_waitingAtDestination = true;
+                    StartCoroutine(SetPath(waitTime, m_agent.destination = m_patrolPositions[m_patrolNum]));
             }
             else
-                m_agent.destination = m_homeDestination;
+            {
+                m_waitingAtDestination = true;
+                StartCoroutine(SetPath(3, m_agent.destination = m_homeDestination));
+            }
+        }
+
+        private IEnumerator SetPath(float _seconds, Vector3 _target)
+        {
+            yield return new WaitForSeconds(_seconds);
+            m_agent.destination = _target;
+            m_waitingAtDestination = false;
         }
 
         private void FacePlayer()

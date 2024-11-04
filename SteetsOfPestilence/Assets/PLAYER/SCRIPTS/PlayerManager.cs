@@ -50,8 +50,8 @@ namespace PlayerController
         #endregion
         #region Camera Components
         [Header("Camera Components")]
-        [SerializeField] public Transform _playerTransform;
-        [SerializeField] public Transform _freeLookTarget;
+        [SerializeField] public Transform m_playerTransform;
+        [SerializeField] public Transform m_freeLookTarget;
         #endregion
         #region Debugging
         [Header("Debugging")]
@@ -103,9 +103,6 @@ namespace PlayerController
         #endregion
 
         #endregion
-        #region Getters
-        public Vector3 centerPoint => _characterController.center;
-        #endregion
 
         private SpawnPoint m_spawnPoint;
         private List<SpawnPoint> m_unlockedCheckpoints;
@@ -119,7 +116,7 @@ namespace PlayerController
 
             _characterController = GetComponent<CharacterController>();
             _camera = Camera.main;
-            m_cameraDefaultPos = _freeLookTarget.position;
+            m_cameraDefaultPos = m_freeLookTarget.localPosition;
             m_Mesh = GetComponentInChildren<Animator>().transform;
 
             _sfx = GetComponent<SFXController_Player>();
@@ -170,14 +167,10 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
-            if (killplayer) KillPlayer();
-
             GatherInput();
             CheckStateChange();
 
             DebugStuff();
-
-            if(m_recenterTarget != null) Recenter(m_recenterTarget);
 
             switch (m_playerState)
             {
@@ -189,6 +182,7 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
+                    if (m_recenterTarget != null) Recenter(m_recenterTarget);
                     if (m_qteRunner.enabled == false) m_playerState = PlayerState.Exploring;
                     MoveCameraPoint();
                     break;
@@ -273,16 +267,20 @@ namespace PlayerController
             switch (m_playerState)
             {
                 case PlayerState.Exploring:
-                    _freeLookTarget.position = m_cameraDefaultPos;
+                    m_cameraController.SetCameraFollow(m_playerTransform);
+                    m_freeLookTarget.localPosition = m_cameraDefaultPos;
                     break;
                 case PlayerState.Resting:
 
                     break;
                 case PlayerState.Combat:
-                    Vector3 playerPos = transform.position;
-                    Vector3 enemyPos = m_recenterTarget.position;
+                    m_cameraController.SetCameraFollow(m_freeLookTarget);
+                    Vector3 playerPos = m_cameraDefaultPos;
+                    Vector3 enemyPos = m_recenterTarget.InverseTransformPoint(transform.position);
 
-                    Vector3 centerPos = playerPos + ((enemyPos - playerPos)/2);
+                    Vector3 centerPos = (enemyPos + playerPos) / 2;
+                    centerPos.y = playerPos.y;
+                    m_freeLookTarget.localPosition = centerPos;
 
                     Debug.DrawLine(playerPos, centerPos);
                     break;
@@ -367,7 +365,6 @@ namespace PlayerController
             m_Mesh.localRotation = Quaternion.identity;
         }
 
-        public bool killplayer = false;
         public void KillPlayer()
         {
             m_playerUI.DeathTransition();
@@ -378,7 +375,6 @@ namespace PlayerController
             m_Mesh.localRotation = Quaternion.identity;
 
             _characterController.enabled = true;
-            killplayer = false;
         }
 
         public void EndCombat()
