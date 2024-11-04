@@ -85,7 +85,7 @@ namespace EnemyAI
                     }
                     else
                         Standby();
-                }
+                }else if (m_player.PlayerInCombat()) FacePlayer();
             }
         }
         public void KillEnemy()
@@ -184,26 +184,58 @@ namespace EnemyAI
         {
             m_player.EnterCombat(m_EncounterData, this);
         }
-        public Vector3 alignPos;
+
+
         private void RecenterEnemy(PlayerManager player)
         {
-             
-            Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);
-            Vector3 playerPos = player.transform.position;
-            Vector3 centerETP = transform.position + ((playerPos - transform.position) / 2); // the center from enemy to player
-            
-            //Debug.DrawLine(transform.position, centerETP, Color.magenta);
-
             //make agent stop exactly at point;
             m_agent.stoppingDistance = 0;
 
-            float zDis = Mathf.Abs(playerPos.z - transform.position.z);
-            float xDis = Mathf.Abs(playerPos.x - transform.position.x);
+            float distanceBuffer = 0.2f;
+
+            Vector3 finalPos;
+            Vector3 playerPos = player.transform.position;
+
+            Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);
+
+            //Debug.DrawLine(transform.position, centerETP, Color.magenta);
             
 
-            alignPos = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z) : new(playerPos.x, playerPos.y, transform.position.z);
+            bool leftHit = Physics.Raycast(castPosition, -transform.right, out RaycastHit leftInfo, 2f);
+            bool rightHit = Physics.Raycast(castPosition, transform.right, out RaycastHit rightInfo, 2f);
 
-            m_agent.destination = alignPos;
+            Vector3 leftPos = leftInfo.point;
+            Vector3 rightPos = rightInfo.point;
+
+            float zDis = Mathf.Abs(playerPos.z - transform.position.z);
+            float xDis = Mathf.Abs(playerPos.x - transform.position.x);
+
+            if (leftHit && rightHit)
+            {
+                float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f;
+                if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return;
+
+                Vector3 centerPoint = (leftPos + rightPos) / 2;
+
+                finalPos = centerPoint;
+            }else if (leftHit)
+            {
+                Vector3 point = transform.position + (transform.right * 2);
+
+                finalPos = point;
+            }else if (rightHit)
+            {
+                Vector3 point = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z - 1) : new(playerPos.x + 1, playerPos.y, transform.position.z);
+
+                finalPos = point;
+            }
+            else
+            {
+                finalPos = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z) : new(playerPos.x, playerPos.y, transform.position.z);
+            }
+
+            m_agent.destination = finalPos;
+            Recentering = false;
         }
 
 
