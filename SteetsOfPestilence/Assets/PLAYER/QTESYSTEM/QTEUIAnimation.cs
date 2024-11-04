@@ -13,6 +13,8 @@ public class QTEUIAnimation : MonoBehaviour
         m_incorrectVibrateStrength, m_incorrectVibrateLength; 
     private TweenBase[] m_shakeTweens = new TweenBase[2];
     private TweenBase[] m_flashTweens = new TweenBase[2];
+
+    [SerializeField] AnimationCurve ringShrinkCurve;
     public void SuccessfulInput(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
         Tween.Size(_ring, _targetSize, _timer, 0, null, Tween.LoopType.None, null, null, false);
@@ -55,7 +57,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void StartRingAnimation(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
-        Tween.Size(_ring, _targetSize, _timer, 0, null, Tween.LoopType.None, null, null, false);
+        Tween.Size(_ring, _targetSize, _timer, 0, ringShrinkCurve, Tween.LoopType.None, null, null, false);
     }
 
     public void HoldShake(RectTransform _ring, float _timer)
@@ -121,4 +123,17 @@ public class QTEUIAnimation : MonoBehaviour
             }
         }
     }    
+
+    public void FadeInUI(Image _image, float _duration)
+    {
+        Color color = Color.white;
+        Tween.Color(_image, color, _duration, 0, null, Tween.LoopType.None, null, null, false);
+    }
+
+    public void FadeOutUI(Image _image, float _duration)
+    {
+        Color color = Color.clear;
+        Tween.Color(_image, color, _duration, 0, null, Tween.LoopType.None, null, null, false);
+        
+    }
 }

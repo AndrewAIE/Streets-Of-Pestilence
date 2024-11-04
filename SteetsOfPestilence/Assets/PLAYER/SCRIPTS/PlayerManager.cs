@@ -167,8 +167,6 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
-            if (killplayer) KillPlayer();
-
             GatherInput();
             CheckStateChange();
 
@@ -319,7 +317,6 @@ namespace PlayerController
             else
                 _animation.Idle();
         }
-
         #endregion
         #region Combat
 
@@ -340,8 +337,7 @@ namespace PlayerController
                 Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
             }
         }
-
-        public bool killplayer = false;
+        
         public void KillPlayer()
         {
             m_playerUI.DeathTransition();
@@ -351,8 +347,7 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
 
-            _characterController.enabled = true;
-            killplayer = false;
+            _characterController.enabled = true;            
         }
 
         #endregion

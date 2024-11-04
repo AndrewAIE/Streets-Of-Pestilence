@@ -21,8 +21,11 @@ namespace Management
         internal GameState m_Gamestate;
 
 
-        #region Managers
+        #region OtherObjects
         public PlayerManager m_PlayerManager { get; private set; }
+
+        public BossDoor m_BossDoor { get; private set; }
+
         #endregion
         #region Menus
         [SerializeField] public PauseMenu m_PauseMenu;

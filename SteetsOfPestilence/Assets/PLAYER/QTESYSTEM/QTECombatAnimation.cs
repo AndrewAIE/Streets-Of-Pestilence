@@ -16,6 +16,7 @@ public class QTECombatAnimation : MonoBehaviour
     {
         m_playerAnim = _playerAnim;
         m_enemyAnim = _enemyAnim;
+        ResetTriggers();
         PlayAnimation("QTECombat");
     }
 
@@ -51,6 +52,10 @@ public class QTECombatAnimation : MonoBehaviour
             m_index = 0;
         switch(_poiseValue)
         {
+            case >= 10:
+                break;
+            case <= -10:
+                break;
             case < -4:
                 if(m_index == 0)
                 {
@@ -66,7 +71,7 @@ public class QTECombatAnimation : MonoBehaviour
                     break;
                 }
                 PlayAnimation("PlayerAdvantageTwo");
-                break;
+                break;            
             default:
                 if (m_index == 0)
                 {
@@ -76,11 +81,5 @@ public class QTECombatAnimation : MonoBehaviour
                 PlayAnimation("NeutralTwo");
                 break;
         }
-    }
-    
-    public void ExitState()
-    {
-        ResetTriggers();
-        EndState = true;
-    }
+    }    
 }
