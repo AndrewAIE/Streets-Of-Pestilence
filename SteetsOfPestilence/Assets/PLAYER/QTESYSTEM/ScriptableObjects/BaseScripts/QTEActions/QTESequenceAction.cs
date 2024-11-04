@@ -17,16 +17,19 @@ namespace QTESystem
         private bool m_allStartBoolsActivated = false;
         private bool m_finalIcon = false;
         [SerializeField]
-        private float m_displayLeadInTime, m_timeBetweenInputs;
+        private float[] m_displayLeadInTime;
+        [SerializeField]
+        private float[] m_timeBetweenInputs;
         
         protected override void onStart()
         {
             //create timers and bools for each input of the sequence
             m_actionTimeLimits = new float[InputList.Count];
-            m_activeBools = new bool[InputList.Count];                      
+            m_activeBools = new bool[InputList.Count];   
+
             for (int i = 0; i < m_actionTimeLimits.Length; i++)
             {                
-                m_actionTimeLimits[i] = m_timeLimit + (i * m_timeBetweenInputs) + m_displayLeadInTime;
+                m_actionTimeLimits[i] = m_timeLimit + (i * GetTimeBetweenInputs(i)) + GetDisplayLeadInTime(i);
                 m_activeBools[i] = false;                
             }
             //m_actionTimeLimits[0] += m_displayLeadInTime;
@@ -41,11 +44,11 @@ namespace QTESystem
                 //Turn on bools as it reaches the appropriate time
                 for (int i = 0; i < m_activeBools.Length; i++)
                 {                    
-                    if (m_activeBools[i] == false && m_timer >= m_actionTimeLimits[i] - m_displayLeadInTime)
+                    if (m_activeBools[i] == false && m_timer >= m_actionTimeLimits[i] - GetDisplayLeadInTime(i))
                     {
                         //activate cue ring
                         m_qteDisplay.ActivateCue(i, Color.white);
-                        m_qteDisplay.AnimateCue(m_displayLeadInTime, i, InputList[i]);
+                        m_qteDisplay.AnimateCue(GetDisplayLeadInTime(i), i, InputList[i]);
                         m_activeBools[i] = true;
                         //stop iterating through loops if all bools are activated
                         if (i == m_activeBools.Length - 1)
@@ -123,6 +126,30 @@ namespace QTESystem
         public override void OnRelease(InputAction.CallbackContext _context)
         {
             
+        }
+
+        private float GetTimeBetweenInputs(int i)
+        {
+            if(m_timeBetweenInputs.Length > 1)
+            {
+                return m_timeBetweenInputs[i];
+            }
+            else
+            {
+                return m_timeBetweenInputs[0];
+            }
+        }
+
+        private float GetDisplayLeadInTime(int i)
+        {
+            if (m_displayLeadInTime.Length > 1)
+            {
+                return m_displayLeadInTime[i];
+            }
+            else
+            {
+                return m_displayLeadInTime[0];
+            }
         }
     }
 }
