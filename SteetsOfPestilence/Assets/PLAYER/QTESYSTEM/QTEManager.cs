@@ -67,13 +67,14 @@ namespace QTESystem
         [Tooltip("QTE Display")]
         public QTEDisplay QteDisplay;
 
-        public List<QTEInput> ActiveDisplayList;
-
+        public List<QTEInput> ActiveDisplayList;        
+        [SerializeField] private float m_canvasFadeDuration;
         #endregion
 
         //*** Poise Bar ***//
         #region Poise Bar
         public PoiseBarController PoiseBar;
+        
 
         //comment
         public int StreamPosition;
@@ -211,6 +212,7 @@ namespace QTESystem
             //Set Encounter State and begin Encounter
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
+            
         }
 
         public void SelectStream()
@@ -253,17 +255,22 @@ namespace QTESystem
         public void LoadUI(EnemyType _enemyType)
         {
             QteDisplay.LoadUI(_enemyType);
+            QteDisplay.FadeInUI(m_canvasFadeDuration);
         }
 
         public void EndOfEncounter()
         {
-            Enemy.EndCombat();
+            Enemy.EndCombat();            
+            WaitingStreams.Clear();            
+            this.enabled = false;           
+        }
+
+        public void ReactivatePlayer()
+        {
             QteDisplay.DeactivatePoiseBar();
             QteDisplay.DeactivatePanels();
             Player.SetPlayerActive(true);
-            WaitingStreams.Clear();
             ActiveStream = null;
-            this.enabled = false;
         }
 
         #endregion
@@ -372,8 +379,8 @@ namespace QTESystem
         private void playerWin()
         {
             CombatAnimation.PlayAnimation("PlayerWin");            
-            EndOfEncounter();            
-            Player.GetComponent<PlayerInput>().enabled = true;           
+            EndOfEncounter();
+            Invoke("ReactivatePlayer", 3.8f);
         }
 
         //Player Loss
@@ -398,6 +405,16 @@ namespace QTESystem
         {
             CombatAnimation.EndState = true;
             CombatAnimation.ResetTriggers();            
+        }
+
+        public void FadeInUI()
+        {
+            QteDisplay.FadeInUI(m_canvasFadeDuration);
+        }
+
+        public void FadeOutUI()
+        {
+            QteDisplay.FadeOutUI(m_canvasFadeDuration);
         }
         #endregion
 
@@ -426,13 +443,15 @@ namespace QTESystem
             StreamPosition = 0;
             Timer = 0;            
             ActiveDisplayList.Clear();
-            Invoke("DeleteCues", 0.35f);
+            StartCoroutine(DeleteCues());
         }
 
-        private void DeleteCues()
+        private IEnumerator DeleteCues()
         {
-            for (int i = 0; i < QteDisplay.FinishingCues.Count; i++)
-            {
+            yield return new WaitForSecondsRealtime(0.35f);            
+            int count = QteDisplay.FinishingCues.Count;
+            for (int i = 0; i < count; i++)
+            {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);

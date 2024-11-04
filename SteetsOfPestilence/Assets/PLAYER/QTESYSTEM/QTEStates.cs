@@ -170,18 +170,15 @@ namespace QTESystem
 
     public class CombatAnimation : QTEStates
     {
-        private float m_timeLimit;        
         public override void EnterState(QTEManager _manager)
         {            
             m_qteManager = _manager;
             m_qteManager.SlowTime(false);
             //reset stream data
-            m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
-            m_qteManager.ResetStreamData();
-            m_qteManager.SelectStream();
-            //set poise bar
+            m_qteManager.ResetStreamData();            
+            //set poise bar                     
             m_qteManager.PoiseValueCheck();
-            m_qteManager.SelectQTECombatAnimations();            
+            m_qteManager.SelectQTECombatAnimations();
         }
 
         public override void StateUpdate(float _timer)
@@ -195,7 +192,9 @@ namespace QTESystem
         }
 
         public override void ExitState()
-        {            
+        {
+            
+            m_qteManager.SelectStream();
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }       
     }
