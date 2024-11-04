@@ -55,7 +55,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void StartRingAnimation(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
-        Tween.Size(_ring, _targetSize, _timer, 0, null, Tween.LoopType.None, null, null, false);
+        Tween.Size(_ring, _targetSize, _timer, 0, Tween.EaseIn, Tween.LoopType.None, null, null, false);
     }
 
     public void HoldShake(RectTransform _ring, float _timer)
