@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377615fc5df2e2f48b99f37ba1a53a10, type: 3}
   m_Name: SFX_SO_Enemy
   m_EditorClassIdentifier: 
-  sfx_enemy_idle:
+  SFX_enemy_idle:
   - {fileID: 8300000, guid: 20c567ae8c18fb14099c47ef4f6c7387, type: 3}
   - {fileID: 8300000, guid: c53d5048df57afc41884c222b0087911, type: 3}
   - {fileID: 8300000, guid: c185b0f2688563945af0fd6545871ae5, type: 3}
@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b4a417d393650304fa20dc76c9379cf6, type: 3}
   - {fileID: 8300000, guid: 108c65516c2d787499f00a3acbe47247, type: 3}
   - {fileID: 8300000, guid: 47c43a2cde28ccf4bb5a2331201f1aa4, type: 3}
-  sfx_enemy_burn:
+  SFX_enemy_burn:
   - {fileID: 8300000, guid: 4fc52df83a9ada7499a368b542135143, type: 3}
   - {fileID: 8300000, guid: 30f273b404f80804c9aa28533ff0a42d, type: 3}
   - {fileID: 8300000, guid: c49c57862bc5ea34fb7cd837d92215f1, type: 3}
@@ -60,17 +60,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8d359679df4a5bb43bc2f22da04b1f0b, type: 3}
   - {fileID: 8300000, guid: fce75903eafa01f478f8d50e72062e27, type: 3}
   - {fileID: 8300000, guid: 9e45e4962dadad54ebd28383adffa54c, type: 3}
-  sfx_enemy_midCombat:
+  SFX_enemy_midCombat:
   - {fileID: 8300000, guid: e3642d3779670fd4fafb3ee41c854eb3, type: 3}
   - {fileID: 8300000, guid: 2bf02a5aaffbe5d45981fe92071877b7, type: 3}
   - {fileID: 8300000, guid: f6fd07ba7cf8e394ea4480a17cf59b08, type: 3}
   - {fileID: 8300000, guid: e59bd494710886a408148f662c26975d, type: 3}
-  sfx_enemy_OnAttack:
+  SFX_enemy_OnAttack:
   - {fileID: 8300000, guid: 43b8c1a02376cb54e8742e96dc0ae031, type: 3}
   - {fileID: 8300000, guid: c88794a77cc9903428d49b8ab00c1379, type: 3}
   - {fileID: 8300000, guid: 83a090a22beed53458a3f57b556db48f, type: 3}
   - {fileID: 8300000, guid: 8db7d296fdf9d6347a4f875fb3713560, type: 3}
-  sfx_enemy_OnDeath:
+  SFX_enemy_OnDeath:
   - {fileID: 8300000, guid: ca81d2acf8ce5b349a02381123325980, type: 3}
   - {fileID: 8300000, guid: 79bc837b0f1386e46b4209bdd1965725, type: 3}
   - {fileID: 8300000, guid: f48edfaac80f7eb459c57846a3bef0ca, type: 3}
@@ -79,18 +79,30 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0610665d9f206f84abd256623b4b252c, type: 3}
   - {fileID: 8300000, guid: 8df5e06a5fe9d634fa68b722577d7a8e, type: 3}
   - {fileID: 8300000, guid: 0b4b344135769fc499f8020d1815bf38, type: 3}
-  sfx_enemy_OnDefeatPlayer:
+  - {fileID: 8300000, guid: ca81d2acf8ce5b349a02381123325980, type: 3}
+  - {fileID: 8300000, guid: 79bc837b0f1386e46b4209bdd1965725, type: 3}
+  - {fileID: 8300000, guid: f48edfaac80f7eb459c57846a3bef0ca, type: 3}
+  - {fileID: 8300000, guid: d403b6c902f7c464dac9522e126c5fcd, type: 3}
+  - {fileID: 8300000, guid: 119a1721459bb03459e2f3c97cd59426, type: 3}
+  - {fileID: 8300000, guid: 0610665d9f206f84abd256623b4b252c, type: 3}
+  - {fileID: 8300000, guid: 8df5e06a5fe9d634fa68b722577d7a8e, type: 3}
+  - {fileID: 8300000, guid: 0b4b344135769fc499f8020d1815bf38, type: 3}
+  SFX_enemy_OnDefeatPlayer:
   - {fileID: 8300000, guid: c86a2cab9b44b7046a13d92154cd88a3, type: 3}
   - {fileID: 8300000, guid: b7dfa5ee4af8c19489015d52f20b7501, type: 3}
   - {fileID: 8300000, guid: bdad3b64d0f82ce4083e5a52f07cb964, type: 3}
-  sfx_enemy_OnLoseTrackOfPlayer:
+  SFX_enemy_OnLoseTrackOfPlayer:
   - {fileID: 8300000, guid: b8e9ddd4bb09be8468ce156888910585, type: 3}
-  sfx_enemy_OnSpotPlayer:
+  SFX_enemy_OnSpotPlayer:
   - {fileID: 8300000, guid: 4e572eb9f81f1a147bd2748b8bbb1da4, type: 3}
   - {fileID: 8300000, guid: ab8a34f257f90974a9c86f92e92e59c8, type: 3}
   - {fileID: 8300000, guid: c4e03b4de9afad74da6a7c1225bb9fe5, type: 3}
   - {fileID: 8300000, guid: b9305fc1d436c6b42a66a541e88910f4, type: 3}
   - {fileID: 8300000, guid: 6aea35011e563774990d1048def57523, type: 3}
   - {fileID: 8300000, guid: ad26c45f439c8574494b2258c71f3c2d, type: 3}
-  sfx_enemy_OnSurprisePlayer:
+  SFX_enemy_OnSurprisePlayer:
   - {fileID: 8300000, guid: 2a4898e145b67ac43ac221a713355d94, type: 3}
+  SFX_Enemy_Voice_volumeMin: 0.75
+  SFX_Enemy_Voice_volumeMax: 1
+  SFX_Enemy_Voice_pitchMin: 0.9
+  SFX_Enemy_Voice_pitchMax: 1

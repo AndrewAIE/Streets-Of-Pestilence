@@ -26,6 +26,7 @@ namespace EnemyAI
         [SerializeField]private bool isDead = false;
         private bool m_combatEnding;
         public bool recenter;
+        public bool m_dying = false;
         #region Nav
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
@@ -39,7 +40,7 @@ namespace EnemyAI
         #endregion
 
         #region Mesh & Particles
-        private ParticleSystem[] m_enemyPartycles;
+        private ParticleSystem[] m_enemyParticles;
         private SkinnedMeshRenderer m_enemyMesh;
         #endregion
 
@@ -51,14 +52,12 @@ namespace EnemyAI
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
 
-            m_enemyPartycles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+            m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
-
 
             m_homeDestination = transform.position;
         }
-
-        int died = 0;
+        
         private void Update()
         {
             if (!isDead && !m_combatEnding)
@@ -76,15 +75,15 @@ namespace EnemyAI
                     else
                         Standby();
                 }
-            }
-            else if (died < 1) KillEnemy();
+            }            
         }
         public void KillEnemy()
         {
-            died++;
             m_agent.enabled = false;
             m_enemyMesh.enabled = false;
-            for (int i = 0; i <= m_enemyPartycles.Length; i++) m_enemyPartycles[i].Play();
+            m_detector.enabled = false;
+            m_dying = true;
+            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
             Collider[] colliders = GetComponents<Collider>();
             foreach(Collider col in colliders)
             {
@@ -112,6 +111,10 @@ namespace EnemyAI
         #region Nav
         private void GoToPlayer()
         {
+            if (m_dying)
+            {
+                return;
+            }
             m_targetPosition = m_detector.LastPosition();
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {

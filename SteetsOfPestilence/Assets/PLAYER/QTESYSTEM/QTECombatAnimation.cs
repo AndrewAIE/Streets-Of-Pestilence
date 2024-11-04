@@ -81,16 +81,5 @@ public class QTECombatAnimation : MonoBehaviour
                 PlayAnimation("NeutralTwo");
                 break;
         }
-    }
-    
-    public void ExitState()
-    {
-        ResetTriggers();
-        EndState = true;
-    }
-
-    public void EnterSloMo()
-    {
-        
-    }
+    }    
 }
