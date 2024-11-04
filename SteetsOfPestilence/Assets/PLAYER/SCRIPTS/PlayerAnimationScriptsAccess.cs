@@ -23,7 +23,7 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
 
     public void EnterSloMo()
     {
-        m_qte.SlowTime(true);
+        m_qte.SlowTime(true);        
     }
 
     public void ExitSloMo()
@@ -39,5 +39,15 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
     public void ReactivatePlayerControl()
     {
         m_player.SetPlayerActive(true);
+    }
+
+    public void FadeInUI()
+    {
+        m_qte.FadeInUI();
+    }
+
+    public void FadeOutUI()
+    {
+        m_qte.FadeOutUI();
     }
 }

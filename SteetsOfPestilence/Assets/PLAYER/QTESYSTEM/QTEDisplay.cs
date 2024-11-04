@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -271,8 +272,7 @@ namespace QTESystem
         private IEnumerator ResetIconColor(List<QTEInput> _icons)
         {
             
-            yield return new WaitForSeconds(0.2f);
-            Debug.Log("STOP BEING GREEN PLEASE");
+            yield return new WaitForSeconds(0.2f);            
             SetIconColor(_icons, Color.white);
         }
 
@@ -503,9 +503,89 @@ namespace QTESystem
         {
             m_iconAnimation.CancelFlash();
         }
+        /// <summary>
+        /// Fade Active UI panels to 1 alpha
+        /// </summary>
+        /// <param name="_duration"></param>
+        public void FadeInUI(float _duration)
+        {
 
-        
-
+            List<Image> images = new List<Image>();
+            //Get all Images from the Poise bar
+            Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
+            foreach (Image image in poiseBarImages)
+            {
+                images.Add(image);
+            }
+            //Get all Images from the active icon panels
+            foreach (GameObject gObject in m_iconPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image[] iconImages = gObject.GetComponentsInChildren<Image>();
+                    foreach(Image image in iconImages)
+                    {
+                        images.Add(image);
+                    }
+                }
+            }
+            //Get active mask panel image
+            foreach(GameObject gObject in m_maskPanels)
+            {
+                if(gObject.activeInHierarchy)
+                {
+                    Image image = gObject.GetComponentInChildren<Image>();
+                    images.Add(image);
+                    break;
+                }
+            }
+            //Fade all UI images
+            foreach(Image image in images)
+            {
+                m_iconAnimation.FadeInUI(image, _duration);
+            }           
+        }
+        /// <summary>
+        /// Fade Active UI panels to 0 alpha
+        /// </summary>
+        /// <param name="_duration"></param>
+        public void FadeOutUI(float _duration)
+        {
+            List<Image> images = new List<Image>();
+            //Get all Images from the Poise bar
+            Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();
+            foreach (Image image in poiseBarImages)
+            {
+                images.Add(image);
+            }
+            //Get all Images from the active icon panels
+            foreach (GameObject gObject in m_iconPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image[] iconImages = gObject.GetComponentsInChildren<Image>();
+                    foreach (Image image in iconImages)
+                    {
+                        images.Add(image);
+                    }
+                }
+            }
+            //Get active mask panel image
+            foreach (GameObject gObject in m_maskPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image image = gObject.GetComponentInChildren<Image>();
+                    images.Add(image);
+                    break;
+                }
+            }
+            //Fade all UI images
+            foreach (Image image in images)
+            {
+                m_iconAnimation.FadeOutUI(image, _duration);
+            }
+        }
         #endregion
 
     }

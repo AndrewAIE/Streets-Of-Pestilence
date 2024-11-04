@@ -41,7 +41,7 @@ namespace PlayerController
             Tween.CanvasGroupAlpha(m_deathScreen, 1, 3, 0);
             yield return new WaitForSecondsRealtime(4);
             Tween.CanvasGroupAlpha(m_deathScreen, 0, 3, 0);
-            m_player.SetPlayerActive(true);
+            m_player.SetPlayerActive(true);            
         }
 
         public void Interact()
