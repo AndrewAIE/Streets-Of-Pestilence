@@ -32,11 +32,7 @@ namespace QTESystem
         LeftShoulder,
         LeftTrigger,
         RightShoulder,
-        RightTrigger,
-        NorthDirectional,
-        EastDirectional,
-        SouthDirectional,
-        WestDirectional
+        RightTrigger
     }
 
     #endregion
