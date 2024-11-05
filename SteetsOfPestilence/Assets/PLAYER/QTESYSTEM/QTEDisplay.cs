@@ -53,8 +53,7 @@ namespace QTESystem
         [SerializeField]
         GameObject m_faceButtonCue;
         [SerializeField]
-        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue,
-            m_northDirectionalCue, m_eastDirectionalCue, m_southDirectionalCue, m_westDirectionalCue;
+        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
 
         [SerializeField]
         int m_cueStartSize;
