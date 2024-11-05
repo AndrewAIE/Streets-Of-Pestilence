@@ -34,14 +34,6 @@ namespace QTESystem
         private Image m_rShoulderButtonIcon;
         [SerializeField]
         private Image m_rTriggerButtonIcon;
-        [SerializeField]
-        private Image m_northDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_eastDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_southDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_westDirectionalButtonIcon;
 
         [Space]
         [Header("QTE System")]
@@ -164,18 +156,6 @@ namespace QTESystem
                     case QTEInput.RightTrigger:
                         m_rTriggerButtonIcon.color = _color;
                         break;
-                    case QTEInput.NorthDirectional:
-                        m_northDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.EastDirectional:
-                        m_eastDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.SouthDirectional:
-                        m_southDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.WestDirectional:
-                        m_westDirectionalButtonIcon.color = _color;
-                        break;
                 }
             }
             m_iconsToActivate.Clear();
@@ -208,18 +188,6 @@ namespace QTESystem
                     break;
                 case QTEInput.RightTrigger:
                     m_rTriggerButtonIcon.color = _color;
-                    break;
-                case QTEInput.NorthDirectional:
-                    m_northDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.EastDirectional:
-                    m_eastDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.SouthDirectional:
-                    m_southDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.WestDirectional:
-                    m_westDirectionalButtonIcon.color = _color;
                     break;
             }
         }
@@ -328,18 +296,6 @@ namespace QTESystem
                 case "RTrigger":
                     image = m_rTriggerButtonIcon;
                     break;
-                case "Up":
-                    image = m_northDirectionalButtonIcon;
-                    break;
-                case "Right":
-                    image = m_eastDirectionalButtonIcon;
-                    break;
-                case "Down":
-                    image = m_southDirectionalButtonIcon;
-                    break;
-                case "Left":
-                    image = m_westDirectionalButtonIcon;
-                    break;
                 default:
                     image = null;
                     Debug.LogWarning("QTEDisplay - GetIcon(): No Corresponding Icon to String Parameter");
@@ -368,14 +324,6 @@ namespace QTESystem
                     return m_rShoulderButtonIcon;                    
                 case QTEInput.RightTrigger:
                     return m_rTriggerButtonIcon;                    
-                case QTEInput.NorthDirectional:
-                    return m_northDirectionalButtonIcon;                    
-                case QTEInput.EastDirectional:
-                    return m_eastDirectionalButtonIcon;                    
-                case QTEInput.SouthDirectional:
-                    return m_southDirectionalButtonIcon;                    
-                case QTEInput.WestDirectional:
-                    return m_westDirectionalButtonIcon;
                 default:
                     return m_northButtonIcon;
             }
@@ -429,18 +377,6 @@ namespace QTESystem
                     break;                
                 case QTEInput.RightTrigger:
                     ActiveVisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
-                    break;
-                case QTEInput.NorthDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_northDirectionalCue, m_northDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.EastDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_eastDirectionalCue, m_eastDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.SouthDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_southDirectionalCue, m_southDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.WestDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
             }            
         }
