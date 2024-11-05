@@ -584,6 +584,21 @@ namespace QTESystem
                 m_iconAnimation.FadeOutUI(image, _duration);
             }
         }
+
+        public void Pause()
+        {
+            m_iconAnimation.Pause();
+        }
+
+        public void Resume()
+        {
+            m_iconAnimation.Resume();
+        }
+
+        public void ClearTweens()
+        {
+            m_iconAnimation.ClearTweens();
+        }
         #endregion
 
     }
