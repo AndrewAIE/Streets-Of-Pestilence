@@ -15,7 +15,7 @@ namespace QTESystem
         private int m_activeTimeSlot;
         private bool[] m_activeBools;                
         private bool m_allStartBoolsActivated = false;
-        private bool m_finalIcon = false;
+        private bool m_sequenceComplete = false;
         [SerializeField]
         private float[] m_displayLeadInTime;
         [SerializeField]
@@ -61,20 +61,20 @@ namespace QTESystem
             }
             if (m_state == ActionState.running)
             {
+                //return success when sequence has finished
                 if (m_timer >= m_maxTime)
                 {
                     m_state = ActionState.success;
                     m_timeUp = true;
-                }
+                }        
                 
-                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_finalIcon)
+                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_sequenceComplete)
                 {
-                    m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
-                    m_qteDisplay.DeactivateCue(m_activeTimeSlot);                    
-                    m_activeTimeSlot++;
+                    m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
+                    m_qteDisplay.DeactivateCue(m_activeTimeSlot);
+                    m_activeTimeSlot++;                                  
                 }
-            }
-            
+            }            
             return m_state;
         }        
 
@@ -93,14 +93,14 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_finalIcon = true;
+                    m_sequenceComplete = true;
                 }
                 CorrectInputs++;
                 return;
             }
             if (m_activeBools[m_activeTimeSlot])
             {
-                m_qteDisplay.MissedInput(InputList[m_activeTimeSlot]);
+                m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                 m_qteDisplay.IncorrectInput(_context.action.name);
                 m_qteDisplay.DeactivateCue(m_activeTimeSlot);
                 if (m_activeTimeSlot < m_activeBools.Length - 1 && m_activeBools[m_activeTimeSlot])
@@ -109,7 +109,7 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_finalIcon = true;
+                    m_sequenceComplete = true;
                 }
             }
         }
