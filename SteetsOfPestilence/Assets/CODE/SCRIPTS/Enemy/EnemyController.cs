@@ -90,7 +90,7 @@ namespace EnemyAI
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
             m_defaultStoppingDistance = m_agent.stoppingDistance;
-            m_enemyPartycles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+            m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
 
             m_homeDestination = transform.position;

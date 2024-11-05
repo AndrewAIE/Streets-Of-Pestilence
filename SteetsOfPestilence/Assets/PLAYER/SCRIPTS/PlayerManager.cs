@@ -406,6 +406,17 @@ namespace PlayerController
             if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
         #endregion
+
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+        {
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint))
+            {
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
+        }
     }
 
     internal struct InputStruct
