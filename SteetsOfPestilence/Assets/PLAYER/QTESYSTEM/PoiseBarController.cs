@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Pixelplacement;
+using Unity.VisualScripting;
 
 public class PoiseBarController : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class PoiseBarController : MonoBehaviour
     [SerializeField] RectMask2D _fillMask;
     [SerializeField] float _maskPlayerWin;
     [SerializeField] float _maskEnemyWin;
+    [Space]
+    [SerializeField] RectTransform _bubbleRect;
+    [SerializeField] float _startingYPos;
+    [SerializeField] float _endYPos;
+
 
     [Header("Plunger")]
     [SerializeField] RectTransform _plungerTransform;
@@ -36,6 +42,23 @@ public class PoiseBarController : MonoBehaviour
 
 
     //******************** Methods *********************//
+
+    private void Update()
+    {
+        if(isActiveAndEnabled)
+        {
+            if(_bubbleRect.position.y < _endYPos)
+            {
+
+                _bubbleRect.localPosition += new Vector3(0, Time.deltaTime * 20f, 0);
+            }
+            else
+            {
+                _bubbleRect.localPosition = new Vector3(0, _startingYPos, 0);
+            }
+        }
+    }
+
     public void SetPoise(int deltaPoise)
     {
         _poise += deltaPoise;
@@ -70,7 +93,6 @@ public class PoiseBarController : MonoBehaviour
     {
         _fillMask.padding = new Vector4((_maskEnemyWin - _maskPlayerWin) * _amount, 0, 0, 0);
         _plungerTransform.anchoredPosition = new Vector3(Mathf.Lerp(_plungerX_PlayerWin, _plungerX_EnemyWin, _amount), 0, 0);
-
     }
 
 
