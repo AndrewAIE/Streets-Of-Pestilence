@@ -347,7 +347,7 @@ namespace PlayerController
         #endregion
         #region Combat
 
-        public bool PlayerInCombat() => m_qteRunner.enabled;
+        public bool PlayerInCombat() { return (m_playerState == PlayerState.Combat); }
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
@@ -361,7 +361,8 @@ namespace PlayerController
 
         private void Recenter(Transform _eTrans)
         {
-            transform.forward = (_eTrans.position - transform.position).normalized; // face the enemy transform
+            Vector3 faceDir = new(_eTrans.position.x - transform.position.x, 0, _eTrans.position.z - transform.position.z); // get face direction (ignore y)
+            transform.forward = faceDir.normalized; // face the enemy transform normalized
             m_Mesh.localRotation = Quaternion.identity;
         }
 
