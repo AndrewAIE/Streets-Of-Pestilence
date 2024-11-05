@@ -95,8 +95,7 @@ public class QTEUIAnimation : MonoBehaviour
             {
                 m_activeTweens.Remove(m_shakeTweens[i]);
                 m_shakeTweens[i].Cancel();
-                m_shakeTweens[i] = null;
-                
+                m_shakeTweens[i] = null;                
             }
         }        
     }

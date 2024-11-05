@@ -73,8 +73,7 @@ namespace QTESystem
 
         //*** Poise Bar ***//
         #region Poise Bar
-        public PoiseBarController PoiseBar;
-        
+        public PoiseBarController PoiseBar;        
 
         //comment
         public int StreamPosition;
@@ -428,9 +427,7 @@ namespace QTESystem
         {
             CombatAnimation.EndState = true;
             CombatAnimation.ResetTriggers();            
-        }
-
-        
+        }   
 
         public void FadeInUI()
         {
@@ -457,7 +454,7 @@ namespace QTESystem
             }
             if(_context.canceled)
             {
-                 QteDisplay.InputReleased(_context.action.name);
+                QteDisplay.InputReleased(_context.action.name);
                 ActiveAction?.OnRelease(_context);
             }
                     
