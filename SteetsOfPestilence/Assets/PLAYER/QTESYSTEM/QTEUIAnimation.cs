@@ -33,15 +33,19 @@ public class QTEUIAnimation : MonoBehaviour
     }
 
     public void FailAction(GameObject _icon)
-    {         
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
+    {
+        GameObject parent = _icon.transform.parent.gameObject;
+        Vector3 position = parent.transform.localPosition;
+        Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
         StartCoroutine("StopControllerVibrate");
     }
 
     public void IncorrectInput(Image _icon)
     {
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
+        GameObject parent = _icon.transform.parent.gameObject;
+        Vector3 position = parent.transform.localPosition;
+        Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
         StartCoroutine("StopControllerVibrate");
     }      
