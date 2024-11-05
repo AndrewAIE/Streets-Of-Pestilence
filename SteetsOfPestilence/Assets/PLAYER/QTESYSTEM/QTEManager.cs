@@ -45,6 +45,9 @@ namespace QTESystem
     {
         //******************** Variables *******************//
         #region Variables
+        //*** Manager ***//
+        GameManager m_manager;
+        bool m_paused = false;
 
         //*** QTE DATA ***//
         #region QTE Data
@@ -161,7 +164,8 @@ namespace QTESystem
             ActiveDisplayList = new List<QTEInput>();
             CombatAnimation = GetComponentInChildren<QTECombatAnimation>();
             m_slowMoManager = GetComponentInChildren<SlowMotionManager>();
-            Player = GetComponentInParent<PlayerManager>();            
+            Player = GetComponentInParent<PlayerManager>();
+            m_manager = FindFirstObjectByType<GameManager>();
         }
         
         private void OnEnable()
@@ -179,14 +183,28 @@ namespace QTESystem
 
         #endregion
 
-        
+
         #region Update
         void Update()
-        {       
-            
-            
-            Timer += Time.unscaledDeltaTime;
-            CurrentState.StateUpdate(Timer);            
+        {
+            //check for pause functionality
+            if (m_manager.m_Gamestate == GameState.Paused && !m_paused)
+            {
+                m_paused = true;
+                QteDisplay.Pause();
+                InputActions.Disable();
+            }
+            if(m_manager.m_Gamestate !=GameState.Paused && m_paused)
+            {
+                m_paused = false;
+                QteDisplay.Resume();
+                InputActions.Enable();
+            }
+            if (!m_paused)
+            {
+                Timer += Time.unscaledDeltaTime;
+            }            
+            CurrentState.StateUpdate(Timer);
         }
         #endregion
 
@@ -308,7 +326,10 @@ namespace QTESystem
 
         //Comment
         public QTEStreamData SelectRandomStream()
-        {            
+        {
+            //Clear tweens from previous stream
+            QteDisplay.ClearTweens();
+            //Select random stream from unselected streams
             int selector = Random.Range(0, WaitingStreams.Count);
             QTEStreamData selectedStream = Instantiate(WaitingStreams[selector]);
             WaitingStreams.RemoveAt(selector);
@@ -400,7 +421,7 @@ namespace QTESystem
         public void SlowTime(bool _activate)
         {
             if(_activate)
-            {
+            {                
                 m_slowMoManager.TimeSlowDown();
                 return;
             }
@@ -412,6 +433,8 @@ namespace QTESystem
             CombatAnimation.EndState = true;
             CombatAnimation.ResetTriggers();            
         }
+
+        
 
         public void FadeInUI()
         {

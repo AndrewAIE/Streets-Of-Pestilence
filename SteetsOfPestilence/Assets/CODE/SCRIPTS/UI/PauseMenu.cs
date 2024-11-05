@@ -15,7 +15,7 @@ namespace Management
         /// </summary>
         [SerializeField] private string m_MainMenuName = "MainMenu";
         private GameManager m_manager;
-
+        private float m_currentTimeScale;
         private void Start()
         {
             m_manager = GetComponentInParent<GameManager>();
@@ -34,6 +34,7 @@ namespace Management
                 EnableChildren(true);
                 Button m_firstButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(m_firstButton.gameObject);
+                m_currentTimeScale = Time.timeScale;
                 Time.timeScale = 0;
                 m_manager.SetGameState(GameState.Paused);
             }
@@ -41,7 +42,7 @@ namespace Management
             {
                 EventSystem.current.SetSelectedGameObject(null);
                 EnableChildren(false);
-                Time.timeScale = 1;
+                Time.timeScale = m_currentTimeScale;
                 m_manager.SetGameState(GameState.Playing);
             }
         }
