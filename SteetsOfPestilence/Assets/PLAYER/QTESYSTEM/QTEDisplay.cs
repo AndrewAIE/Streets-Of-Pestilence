@@ -231,32 +231,30 @@ namespace QTESystem
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
             m_audio.IncorrectInput();
+            FinishingCues.Add(ActiveVisualCues[0]);
         }
 
         //Comment
         public void MissedInput(List<QTEInput> _iconsToShake)
         {
+            int iterator = 0;
             foreach(QTEInput input in _iconsToShake)
             {
                 Image image = GetIcon(input);
                 //animate corresponding icon and play audio
                 m_iconAnimation.IncorrectInput(image);
+                FinishingCues.Add(ActiveVisualCues[iterator]);
+                iterator++;
             }
         }
 
-        public void MissedInput(QTEInput _iconsToShake)
+        public void MissedInput(QTEInput _iconsToShake, int _iterator)
         {
             Image image = GetIcon(_iconsToShake);
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
-        }
-
-        public void SuccessfulInput(List<QTEInput> _icons, Image _ring)
-        {
-            
-            SetIconColor(_icons, Color.green);
-            StartCoroutine("ResetIconColor", _icons);
-        }
+            FinishingCues.Add(ActiveVisualCues[_iterator]);
+        }       
 
         public void SuccessfulInput(QTEInput _icon, int _selector)
         {

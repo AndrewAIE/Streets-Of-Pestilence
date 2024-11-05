@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 using EnemyAI;
 using PlayerController;
+using Management;
 
 
 namespace QTESystem
@@ -182,6 +183,9 @@ namespace QTESystem
         #region Update
         void Update()
         {
+            
+            
+            if(m)
             Timer += Time.unscaledDeltaTime;
             CurrentState.StateUpdate(Timer);            
         }
@@ -260,6 +264,10 @@ namespace QTESystem
 
         public void EndOfEncounter()
         {
+            if(QteDisplay.FinishingCues.Count > 0)
+            {
+                StartCoroutine(DeleteCues());
+            }
             Enemy.EndCombat();            
             WaitingStreams.Clear();            
             this.enabled = false;           
@@ -303,7 +311,6 @@ namespace QTESystem
         public QTEStreamData SelectRandomStream()
         {            
             int selector = Random.Range(0, WaitingStreams.Count);
-
             QTEStreamData selectedStream = Instantiate(WaitingStreams[selector]);
             WaitingStreams.RemoveAt(selector);
             if(ActiveStream)
@@ -450,11 +457,13 @@ namespace QTESystem
         {
             yield return new WaitForSecondsRealtime(0.35f);            
             int count = QteDisplay.FinishingCues.Count;
+            Debug.Log($"Number of rings to be removed {count}");
             for (int i = 0; i < count; i++)
             {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);
+                Debug.Log($"Removing ring {i + 1}");
             }
         }
         #endregion
