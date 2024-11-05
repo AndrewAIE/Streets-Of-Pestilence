@@ -5,7 +5,7 @@ using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace PlayerController
 {
