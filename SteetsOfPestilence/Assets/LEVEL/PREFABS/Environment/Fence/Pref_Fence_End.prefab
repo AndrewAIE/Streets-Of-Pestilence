@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 9140314588949140595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4582203424300708610}
   m_Father: {fileID: 0}
@@ -99,6 +99,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArtPref_Fence_End
       objectReference: {fileID: 0}
+    - target: {fileID: 9222003877845164349, guid: 63535f31dbba3f04583c285b6040b3e1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: -7578113553672501042, guid: ca1612543627f794bb44f0b294f4f0b4,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63535f31dbba3f04583c285b6040b3e1, type: 3}
 --- !u!4 &4582203424300708610 stripped
