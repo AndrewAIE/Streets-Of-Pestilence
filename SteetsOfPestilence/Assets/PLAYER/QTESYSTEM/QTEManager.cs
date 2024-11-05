@@ -182,10 +182,9 @@ namespace QTESystem
         
         #region Update
         void Update()
-        {
+        {       
             
             
-            if(m)
             Timer += Time.unscaledDeltaTime;
             CurrentState.StateUpdate(Timer);            
         }
