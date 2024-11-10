@@ -456,9 +456,9 @@ namespace QTESystem
 
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
-            SetCueSize(m_cueStartSize, _selector);
-            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;
+            Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;            
             Image image = ActiveVisualCues[_selector].GetComponent<Image>();
+            SetCueSize(m_cueStartSize, _selector, image.rectTransform);
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
 
@@ -474,30 +474,47 @@ namespace QTESystem
             m_iconAnimation.CancelShake();
         }
 
-        //Comment
-        public void SetCueSize(float _sizePercentage, int _selector)
+        /// <summary>
+        /// Set the size of the cue before it is activated
+        /// </summary>
+        /// <param name="_sizePercentage"></param>
+        /// <param name="_selector"></param>
+        /// <param name="_transform"></param>
+        public void SetCueSize(float _sizePercentage, int _selector, RectTransform _transform)
         {            
-            Vector2 targetSize = m_southButtonIcon.rectTransform.sizeDelta;
+            Vector2 targetSize = _transform.sizeDelta;
             float sizeRange = m_cueStartSize - targetSize.x;
             Image image = ActiveVisualCues[_selector].GetComponent<Image>();
 
             image.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
         }
 
-        //Comment
+        /// <summary>
+        /// Turn alpha of Ring Colour from 0 to 1 (255)
+        /// </summary>
+        /// <param name="_count"></param>
+        /// <param name="_color"></param>
         public void ActivateCue(int _count, Color _color)
         {            
             Image image = ActiveVisualCues[_count].GetComponent<Image>();
             image.color = _color;
             
         }
-
+        /// <summary>
+        /// Turn alphpa of cue to 0
+        /// </summary>
+        /// <param name="_count"></param>
         public void DeactivateCue(int _count)
         {
             Image image = ActiveVisualCues[_count].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
-
+        /// <summary>
+        /// Make the cue flash to signify that the player needs to mash the button
+        /// </summary>
+        /// <param name="_timeLimit"></param>
+        /// <param name="_selector"></param>
+        /// <param name="_input"></param>
         public void AnimateMashCue(float _timeLimit, int _selector, QTEInput _input)
         {
             Vector2 ringSize = GetIcon(_input).rectTransform.sizeDelta;
@@ -505,7 +522,7 @@ namespace QTESystem
             image.rectTransform.sizeDelta = ringSize;
             m_iconAnimation.FlashRing(image);
         }
-
+        //cancel the flash of the cue 
         public void StopFlash()
         {
             m_iconAnimation.CancelFlash();
