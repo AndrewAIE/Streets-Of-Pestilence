@@ -6,9 +6,9 @@ public class SlowMotionManager : MonoBehaviour
 {
     [SerializeField]
     private float m_slowMoSpeed, m_slowMoChangeRate;
-    private float m_timeScale;
-    private bool timeSlowDown;
-    private bool timeSpeedUp;
+    private float m_timeScale = 1;
+    private bool timeSlowDown = false;
+    private bool timeSpeedUp = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,24 +20,23 @@ public class SlowMotionManager : MonoBehaviour
     {
         if (timeSlowDown)
         {
-            m_timeScale = Mathf.MoveTowards(m_timeScale, m_slowMoSpeed, m_slowMoChangeRate * Time.unscaledDeltaTime);
-            if (m_timeScale <= m_slowMoSpeed)
+            Time.timeScale = Mathf.MoveTowards(Time.timeScale, m_slowMoSpeed, m_slowMoChangeRate * Time.unscaledDeltaTime);            
+            if (Time.timeScale <= m_slowMoSpeed)
             {
-                m_timeScale = m_slowMoSpeed;
+                Time.timeScale = m_slowMoSpeed;
                 timeSlowDown = false;
             }
-            Time.timeScale = m_timeScale;
-
+            Debug.Log($"m_timeScale = {m_timeScale}");
+            Debug.Log($"Time.timeScale = {Time.timeScale}");
         }
         if (timeSpeedUp)
         {
-            m_timeScale = Mathf.MoveTowards(m_timeScale, 1, m_slowMoChangeRate * Time.unscaledDeltaTime);
-            if (m_timeScale >= 1)
-            {
-                m_timeScale = 1;
+            Time.timeScale = Mathf.MoveTowards(Time.timeScale, 1, m_slowMoChangeRate * Time.unscaledDeltaTime);
+            if (Time.timeScale >= 1)
+            {                
+                Time.timeScale = 1;
                 timeSpeedUp = false;
-            }
-            Time.timeScale = m_timeScale;
+            }            
         }
     }
 
