@@ -100,42 +100,6 @@ namespace QTESystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Up"",
-                    ""type"": ""Button"",
-                    ""id"": ""f578437f-560a-4346-a232-05360b3d4734"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Down"",
-                    ""type"": ""Button"",
-                    ""id"": ""54da3fcf-7dbd-4059-8b4c-615cd9a7f15f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Left"",
-                    ""type"": ""Button"",
-                    ""id"": ""0b3dd492-4d00-4c87-b3f6-cd11b2a67314"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Right"",
-                    ""type"": ""Button"",
-                    ""id"": ""cedbfc21-6ce3-4a63-9e9f-062a2c3306e6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -226,50 +190,6 @@ namespace QTESystem
                     ""action"": ""LTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b23e2b2d-3061-47ef-ad57-71a7d8f8bc64"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": ""AxisDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8be4cd39-f634-4bb3-a7af-bf370c91821a"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": ""AxisDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Down"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1920bf95-b561-4cf9-96e6-2742dcc963a8"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": ""AxisDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fdb79131-b254-4f6c-9d6e-dfee43a83dbc"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": ""AxisDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -286,10 +206,6 @@ namespace QTESystem
             m_Inputs_LShoulder = m_Inputs.FindAction("LShoulder", throwIfNotFound: true);
             m_Inputs_RTrigger = m_Inputs.FindAction("RTrigger", throwIfNotFound: true);
             m_Inputs_LTrigger = m_Inputs.FindAction("LTrigger", throwIfNotFound: true);
-            m_Inputs_Up = m_Inputs.FindAction("Up", throwIfNotFound: true);
-            m_Inputs_Down = m_Inputs.FindAction("Down", throwIfNotFound: true);
-            m_Inputs_Left = m_Inputs.FindAction("Left", throwIfNotFound: true);
-            m_Inputs_Right = m_Inputs.FindAction("Right", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -359,10 +275,6 @@ namespace QTESystem
         private readonly InputAction m_Inputs_LShoulder;
         private readonly InputAction m_Inputs_RTrigger;
         private readonly InputAction m_Inputs_LTrigger;
-        private readonly InputAction m_Inputs_Up;
-        private readonly InputAction m_Inputs_Down;
-        private readonly InputAction m_Inputs_Left;
-        private readonly InputAction m_Inputs_Right;
         public struct InputsActions
         {
             private @QTEInputs m_Wrapper;
@@ -375,10 +287,6 @@ namespace QTESystem
             public InputAction @LShoulder => m_Wrapper.m_Inputs_LShoulder;
             public InputAction @RTrigger => m_Wrapper.m_Inputs_RTrigger;
             public InputAction @LTrigger => m_Wrapper.m_Inputs_LTrigger;
-            public InputAction @Up => m_Wrapper.m_Inputs_Up;
-            public InputAction @Down => m_Wrapper.m_Inputs_Down;
-            public InputAction @Left => m_Wrapper.m_Inputs_Left;
-            public InputAction @Right => m_Wrapper.m_Inputs_Right;
             public InputActionMap Get() { return m_Wrapper.m_Inputs; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -412,18 +320,6 @@ namespace QTESystem
                 @LTrigger.started += instance.OnLTrigger;
                 @LTrigger.performed += instance.OnLTrigger;
                 @LTrigger.canceled += instance.OnLTrigger;
-                @Up.started += instance.OnUp;
-                @Up.performed += instance.OnUp;
-                @Up.canceled += instance.OnUp;
-                @Down.started += instance.OnDown;
-                @Down.performed += instance.OnDown;
-                @Down.canceled += instance.OnDown;
-                @Left.started += instance.OnLeft;
-                @Left.performed += instance.OnLeft;
-                @Left.canceled += instance.OnLeft;
-                @Right.started += instance.OnRight;
-                @Right.performed += instance.OnRight;
-                @Right.canceled += instance.OnRight;
             }
 
             private void UnregisterCallbacks(IInputsActions instance)
@@ -452,18 +348,6 @@ namespace QTESystem
                 @LTrigger.started -= instance.OnLTrigger;
                 @LTrigger.performed -= instance.OnLTrigger;
                 @LTrigger.canceled -= instance.OnLTrigger;
-                @Up.started -= instance.OnUp;
-                @Up.performed -= instance.OnUp;
-                @Up.canceled -= instance.OnUp;
-                @Down.started -= instance.OnDown;
-                @Down.performed -= instance.OnDown;
-                @Down.canceled -= instance.OnDown;
-                @Left.started -= instance.OnLeft;
-                @Left.performed -= instance.OnLeft;
-                @Left.canceled -= instance.OnLeft;
-                @Right.started -= instance.OnRight;
-                @Right.performed -= instance.OnRight;
-                @Right.canceled -= instance.OnRight;
             }
 
             public void RemoveCallbacks(IInputsActions instance)
@@ -491,10 +375,6 @@ namespace QTESystem
             void OnLShoulder(InputAction.CallbackContext context);
             void OnRTrigger(InputAction.CallbackContext context);
             void OnLTrigger(InputAction.CallbackContext context);
-            void OnUp(InputAction.CallbackContext context);
-            void OnDown(InputAction.CallbackContext context);
-            void OnLeft(InputAction.CallbackContext context);
-            void OnRight(InputAction.CallbackContext context);
         }
     }
 }

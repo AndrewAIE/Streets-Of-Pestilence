@@ -111,8 +111,7 @@ namespace QTESystem
                     break;                
                 default:
                     break;
-            }                      
-
+            }       
             if (m_activeAction.TimeUp())
             {                
                 m_activeAction.RemoveTimingRings();

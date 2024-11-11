@@ -97,7 +97,6 @@ namespace Management
         private void AssignScripts()
         {
             m_PlayerManager = FindObjectOfType<PlayerManager>();
-
             //_cutsceneManager = FindObjectOfType<CutsceneManager>();
         }
         #endregion
@@ -139,8 +138,11 @@ namespace Management
                     m_PlayerManager.SetPlayerActive(false);
                     break;
                 case GameState.Playing:
-                    m_PlayerManager.SetPlayerActive(true);
-                    //_cutsceneManager.TurnOff_PressAtoSkip();
+                    if (!m_PlayerManager.PlayerInCombat())
+                    {
+                        m_PlayerManager.SetPlayerActive(true);
+                        //_cutsceneManager.TurnOff_PressAtoSkip();
+                    }
                     break;
                 case GameState.Paused:
                     m_PlayerManager.SetPlayerActive(false);

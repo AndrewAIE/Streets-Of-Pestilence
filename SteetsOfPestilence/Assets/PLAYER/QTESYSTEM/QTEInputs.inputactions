@@ -76,42 +76,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Up",
-                    "type": "Button",
-                    "id": "f578437f-560a-4346-a232-05360b3d4734",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down",
-                    "type": "Button",
-                    "id": "54da3fcf-7dbd-4059-8b4c-615cd9a7f15f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Left",
-                    "type": "Button",
-                    "id": "0b3dd492-4d00-4c87-b3f6-cd11b2a67314",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Right",
-                    "type": "Button",
-                    "id": "cedbfc21-6ce3-4a63-9e9f-062a2c3306e6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -200,50 +164,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "LTrigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b23e2b2d-3061-47ef-ad57-71a7d8f8bc64",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8be4cd39-f634-4bb3-a7af-bf370c91821a",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1920bf95-b561-4cf9-96e6-2742dcc963a8",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fdb79131-b254-4f6c-9d6e-dfee43a83dbc",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
