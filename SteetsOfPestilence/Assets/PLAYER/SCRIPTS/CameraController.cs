@@ -27,7 +27,8 @@ namespace PlayerController
         {
             FreeLook,
             LockOn,
-            Merchant
+            Merchant,
+            Inactive
         }
 
         #endregion
@@ -83,8 +84,8 @@ namespace PlayerController
             //assign look and follow
             _freeLookCam = GameObject.FindGameObjectWithTag("Free Look Camera").GetComponent<CinemachineFreeLook>();
 
-            _freeLookCam.Follow = _manager._playerTransform;
-            _freeLookCam.LookAt = _manager._freeLookTarget;
+            _freeLookCam.Follow = _manager.m_playerTransform;
+            _freeLookCam.LookAt = _manager.m_freeLookTarget;
 
             #endregion
 
@@ -100,8 +101,10 @@ namespace PlayerController
         // Start is called before the first frame update
         void Start()
         {
-            SetCameraState(CameraState.FreeLook);
+            _cameraState = CameraState.Inactive;
             SetState_FreeLookCam(FreeLookCamState.Roaming_Recenting);
+
+            StartCoroutine(WaitForStart(1f));
         }
 
         // Update is called once per frame
@@ -113,6 +116,12 @@ namespace PlayerController
                     FreeLookCam();
                     break;
             }
+        }
+
+        private IEnumerator WaitForStart(float _time)
+        {
+            yield return new WaitForSeconds(_time);
+            _cameraState = CameraState.FreeLook;
         }
 
         #endregion
@@ -368,7 +377,10 @@ namespace PlayerController
                 _merchantCam.Priority = inputPriority;
         }
 
-
+        public void SetCameraFollow(Transform _transform)
+        {
+            _freeLookCam.Follow = _transform;
+        }
 
 
         #endregion
