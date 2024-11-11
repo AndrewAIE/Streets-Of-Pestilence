@@ -29,8 +29,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8168624288565303545}
-  - {fileID: 3873801723071490516}
   - {fileID: 5301965342686030178}
+  - {fileID: 3873801723071490516}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -65,7 +65,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2250587645608976426}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &2857300881846626008
 Light:
@@ -81,11 +81,11 @@ Light:
   m_Color: {r: 0.90588236, g: 0.3254902, b: 0.003921569, a: 1}
   m_Intensity: 2
   m_Range: 10
-  m_SpotAngle: 174.6763
-  m_InnerSpotAngle: 4
+  m_SpotAngle: 175
+  m_InnerSpotAngle: 0
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -234,7 +234,7 @@ PrefabInstance:
     - target: {fileID: 2593348186612125136, guid: 817fcddb22593ae4eb63a322a2309939,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2593348186612125136, guid: 817fcddb22593ae4eb63a322a2309939,
         type: 3}
