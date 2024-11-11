@@ -64,7 +64,7 @@ namespace PlayerController
 
         [HideInInspector] public PlayerUI m_playerUI;
 
-        private QTEManager m_qteRunner;
+        private QTEManager m_qteManager;
 
 
         #endregion
@@ -127,7 +127,7 @@ namespace PlayerController
             //_merchants = FindObjectsOfType<MerchantController>();
             m_playerUI = GetComponentInChildren<PlayerUI>();
 
-            m_qteRunner = GetComponentInChildren<QTEManager>();
+            m_qteManager = GetComponentInChildren<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
 
@@ -319,13 +319,13 @@ namespace PlayerController
         #endregion
         #region Combat
 
-        public bool PlayerInCombat() => m_qteRunner.enabled;
+        public bool PlayerInCombat() => m_qteManager.enabled;
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             m_canMove = false;
-            m_qteRunner.enabled = true;
-            m_qteRunner.LoadEncounter(_encounterData, _enemy);
+            m_qteManager.enabled = true;
+            m_qteManager.LoadEncounter(_encounterData, _enemy);
         }
         public void UnlockSpawn(Vector3 position, Quaternion rotation)
         {
@@ -335,29 +335,33 @@ namespace PlayerController
                 m_unlockedCheckpoints.Add(m_spawnPoint);
                 Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
             }
-        }
-        
+        }       
         public void KillPlayer()
+        {            
+            m_playerUI.DeathTransition();            
+            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            StartCoroutine(RespawnPlayer());
+        }
+
+        private IEnumerator RespawnPlayer()
         {
-            m_playerUI.DeathTransition();
-            _characterController.enabled = false;
-            
+            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration + 1f);
+            m_qteManager.FadeOutUI();            
+            _animation.ResetAnimation();
+            SetPlayerActive(false);
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
-            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
-
-            _characterController.enabled = true;            
+            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
+            SetPlayerActive(true);
         }
-
         #endregion
         #region Enable / Disable Player
-
         public void SetPlayerActive(bool active)
         {
             m_canMove = active;
             m_cameraController.SetFreeLookCam_Active(active);
         }
-
+        
         #endregion
         #region Inputs
 

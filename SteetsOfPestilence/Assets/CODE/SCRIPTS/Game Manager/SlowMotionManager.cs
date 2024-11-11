@@ -25,9 +25,7 @@ public class SlowMotionManager : MonoBehaviour
             {
                 Time.timeScale = m_slowMoSpeed;
                 timeSlowDown = false;
-            }
-            Debug.Log($"m_timeScale = {m_timeScale}");
-            Debug.Log($"Time.timeScale = {Time.timeScale}");
+            }            
         }
         if (timeSpeedUp)
         {

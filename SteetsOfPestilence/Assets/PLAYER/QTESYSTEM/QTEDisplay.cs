@@ -72,7 +72,7 @@ namespace QTESystem
         GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
 
         [SerializeField]
-        int m_cueStartSize;
+        float m_cueSizeRatio;
         [HideInInspector]
         public List<GameObject> ActiveVisualCues, FinishingCues;
         
@@ -161,6 +161,7 @@ namespace QTESystem
                     m_iconPanels[0].SetActive(true);
                     m_iconPanels[1].SetActive(true);
                     m_iconPanels[2].SetActive(true);
+                    m_maskPanels[3].SetActive(true);
                     break;
                 default:
                     break;
@@ -177,7 +178,7 @@ namespace QTESystem
         {
             for (int i = 0; i < _iconsToSet.Count; i++)
             {               
-                switch (m_iconsToActivate[i])
+                switch (_iconsToSet[i])
                 {                    
                     case QTEInput.NorthFace:
                         m_northButtonIcon.color = _color;
@@ -212,8 +213,7 @@ namespace QTESystem
                         m_rTriggerButtonText.color = _color;
                         break;
                 }
-            }
-           
+            }           
         }
 
         public void SetIconColor(QTEInput _iconToSet, Color _color)
@@ -458,7 +458,7 @@ namespace QTESystem
         {
             Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;            
             Image image = ActiveVisualCues[_selector].GetComponent<Image>();
-            SetCueSize(m_cueStartSize, _selector, image.rectTransform);
+            SetCueSize(m_cueSizeRatio, _selector, image.rectTransform);
             m_iconAnimation.StartRingAnimation(image.rectTransform, targetSize, _targetTime);
         }
 
@@ -481,12 +481,14 @@ namespace QTESystem
         /// <param name="_selector"></param>
         /// <param name="_transform"></param>
         public void SetCueSize(float _sizePercentage, int _selector, RectTransform _transform)
-        {            
+        {           
+            
             Vector2 targetSize = _transform.sizeDelta;
-            float sizeRange = m_cueStartSize - targetSize.x;
+            float sizeRangeX = (m_cueSizeRatio * targetSize.x) - targetSize.x;
+            float sizeRangeY = (m_cueSizeRatio * targetSize.y) - targetSize.y;
             Image image = ActiveVisualCues[_selector].GetComponent<Image>();
 
-            image.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRange * _sizePercentage), targetSize.y + (sizeRange * _sizePercentage));
+            image.rectTransform.sizeDelta = new Vector2(targetSize.x + (sizeRangeX * _sizePercentage), targetSize.y + (sizeRangeY * _sizePercentage));
         }
 
         /// <summary>

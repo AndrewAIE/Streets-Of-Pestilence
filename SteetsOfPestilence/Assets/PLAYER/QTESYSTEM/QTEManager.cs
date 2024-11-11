@@ -279,7 +279,7 @@ namespace QTESystem
             if(QteDisplay.FinishingCues.Count > 0)
             {
                 StartCoroutine(DeleteCues());
-            }
+            }            
             Enemy.EndCombat();            
             WaitingStreams.Clear();            
             this.enabled = false;           
@@ -407,10 +407,11 @@ namespace QTESystem
 
         //Player Loss
         private void playerLoss()
-        {
-            Player.SetPlayerActive(false);            
+        {            
+            Enemy.DisableEnemy();
             EndOfEncounter();
-            CombatAnimation.PlayAnimation("EnemyWin");                     
+            CombatAnimation.PlayAnimation("EnemyWin");
+            
         }       
 
         public void SlowTime(bool _activate)
@@ -456,8 +457,7 @@ namespace QTESystem
             {
                 QteDisplay.InputReleased(_context.action.name);
                 ActiveAction?.OnRelease(_context);
-            }
-                    
+            }                    
         }
 
         public void ResetStreamData()

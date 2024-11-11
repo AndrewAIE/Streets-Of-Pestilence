@@ -36,7 +36,7 @@ namespace EnemyAI
 
             angle = Vector3.Angle(direction, transform.forward);
 
-            if (angle < m_viewAngleMax)
+            if (angle < m_viewAngleMax && m_player)
             {
                 Physics.Raycast(originPos, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
                 Debug.DrawRay(originPos, direction, Color.magenta, .1f);
