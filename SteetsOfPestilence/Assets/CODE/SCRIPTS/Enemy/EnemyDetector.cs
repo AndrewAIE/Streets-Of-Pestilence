@@ -8,7 +8,7 @@ namespace EnemyAI
     public class EnemyDetector : MonoBehaviour
     {
         [SerializeField] private float m_viewRadius = 10;
-        [SerializeField] private float m_viewAngleMax = 40, m_viewAngleMin = 20;
+        [SerializeField] private float m_viewAngle = 40;
         [SerializeField] private float combatDistance = 2f;
         [SerializeField] float angle;
         public LayerMask m_obstructMask;
@@ -32,14 +32,15 @@ namespace EnemyAI
             Vector3 otherPos = m_player.transform.position;
             otherPos.y += 1;
             Vector3 direction = otherPos - originPos;
+            Debug.DrawRay(originPos, direction, Color.magenta, .1f);
             if (direction.magnitude > m_viewRadius) return false;
 
             angle = Vector3.Angle(direction, transform.forward);
-
-            if (angle < m_viewAngleMax)
+            
+            if (angle < m_viewAngle)
             {
                 Physics.Raycast(originPos, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
-                Debug.DrawRay(originPos, direction, Color.magenta, .1f);
+                
                 if (hitInfo.transform.gameObject == m_player)
                 {
                     m_lastKnownPos = hitInfo.transform.position;
