@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
-using UnityEditor.SceneManagement;
 
 namespace PlayerController
 {
