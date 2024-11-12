@@ -1,6 +1,5 @@
-using UnityEngine;
-
-namespace DynamicFogAndMist2 {
+namespace DynamicFogAndMist2
+{
 
     public interface IDynamicFogManager {
 

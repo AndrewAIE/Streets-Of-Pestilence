@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
-namespace DynamicFogAndMist2 {
+namespace DynamicFogAndMist2
+{
 
     [ExecuteInEditMode]
     public class DynamicFogManager : MonoBehaviour, IDynamicFogManager {
