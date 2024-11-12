@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -39,6 +39,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 165318560734754529}
     m_Modifications:
+    - target: {fileID: 1747612793736480291, guid: 99c2c5318f40a7642a4c07bdc5287eb8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4135878954889102520, guid: 99c2c5318f40a7642a4c07bdc5287eb8,
         type: 3}
       propertyPath: m_RootOrder
@@ -98,6 +103,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701017082293063458, guid: 99c2c5318f40a7642a4c07bdc5287eb8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99c2c5318f40a7642a4c07bdc5287eb8, type: 3}

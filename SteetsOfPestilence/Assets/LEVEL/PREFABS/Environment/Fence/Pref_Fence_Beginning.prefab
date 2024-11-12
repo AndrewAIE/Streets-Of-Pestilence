@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5694335263887966456
 Transform:
@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_Fence_Beginning
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346114762214497162, guid: 62742784a0058c34983d6cc59033c7d7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 9222003877845164349, guid: 62742784a0058c34983d6cc59033c7d7,
         type: 3}

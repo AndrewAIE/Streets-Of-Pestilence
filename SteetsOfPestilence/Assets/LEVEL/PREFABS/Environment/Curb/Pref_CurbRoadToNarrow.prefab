@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_CurbRoadToNarrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 39174747188865832, guid: 5011f7a26cf7f7b429e9417ee3eb79d5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5190501696890263094, guid: 5011f7a26cf7f7b429e9417ee3eb79d5,
         type: 3}

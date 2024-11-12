@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -39,6 +39,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 165318560734754529}
     m_Modifications:
+    - target: {fileID: 406050185218382795, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1479142872886341328, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
         type: 3}
       propertyPath: m_RootOrder
@@ -94,10 +99,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3807232846602097345, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726451697773325370, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6056413594670189376, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
         type: 3}
       propertyPath: m_Name
       value: ArtPref_CorpseCart
+      objectReference: {fileID: 0}
+    - target: {fileID: 6056413594670189376, guid: 035f0b3cb6dbfae48afd89a3a2d19c23,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035f0b3cb6dbfae48afd89a3a2d19c23, type: 3}

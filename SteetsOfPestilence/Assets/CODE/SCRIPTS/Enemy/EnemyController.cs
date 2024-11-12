@@ -25,10 +25,9 @@ namespace EnemyAI
         private PlayerManager m_player;
         public EnemyType m_EType;
 
-        [SerializeField]private bool isDead = false;
         private bool m_combatEnding;
         public bool Recentering = false;
-        public bool m_dying = false;
+        public bool m_dying { private set; get; } = false;
         #region Nav
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
@@ -71,15 +70,20 @@ namespace EnemyAI
         #endregion
 
         #region CombatVars
-        [SerializeReference]private Vector3 m_combatPos;
-        [SerializeField] private float m_distanceToPlayer = 2.5f;
-        [SerializeField] private float m_distancebuffer = 0.2f;
+        /// <summary>
+        /// position that the navmeshagent will try get to during combat
+        /// </summary>
+        [SerializeReference] private Vector3 m_combatPos;
+        [SerializeField] public float m_distanceToPlayer { private set; get; } = 2;
+        [SerializeField] public float m_distancebuffer { private set; get; } = 0.02f;
         [SerializeField] private float m_minWallDistance = 1.5f;
         #endregion
 
-        #region Mesh & Particles
+        #region Mesh & Particles & Colliders Vars
+        private bool m_particlesPlaying;
         private ParticleSystem[] m_enemyParticles;
         private SkinnedMeshRenderer m_enemyMesh;
+        private CapsuleCollider m_mainCollider;
         #endregion
 
 
@@ -92,7 +96,7 @@ namespace EnemyAI
             m_defaultStoppingDistance = m_agent.stoppingDistance;
             m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
-
+            m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
         }
         public Vector3 destination;
@@ -104,7 +108,7 @@ namespace EnemyAI
             /*RecenterEnemy(m_player);
             FacePlayer();
             return;*/
-            if (!isDead && !m_combatEnding)
+            if (!m_dying && !m_combatEnding)
             {
                 if (Recentering)
                 {
@@ -126,6 +130,16 @@ namespace EnemyAI
                 }
                 else if (m_player.PlayerInCombat()) { FacePlayer();
                     m_agent.destination = m_combatPos;
+                }
+            }else if (m_dying)
+            {
+                m_particlesPlaying = false;
+                for(int i = 0; i < m_enemyParticles.Length; i++)
+                {
+                    if (m_enemyParticles[i].isPlaying)
+                    {
+                        m_particlesPlaying = true;
+                    }
                 }
             }
         }
@@ -150,11 +164,17 @@ namespace EnemyAI
         public void EndCombat()
         {
             m_combatEnding = true;
-            StartCoroutine(WaitEndCombat());
+            StartCoroutine(WaitEndCombat()); 
         }
+        /// <summary>
+        /// hard coded to wait until particles/
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator WaitForDestroy()
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(5);
+
+            Debug.Log("Destroying Enemy", this);
             Destroy(gameObject.transform.parent.gameObject);
         }
         
@@ -303,10 +323,22 @@ namespace EnemyAI
             } 
             if (distTotal < m_distanceToPlayer - m_distancebuffer)
             {
-                float distF2Pos = m_distanceToPlayer - distTotal;
+                Debug.DrawRay(transform.position + m_mainCollider.center, -transform.forward, Color.blue,2f);
+                bool againstWall = Physics.SphereCast(transform.position + m_mainCollider.center, m_mainCollider.radius, -transform.forward, out RaycastHit backHit, 2); //m_distanceToPlayer - (m_distanceToPlayer - distTotal));
 
-                Dir = m_player.transform.forward;
-                m_combatPos -= (Dir * distF2Pos);
+                if (againstWall)
+                {
+                    Debug.LogWarning("Enemy against Wall", this);
+                    player.EnableRecenterMovement();
+
+                }
+                else
+                {
+                    float dist = m_distanceToPlayer - distTotal;
+                    Dir = -transform.forward;
+                    m_combatPos += Dir * dist;
+                }
+                
             }
 
             m_combatPos.y = transform.position.y;
