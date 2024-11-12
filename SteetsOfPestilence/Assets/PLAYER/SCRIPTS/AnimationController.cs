@@ -8,7 +8,7 @@ namespace PlayerController
         /**************************************** VARIABLES ******************************/
         #region Variables
         [HideInInspector] private Animator _animator;
-
+        private PlayerManager m_Manager;
         internal float m_movementSpeed;
 
         /*************************** ANIMATION ID'S *************************/
@@ -20,6 +20,7 @@ namespace PlayerController
         //bools
         [HideInInspector] private int _animID_Grounded;
         [HideInInspector] private int _animID_FreeFall;
+        private int _animID_Running;
 
         //triggers
         /*private int _animID_Idle_Inspect;
@@ -47,6 +48,7 @@ namespace PlayerController
         {
             //get components
             _animator = GetComponentInChildren<Animator>();
+            m_Manager = GetComponent<PlayerManager>();
         }
 
         // Start is called before the first frame update
@@ -70,6 +72,11 @@ namespace PlayerController
         private void Movement()
         {
             _animator.SetFloat(_animID_Input_Move, m_movementSpeed);
+            if (m_Manager._speed >= m_Manager._data.RunningSpeed)
+            {
+                _animator.SetBool(_animID_Running, true);
+            }
+            else _animator.SetBool(_animID_Running, false) ;
         }
         internal void Idle()
         {
@@ -87,6 +94,7 @@ namespace PlayerController
             //bool
             _animID_Grounded = Animator.StringToHash("Grounded");
             _animID_FreeFall = Animator.StringToHash("FreeFall");
+            _animID_Running = Animator.StringToHash("Running");
 
             /*//triggers
             _animID_Idle_Inspect = Animator.StringToHash("Idle_Inspect");

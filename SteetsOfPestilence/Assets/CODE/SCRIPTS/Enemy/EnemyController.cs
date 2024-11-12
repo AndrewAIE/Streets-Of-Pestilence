@@ -319,7 +319,6 @@ namespace EnemyAI
             } 
             if (distTotal < m_distanceToPlayer - m_distancebuffer)
             {
-                Debug.DrawRay(transform.position + m_mainCollider.center, -transform.forward, Color.blue,2f);
                 bool againstWall = Physics.SphereCast(transform.position + m_mainCollider.center, m_mainCollider.radius, -transform.forward, out RaycastHit backHit, 2);
 
                 if (againstWall)

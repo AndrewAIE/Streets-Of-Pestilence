@@ -73,9 +73,7 @@ namespace PlayerController
 
         #endregion
         #region Movement
-        [Header("InputStruct Variables")]
-        [Space]
-        [SerializeField] private float _speed;
+        [SerializeField] public float _speed { private set; get; }
 
         [Space]
         [SerializeField] private float _targetRotation;
