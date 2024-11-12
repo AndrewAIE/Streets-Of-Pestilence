@@ -132,7 +132,8 @@ namespace EnemyAI
                 else if (m_player.PlayerInCombat()) { FacePlayer();
                     m_agent.destination = m_combatPos;
                 }
-            }else if (m_dying)
+            }
+            else if (m_deactivated)
             {
                 m_particlesPlaying = false;
                 for(int i = 0; i < m_enemyParticles.Length; i++)
@@ -363,6 +364,6 @@ namespace EnemyAI
             m_agent.destination = m_combatPos;
             Recentering = false;
         }
-        #endregion
+        
     }
 }
