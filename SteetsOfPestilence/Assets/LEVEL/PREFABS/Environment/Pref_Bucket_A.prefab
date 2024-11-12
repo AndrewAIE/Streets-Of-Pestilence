@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -43,6 +43,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_Bucket_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 709488969654746406, guid: eea034d7094ba974aa73c8723613bee0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251206883725004389, guid: eea034d7094ba974aa73c8723613bee0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7434772885656775802, guid: eea034d7094ba974aa73c8723613bee0,
         type: 3}
