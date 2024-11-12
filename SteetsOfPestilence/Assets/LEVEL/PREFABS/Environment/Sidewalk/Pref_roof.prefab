@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7844798853744477615
 Transform:
@@ -112,7 +112,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7742076641118802999
 Transform:
@@ -197,6 +197,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_SidewalkMiddle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581802753466558713, guid: abb3aa8af1c10844c9085e9ce72078c7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8795791010425184888, guid: abb3aa8af1c10844c9085e9ce72078c7,
         type: 3}

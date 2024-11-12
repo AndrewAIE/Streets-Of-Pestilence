@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7284117335946210263
 Transform:
@@ -4826,7 +4826,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -4857,6 +4857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fire Light Spot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043836583754386404, guid: 5383875b42e8bc34cbb29c84fb3f167f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1754153628854206516, guid: 5383875b42e8bc34cbb29c84fb3f167f,
         type: 3}
@@ -5028,10 +5033,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7116974416341786417, guid: 8d14840c75c13c141bdb612f8908931b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8329459004098269765, guid: 8d14840c75c13c141bdb612f8908931b,
         type: 3}
       propertyPath: m_Name
       value: ArtPref_Candle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329459004098269765, guid: 8d14840c75c13c141bdb612f8908931b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705586276554526957, guid: 8d14840c75c13c141bdb612f8908931b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d14840c75c13c141bdb612f8908931b, type: 3}

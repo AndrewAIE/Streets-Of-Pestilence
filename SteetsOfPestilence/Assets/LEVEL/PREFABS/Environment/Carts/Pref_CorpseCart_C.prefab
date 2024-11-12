@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &165318560734754529
 Transform:
@@ -98,6 +98,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_CorpseCart_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 6056413594670189376, guid: 6a27862ed50c2bb4b8a48176966935fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7099814305127594667, guid: 6a27862ed50c2bb4b8a48176966935fe,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a27862ed50c2bb4b8a48176966935fe, type: 3}

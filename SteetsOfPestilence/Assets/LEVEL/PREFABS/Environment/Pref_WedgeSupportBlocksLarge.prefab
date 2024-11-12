@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7609393521769027965
 Transform:
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_WedgeSupportLarge
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403947738944404255, guid: b79eb9dd684cfac43aa5ffd681decbd5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6039609419566582638, guid: b79eb9dd684cfac43aa5ffd681decbd5,
         type: 3}

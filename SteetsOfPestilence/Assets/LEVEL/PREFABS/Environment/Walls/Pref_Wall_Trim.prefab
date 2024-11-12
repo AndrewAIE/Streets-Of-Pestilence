@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &354429929971815215
 Transform:
@@ -112,7 +112,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8626324841987346876
 Transform:
@@ -144,6 +144,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Trimming (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 259790807282442986, guid: 18a8b07541170b8409302239e1105113,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118754066588283022, guid: 18a8b07541170b8409302239e1105113,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5032367111635116494, guid: 18a8b07541170b8409302239e1105113,
         type: 3}
@@ -220,6 +230,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pref_Trimming (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 259790807282442986, guid: 18a8b07541170b8409302239e1105113,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118754066588283022, guid: 18a8b07541170b8409302239e1105113,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5032367111635116494, guid: 18a8b07541170b8409302239e1105113,
         type: 3}
       propertyPath: m_RootOrder
@@ -290,10 +310,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8626324841987346876}
     m_Modifications:
+    - target: {fileID: 2766135563020846505, guid: 2f93584804d4d724ab1fd57ed28a0917,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5156305045747069586, guid: 2f93584804d4d724ab1fd57ed28a0917,
         type: 3}
       propertyPath: m_Name
       value: Pref_Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156305045747069586, guid: 2f93584804d4d724ab1fd57ed28a0917,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208495490647111972, guid: 2f93584804d4d724ab1fd57ed28a0917,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8415996534661441735, guid: 2f93584804d4d724ab1fd57ed28a0917,
         type: 3}
