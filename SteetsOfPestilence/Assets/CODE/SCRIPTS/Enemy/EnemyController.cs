@@ -27,7 +27,8 @@ namespace EnemyAI
 
         private bool m_combatEnding;
         public bool Recentering = false;
-        public bool m_dying { private set; get; } = false;
+        public bool m_deactivated { private set; get; } = false;
+
         #region Nav
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
@@ -108,7 +109,7 @@ namespace EnemyAI
             /*RecenterEnemy(m_player);
             FacePlayer();
             return;*/
-            if (!m_dying && !m_combatEnding)
+            if (!m_deactivated && !m_combatEnding)
             {
                 if (Recentering)
                 {
@@ -152,7 +153,7 @@ namespace EnemyAI
             m_agent.enabled = false;
             m_enemyMesh.enabled = false;
             m_detector.enabled = false;
-            m_dying = true;
+            m_deactivated = true;
             for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
             Collider[] colliders = GetComponents<Collider>();
             foreach (Collider col in colliders)
@@ -160,6 +161,32 @@ namespace EnemyAI
                 col.enabled = false;
             }
             StartCoroutine(WaitForDestroy());
+        }
+
+        public void DisableEnemy()
+        {
+            m_agent.enabled = false;            
+            m_detector.enabled = false;
+            m_deactivated = true;
+            Collider[] colliders = GetComponents<Collider>();
+            foreach (Collider col in colliders)
+            {
+                col.enabled = false;
+            }
+            StartCoroutine(EnableEnemy());
+        }
+
+        public IEnumerator EnableEnemy()
+        {
+            yield return new WaitForSeconds(5);
+            m_agent.enabled = true;            
+            m_detector.enabled = true;
+            m_deactivated = false;
+            Collider[] colliders = GetComponents<Collider>();
+            foreach (Collider col in colliders)
+            {
+                col.enabled = true;
+            }
         }
         public void EndCombat()
         {
@@ -173,21 +200,19 @@ namespace EnemyAI
         private IEnumerator WaitForDestroy()
         {
             yield return new WaitForSeconds(5);
-
-            Debug.Log("Destroying Enemy", this);
             Destroy(gameObject.transform.parent.gameObject);
         }
         
         private IEnumerator WaitEndCombat()
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             m_combatEnding = false;
         }
 
         #region Nav
         private void GoToPlayer()
         {
-            if (m_dying)
+            if (m_deactivated)
             {
                 return;
             }
@@ -262,13 +287,6 @@ namespace EnemyAI
             transform.parent.forward = faceDir;
         }
         #endregion
-        #region Encounter
-
-        public void ForceEncounter()
-        {
-            m_player.EnterCombat(m_EncounterData, this);
-        }
-        
         private void RecenterEnemy(PlayerManager player)
         {
             

@@ -33,15 +33,19 @@ public class QTEUIAnimation : MonoBehaviour
     }
 
     public void FailAction(GameObject _icon)
-    {         
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
+    {
+        GameObject parent = _icon.transform.parent.gameObject;
+        Vector3 position = parent.transform.localPosition;
+        Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
         StartCoroutine("StopControllerVibrate");
     }
 
     public void IncorrectInput(Image _icon)
     {
-        Tween.Shake(_icon.transform, Vector3.zero, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
+        GameObject parent = _icon.transform.parent.gameObject;
+        Vector3 position = parent.transform.localPosition;
+        Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
         Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
         StartCoroutine("StopControllerVibrate");
     }      
@@ -141,12 +145,14 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void FadeInUI(Image _image, float _duration)
     {
+        _image.color = Color.clear;
         Color color = Color.white;
         m_activeTweens.Add(Tween.Color(_image, color, _duration, 0, null, Tween.LoopType.None, null, null, false));
     }
 
     public void FadeOutUI(Image _image, float _duration)
     {
+        _image.color = Color.white;
         Color color = Color.clear;
         m_activeTweens.Add(Tween.Color(_image, color, _duration, 0, null, Tween.LoopType.None, null, null, false));
         

@@ -33,6 +33,7 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
 
     public void PlayerDeath()
     {
+        
         m_player.KillPlayer();
     }
 

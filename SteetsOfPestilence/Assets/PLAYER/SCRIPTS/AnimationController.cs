@@ -105,6 +105,11 @@ namespace PlayerController
             _animator.SetFloat(_animID_Input_Move, _inputFloat);
         }
 
+        public void ResetAnimation()
+        {
+            _animator.SetTrigger("Respawn");
+        }
+
         //bools
         public void SetAnimation_Grounded(bool _inputGrounded)
         {

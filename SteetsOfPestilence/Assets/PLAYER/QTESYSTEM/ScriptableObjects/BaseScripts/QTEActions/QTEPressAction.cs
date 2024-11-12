@@ -7,8 +7,7 @@ namespace QTESystem
 {
     [CreateAssetMenu(fileName = "NewPressAction", menuName = "Quick Time Event/New Quick Time Action/Press Action")]
     public class QTEPressAction : QTEAction
-    {         
-
+    {    
         protected override ActionState onUpdate()
         {
             if(m_timer >= m_maxTime)
