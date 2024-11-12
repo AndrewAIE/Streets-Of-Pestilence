@@ -1,8 +1,6 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Pixelplacement;
-using Unity.VisualScripting;
 
 public class PoiseBarController : MonoBehaviour
 {

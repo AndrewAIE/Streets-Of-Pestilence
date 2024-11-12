@@ -6,7 +6,6 @@
 
 using UnityEngine;
 using System;
-using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
