@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
-using UnityEditor.SceneManagement;
 
 namespace PlayerController
 {
@@ -167,8 +165,6 @@ namespace PlayerController
         #region Updates
         private void Update()
         {
-            if (killplayer) KillPlayer();
-
             GatherInput();
             CheckStateChange();
 
@@ -311,7 +307,6 @@ namespace PlayerController
         #endregion
         #endregion
         #region Animation Handlin
-        // guess what it does..... i'll give you a hint, it handles combat
         private void AnimationHandler()
         {
             if (m_canMove)
@@ -319,7 +314,6 @@ namespace PlayerController
             else
                 _animation.Idle();
         }
-
         #endregion
         #region Combat
 
@@ -340,8 +334,7 @@ namespace PlayerController
                 Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
             }
         }
-
-        public bool killplayer = false;
+        
         public void KillPlayer()
         {
             m_playerUI.DeathTransition();
@@ -351,8 +344,7 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
 
-            _characterController.enabled = true;
-            killplayer = false;
+            _characterController.enabled = true;            
         }
 
         #endregion
@@ -379,10 +371,6 @@ namespace PlayerController
             if (m_recenterInput.WasPressedThisFrame()) m_cameraController.TriggerRecenter();
         }
         #endregion
-
-
-
-
     }
 
     internal struct InputStruct

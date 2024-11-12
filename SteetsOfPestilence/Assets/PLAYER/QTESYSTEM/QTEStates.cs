@@ -23,14 +23,8 @@ namespace QTESystem
         private float m_timeLimit;
         public override void EnterState(QTEManager _manager)
         {
-            m_qteManager = _manager;
-            m_qteManager.PoiseBar.gameObject.SetActive(true);
-            m_qteManager.SelectStream();
-            m_timeLimit = 1f;
-            //m_qteDisplay.UpdatePoiseBar(_poiseBar._poise);
-            //ACTIVATE THE APPROPRIA
-
-            m_started = true;
+            m_qteManager = _manager;            
+            m_timeLimit = 1f;            
         }
 
         public override void StateUpdate(float _timer)
@@ -39,8 +33,7 @@ namespace QTESystem
             {
                 m_qteManager.CurrentState = m_qteManager.StreamStart;
                 ExitState();
-            }
-            
+            }            
         }
 
         public override void ExitState()
@@ -55,7 +48,7 @@ namespace QTESystem
         public override void EnterState(QTEManager _manager)
         {            
             m_qteManager = _manager;
-            m_qteManager.TimerManager.TimeSlowDown();
+            m_qteManager.SlowTime(true);
             //reset change in poise bar value and stream iterator                    
             m_qteManager.ChangeInPoiseValue = 0;
             m_qteManager.StreamPosition = 0;
@@ -85,9 +78,7 @@ namespace QTESystem
     public class ActionActive : QTEStates
     {
         QTEAction m_activeAction;
-        QTEDisplay m_display;
-        float m_timeLimit;
-        float m_targetTime;
+
         ActionState m_activeActionState;
 
         public override void EnterState(QTEManager _manager)
@@ -95,16 +86,13 @@ namespace QTESystem
             //set components from QTE Runner
             m_qteManager = _manager;            
             m_activeAction = _manager.ActiveAction;
-            m_display = _manager.QteDisplay;
-
-            m_qteManager.Timer = 0;
-            
+            m_qteManager.Timer = 0;            
             //Set new active action
             m_activeAction = m_qteManager.CreateAction();            
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;            
-            m_timeLimit = m_qteManager.ActiveStream.ActionTimer + (m_qteManager.ActiveStream.SuccessBuffer / 2f);            
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;        
+                        
         }
 
         public override void StateUpdate(float _timer)
@@ -123,8 +111,7 @@ namespace QTESystem
                     break;                
                 default:
                     break;
-            }                      
-
+            }       
             if (m_activeAction.TimeUp())
             {                
                 m_activeAction.RemoveTimingRings();
@@ -182,16 +169,13 @@ namespace QTESystem
 
     public class CombatAnimation : QTEStates
     {
-        private float m_timeLimit;        
         public override void EnterState(QTEManager _manager)
         {            
             m_qteManager = _manager;
-            m_qteManager.TimerManager.TimeSpeedUp();
+            m_qteManager.SlowTime(false);
             //reset stream data
-            m_timeLimit = m_qteManager.ActiveStream.EndOfStreamPause;
-            m_qteManager.ResetStreamData();
-            m_qteManager.SelectStream();
-            //set poise bar
+            m_qteManager.ResetStreamData();            
+            //set poise bar                     
             m_qteManager.PoiseValueCheck();
             m_qteManager.SelectQTECombatAnimations();
         }
@@ -207,7 +191,9 @@ namespace QTESystem
         }
 
         public override void ExitState()
-        {            
+        {
+            
+            m_qteManager.SelectStream();
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }       
     }

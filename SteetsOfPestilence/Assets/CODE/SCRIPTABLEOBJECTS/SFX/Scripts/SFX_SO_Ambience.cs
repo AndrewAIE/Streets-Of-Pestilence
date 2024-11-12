@@ -30,13 +30,13 @@ public class SFX_SO_Ambience : ScriptableObject
     [SerializeField] AudioClip[] sfx_ambience_screams;
 
     [Space]
+    [SerializeField] public AudioClip[] sfx_ambience_allChirps;
 
     [Header("Ambient 'Loops'")]
     [SerializeField] AudioClip[] sfx_ambience_natureLoops;
     [Space]
     [SerializeField] AudioClip[] sfx_ambience_soundscapes;
 
-    [SerializeField] public AudioClip[] sfx_ambience_allChirps;
 
     public void Setup()
     {

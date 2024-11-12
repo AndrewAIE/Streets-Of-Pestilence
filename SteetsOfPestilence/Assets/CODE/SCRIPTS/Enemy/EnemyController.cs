@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayerController;
 using UnityEngine.AI;
+using Pixelplacement.TweenSystem;
 
 namespace EnemyAI
 {
@@ -22,7 +23,10 @@ namespace EnemyAI
         private PlayerManager m_player;
         public EnemyType m_EType;
 
-
+        [SerializeField]private bool isDead = false;
+        private bool m_combatEnding;
+        public bool recenter;
+        public bool m_dying = false;
         #region Nav
         private NavMeshAgent m_agent;
         private EnemyDetector m_detector;
@@ -35,6 +39,11 @@ namespace EnemyAI
         [SerializeReference] private float m_waitTime = 10, m_timer;
         #endregion
 
+        #region Mesh & Particles
+        private ParticleSystem[] m_enemyParticles;
+        private SkinnedMeshRenderer m_enemyMesh;
+        #endregion
+
 
 
         private void Awake()
@@ -43,37 +52,74 @@ namespace EnemyAI
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
 
+            m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+            m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
+
             m_homeDestination = transform.position;
         }
-
+        
         private void Update()
         {
-            if (!m_player.PlayerInCombat())
+            if (!isDead && !m_combatEnding)
             {
-                if (m_detector.m_canSeePlayer)
-                    m_timer = m_waitTime;
-
-                if (m_timer > 0)
+                if (!m_player.PlayerInCombat())
                 {
-                    GoToPlayer();
-                    m_timer -= Time.deltaTime;
+                    if (m_detector.m_canSeePlayer)
+                        m_timer = m_waitTime;
+
+                    if (m_timer > 0)
+                    {
+                        GoToPlayer();
+                        m_timer -= Time.deltaTime;
+                    }
+                    else
+                        Standby();
                 }
-                else
-                    Standby();
-            }
+            }            
         }
-        private void OnDestroy()
+        public void KillEnemy()
         {
+            m_agent.enabled = false;
+            m_enemyMesh.enabled = false;
+            m_detector.enabled = false;
+            m_dying = true;
+            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
+            Collider[] colliders = GetComponents<Collider>();
+            foreach(Collider col in colliders)
+            {
+                col.enabled = false;
+            }
+            StartCoroutine(WaitForDestroy());
+        }
+        public void EndCombat()
+        {
+            m_combatEnding = true;
+            StartCoroutine(WaitEndCombat());
+        }
+        private IEnumerator WaitForDestroy()
+        {
+            yield return new WaitForSeconds(10);
             Destroy(gameObject.transform.parent.gameObject);
+        }
+        
+        private IEnumerator WaitEndCombat()
+        {
+            yield return new WaitForSeconds(5);
+            m_combatEnding = false;
         }
 
         #region Nav
         private void GoToPlayer()
         {
+            if (m_dying)
+            {
+                return;
+            }
             m_targetPosition = m_detector.LastPosition();
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 FacePlayer();
+                RecenterEnemy();
                 m_player.EnterCombat(m_EncounterData, this);
                 return;
             }
@@ -104,10 +150,22 @@ namespace EnemyAI
 
         }
         #endregion
+        #region Encounter
 
         public void ForceEncounter()
         {
             m_player.EnterCombat(m_EncounterData, this);
         }
+        public void RecenterEnemy()
+        {
+            float range = 2f;
+            bool leftHit = Physics.SphereCast(transform.position, 1, Vector3.left, out RaycastHit leftInfo, range);
+            bool rightHit = Physics.SphereCast(transform.position, 1, Vector3.right, out RaycastHit rightInfo, range);
+
+
+        }
+
+
+        #endregion
     }
 }

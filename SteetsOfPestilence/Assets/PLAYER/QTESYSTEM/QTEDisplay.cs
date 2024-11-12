@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,14 +34,6 @@ namespace QTESystem
         private Image m_rShoulderButtonIcon;
         [SerializeField]
         private Image m_rTriggerButtonIcon;
-        [SerializeField]
-        private Image m_northDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_eastDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_southDirectionalButtonIcon;
-        [SerializeField]
-        private Image m_westDirectionalButtonIcon;
 
         [Space]
         [Header("QTE System")]
@@ -60,8 +53,7 @@ namespace QTESystem
         [SerializeField]
         GameObject m_faceButtonCue;
         [SerializeField]
-        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue,
-            m_northDirectionalCue, m_eastDirectionalCue, m_southDirectionalCue, m_westDirectionalCue;
+        GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
 
         [SerializeField]
         int m_cueStartSize;
@@ -163,18 +155,6 @@ namespace QTESystem
                     case QTEInput.RightTrigger:
                         m_rTriggerButtonIcon.color = _color;
                         break;
-                    case QTEInput.NorthDirectional:
-                        m_northDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.EastDirectional:
-                        m_eastDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.SouthDirectional:
-                        m_southDirectionalButtonIcon.color = _color;
-                        break;
-                    case QTEInput.WestDirectional:
-                        m_westDirectionalButtonIcon.color = _color;
-                        break;
                 }
             }
             m_iconsToActivate.Clear();
@@ -208,18 +188,6 @@ namespace QTESystem
                 case QTEInput.RightTrigger:
                     m_rTriggerButtonIcon.color = _color;
                     break;
-                case QTEInput.NorthDirectional:
-                    m_northDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.EastDirectional:
-                    m_eastDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.SouthDirectional:
-                    m_southDirectionalButtonIcon.color = _color;
-                    break;
-                case QTEInput.WestDirectional:
-                    m_westDirectionalButtonIcon.color = _color;
-                    break;
             }
         }
         //Comment
@@ -230,32 +198,30 @@ namespace QTESystem
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
             m_audio.IncorrectInput();
+            FinishingCues.Add(ActiveVisualCues[0]);
         }
 
         //Comment
         public void MissedInput(List<QTEInput> _iconsToShake)
         {
+            int iterator = 0;
             foreach(QTEInput input in _iconsToShake)
             {
                 Image image = GetIcon(input);
                 //animate corresponding icon and play audio
                 m_iconAnimation.IncorrectInput(image);
+                FinishingCues.Add(ActiveVisualCues[iterator]);
+                iterator++;
             }
         }
 
-        public void MissedInput(QTEInput _iconsToShake)
+        public void MissedInput(QTEInput _iconsToShake, int _iterator)
         {
             Image image = GetIcon(_iconsToShake);
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
-        }
-
-        public void SuccessfulInput(List<QTEInput> _icons, Image _ring)
-        {
-            
-            SetIconColor(_icons, Color.green);
-            StartCoroutine("ResetIconColor", _icons);
-        }
+            FinishingCues.Add(ActiveVisualCues[_iterator]);
+        }       
 
         public void SuccessfulInput(QTEInput _icon, int _selector)
         {
@@ -271,8 +237,7 @@ namespace QTESystem
         private IEnumerator ResetIconColor(List<QTEInput> _icons)
         {
             
-            yield return new WaitForSeconds(0.2f);
-            Debug.Log("STOP BEING GREEN PLEASE");
+            yield return new WaitForSeconds(0.2f);            
             SetIconColor(_icons, Color.white);
         }
 
@@ -330,18 +295,6 @@ namespace QTESystem
                 case "RTrigger":
                     image = m_rTriggerButtonIcon;
                     break;
-                case "Up":
-                    image = m_northDirectionalButtonIcon;
-                    break;
-                case "Right":
-                    image = m_eastDirectionalButtonIcon;
-                    break;
-                case "Down":
-                    image = m_southDirectionalButtonIcon;
-                    break;
-                case "Left":
-                    image = m_westDirectionalButtonIcon;
-                    break;
                 default:
                     image = null;
                     Debug.LogWarning("QTEDisplay - GetIcon(): No Corresponding Icon to String Parameter");
@@ -370,14 +323,6 @@ namespace QTESystem
                     return m_rShoulderButtonIcon;                    
                 case QTEInput.RightTrigger:
                     return m_rTriggerButtonIcon;                    
-                case QTEInput.NorthDirectional:
-                    return m_northDirectionalButtonIcon;                    
-                case QTEInput.EastDirectional:
-                    return m_eastDirectionalButtonIcon;                    
-                case QTEInput.SouthDirectional:
-                    return m_southDirectionalButtonIcon;                    
-                case QTEInput.WestDirectional:
-                    return m_westDirectionalButtonIcon;
                 default:
                     return m_northButtonIcon;
             }
@@ -431,18 +376,6 @@ namespace QTESystem
                     break;                
                 case QTEInput.RightTrigger:
                     ActiveVisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonIcon.transform));
-                    break;
-                case QTEInput.NorthDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_northDirectionalCue, m_northDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.EastDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_eastDirectionalCue, m_eastDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.SouthDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_southDirectionalCue, m_southDirectionalButtonIcon.transform));
-                    break;
-                case QTEInput.WestDirectional:
-                    ActiveVisualCues.Add(Instantiate(m_westDirectionalCue, m_westDirectionalButtonIcon.transform));
                     break;
             }            
         }
@@ -503,9 +436,104 @@ namespace QTESystem
         {
             m_iconAnimation.CancelFlash();
         }
+        /// <summary>
+        /// Fade Active UI panels to 1 alpha
+        /// </summary>
+        /// <param name="_duration"></param>
+        public void FadeInUI(float _duration)
+        {
 
-        
+            List<Image> images = new List<Image>();
+            //Get all Images from the Poise bar
+            Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
+            foreach (Image image in poiseBarImages)
+            {
+                images.Add(image);
+            }
+            //Get all Images from the active icon panels
+            foreach (GameObject gObject in m_iconPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image[] iconImages = gObject.GetComponentsInChildren<Image>();
+                    foreach(Image image in iconImages)
+                    {
+                        images.Add(image);
+                    }
+                }
+            }
+            //Get active mask panel image
+            foreach(GameObject gObject in m_maskPanels)
+            {
+                if(gObject.activeInHierarchy)
+                {
+                    Image image = gObject.GetComponentInChildren<Image>();
+                    images.Add(image);
+                    break;
+                }
+            }
+            //Fade all UI images
+            foreach(Image image in images)
+            {
+                m_iconAnimation.FadeInUI(image, _duration);
+            }           
+        }
+        /// <summary>
+        /// Fade Active UI panels to 0 alpha
+        /// </summary>
+        /// <param name="_duration"></param>
+        public void FadeOutUI(float _duration)
+        {
+            List<Image> images = new List<Image>();
+            //Get all Images from the Poise bar
+            Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();
+            foreach (Image image in poiseBarImages)
+            {
+                images.Add(image);
+            }
+            //Get all Images from the active icon panels
+            foreach (GameObject gObject in m_iconPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image[] iconImages = gObject.GetComponentsInChildren<Image>();
+                    foreach (Image image in iconImages)
+                    {
+                        images.Add(image);
+                    }
+                }
+            }
+            //Get active mask panel image
+            foreach (GameObject gObject in m_maskPanels)
+            {
+                if (gObject.activeInHierarchy)
+                {
+                    Image image = gObject.GetComponentInChildren<Image>();
+                    images.Add(image);
+                    break;
+                }
+            }
+            //Fade all UI images
+            foreach (Image image in images)
+            {
+                m_iconAnimation.FadeOutUI(image, _duration);
+            }
+        }
 
+        public void Pause()
+        {
+            m_iconAnimation.Pause();
+        }
+
+        public void Resume()
+        {
+            m_iconAnimation.Resume();
+        }
+
+        public void ClearTweens()
+        {
+            m_iconAnimation.ClearTweens();
+        }
         #endregion
 
     }

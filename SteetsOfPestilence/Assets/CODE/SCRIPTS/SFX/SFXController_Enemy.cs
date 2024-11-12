@@ -1,9 +1,12 @@
+using PlayerController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SFXController_Enemy : MonoBehaviour
 {
+    [HideInInspector] SFXController_Player _playerSFXController;
+
     [Space]
     [Header("Enemy")]
     [SerializeField] SFX_SO_Enemy _enemyData;
@@ -14,6 +17,17 @@ public class SFXController_Enemy : MonoBehaviour
     [SerializeField] float idleTimer;
     [SerializeField] float idleTimerMax;
     [SerializeField] float idleTimerMin;
+
+    [Header("Last Clip PLayed")]
+    [SerializeField] private AudioClip _lastPlayedClip_Idle;
+    [SerializeField] private AudioClip _lastPlayedClip_Burn;
+    [SerializeField] private AudioClip _lastPlayedClip_MidCombat;
+    [SerializeField] private AudioClip _lastPlayedClip_OnAttack;
+    [SerializeField] private AudioClip _lastPlayedClip_OnDeath;
+    [SerializeField] private AudioClip _lastPlayedClip_OnDefeatPlayer;
+    [SerializeField] private AudioClip _lastPlayedClip_OnLoseTrackOfPlayer;
+    [SerializeField] private AudioClip _lastPlayedClip_OnSpotPlayer;
+    [SerializeField] private AudioClip _lastPlayedClip_OnSurprisePlayer;
 
     public enum EnemySFXMode
     {
@@ -30,7 +44,7 @@ public class SFXController_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _playerSFXController = FindObjectOfType<SFXController_Player>();
     }
 
     // Update is called once per frame
@@ -54,8 +68,8 @@ public class SFXController_Enemy : MonoBehaviour
         AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
         audioSource.clip = clip;
-        audioSource.volume = Random.Range(0.8f, 1f);
-        audioSource.pitch = Random.Range(0.9f, 1.1f);
+        audioSource.volume = Random.Range(_enemyData.SFX_Enemy_Voice_volumeMin, _enemyData.SFX_Enemy_Voice_volumeMax);
+        audioSource.pitch = Random.Range(_enemyData.SFX_Enemy_Voice_pitchMin, _enemyData.SFX_Enemy_Voice_pitchMax);
 
         audioSource.Play();
 
@@ -77,62 +91,58 @@ public class SFXController_Enemy : MonoBehaviour
 
     public void Play_Enemy_Idle()
     {
-        CreateEnemySFX(_enemyData.sfx_enemy_idle[Random.Range(0, _enemyData.sfx_enemy_idle.Length)]);
+        _lastPlayedClip_Idle = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_idle, _lastPlayedClip_Idle);
+        CreateEnemySFX(_lastPlayedClip_Idle);
     }
 
     #endregion
 
     public void Play_Enemy_Burn()
     {
-        CreateEnemySFX(_enemyData.sfx_enemy_burn[Random.Range(0, _enemyData.sfx_enemy_burn.Length)]);
+        _lastPlayedClip_Burn = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_burn, _lastPlayedClip_Burn);
+        CreateEnemySFX(_lastPlayedClip_Burn);
     }
 
-    // Method to play a random "mid-combat" sound effect for the enemy
     public void Play_Enemy_MidCombat()
     {
-        // Select a random mid-combat sound from the sfx_enemy_midCombat array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_midCombat[Random.Range(0, _enemyData.sfx_enemy_midCombat.Length)]);
+        _lastPlayedClip_MidCombat = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_midCombat, _lastPlayedClip_MidCombat);
+        CreateEnemySFX(_lastPlayedClip_MidCombat);
     }
 
-    // Method to play a random "on attack" sound effect for the enemy
     public void Play_Enemy_OnAttack()
     {
-        // Select a random attack sound from the sfx_enemy_OnAttack array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnAttack[Random.Range(0, _enemyData.sfx_enemy_OnAttack.Length)]);
+        _lastPlayedClip_OnAttack = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnAttack, _lastPlayedClip_OnAttack);
+        CreateEnemySFX(_lastPlayedClip_OnAttack);
     }
 
-    // Method to play a random "on death" sound effect for the enemy
     public void Play_Enemy_OnDeath()
     {
-        // Select a random death sound from the sfx_enemy_OnDeath array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnDeath[Random.Range(0, _enemyData.sfx_enemy_OnDeath.Length)]);
+        _lastPlayedClip_OnDeath = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnDeath, _lastPlayedClip_OnDeath);
+        CreateEnemySFX(_lastPlayedClip_OnDeath);
     }
 
-    // Method to play a random "on defeat player" sound effect for the enemy
     public void Play_Enemy_OnDefeatPlayer()
     {
-        // Select a random sound for defeating the player from the sfx_enemy_OnDefeatPlayer array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnDefeatPlayer[Random.Range(0, _enemyData.sfx_enemy_OnDefeatPlayer.Length)]);
+        _lastPlayedClip_OnDefeatPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnDefeatPlayer, _lastPlayedClip_OnDefeatPlayer);
+        CreateEnemySFX(_lastPlayedClip_OnDefeatPlayer);
     }
 
-    // Method to play a random "on lose track of player" sound effect for the enemy
     public void Play_Enemy_OnLoseTrackOfPlayer()
     {
-        // Select a random sound for losing track of the player from the sfx_enemy_OnLoseTrackOfPlayer array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnLoseTrackOfPlayer[Random.Range(0, _enemyData.sfx_enemy_OnLoseTrackOfPlayer.Length)]);
+        _lastPlayedClip_OnLoseTrackOfPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnLoseTrackOfPlayer, _lastPlayedClip_OnLoseTrackOfPlayer);
+        CreateEnemySFX(_lastPlayedClip_OnLoseTrackOfPlayer);
     }
 
-    // Method to play a random "on spot player" sound effect for the enemy
     public void Play_Enemy_OnSpotPlayer()
     {
-        // Select a random sound for spotting the player from the sfx_enemy_OnSpotPlayer array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnSpotPlayer[Random.Range(0, _enemyData.sfx_enemy_OnSpotPlayer.Length)]);
+        _lastPlayedClip_OnSpotPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnSpotPlayer, _lastPlayedClip_OnSpotPlayer);
+        CreateEnemySFX(_lastPlayedClip_OnSpotPlayer);
     }
 
-    // Method to play a random "on surprise player" sound effect for the enemy
     public void Play_Enemy_OnSurprisePlayer()
     {
-        // Select a random sound for surprising the player from the sfx_enemy_OnSurprisePlayer array and play it
-        CreateEnemySFX(_enemyData.sfx_enemy_OnSurprisePlayer[Random.Range(0, _enemyData.sfx_enemy_OnSurprisePlayer.Length)]);
+        _lastPlayedClip_OnSurprisePlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnSurprisePlayer, _lastPlayedClip_OnSurprisePlayer);
+        CreateEnemySFX(_lastPlayedClip_OnSurprisePlayer);
     }
+
 }
