@@ -4,6 +4,7 @@ using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
+using System.Collections;
 
 namespace PlayerController
 {
@@ -182,7 +183,7 @@ namespace PlayerController
                     break;
                 case PlayerState.Combat:
                     if (m_recenterTarget != null) Recenter();
-                    if (m_qteRunner.enabled == false) m_playerState = PlayerState.Exploring;
+                    if (m_qteManager.enabled == false) m_playerState = PlayerState.Exploring;
                     MoveCameraPoint();
                     break;
             }
@@ -354,8 +355,8 @@ namespace PlayerController
             m_canMove = false;
             _enemy.Recentering = true;
             m_recenterTarget = _enemy.transform;
-            m_qteRunner.enabled = true;
-            m_qteRunner.LoadEncounter(_encounterData, _enemy);
+            m_qteManager.enabled = true;
+            m_qteManager.LoadEncounter(_encounterData, _enemy);
 
         }
 
