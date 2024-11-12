@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SFX_SO_Footstep", menuName = "SFX SO/Footstep", order = 0)]

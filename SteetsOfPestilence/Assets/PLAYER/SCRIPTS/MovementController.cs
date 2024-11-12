@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 namespace PlayerController
 {
