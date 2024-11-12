@@ -93,6 +93,7 @@ namespace PlayerController
 
 
         private Transform m_recenterTarget;
+        private bool m_moveRecenter;
         /*** COMPONENTS ***/
         #region Components
         protected CharacterController _characterController;
@@ -180,7 +181,7 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    if (m_recenterTarget != null) Recenter(m_recenterTarget);
+                    if (m_recenterTarget != null) Recenter();
                     if (m_qteRunner.enabled == false) m_playerState = PlayerState.Exploring;
                     MoveCameraPoint();
                     break;
@@ -355,11 +356,26 @@ namespace PlayerController
             m_qteRunner.LoadEncounter(_encounterData, _enemy);
         }
 
-        private void Recenter(Transform _eTrans)
+        private void Recenter()
         {
-            Vector3 faceDir = new(_eTrans.position.x - transform.position.x, 0, _eTrans.position.z - transform.position.z); // get face direction (ignore y)
+            Vector3 faceDir = new(m_recenterTarget.position.x - transform.position.x, 0, m_recenterTarget.position.z - transform.position.z); // get face direction (ignore y)
             transform.forward = faceDir.normalized; // face the enemy transform normalized
             m_Mesh.localRotation = Quaternion.identity;
+
+            if (!m_moveRecenter) return;
+
+            float currentDist = Vector3.Distance(m_recenterTarget.position, transform.position);
+            if (currentDist - m_recenterTarget.GetComponent<EnemyController>().m_distancebuffer < m_recenterTarget.GetComponent<EnemyController>().m_distanceToPlayer)
+            {
+                _characterController.Move(-transform.forward * Time.deltaTime);
+            }
+            else m_moveRecenter = false;
+            
+
+        }
+        public void EnableRecenterMovement()
+        {
+            m_moveRecenter = true;
         }
 
         public void KillPlayer()
