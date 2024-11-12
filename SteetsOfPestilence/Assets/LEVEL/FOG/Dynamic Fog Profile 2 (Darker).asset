@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb7d20424549e4d02882c90a6614c0da, type: 3}
-  m_Name: New Dynamic Fog Profile
+  m_Name: Dynamic Fog Profile 2 (Darker)
   m_EditorClassIdentifier: 
   baseAltitude: 0
   useXYZDistance: 1
   densityLinear: 0.2
-  densityExponential: 0.78
+  densityExponential: 0.8
   maxHeight: 10000
   distanceMax: 100000
-  tintColor: {r: 0.6603774, g: 0.5942815, b: 0.4267533, a: 1}
+  tintColor: {r: 0.3679245, g: 0.32622746, b: 0.2481755, a: 0.70980394}
   useVerticalGradient: 1
   verticalGradient:
     serializedVersion: 2
-    key0: {r: 0.7647059, g: 0.7647059, b: 0.78431374, a: 1}
-    key1: {r: 0.7647059, g: 0.7647059, b: 0.78431374, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 1}
     key3: {r: 0, g: 0, b: 0, a: 1}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   boxProjection: 0
-  depthClip: 0
+  depthClip: 1
   noiseColorBlend: 0.1
   noiseColor: {r: 0.6862745, g: 0.7058824, b: 0.7137255, a: 1}
   scale: 50
@@ -58,7 +58,7 @@ MonoBehaviour:
   noiseDistanceAtten: 1
   turbulence: 10
   speed: 0.1
-  direction: {x: 0.02, y: 0, z: 0}
+  direction: {x: 0.1, y: 0, z: 0}
   lightDiffusionPower: 32
   lightDiffusionIntensity: 0.4
   brightness: 1

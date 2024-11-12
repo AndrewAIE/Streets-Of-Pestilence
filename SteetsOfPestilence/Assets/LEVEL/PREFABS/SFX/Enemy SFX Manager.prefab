@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &162013065731916584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5309746426612770727}
+  - component: {fileID: 9048909326322518288}
+  m_Layer: 0
+  m_Name: Enemy SFX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5309746426612770727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162013065731916584}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9048909326322518288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162013065731916584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd9d8ccc30a3fa43be20adf7483e3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyData: {fileID: 11400000, guid: 1226bf8620d8d9c49ac1bf5726e7d492, type: 2}
+  enemyPrefab: {fileID: 8321035684229917699, guid: 38b68ce637988a34eabfbd38e80f9929,
+    type: 3}
+  enemySFXMode: 1
+  idleTimer: 0
+  idleTimerMax: 5
+  idleTimerMin: 20
+  _lastPlayedClip_Idle: {fileID: 0}
+  _lastPlayedClip_Burn: {fileID: 0}
+  _lastPlayedClip_MidCombat: {fileID: 0}
+  _lastPlayedClip_OnAttack: {fileID: 0}
+  _lastPlayedClip_OnDeath: {fileID: 0}
+  _lastPlayedClip_OnDefeatPlayer: {fileID: 0}
+  _lastPlayedClip_OnLoseTrackOfPlayer: {fileID: 0}
+  _lastPlayedClip_OnSpotPlayer: {fileID: 0}
+  _lastPlayedClip_OnSurprisePlayer: {fileID: 0}
