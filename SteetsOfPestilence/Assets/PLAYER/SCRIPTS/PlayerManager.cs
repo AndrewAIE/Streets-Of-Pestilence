@@ -378,6 +378,9 @@ namespace PlayerController
             m_moveRecenter = true;
         }
 
+        /// <summary>
+        /// Move the player to the last checkpoint (doesn't destroy the player object)
+        /// </summary>
         public void KillPlayer()
         {
             m_playerUI.DeathTransition();
@@ -386,6 +389,7 @@ namespace PlayerController
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
+            m_recenterTarget = null;
 
             _characterController.enabled = true;
         }
