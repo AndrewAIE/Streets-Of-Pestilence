@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
 using System.Collections;
+using Pixelplacement.TweenSystem;
 
 namespace PlayerController
 {
@@ -136,6 +137,7 @@ namespace PlayerController
         {
             m_canMove = true;
             m_unlockedCheckpoints = new List<SpawnPoint>();
+            m_spawnPoint = new SpawnPoint(transform.position, transform.rotation);
         }
 
 
