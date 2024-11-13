@@ -49,6 +49,7 @@ namespace PlayerController
             //get components
             _animator = GetComponentInChildren<Animator>();
             m_Manager = GetComponent<PlayerManager>();
+            if (_animator == null) Debug.LogError("PlayerAnimator not set", this);
         }
 
         // Start is called before the first frame update
@@ -71,7 +72,7 @@ namespace PlayerController
         #endregion
         private void Movement()
         {
-            _animator.SetFloat(_animID_Input_Move, m_movementSpeed);
+            
             if (m_Manager._speed >= m_Manager._data.RunningSpeed)
             {
                 _animator.SetBool(_animID_Running, true);
@@ -89,7 +90,7 @@ namespace PlayerController
         {
             //floats
             _animID_Speed = Animator.StringToHash("Speed");
-            _animID_Input_Move = Animator.StringToHash("Move Input");
+            _animID_Input_Move = Animator.StringToHash("MoveInput");
             
             //bool
             _animID_Grounded = Animator.StringToHash("Grounded");
@@ -104,11 +105,13 @@ namespace PlayerController
         //speed
         public void SetMovementSpeed(float _inputSpeed) => m_movementSpeed = _inputSpeed;
 
-        
+
+        public float m_inputFloat;
         //move input
         public void SetAnimationFloat_InputMove(float _inputFloat)
         {
-            _animator.SetFloat(_animID_Input_Move, _inputFloat);
+            _animator.SetFloat("MoveInput", _inputFloat);
+            m_inputFloat = _inputFloat;
         }
 
         //bools

@@ -9819,7 +9819,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 180
@@ -9879,9 +9879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EncounterData: {fileID: 11400000, guid: 2b85b0ba125e82b4d9a2ca7b952383ae, type: 2}
   m_EType: 0
-  isDead: 0
   Recentering: 0
-  m_dying: 0
   m_circlePath: 0
   m_forwardPath: 1
   m_waitingAtDestination: 0
@@ -9891,7 +9889,6 @@ MonoBehaviour:
   m_waitTime: 5
   m_timer: 0
   m_combatPos: {x: 0, y: 0, z: 0}
-  m_distancebuffer: 0.02
   m_minWallDistance: 2
   destination: {x: 0, y: 0, z: 0}
   distance: 0
