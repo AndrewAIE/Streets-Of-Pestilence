@@ -98,10 +98,16 @@ namespace PlayerController
 
         
         //move input
-        public void SetAnimationFloat_InputMove(float _inputFloat)
+        public void SetAnimationFloat_Speed(float _inputFloat)
+        {
+            _animator.SetFloat(_animID_Speed, _inputFloat);
+        }
+
+        public void SetAnimationFloat_MoveInput(float _inputFloat)
         {
             _animator.SetFloat(_animID_Input_Move, _inputFloat);
         }
+
 
         public void ResetAnimation()
         {

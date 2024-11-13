@@ -5,15 +5,22 @@ using UnityEngine;
 
 public class StageActivationTrigger : MonoBehaviour
 {
-    public GameObject StageToActivate;
-    public GameObject StageToDeactivate;   
+    public GameObject[] StagesToActivate;
+    public GameObject[] StagesToDeactivate;   
 
     private void OnTriggerEnter(Collider other)
     {        
-        if(other.CompareTag("Player") && StageToActivate.activeInHierarchy == false)
+        if(other.CompareTag("Player"))
         {
-            StageToActivate.SetActive(true);
-            StageToDeactivate.SetActive(false);
+            foreach (GameObject go in StagesToActivate)
+            {
+                go.SetActive(true);
+            }
+
+            foreach (GameObject go in StagesToDeactivate)
+            {
+                go.SetActive(false);
+            }
         }
     }
 }

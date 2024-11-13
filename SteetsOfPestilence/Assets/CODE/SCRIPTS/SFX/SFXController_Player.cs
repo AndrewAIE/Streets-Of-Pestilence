@@ -161,7 +161,7 @@ namespace PlayerController
         private void CreateFootstep_StoneWalk(AudioClip clip)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(footstep_Prefab, Vector3.zero, Quaternion.identity, transform);
+            GameObject audioOneshot = Instantiate(footstep_Prefab, transform.position, Quaternion.identity, transform);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -177,7 +177,7 @@ namespace PlayerController
         private void CreateFootstep_StoneRun(AudioClip clip)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(footstep_Prefab, Vector3.zero, Quaternion.identity, transform);
+            GameObject audioOneshot = Instantiate(footstep_Prefab, transform.position, Quaternion.identity, transform);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -193,7 +193,7 @@ namespace PlayerController
         private void CreateFootstep_MudWalk(AudioClip clip)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(footstep_Prefab, Vector3.zero, Quaternion.identity, transform);
+            GameObject audioOneshot = Instantiate(footstep_Prefab, transform.position, Quaternion.identity, transform);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -209,7 +209,7 @@ namespace PlayerController
         private void CreateFootstep_MudRun(AudioClip clip)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(footstep_Prefab, Vector3.zero, Quaternion.identity, transform);
+            GameObject audioOneshot = Instantiate(footstep_Prefab, transform.position, Quaternion.identity, transform);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;

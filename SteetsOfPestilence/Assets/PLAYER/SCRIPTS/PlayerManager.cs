@@ -340,7 +340,10 @@ namespace PlayerController
         private void AnimationHandler()
         {
             if (m_canMove)
-                _animation.SetAnimationFloat_InputMove(m_input.movement.magnitude);
+            {
+                _animation.SetAnimationFloat_Speed(_speed);
+                _animation.SetAnimationFloat_MoveInput(m_input.movement.magnitude);
+            }
             else
                 _animation.Idle();
         }

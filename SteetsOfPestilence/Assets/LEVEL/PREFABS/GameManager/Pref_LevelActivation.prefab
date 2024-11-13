@@ -1,5 +1,66 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3186118295874540895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3297105883137708068}
+  - component: {fileID: 7028467056739615631}
+  - component: {fileID: 1766461945982177219}
+  m_Layer: 0
+  m_Name: Enable A
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3297105883137708068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186118295874540895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 51.26, y: 0.82, z: -47.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2542595836377359041}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7028467056739615631
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186118295874540895}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.51
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1766461945982177219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186118295874540895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb27d899581ef14889e4b61c4584fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StagesToActivate:
+  - {fileID: 0}
+  StagesToDeactivate: []
 --- !u!1 &4435647264085965245
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb27d899581ef14889e4b61c4584fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageToActivate: {fileID: 0}
-  StageToDeactivate: {fileID: 0}
+  StagesToActivate: []
+  StagesToDeactivate: []
 --- !u!1 &7020808215611626678
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,8 +179,130 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb27d899581ef14889e4b61c4584fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageToActivate: {fileID: 0}
-  StageToDeactivate: {fileID: 0}
+  StagesToActivate: []
+  StagesToDeactivate: []
+--- !u!1 &7720138563194880499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 304074791755916215}
+  - component: {fileID: 799395878751246297}
+  - component: {fileID: 4417012873544344395}
+  m_Layer: 0
+  m_Name: Enable C
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &304074791755916215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720138563194880499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 63.54, y: 0.82, z: -59.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2542595836377359041}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &799395878751246297
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720138563194880499}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.51
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4417012873544344395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720138563194880499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb27d899581ef14889e4b61c4584fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StagesToActivate:
+  - {fileID: 0}
+  StagesToDeactivate: []
+--- !u!1 &7797061304461447437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7776181315239856171}
+  - component: {fileID: 167762987297340658}
+  - component: {fileID: 8059308526251692071}
+  m_Layer: 0
+  m_Name: Disable A
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7776181315239856171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797061304461447437}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 60.01, y: 0.82, z: -48.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2542595836377359041}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &167762987297340658
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797061304461447437}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.51
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8059308526251692071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797061304461447437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb27d899581ef14889e4b61c4584fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StagesToActivate: []
+  StagesToDeactivate:
+  - {fileID: 0}
 --- !u!1 &7903327999395906217
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +333,9 @@ Transform:
   m_Children:
   - {fileID: 8038888780562990875}
   - {fileID: 9107373013530158734}
+  - {fileID: 7776181315239856171}
+  - {fileID: 3297105883137708068}
+  - {fileID: 304074791755916215}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

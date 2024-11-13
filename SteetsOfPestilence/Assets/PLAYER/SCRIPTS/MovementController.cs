@@ -165,7 +165,7 @@ namespace PlayerController
             _motionDirection = (forward * motion.y) + (_camera.transform.right * motion.x);
 
             _motionDirection = Vector3.ClampMagnitude(_motionDirection, _speed);
-            _manager._animation.SetAnimationFloat_InputMove(input.magnitude);
+            _manager._animation.SetAnimationFloat_Speed(input.magnitude);
             _characterController.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
             _characterController.Move(_motionDirection * Time.deltaTime);
         }

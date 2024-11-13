@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerAnimationScriptsAccess : MonoBehaviour
 {
     PlayerManager m_player;
-    QTEManager m_qte;    
+    QTEManager m_qte;
+    public SFXController_Player m_SFX;
 
     void Awake()
     {
@@ -48,4 +49,16 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
     {
         m_qte.FadeOutUI();
     }
+
+    public void PlaySFX_RunStone()
+    {
+        m_SFX.Play_Footstep_Run_Stone();
+    }
+
+    public void PlaySFX_WalkStone()
+    {
+        m_SFX.Play_Footstep_Walk_Stone();
+    }
+
+   
 }
