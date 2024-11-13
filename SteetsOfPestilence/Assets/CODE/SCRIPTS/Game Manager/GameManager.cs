@@ -72,7 +72,7 @@ namespace Management
         // Start is called before the first frame update
         void Start()
         {
-
+            Cursor.lockState = CursorLockMode.Locked;
 
             //trigger cutscene if not played yet
             /*if (!_hasTriggeredCutscene)
