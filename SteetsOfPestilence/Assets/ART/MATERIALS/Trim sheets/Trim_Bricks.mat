@@ -34,6 +34,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Ambient_Occlusion:
         m_Texture: {fileID: 2800000, guid: fcd63b47a6119f040a404ebde6dffa60, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -46,12 +50,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3d801a5200809774889192e9d247ad5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Metallic:
         m_Texture: {fileID: 2800000, guid: c02f2c8936fa7fa478c794cf508b8c90, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normals:
         m_Texture: {fileID: 2800000, guid: ed67e97bb750c5245bf4acd5d4ceae11, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayAO:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness:
@@ -79,9 +91,14 @@ Material:
     - _AO_Strength: 0
     - _AO_Strength_A: 0
     - _AO_Strength_B: 0
+    - _Emission_Strength_A: 0
+    - _Emission_Strength_B: 0
     - _Metallic_Strength: 0
     - _Metallic_Strength_A: 0
     - _Metallic_Strength_B: 0
+    - _Normals_Strength_A: 1
+    - _Normals_Strength_B: 1
+    - _OverlayAOStrength: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Roughness_Push_A: 1

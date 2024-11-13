@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &140736339982975062
 Transform:
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArtPref_Wall_StreetCorner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798552207083510817, guid: a4db527062eec7d4e8afe869321e6de4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7665293541971716094, guid: a4db527062eec7d4e8afe869321e6de4,
         type: 3}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
@@ -23,7 +21,7 @@ public class QTEMashAction : QTEAction
                 
                 for (int i = 0; i < InputList.Count; i++)
                 {
-                    m_qteDisplay.MissedInput(InputList[i]);
+                    m_qteDisplay.MissedInput(InputList[i], i);
                     m_qteDisplay.DeactivateCue(i);
                 }
                 return m_state = ActionState.fail;

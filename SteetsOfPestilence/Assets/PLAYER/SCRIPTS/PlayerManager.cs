@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using QTESystem;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using EnemyAI;
-using UnityEditor.SceneManagement;
+using System.Collections;
 
 namespace PlayerController
 {
@@ -35,7 +34,7 @@ namespace PlayerController
         [Header("Player Data")]
         [SerializeField] public PlayerData _data;
 
-        
+
 
         /// <summary>
         /// if the user can currently control their avatar
@@ -50,8 +49,8 @@ namespace PlayerController
         #endregion
         #region Camera Components
         [Header("Camera Components")]
-        [SerializeField] public Transform _playerTransform;
-        [SerializeField] public Transform _freeLookTarget;
+        [SerializeField] public Transform m_playerTransform;
+        [SerializeField] public Transform m_freeLookTarget;
         #endregion
         #region Debugging
         [Header("Debugging")]
@@ -64,7 +63,7 @@ namespace PlayerController
 
         [HideInInspector] public PlayerUI m_playerUI;
 
-        private QTEManager m_qteRunner;
+        private QTEManager m_qteManager;
 
 
         #endregion
@@ -84,7 +83,7 @@ namespace PlayerController
         [SerializeReference] private Vector3 _motionDirection;
         [Space]
         [HideInInspector] private float _verticalVelocity;
-
+        Vector3 m_cameraDefaultPos;
         // timeout deltatime
         private float _fallTimeoutDelta;
 
@@ -93,6 +92,9 @@ namespace PlayerController
         [SerializeReference] protected bool _grounded = true;
         [SerializeField] private LayerMask _groundLayers;
 
+
+        private Transform m_recenterTarget;
+        private bool m_moveRecenter;
         /*** COMPONENTS ***/
         #region Components
         protected CharacterController _characterController;
@@ -100,9 +102,6 @@ namespace PlayerController
         private Transform m_Mesh;
         #endregion
 
-        #endregion
-        #region Getters
-        public Vector3 centerPoint => _characterController.center;
         #endregion
 
         private SpawnPoint m_spawnPoint;
@@ -117,6 +116,7 @@ namespace PlayerController
 
             _characterController = GetComponent<CharacterController>();
             _camera = Camera.main;
+            m_cameraDefaultPos = m_freeLookTarget.localPosition;
             m_Mesh = GetComponentInChildren<Animator>().transform;
 
             _sfx = GetComponent<SFXController_Player>();
@@ -127,10 +127,10 @@ namespace PlayerController
             //_merchants = FindObjectsOfType<MerchantController>();
             m_playerUI = GetComponentInChildren<PlayerUI>();
 
-            m_qteRunner = GetComponentInChildren<QTEManager>();
+            m_qteManager = GetComponentInChildren<QTEManager>();
 
             GetComponent<PlayerInput>().uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
-
+            
         }
         private void Start()
         {
@@ -172,47 +172,48 @@ namespace PlayerController
 
             DebugStuff();
 
-            if (m_canMove)
+            switch (m_playerState)
             {
-                switch (m_playerState)
-                {
-                    case PlayerState.Exploring:
+                case PlayerState.Exploring:
+                    if (m_canMove)
                         PlayerMovement();
-                        break;
-                    case PlayerState.Resting:
+                    break;
+                case PlayerState.Resting:
 
-                        break;
-                    case PlayerState.Combat:
-
-                        break;
-                }
+                    break;
+                case PlayerState.Combat:
+                    if (m_recenterTarget != null) Recenter();
+                    if (m_qteManager.enabled == false) m_playerState = PlayerState.Exploring;
+                    MoveCameraPoint();
+                    break;
             }
 
 
-           
+
             AnimationHandler();
         }
         private void FixedUpdate()
         {
-            
+
         }
 
         private void CheckStateChange()
         {
-            if(m_playerState != m_previousState)
+            if (m_playerState != m_previousState)
             {
                 switch (m_playerState)
                 {
                     case PlayerState.Exploring:
-
+                        MoveCameraPoint();
                         break;
                     case PlayerState.Resting:
 
                         break;
                     case PlayerState.Combat:
-
+                        MoveCameraPoint();
                         break;
                 }
+                m_previousState = m_playerState;
             }
         }
 
@@ -259,6 +260,31 @@ namespace PlayerController
         {
             if (_motionDirection.magnitude > 0)
                 m_Mesh.transform.forward = _motionDirection.normalized;
+        }
+
+        private void MoveCameraPoint()
+        {
+            switch (m_playerState)
+            {
+                case PlayerState.Exploring:
+                    m_cameraController.SetCameraFollow(m_playerTransform);
+                    m_freeLookTarget.localPosition = m_cameraDefaultPos;
+                    break;
+                case PlayerState.Resting:
+
+                    break;
+                case PlayerState.Combat:
+                    m_cameraController.SetCameraFollow(m_freeLookTarget);
+                    Vector3 playerPos = m_cameraDefaultPos;
+                    Vector3 enemyPos = m_recenterTarget.InverseTransformPoint(transform.position);
+
+                    Vector3 centerPos = (enemyPos + playerPos) / 2;
+                    centerPos.y = playerPos.y;
+                    m_freeLookTarget.localPosition = centerPos;
+
+                    Debug.DrawLine(playerPos, centerPos);
+                    break;
+            }
         }
 
         #endregion
@@ -309,7 +335,6 @@ namespace PlayerController
         #endregion
         #endregion
         #region Animation Handlin
-        // guess what it does..... i'll give you a hint, it handles combat
         private void AnimationHandler()
         {
             if (m_canMove)
@@ -320,45 +345,76 @@ namespace PlayerController
         #endregion
         #region Combat
 
-        public bool PlayerInCombat() => m_qteRunner.enabled;
+
+        public bool PlayerInCombat() { return (m_playerState == PlayerState.Combat); }
+
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
+            m_playerState = PlayerState.Combat;
             m_canMove = false;
-            m_qteRunner.enabled = true;
-            m_qteRunner.LoadEncounter(_encounterData, _enemy);
+            _enemy.Recentering = true;
+            m_recenterTarget = _enemy.transform;
+            m_qteManager.enabled = true;
+            m_qteManager.LoadEncounter(_encounterData, _enemy);
+
         }
-        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+
+        private void Recenter()
         {
-            m_spawnPoint = new SpawnPoint(position, rotation);
-            Debug.Log("spawn point set at: " + m_spawnPoint.position);
-            if (!m_unlockedCheckpoints.Contains(m_spawnPoint)) { 
-                m_unlockedCheckpoints.Add(m_spawnPoint);
-                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            Vector3 faceDir = new(m_recenterTarget.position.x - transform.position.x, 0, m_recenterTarget.position.z - transform.position.z); // get face direction (ignore y)
+            transform.forward = faceDir.normalized; // face the enemy transform normalized
+            m_Mesh.localRotation = Quaternion.identity;
+
+            if (!m_moveRecenter) return;
+
+            float currentDist = Vector3.Distance(m_recenterTarget.position, transform.position);
+            if (currentDist - m_recenterTarget.GetComponent<EnemyController>().m_distancebuffer < m_recenterTarget.GetComponent<EnemyController>().m_distanceToPlayer)
+            {
+                _characterController.Move(-transform.forward * Time.deltaTime);
             }
+            else m_moveRecenter = false;
+
         }
-        
-        public void KillPlayer()
+        public void EnableRecenterMovement()
         {
-            m_playerUI.DeathTransition();
-            _characterController.enabled = false;
-            
+            m_moveRecenter = true;
+        }
+
+
+        public void KillPlayer()
+        {            
+            m_playerUI.DeathTransition();            
+            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            StartCoroutine(RespawnPlayer());
+        }
+
+        private IEnumerator RespawnPlayer()
+        {
+            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration + 1f);
+            m_qteManager.FadeOutUI();
+            _animation.ResetAnimation();
+            SetPlayerActive(false);
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
-            m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
-
-            _characterController.enabled = true;            
+            m_Mesh.localRotation = Quaternion.identity;
+            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
+            SetPlayerActive(true);
         }
 
+        public void EndCombat()
+        {
+            m_playerState = PlayerState.Exploring;
+            m_recenterTarget = null;
+        }
         #endregion
         #region Enable / Disable Player
-
         public void SetPlayerActive(bool active)
         {
             m_canMove = active;
             m_cameraController.SetFreeLookCam_Active(active);
         }
-
+        
         #endregion
         #region Inputs
 
@@ -375,9 +431,16 @@ namespace PlayerController
         }
         #endregion
 
-
-
-
+        public void UnlockSpawn(Vector3 position, Quaternion rotation)
+        {
+            m_spawnPoint = new SpawnPoint(position, rotation);
+            Debug.Log("spawn point set at: " + m_spawnPoint.position);
+            if (!m_unlockedCheckpoints.Contains(m_spawnPoint))
+            {
+                m_unlockedCheckpoints.Add(m_spawnPoint);
+                Debug.Log("unlocked checkpoint at: " + m_spawnPoint.position);
+            }
+        }
     }
 
     internal struct InputStruct

@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
-using UnityEngine.InputSystem.XR.Haptics;
 
 namespace QTESystem
 {
@@ -111,8 +106,7 @@ namespace QTESystem
                     break;                
                 default:
                     break;
-            }                      
-
+            }       
             if (m_activeAction.TimeUp())
             {                
                 m_activeAction.RemoveTimingRings();

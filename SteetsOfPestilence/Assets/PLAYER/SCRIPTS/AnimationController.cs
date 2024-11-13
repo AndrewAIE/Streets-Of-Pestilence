@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -103,6 +101,11 @@ namespace PlayerController
         public void SetAnimationFloat_InputMove(float _inputFloat)
         {
             _animator.SetFloat(_animID_Input_Move, _inputFloat);
+        }
+
+        public void ResetAnimation()
+        {
+            _animator.SetTrigger("Respawn");
         }
 
         //bools

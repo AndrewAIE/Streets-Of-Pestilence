@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 using EnemyAI;
 using PlayerController;
+using Management;
 
 
 namespace QTESystem
@@ -31,11 +29,7 @@ namespace QTESystem
         LeftShoulder,
         LeftTrigger,
         RightShoulder,
-        RightTrigger,
-        NorthDirectional,
-        EastDirectional,
-        SouthDirectional,
-        WestDirectional
+        RightTrigger
     }
 
     #endregion
@@ -44,6 +38,9 @@ namespace QTESystem
     {
         //******************** Variables *******************//
         #region Variables
+        //*** Manager ***//
+        GameManager m_manager;
+        bool m_paused = false;
 
         //*** QTE DATA ***//
         #region QTE Data
@@ -73,8 +70,7 @@ namespace QTESystem
 
         //*** Poise Bar ***//
         #region Poise Bar
-        public PoiseBarController PoiseBar;
-        
+        public PoiseBarController PoiseBar;        
 
         //comment
         public int StreamPosition;
@@ -160,7 +156,8 @@ namespace QTESystem
             ActiveDisplayList = new List<QTEInput>();
             CombatAnimation = GetComponentInChildren<QTECombatAnimation>();
             m_slowMoManager = GetComponentInChildren<SlowMotionManager>();
-            Player = GetComponentInParent<PlayerManager>();            
+            Player = GetComponentInParent<PlayerManager>();
+            m_manager = FindFirstObjectByType<GameManager>();
         }
         
         private void OnEnable()
@@ -178,12 +175,28 @@ namespace QTESystem
 
         #endregion
 
-        
+
         #region Update
         void Update()
         {
-            Timer += Time.unscaledDeltaTime;
-            CurrentState.StateUpdate(Timer);            
+            //check for pause functionality
+            if (m_manager.m_Gamestate == GameState.Paused && !m_paused)
+            {
+                m_paused = true;
+                QteDisplay.Pause();
+                InputActions.Disable();
+            }
+            if(m_manager.m_Gamestate !=GameState.Paused && m_paused)
+            {
+                m_paused = false;
+                QteDisplay.Resume();
+                InputActions.Enable();
+            }
+            if (!m_paused)
+            {
+                Timer += Time.unscaledDeltaTime;
+            }            
+            CurrentState.StateUpdate(Timer);
         }
         #endregion
 
@@ -260,6 +273,10 @@ namespace QTESystem
 
         public void EndOfEncounter()
         {
+            if(QteDisplay.FinishingCues.Count > 0)
+            {
+                StartCoroutine(DeleteCues());
+            }            
             Enemy.EndCombat();            
             WaitingStreams.Clear();            
             this.enabled = false;           
@@ -301,9 +318,11 @@ namespace QTESystem
 
         //Comment
         public QTEStreamData SelectRandomStream()
-        {            
+        {
+            //Clear tweens from previous stream
+            QteDisplay.ClearTweens();
+            //Select random stream from unselected streams
             int selector = Random.Range(0, WaitingStreams.Count);
-
             QTEStreamData selectedStream = Instantiate(WaitingStreams[selector]);
             WaitingStreams.RemoveAt(selector);
             if(ActiveStream)
@@ -385,16 +404,17 @@ namespace QTESystem
 
         //Player Loss
         private void playerLoss()
-        {
-            Player.SetPlayerActive(false);            
+        {            
+            Enemy.DisableEnemy();
             EndOfEncounter();
-            CombatAnimation.PlayAnimation("EnemyWin");                     
+            CombatAnimation.PlayAnimation("EnemyWin");
+            
         }       
 
         public void SlowTime(bool _activate)
         {
             if(_activate)
-            {
+            {                
                 m_slowMoManager.TimeSlowDown();
                 return;
             }
@@ -405,7 +425,7 @@ namespace QTESystem
         {
             CombatAnimation.EndState = true;
             CombatAnimation.ResetTriggers();            
-        }
+        }   
 
         public void FadeInUI()
         {
@@ -432,10 +452,9 @@ namespace QTESystem
             }
             if(_context.canceled)
             {
-                 QteDisplay.InputReleased(_context.action.name);
+                QteDisplay.InputReleased(_context.action.name);
                 ActiveAction?.OnRelease(_context);
-            }
-                    
+            }                    
         }
 
         public void ResetStreamData()
@@ -450,11 +469,13 @@ namespace QTESystem
         {
             yield return new WaitForSecondsRealtime(0.35f);            
             int count = QteDisplay.FinishingCues.Count;
+            Debug.Log($"Number of rings to be removed {count}");
             for (int i = 0; i < count; i++)
             {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);
+                Debug.Log($"Removing ring {i + 1}");
             }
         }
         #endregion
