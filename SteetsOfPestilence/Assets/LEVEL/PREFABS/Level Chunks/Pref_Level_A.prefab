@@ -434,11 +434,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6215983364293546496}
   - {fileID: 3561424377738530983}
   - {fileID: 1565691859793731279}
   - {fileID: 4263375154501129724}
   - {fileID: 2038972321879450684}
+  - {fileID: 6215983364293546496}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -518,7 +518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3561424377738530983}
   m_Layer: 0
-  m_Name: 1.0 Distance 1
+  m_Name: A.1 Distance 1
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -541,7 +541,7 @@ Transform:
   - {fileID: 6222572121768765092}
   - {fileID: 2919930514770594247}
   m_Father: {fileID: 2636395690591348099}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3275415070971727172
 GameObject:
@@ -633,7 +633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1565691859793731279}
   m_Layer: 0
-  m_Name: 1.1 StartAlley
+  m_Name: A.2 StartAlley
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -654,7 +654,7 @@ Transform:
   - {fileID: 1606707653401743827}
   - {fileID: 7058355649677806301}
   m_Father: {fileID: 2636395690591348099}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4163792468065016782
 GameObject:
@@ -768,7 +768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2038972321879450684}
   m_Layer: 0
-  m_Name: 1.3 Middle Island
+  m_Name: A.4 Middle Island
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -789,7 +789,7 @@ Transform:
   - {fileID: 1995044655037931689}
   - {fileID: 7565942717739471822}
   m_Father: {fileID: 2636395690591348099}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4682000597888057046
 GameObject:
@@ -950,7 +950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4263375154501129724}
   m_Layer: 0
-  m_Name: 1.2 Fork
+  m_Name: A.3 Fork
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -972,7 +972,7 @@ Transform:
   - {fileID: 3140196857551160391}
   - {fileID: 4818279744140924460}
   m_Father: {fileID: 2636395690591348099}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5313302177437847875
 GameObject:
@@ -1230,7 +1230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6215983364293546496}
   m_Layer: 0
-  m_Name: 0.1 Level B Attach Point
+  m_Name: B.0 Level B Attach Point
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1250,7 +1250,7 @@ Transform:
   m_Children:
   - {fileID: 921969289193048548}
   m_Father: {fileID: 2636395690591348099}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7608435296818086797
 GameObject:
