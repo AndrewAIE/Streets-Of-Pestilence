@@ -74,13 +74,13 @@ namespace EnemyAI
         /// position that the navmeshagent will try get to during combat
         /// </summary>
         [SerializeReference] private Vector3 m_combatPos;
-        [SerializeField] public float m_distanceToPlayer { private set; get; } = 2;
-        [SerializeField] public float m_distancebuffer { private set; get; } = 0.02f;
+        public float m_distanceToPlayer { private set; get; } = 2;
+        public float m_distancebuffer { private set; get; } = 0.02f;
         [SerializeField] private float m_minWallDistance = 1.5f;
         #endregion
 
         #region Mesh & Particles & Colliders Vars
-        private bool m_particlesPlaying;
+        private bool m_particlesPlaying = false;
         private ParticleSystem[] m_enemyParticles;
         private SkinnedMeshRenderer m_enemyMesh;
         private CapsuleCollider m_mainCollider;
@@ -311,24 +311,24 @@ namespace EnemyAI
 
             if (leftHit && rightHit)
             {
-                float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f;
-                if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return;
-                Vector3 centerPoint = (leftPos + rightPos) / 2;
-                m_combatPos = centerPoint;
+                float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f; // get a distance halfway between both points the left and right raycasts hit
+                if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return; 
+                Vector3 centerPoint = (leftPos + rightPos) / 2;  // the point between the two walls
+                m_combatPos = centerPoint; 
             }else if (leftHit)
             {
-                Vector3 point = transform.position + transform.right;
+                Vector3 point = transform.position + transform.right; // a point slightly to the right of the position hit
                 
-                m_combatPos = point;
+                m_combatPos = point; 
             }else if (rightHit)
             {
-                Vector3 point = transform.position - transform.right;
+                Vector3 point = transform.position - transform.right; // a point slightly left of the position hit
                 
                 m_combatPos = point;
             }
             else
             {
-                m_combatPos = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z) : new(playerPos.x, playerPos.y, transform.position.z);
+                m_combatPos = (xDis > zDis) ? new(transform.position.x, playerPos.y, playerPos.z) : new(playerPos.x, playerPos.y, transform.position.z); // if there are no walls, snaps the enemy to the x or y axis
             }
 
             float distTotal = Vector3.Distance(m_combatPos, playerPos);
@@ -341,13 +341,12 @@ namespace EnemyAI
             } 
             if (distTotal < m_distanceToPlayer - m_distancebuffer)
             {
-                Debug.DrawRay(transform.position + m_mainCollider.center, -transform.forward, Color.blue,2f);
-                bool againstWall = Physics.SphereCast(transform.position + m_mainCollider.center, m_mainCollider.radius, -transform.forward, out RaycastHit backHit, 2); //m_distanceToPlayer - (m_distanceToPlayer - distTotal));
+                bool againstWall = Physics.SphereCast(transform.position + m_mainCollider.center, m_mainCollider.radius, -transform.forward, out RaycastHit backHit, 2);
 
                 if (againstWall)
                 {
                     Debug.LogWarning("Enemy against Wall", this);
-                    player.EnableRecenterMovement();
+                    player.EnableRecenterMovement(); // makes the player back up
 
                 }
                 else

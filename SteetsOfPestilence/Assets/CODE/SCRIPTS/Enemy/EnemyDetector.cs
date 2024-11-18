@@ -21,7 +21,8 @@ namespace EnemyAI
         }
         private void Update()
         {
-            m_canSeePlayer = FieldOfViewCheck();
+            if(EnemyIsClose())
+                m_canSeePlayer = FieldOfViewCheck();
         }
         private bool FieldOfViewCheck()
         {
@@ -30,7 +31,7 @@ namespace EnemyAI
             Vector3 otherPos = m_player.transform.position;
             otherPos.y += 1;
             Vector3 direction = otherPos - originPos;
-            Debug.DrawRay(originPos, direction, Color.magenta, .1f);
+
             if (direction.magnitude > m_viewRadius) return false;
 
             angle = Vector3.Angle(direction, transform.forward);
