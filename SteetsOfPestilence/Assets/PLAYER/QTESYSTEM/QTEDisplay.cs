@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayerController;
 
 namespace QTESystem
 {
@@ -76,13 +77,13 @@ namespace QTESystem
         public PoiseBarController poiseBarController;
 
         private QTEUIAnimation m_iconAnimation;
-        private QTEAudio m_audio;        
+        private SFXController_Player m_audio;        
         #endregion       
 
         private void Awake()
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
-            m_audio = GetComponentInChildren<QTEAudio>();
+            m_audio = FindObjectOfType<SFXController_Player>();
 
             // North button assignments
             m_northButtonIcon = m_northButtonParent.GetComponentInChildren<Image>();
@@ -256,7 +257,7 @@ namespace QTESystem
             Image image = GetIcon(_incorrectInput);            
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
-            m_audio.IncorrectInput();
+            
             FinishingCues.Add(ActiveVisualCues[0]);
         }
 
@@ -272,6 +273,7 @@ namespace QTESystem
                 FinishingCues.Add(ActiveVisualCues[iterator]);
                 iterator++;
             }
+            m_audio.Play_Impact_QTEFailure();
         }
 
         public void MissedInput(QTEInput _iconsToShake, int _iterator)
@@ -280,6 +282,7 @@ namespace QTESystem
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
             FinishingCues.Add(ActiveVisualCues[_iterator]);
+            m_audio.Play_Impact_QTEFailure();
         }       
 
         public void SuccessfulInput(QTEInput _icon, int _selector)
@@ -289,6 +292,7 @@ namespace QTESystem
             m_iconAnimation.SuccessfulInput(rect, size, 0.15f);
             SetIconColor(_icon, Color.green);            
             FinishingCues.Add(ActiveVisualCues[_selector]);
+            m_audio.Play_Impact_QTESuccess();
         }       
 
         public void Input(string _input)
