@@ -77,6 +77,7 @@ namespace EnemyAI
         public float m_distanceToPlayer { private set; get; } = 2;
         public float m_distancebuffer { private set; get; } = 0.02f;
         [SerializeField] private float m_minWallDistance = 1.5f;
+        private bool m_isInCombat = false;
         #endregion
 
         #region Mesh & Particles & Colliders Vars
@@ -128,7 +129,8 @@ namespace EnemyAI
                     else
                         Standby();
                 }
-                else if (m_player.PlayerInCombat()) { FacePlayer();
+                else if (m_player.PlayerInCombat() && m_isInCombat) { 
+                    FacePlayer();
                     m_agent.destination = m_combatPos;
                 }
             }
@@ -191,6 +193,7 @@ namespace EnemyAI
         public void EndCombat()
         {
             m_combatEnding = true;
+            m_isInCombat = false;
             StartCoroutine(WaitEndCombat()); 
         }
         /// <summary>
@@ -221,6 +224,7 @@ namespace EnemyAI
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 m_player.EnterCombat(m_EncounterData, this);
+                m_isInCombat = true;
                 return;
             }
             else
@@ -314,16 +318,17 @@ namespace EnemyAI
                 float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f; // get a distance halfway between both points the left and right raycasts hit
                 if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return; 
                 Vector3 centerPoint = (leftPos + rightPos) / 2;  // the point between the two walls
+                Debug.Log("enemy in tight space", this);
                 m_combatPos = centerPoint; 
             }else if (leftHit)
             {
                 Vector3 point = transform.position + transform.right; // a point slightly to the right of the position hit
-                
+                Debug.Log("enemy has wall on left", this);
                 m_combatPos = point; 
             }else if (rightHit)
             {
                 Vector3 point = transform.position - transform.right; // a point slightly left of the position hit
-                
+                Debug.Log("enemy has wall on right", this);
                 m_combatPos = point;
             }
             else
@@ -345,7 +350,7 @@ namespace EnemyAI
 
                 if (againstWall)
                 {
-                    Debug.LogWarning("Enemy against Wall", this);
+                    Debug.LogWarning("Enemy's back against Wall", this);
                     player.EnableRecenterMovement(); // makes the player back up
 
                 }

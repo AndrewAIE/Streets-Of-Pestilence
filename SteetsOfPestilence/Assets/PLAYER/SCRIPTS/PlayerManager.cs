@@ -274,15 +274,7 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    m_cameraController.SetCameraFollow(m_freeLookTarget);
-                    Vector3 playerPos = m_cameraDefaultPos;
-                    Vector3 enemyPos = m_recenterTarget.InverseTransformPoint(transform.position);
 
-                    Vector3 centerPos = (enemyPos + playerPos) / 2;
-                    centerPos.y = playerPos.y;
-                    m_freeLookTarget.localPosition = centerPos;
-
-                    Debug.DrawLine(playerPos, centerPos);
                     break;
             }
         }
@@ -400,6 +392,7 @@ namespace PlayerController
             m_qteManager.FadeOutUI();
             _animation.ResetAnimation();
             SetPlayerActive(false);
+            SpawnPoint spawnpoint = GetClosestSpawnPoint();
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
@@ -407,6 +400,18 @@ namespace PlayerController
             yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
             SetPlayerActive(true);
         }
+        private SpawnPoint GetClosestSpawnPoint()
+        {
+            SpawnPoint closest = m_unlockedCheckpoints[0];
+            foreach (SpawnPoint point in m_unlockedCheckpoints)
+            {
+                if (Vector3.Distance(point.position, transform.position) < Vector3.Distance(closest.position, transform.position))
+                    closest = point;
+            }
+
+            return closest;
+        }
+
 
         public void EndCombat()
         {
