@@ -11,10 +11,12 @@ namespace QTESystem
         private bool[] m_activeBools;                
         private bool m_allStartBoolsActivated = false;
         private bool m_sequenceComplete = false;
+        private bool m_actionComplete = false;
         [SerializeField]
         private float[] m_displayLeadInTime;
         [SerializeField]
-        private float[] m_timeBetweenInputs;
+        private float[] m_timeBetweenInputs;        
+        private float m_inputTransferBuffer = 0.2f;
         
         protected override void onStart()
         {
@@ -63,11 +65,18 @@ namespace QTESystem
                     m_timeUp = true;
                 }        
                 
-                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2) && !m_sequenceComplete)
+                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) && !m_actionComplete)
                 {
                     m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                     m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                    m_activeTimeSlot++;                                  
+                    m_actionComplete = true;
+                    return m_state;
+                }
+
+                if(m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) + m_inputTransferBuffer)
+                {                    
+                    m_activeTimeSlot++;
+                    m_actionComplete = false;
                 }
             }            
             return m_state;
@@ -75,21 +84,18 @@ namespace QTESystem
 
         public override void CheckInput(InputAction.CallbackContext _context)
         {            
-            if (m_state != ActionState.running || _context.action.name == "Directional")
+            if (m_state != ActionState.running || m_actionComplete)
             {
                 return;   
             }
             if (CheckSuccessWindow() && _context.action == m_readyInputs[m_activeTimeSlot])
             {
                 m_qteDisplay.SuccessfulInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
-                if (m_activeTimeSlot < m_activeBools.Length - 1)
-                {
-                    m_activeTimeSlot++;
-                }
-                else
+                m_actionComplete = true;
+                if (m_activeTimeSlot >= m_activeBools.Length - 1)
                 {
                     m_sequenceComplete = true;
-                }
+                }                              
                 CorrectInputs++;
                 return;
             }
@@ -98,20 +104,17 @@ namespace QTESystem
                 m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                 m_qteDisplay.IncorrectInput(_context.action.name);
                 m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                if (m_activeTimeSlot < m_activeBools.Length - 1 && m_activeBools[m_activeTimeSlot])
-                {
-                    m_activeTimeSlot++;
-                }
-                else
+                m_actionComplete = true;
+                if (m_activeTimeSlot >= m_activeBools.Length - 1)
                 {
                     m_sequenceComplete = true;
-                }
-            }
+                }                
+            }           
         }
 
         protected override bool CheckSuccessWindow()
         {
-            if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] - (m_successBuffer / 2) && m_timer <= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2))
+            if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] - (m_successBuffer / 1.5f) && m_timer <= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f))
             {
                 return true;
             }
