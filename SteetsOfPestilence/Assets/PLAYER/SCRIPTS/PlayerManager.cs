@@ -400,12 +400,25 @@ namespace PlayerController
             m_qteManager.FadeOutUI();
             _animation.ResetAnimation();
             SetPlayerActive(false);
+            SpawnPoint spawnpoint = GetClosestSpawnPoint();
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
             yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
             SetPlayerActive(true);
         }
+        private SpawnPoint GetClosestSpawnPoint()
+        {
+            SpawnPoint closest = m_unlockedCheckpoints[0];
+            foreach (SpawnPoint point in m_unlockedCheckpoints)
+            {
+                if (Vector3.Distance(point.position, transform.position) < Vector3.Distance(closest.position, transform.position))
+                    closest = point;
+            }
+
+            return closest;
+        }
+
 
         public void EndCombat()
         {

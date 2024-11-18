@@ -77,6 +77,7 @@ namespace EnemyAI
         [SerializeField] public float m_distanceToPlayer { private set; get; } = 2;
         [SerializeField] public float m_distancebuffer { private set; get; } = 0.02f;
         [SerializeField] private float m_minWallDistance = 1.5f;
+        private bool m_isInCombat = false;
         #endregion
 
         #region Mesh & Particles & Colliders Vars
@@ -128,7 +129,8 @@ namespace EnemyAI
                     else
                         Standby();
                 }
-                else if (m_player.PlayerInCombat()) { FacePlayer();
+                else if (m_player.PlayerInCombat() && m_isInCombat) { 
+                    FacePlayer();
                     m_agent.destination = m_combatPos;
                 }
             }
@@ -191,6 +193,7 @@ namespace EnemyAI
         public void EndCombat()
         {
             m_combatEnding = true;
+            m_isInCombat = false;
             StartCoroutine(WaitEndCombat()); 
         }
         /// <summary>
@@ -221,6 +224,7 @@ namespace EnemyAI
             if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
             {
                 m_player.EnterCombat(m_EncounterData, this);
+                m_isInCombat = true;
                 return;
             }
             else
