@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6513176517474958024}
   - component: {fileID: 2127933848499119504}
   - component: {fileID: 6495284371102992956}
+  - component: {fileID: 4962743952706990220}
   m_Layer: 0
   m_Name: Fountain_Outer_LOW
   m_TagString: Untagged
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &4962743952706990220
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587515934745840246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2314055
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3796067405626759791
 GameObject:
   m_ObjectHideFlags: 0

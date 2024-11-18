@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 7665293541971716094}
   - component: {fileID: 5887869560992199720}
   - component: {fileID: 5509804303696241077}
-  - component: {fileID: 380965274732444156}
-  - component: {fileID: 5659328568968600088}
-  - component: {fileID: 5011473406961146306}
   m_Layer: 0
   m_Name: ArtPref_ArchwayTunnel
   m_TagString: Untagged
@@ -86,42 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &380965274732444156
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4798552207083510817}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 4.1, z: 2.25}
-  m_Center: {x: -0.05, y: 2.05, z: 1.12}
---- !u!65 &5659328568968600088
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4798552207083510817}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 4.1, z: 2.25}
-  m_Center: {x: 5.25, y: 2.05, z: 1.12}
---- !u!65 &5011473406961146306
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4798552207083510817}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.2, y: 0.1, z: 2.25}
-  m_Center: {x: 2.6, y: 4.1, z: 1.125}
