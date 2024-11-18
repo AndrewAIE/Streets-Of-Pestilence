@@ -75,9 +75,7 @@ namespace PlayerController
 
         #endregion
         #region Movement
-        [Header("InputStruct Variables")]
-        [Space]
-        [SerializeField] private float _speed;
+        [SerializeField] public float _speed { private set; get; }
 
         [Space]
         [SerializeField] private float _targetRotation;
@@ -386,7 +384,9 @@ namespace PlayerController
             m_moveRecenter = true;
         }
 
-
+        /// <summary>
+        /// Move the player to the last checkpoint (doesn't destroy the player object)
+        /// </summary>
         public void KillPlayer()
         {            
             m_playerUI.DeathTransition();            
@@ -403,6 +403,7 @@ namespace PlayerController
             transform.position = m_spawnPoint.position;
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
+            m_recenterTarget = null;
             yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
             SetPlayerActive(true);
         }
