@@ -5,12 +5,18 @@ namespace EnemyAI
 {
     public class EnemyDetector : MonoBehaviour
     {
+        /// <summary>
+        /// how far the enemy can see in the viewAngle
+        /// </summary>
         [SerializeField] private float m_viewRadius = 10;
+        /// <summary>
+        /// 
+        /// </summary>
         [SerializeField] private float m_viewAngle = 40;
         [SerializeField] private float combatDistance = 2f;
         [SerializeField] float angle;
         public LayerMask m_obstructMask;
-        public bool m_canSeePlayer { get; private set; }
+        [SerializeField]public bool m_canSeePlayer;// { get; private set; }
 
         private GameObject m_player;
         private Vector3 m_lastKnownPos;
@@ -21,24 +27,33 @@ namespace EnemyAI
         }
         private void Update()
         {
-            if(EnemyIsClose())
-                m_canSeePlayer = FieldOfViewCheck();
+            m_canSeePlayer = FieldOfViewCheck();              
         }
+        public Vector3 Dir;
+        public float dis;
         private bool FieldOfViewCheck()
         {
             Vector3 originPos = transform.position;
-            originPos.y += 1;
+            originPos.y = 0;
             Vector3 otherPos = m_player.transform.position;
-            otherPos.y += 1;
-            Vector3 direction = otherPos - originPos;
+            otherPos.y = 0;
 
-            if (direction.magnitude > m_viewRadius) return false;
-
+            float distance = Vector3.Distance(originPos, otherPos);
+            dis = distance;
+            if (distance > m_viewRadius) return false;
+            
+            Vector3 direction = (otherPos - originPos).normalized;
+            
+            Dir = direction;
+            //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), direction, Color.yellow);
             angle = Vector3.Angle(direction, transform.forward);
             if (angle < m_viewAngle && m_player)
             {
+                originPos.y = transform.position.y + 1;
                 Physics.Raycast(originPos, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
-                
+
+                Debug.DrawRay(originPos, direction, Color.yellow);
+
                 if (hitInfo.transform.gameObject == m_player)
                 {
                     m_lastKnownPos = hitInfo.transform.position;
@@ -54,7 +69,6 @@ namespace EnemyAI
             Vector3 originPos = transform.position;
             Vector3 otherPos = m_player.transform.position;
             float distance = Vector3.Distance(originPos, otherPos);
-            dis = distance;
             if (distance < combatDistance)
             {
                 return true;
@@ -62,7 +76,6 @@ namespace EnemyAI
 
             return false;
         }
-        public float dis;
         internal Vector3 LastPosition()
         {
             return m_lastKnownPos;

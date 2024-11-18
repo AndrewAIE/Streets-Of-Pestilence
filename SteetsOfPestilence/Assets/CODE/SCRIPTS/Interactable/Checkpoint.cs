@@ -8,7 +8,7 @@ namespace Interactables
         {
             PlayerManager player = other.GetComponent<PlayerManager>();
             if (player == null) return;
-
+            Debug.Log("Reached Checkpoint", this);
             player.UnlockSpawn(transform.position, transform.rotation);
         }
     }

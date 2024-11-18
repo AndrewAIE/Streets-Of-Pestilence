@@ -318,16 +318,17 @@ namespace EnemyAI
                 float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f; // get a distance halfway between both points the left and right raycasts hit
                 if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return; 
                 Vector3 centerPoint = (leftPos + rightPos) / 2;  // the point between the two walls
+                Debug.Log("enemy in tight space", this);
                 m_combatPos = centerPoint; 
             }else if (leftHit)
             {
                 Vector3 point = transform.position + transform.right; // a point slightly to the right of the position hit
-                
+                Debug.Log("enemy has wall on left", this);
                 m_combatPos = point; 
             }else if (rightHit)
             {
                 Vector3 point = transform.position - transform.right; // a point slightly left of the position hit
-                
+                Debug.Log("enemy has wall on right", this);
                 m_combatPos = point;
             }
             else
@@ -349,7 +350,7 @@ namespace EnemyAI
 
                 if (againstWall)
                 {
-                    Debug.LogWarning("Enemy against Wall", this);
+                    Debug.LogWarning("Enemy's back against Wall", this);
                     player.EnableRecenterMovement(); // makes the player back up
 
                 }
