@@ -50,9 +50,10 @@ namespace EnemyAI
             if (angle < m_viewAngle && m_player)
             {
                 originPos.y = transform.position.y + 1;
-                Physics.Raycast(originPos, direction, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
+                Ray ray = new Ray(originPos, direction);
+                Physics.Raycast(ray, out RaycastHit hitInfo, m_viewRadius, m_obstructMask);
 
-                Debug.DrawRay(originPos, direction, Color.yellow);
+                Debug.DrawRay(ray.origin, ray.direction * m_viewRadius, Color.yellow);
 
                 if (hitInfo.transform.gameObject == m_player)
                 {
