@@ -500,10 +500,10 @@ namespace QTESystem
         /// <summary>
         /// Turn alphpa of cue to 0
         /// </summary>
-        /// <param name="_count"></param>
-        public void DeactivateCue(int _count)
+        /// <param name="_index"></param>
+        public void DeactivateCue(int _index)
         {
-            Image image = ActiveVisualCues[_count].GetComponent<Image>();
+            Image image = ActiveVisualCues[_index].GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
         /// <summary>
