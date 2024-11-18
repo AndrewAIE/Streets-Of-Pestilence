@@ -62,6 +62,15 @@ namespace PlayerController
         [HideInInspector] AudioClip bodyDrop_LastPlayedClip;
         [HideInInspector] AudioClip deathScream_LastPlayedClip;
 
+        [Space]
+        [SerializeField] SFX_SO_Impact _impactData;
+        [Space]
+        [SerializeField] GameObject impact_Prefab;
+
+        [HideInInspector] AudioClip _impact_QTESuccess_LastPlayedClip;
+        [HideInInspector] AudioClip _impact_QTEFailure_LastPlayedClip;
+
+
 
         #endregion
 
@@ -513,6 +522,61 @@ namespace PlayerController
         {
             deathScream_LastPlayedClip = GetUniqueClip(_playerData.SFX_Player_DeathScream_clips, deathScream_LastPlayedClip);
             Create_DeathScream(deathScream_LastPlayedClip);
+        }
+
+        #endregion
+
+        #endregion
+
+        /*** Impacts ***/
+        #region Impacts
+
+        #region Successful Player Impact
+        private void Create_Impact_QTESuccess(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(impact_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_impactData.SFX_Impact_QTESuccess_volumeMin, _impactData.SFX_Impact_QTESuccess_volumeMax);
+            audioSource.pitch = Random.Range(_impactData.SFX_Impact_QTESuccess_pitchMin, _impactData.SFX_Impact_QTESuccess_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Impact_QTESuccess()
+        {
+            _impact_QTESuccess_LastPlayedClip = GetUniqueClip(_impactData.SFX_Impact_QTESuccess, _impact_QTESuccess_LastPlayedClip);
+            Create_Impact_QTESuccess(_impact_QTESuccess_LastPlayedClip);
+        }
+
+
+        #endregion
+
+        #region Failure Player Impact
+
+        private void Create_Impact_QTEFailure(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(impact_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_impactData.SFX_Impact_QTEFailure_volumeMin, _impactData.SFX_Impact_QTEFailure_volumeMax);
+            audioSource.pitch = Random.Range(_impactData.SFX_Impact_QTEFailure_pitchMin, _impactData.SFX_Impact_QTEFailure_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Impact_QTEFailure()
+        {
+            _impact_QTEFailure_LastPlayedClip = GetUniqueClip(_impactData.SFX_Impact_QTEFailure, _impact_QTEFailure_LastPlayedClip);
+            Create_Impact_QTEFailure(_impact_QTEFailure_LastPlayedClip);
         }
 
         #endregion
