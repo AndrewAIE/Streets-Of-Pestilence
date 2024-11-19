@@ -110,6 +110,7 @@ namespace PlayerController
         #region Startup
         private void Awake()
         {
+            Debug.Log("Game Started");
             //get player scripts
             _animation = GetComponent<AnimationController>();
 
@@ -135,7 +136,7 @@ namespace PlayerController
         {
             m_canMove = true;
             m_unlockedCheckpoints = new List<SpawnPoint>();
-            m_spawnPoint = new SpawnPoint(transform.position, transform.rotation);
+            UnlockSpawn(transform.position, transform.rotation);
         }
 
 
