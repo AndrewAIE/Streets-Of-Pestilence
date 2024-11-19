@@ -61,6 +61,8 @@ namespace EnemyAI
         /// where the enemy spawned
         /// </summary>
         private Vector3 m_homeDestination;
+        private Vector3 m_homeRotation;
+
         /// <summary>
         /// the current target for patrol
         /// </summary>
@@ -99,16 +101,10 @@ namespace EnemyAI
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
+            m_homeRotation = transform.parent.forward;
         }
-        public Vector3 destination;
-        public float distance;
         private void Update()
         {
-            destination = m_agent.destination;
-            distance = Vector3.Distance(m_combatPos, m_player.transform.position);
-            /*RecenterEnemy(m_player);
-            FacePlayer();
-            return;*/
             if (!m_deactivated && !m_combatEnding)
             {
                 if (Recentering)
@@ -127,12 +123,18 @@ namespace EnemyAI
                         m_timer -= Time.deltaTime;
                     }
                     else
+                    {
                         Standby();
+                        if (m_waitingAtDestination)
+                            transform.parent.forward = Vector3.MoveTowards(transform.parent.forward, m_homeRotation, 10 * Time.deltaTime);
+                    }
                 }
                 else if (m_player.PlayerInCombat() && m_isInCombat) { 
                     FacePlayer();
                     m_agent.destination = m_combatPos;
                 }
+
+                
             }
             else if (m_deactivated)
             {
@@ -215,6 +217,7 @@ namespace EnemyAI
         #region Nav
         private void GoToPlayer()
         {
+            m_waitingAtDestination = false;
             if (m_deactivated)
             {
                 return;
@@ -235,6 +238,8 @@ namespace EnemyAI
 
         private void Standby()
         {
+            if (m_agent.remainingDistance < 1) m_waitingAtDestination = true;
+
             m_agent.stoppingDistance = 0;
             if (m_waitingAtDestination) return;
             if (m_patrolPositions.Length > 0)
@@ -256,13 +261,12 @@ namespace EnemyAI
                 }
                 float waitTime = Random.Range(0, 3);
                 
-                    m_waitingAtDestination = true;
                     StartCoroutine(SetPath(waitTime, m_agent.destination = m_patrolPositions[m_patrolNum]));
             }
             else
             {
-                m_waitingAtDestination = true;
-                StartCoroutine(SetPath(3, m_agent.destination = m_homeDestination));
+                if(m_agent.destination != m_homeDestination) 
+                    StartCoroutine(SetPath(3, m_agent.destination = m_homeDestination));
             }
         }
 

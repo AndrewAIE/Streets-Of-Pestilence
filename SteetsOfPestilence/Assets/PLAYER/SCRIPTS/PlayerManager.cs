@@ -135,7 +135,7 @@ namespace PlayerController
         {
             m_canMove = true;
             m_unlockedCheckpoints = new List<SpawnPoint>();
-            m_spawnPoint = new SpawnPoint(transform.position, transform.rotation);
+            UnlockSpawn(transform.position, transform.rotation);
         }
 
 
