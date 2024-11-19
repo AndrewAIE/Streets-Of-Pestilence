@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1479142872886341328
 Transform:
@@ -126,6 +126,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Part_Flies
       objectReference: {fileID: 0}
+    - target: {fileID: 803875921424619706, guid: cef2b093204b46842b5dc85ab88f156f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cef2b093204b46842b5dc85ab88f156f, type: 3}
 --- !u!4 &406050185218382788 stripped
@@ -198,6 +203,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: a108860c3d9c19a42942a6529bc422d4,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a108860c3d9c19a42942a6529bc422d4,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a108860c3d9c19a42942a6529bc422d4,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 08d6a047234377e4bac1d7416c2fb5b1, type: 2}
@@ -205,6 +220,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Geo_CorpseCart
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a108860c3d9c19a42942a6529bc422d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a108860c3d9c19a42942a6529bc422d4, type: 3}
@@ -297,6 +317,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: ed570743db3618541b4263b58b7c2993,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ed570743db3618541b4263b58b7c2993,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ed570743db3618541b4263b58b7c2993,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 91c54066e4fe0b546bd28c9f2413a061, type: 2}
@@ -309,6 +339,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Geo_CorpsePile
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed570743db3618541b4263b58b7c2993,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed570743db3618541b4263b58b7c2993, type: 3}
