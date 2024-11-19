@@ -397,6 +397,7 @@ namespace QTESystem
         //Player Win
         private void playerWin()
         {
+            
             CombatAnimation.PlayAnimation("PlayerWin");            
             EndOfEncounter();
             Invoke("ReactivatePlayer", 3.8f);
@@ -452,7 +453,7 @@ namespace QTESystem
             }
             if(_context.canceled)
             {
-                QteDisplay.InputReleased(_context.action.name);
+                QteDisplay.ResetAllActiveIconColours();
                 ActiveAction?.OnRelease(_context);
             }                    
         }

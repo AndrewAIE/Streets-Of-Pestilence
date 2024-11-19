@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayerController;
+using UnityEngine.Windows;
+using UnityEngine.Rendering;
 
 namespace QTESystem
 {
@@ -212,6 +214,33 @@ namespace QTESystem
             }           
         }
 
+        public void ResetAllActiveIconColours() 
+        {
+            if (m_iconPanels[0].activeInHierarchy)
+            {
+                m_lTriggerButtonIcon.color = Color.white;
+                m_lTriggerButtonText.color = Color.white;
+                m_rTriggerButtonIcon.color = Color.white;
+                m_rTriggerButtonText.color = Color.white;
+            }
+            if (m_iconPanels[1].activeInHierarchy)
+            {
+                m_rShoulderButtonIcon.color = Color.white;
+                m_rShoulderButtonText.color = Color.white;
+                m_lShoulderButtonIcon.color = Color.white;
+                m_lShoulderButtonText.color = Color.white;
+            }
+            m_northButtonIcon.color = Color.white;
+            m_northButtonText.color = Color.white;
+            m_eastButtonIcon.color = Color.white;
+            m_eastButtonText.color = Color.white;
+            m_southButtonIcon.color = Color.white;
+            m_southButtonText.color = Color.white;
+            m_westButtonIcon.color = Color.white;
+            m_westButtonText.color = Color.white;
+        }
+
+
         public void SetIconColor(QTEInput _iconToSet, Color _color)
         {            
             switch (_iconToSet)
@@ -257,7 +286,7 @@ namespace QTESystem
             Image image = GetIcon(_incorrectInput);            
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
-            
+            SetIconColor(GetInput(_incorrectInput), Color.red);
             FinishingCues.Add(ActiveVisualCues[0]);
         }
 
@@ -271,17 +300,19 @@ namespace QTESystem
                 //animate corresponding icon and play audio
                 m_iconAnimation.IncorrectInput(image);
                 FinishingCues.Add(ActiveVisualCues[iterator]);
+                SetIconColor(input, Color.red);
                 iterator++;
             }
             m_audio.Play_Impact_QTEFailure();
         }
 
-        public void MissedInput(QTEInput _iconsToShake, int _iterator)
+        public void MissedInput(QTEInput _iconToShake, int _iterator)
         {
-            Image image = GetIcon(_iconsToShake);
+            Image image = GetIcon(_iconToShake);
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
             FinishingCues.Add(ActiveVisualCues[_iterator]);
+            SetIconColor(_iconToShake, Color.red);
             m_audio.Play_Impact_QTEFailure();
         }       
 
