@@ -133,8 +133,7 @@ namespace QTESystem
             m_qteManager.StreamPosition++;
             //set new time limit and reset timer
             m_qteManager.ActiveAction.Started = false;
-            m_qteManager.ActiveAction.IncorrectInput = null;
-            m_qteManager.QteDisplay.ResetAllActiveIconColours();
+            m_qteManager.ActiveAction.IncorrectInput = null;            
             m_timeLimit = m_qteManager.ActiveStream.BetweenActionTimer;
             m_qteManager.Timer = 0;
         }
@@ -158,6 +157,7 @@ namespace QTESystem
 
         public override void ExitState()
         {
+            m_qteManager.QteDisplay.ResetAllActiveIconColours();
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
     }
