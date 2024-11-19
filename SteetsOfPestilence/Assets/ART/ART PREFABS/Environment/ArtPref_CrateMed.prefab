@@ -9,13 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7574671824301707591}
-  - component: {fileID: 6144910353706953330}
   m_Layer: 0
   m_Name: ArtPref_CrateMed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7574671824301707591
 Transform:
@@ -33,14 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6144910353706953330
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9024979114775917056}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &4281055687965048533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +96,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5beaaed54d1e1ba41bc1659cff3109bb,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5beaaed54d1e1ba41bc1659cff3109bb,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5beaaed54d1e1ba41bc1659cff3109bb,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1e39beda21de519469e0c0cf4b01511c, type: 2}
@@ -112,6 +113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Crate_Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5beaaed54d1e1ba41bc1659cff3109bb,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5beaaed54d1e1ba41bc1659cff3109bb, type: 3}
