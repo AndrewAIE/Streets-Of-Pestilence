@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -151,18 +151,123 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_areatitle_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 462
+        width: 495
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fec9121e8f8a7c4c8b5f3477211353e
+      internalID: -1150554400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_areatitle_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 400
+        width: 428
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6efb9237e877e5a49b5a81bded9b50d1
+      internalID: 1846702875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: penitents
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 199
+        width: 492
+        height: 113
+      alignment: 9
+      pivot: {x: 0, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7e6cd4ffb4a8242aca996332454c5e
+      internalID: 1760262892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: memorial
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 29
+        width: 506
+        height: 95
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a52617e0de2d61f45a4f8e5564a17905
+      internalID: -1706246632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_areatitle_0: -1150554400
+      UI_areatitle_1: 1846702875
+      UI_areatitle_10: -1079903555
+      UI_areatitle_11: -1082423453
+      UI_areatitle_12: -1054842729
+      UI_areatitle_14: -97699870
+      UI_areatitle_15: -590807166
+      UI_areatitle_16: 2072068549
+      UI_areatitle_17: 611539462
+      UI_areatitle_18: -922112480
+      UI_areatitle_19: -2041852805
+      UI_areatitle_2: -1965877466
+      UI_areatitle_20: 13546070
+      UI_areatitle_3: 1290838526
+      UI_areatitle_4: 720652911
+      UI_areatitle_6: -1061518795
+      UI_areatitle_7: -1019265045
+      UI_areatitle_8: 1011450918
+      UI_areatitle_9: 1393963428
+      memorial: -1706246632
+      penitents: 1760262892
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
