@@ -20,34 +20,42 @@ namespace QTESystem
         private GameObject m_northButtonParent;
         private Image m_northButtonIcon;
         private Image m_northButtonText;
+        private Image m_northButtonTarget;
         [SerializeField]
         private GameObject m_eastButtonParent;
         private Image m_eastButtonIcon;
         private Image m_eastButtonText;
+        private Image m_eastButtonTarget;
         [SerializeField]
         private GameObject m_southButtonParent;
         private Image m_southButtonIcon;
         private Image m_southButtonText;
+        private Image m_southButtonTarget;
         [SerializeField]
         private GameObject m_westButtonParent;
         private Image m_westButtonIcon;
         private Image m_westButtonText;
+        private Image m_westButtonTarget;
         [SerializeField]
         private GameObject m_lShoulderButtonParent;
         private Image m_lShoulderButtonIcon;
         private Image m_lShoulderButtonText;
+        private Image m_lShoulderButtonTarget;
         [SerializeField]
         private GameObject m_lTriggerButtonParent;
         private Image m_lTriggerButtonIcon;
         private Image m_lTriggerButtonText;
+        private Image m_lTriggerButtonTarget;
         [SerializeField]
         private GameObject m_rShoulderButtonParent;
         private Image m_rShoulderButtonIcon;
         private Image m_rShoulderButtonText;
+        private Image m_rShoulderButtonTarget;
         [SerializeField]
         private GameObject m_rTriggerButtonParent;
         private Image m_rTriggerButtonIcon;
         private Image m_rTriggerButtonText;
+        private Image m_rTriggerButtonTarget;
 
         [Space]
         [Header("QTE System")]
@@ -90,34 +98,42 @@ namespace QTESystem
             // North button assignments
             m_northButtonIcon = m_northButtonParent.GetComponentInChildren<Image>();
             m_northButtonText = m_northButtonParent.GetComponentsInChildren<Image>()[1];
+            m_northButtonTarget = m_northButtonParent.GetComponentsInChildren<Image>()[2];
 
             // East button assignments
             m_eastButtonIcon = m_eastButtonParent.GetComponentInChildren<Image>();
             m_eastButtonText = m_eastButtonParent.GetComponentsInChildren<Image>()[1];
+            m_eastButtonTarget = m_eastButtonParent.GetComponentsInChildren<Image>()[2];
 
             // South button assignments
             m_southButtonIcon = m_southButtonParent.GetComponentInChildren<Image>();
             m_southButtonText = m_southButtonParent.GetComponentsInChildren<Image>()[1];
+            m_southButtonTarget = m_southButtonParent.GetComponentsInChildren<Image>()[2];
 
             // West button assignments
             m_westButtonIcon = m_westButtonParent.GetComponentInChildren<Image>();
             m_westButtonText = m_westButtonParent.GetComponentsInChildren<Image>()[1];
+            m_westButtonTarget = m_westButtonParent.GetComponentsInChildren<Image>()[2];
 
             // Left Shoulder button assignments
             m_lShoulderButtonIcon = m_lShoulderButtonParent.GetComponentInChildren<Image>();
             m_lShoulderButtonText = m_lShoulderButtonParent.GetComponentsInChildren<Image>()[1];
+            m_lShoulderButtonTarget = m_lShoulderButtonParent.GetComponentsInChildren<Image>()[2];
 
             // Left Trigger button assignments
             m_lTriggerButtonIcon = m_lTriggerButtonParent.GetComponentInChildren<Image>();
             m_lTriggerButtonText = m_lTriggerButtonParent.GetComponentsInChildren<Image>()[1];
+            m_lTriggerButtonTarget = m_lTriggerButtonParent.GetComponentsInChildren<Image>()[2];
 
             // Right Shoulder button assignments
             m_rShoulderButtonIcon = m_rShoulderButtonParent.GetComponentInChildren<Image>();
             m_rShoulderButtonText = m_rShoulderButtonParent.GetComponentsInChildren<Image>()[1];
+            m_rShoulderButtonTarget = m_rShoulderButtonParent.GetComponentsInChildren<Image>()[2];
 
             // Right Trigger button assignments
             m_rTriggerButtonIcon = m_rTriggerButtonParent.GetComponentInChildren<Image>();
             m_rTriggerButtonText = m_rTriggerButtonParent.GetComponentsInChildren<Image>()[1];
+            m_rTriggerButtonTarget = m_rTriggerButtonParent.GetComponentsInChildren<Image>()[2];
 
         }
         //*** Panel ***//
@@ -181,34 +197,42 @@ namespace QTESystem
                     case QTEInput.NorthFace:
                         m_northButtonIcon.color = _color;
                         m_northButtonText.color = _color;
+                        m_northButtonTarget.color = _color;
                         break;
                     case QTEInput.EastFace:
                         m_eastButtonIcon.color = _color;
                         m_eastButtonText.color = _color;
+                        m_eastButtonTarget.color = _color;
                         break;
                     case QTEInput.SouthFace:
                         m_southButtonIcon.color = _color;
                         m_southButtonText.color = _color;
+                        m_southButtonTarget.color = _color;
                         break;
                     case QTEInput.WestFace:
                         m_westButtonIcon.color = _color;
                         m_westButtonText.color = _color;
+                        m_westButtonTarget.color = _color;
                         break;
                     case QTEInput.LeftShoulder:
                         m_lShoulderButtonIcon.color = _color;
                         m_lShoulderButtonText.color = _color;
+                        m_lShoulderButtonTarget.color = _color;
                         break;
                     case QTEInput.LeftTrigger:
                         m_lTriggerButtonIcon.color = _color;
                         m_lTriggerButtonText.color = _color;
+                        m_lTriggerButtonTarget.color = _color;
                         break;
                     case QTEInput.RightShoulder:
                         m_rShoulderButtonIcon.color = _color;
                         m_rShoulderButtonText.color = _color;
+                        m_rShoulderButtonTarget.color = _color;
                         break;
                     case QTEInput.RightTrigger:
                         m_rTriggerButtonIcon.color = _color;
                         m_rTriggerButtonText.color = _color;
+                        m_rTriggerButtonTarget.color = _color;
                         break;
                 }
             }           
@@ -220,24 +244,32 @@ namespace QTESystem
             {
                 m_lTriggerButtonIcon.color = Color.white;
                 m_lTriggerButtonText.color = Color.white;
+                m_lTriggerButtonTarget.color = Color.white;
                 m_rTriggerButtonIcon.color = Color.white;
                 m_rTriggerButtonText.color = Color.white;
+                m_rTriggerButtonTarget.color = Color.white;
             }
             if (m_iconPanels[1].activeInHierarchy)
             {
                 m_rShoulderButtonIcon.color = Color.white;
                 m_rShoulderButtonText.color = Color.white;
+                m_rShoulderButtonTarget.color = Color.white;
                 m_lShoulderButtonIcon.color = Color.white;
                 m_lShoulderButtonText.color = Color.white;
+                m_rShoulderButtonTarget.color = Color.white;
             }
             m_northButtonIcon.color = Color.white;
             m_northButtonText.color = Color.white;
+            m_northButtonTarget.color = Color.white;
             m_eastButtonIcon.color = Color.white;
             m_eastButtonText.color = Color.white;
+            m_eastButtonTarget.color = Color.white;
             m_southButtonIcon.color = Color.white;
             m_southButtonText.color = Color.white;
+            m_southButtonTarget.color = Color.white;
             m_westButtonIcon.color = Color.white;
             m_westButtonText.color = Color.white;
+            m_westButtonTarget.color = Color.white;
         }
 
 
@@ -248,34 +280,42 @@ namespace QTESystem
                 case QTEInput.NorthFace:
                     m_northButtonIcon.color = _color;
                     m_northButtonText.color = _color;
+                    m_northButtonTarget.color = _color;
                     break;
                 case QTEInput.EastFace:
                     m_eastButtonIcon.color = _color;
                     m_eastButtonText.color = _color;
+                    m_eastButtonTarget.color = _color;
                     break;
                 case QTEInput.SouthFace:
                     m_southButtonIcon.color = _color;
                     m_southButtonText.color = _color;
+                    m_southButtonTarget.color = _color;
                     break;
                 case QTEInput.WestFace:
                     m_westButtonIcon.color = _color;
                     m_westButtonText.color = _color;
+                    m_westButtonTarget.color = _color;
                     break;
                 case QTEInput.LeftShoulder:
                     m_lShoulderButtonIcon.color = _color;
                     m_lShoulderButtonText.color = _color;
+                    m_lShoulderButtonTarget.color = _color;
                     break;
                 case QTEInput.LeftTrigger:
                     m_lTriggerButtonIcon.color = _color;
                     m_lTriggerButtonText.color = _color;
+                    m_lTriggerButtonTarget.color = _color;
                     break;
                 case QTEInput.RightShoulder:
                     m_rShoulderButtonIcon.color = _color;
                     m_rShoulderButtonText.color = _color;
+                    m_rShoulderButtonTarget.color = _color;
                     break;
                 case QTEInput.RightTrigger:
                     m_rTriggerButtonIcon.color = _color;
                     m_rTriggerButtonText.color = _color;
+                    m_rTriggerButtonTarget.color = _color;
                     break;
             }
         }
