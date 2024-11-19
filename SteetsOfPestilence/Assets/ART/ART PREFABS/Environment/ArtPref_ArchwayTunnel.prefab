@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 7665293541971716094}
   - component: {fileID: 5887869560992199720}
   - component: {fileID: 5509804303696241077}
+  - component: {fileID: 380965274732444156}
+  - component: {fileID: 5659328568968600088}
+  - component: {fileID: 5011473406961146306}
   m_Layer: 0
   m_Name: ArtPref_ArchwayTunnel
   m_TagString: Untagged
@@ -29,7 +32,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4522733656617646209}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83,3 +87,122 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &380965274732444156
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798552207083510817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 4.1, z: 2.25}
+  m_Center: {x: -0.05, y: 2.05, z: 1.12}
+--- !u!65 &5659328568968600088
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798552207083510817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 4.1, z: 2.25}
+  m_Center: {x: 5.25, y: 2.05, z: 1.12}
+--- !u!65 &5011473406961146306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798552207083510817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.2, y: 0.1, z: 2.25}
+  m_Center: {x: 2.6, y: 4.1, z: 1.125}
+--- !u!1001 &4127904411845959530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665293541971716094}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d49ce17d7223ac14ab3ce3ad41dd95bb, type: 2}
+    - target: {fileID: 919132149155446097, guid: f3151187efde80f4eb653420ff12d8bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_ArchwayTunnel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f3151187efde80f4eb653420ff12d8bf, type: 3}
+--- !u!4 &4522733656617646209 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f3151187efde80f4eb653420ff12d8bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 4127904411845959530}
+  m_PrefabAsset: {fileID: 0}
