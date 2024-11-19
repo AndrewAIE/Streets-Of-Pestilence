@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2279651731543951159
 Transform:
@@ -96,6 +96,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: c7671bf75f1e84f40af4a8a3117132e8,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c7671bf75f1e84f40af4a8a3117132e8,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c7671bf75f1e84f40af4a8a3117132e8,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3d7fc533a1676c845a808628a8c80201, type: 2}
@@ -103,6 +113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Geo_Pillar_Thick
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c7671bf75f1e84f40af4a8a3117132e8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7671bf75f1e84f40af4a8a3117132e8, type: 3}
