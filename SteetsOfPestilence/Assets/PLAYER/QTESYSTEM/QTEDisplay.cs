@@ -94,47 +94,49 @@ namespace QTESystem
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
             m_audio = FindObjectOfType<SFXController_Player>();
+        }
 
+        private void Start()
+        {
             // North button assignments
-            m_northButtonIcon = m_northButtonParent.GetComponentInChildren<Image>();
-            m_northButtonText = m_northButtonParent.GetComponentsInChildren<Image>()[1];
-            m_northButtonTarget = m_northButtonParent.GetComponentsInChildren<Image>()[2];
+            m_northButtonIcon = m_northButtonParent.GetComponentInChildren<Image>(true);
+            m_northButtonText = m_northButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_northButtonTarget = m_northButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // East button assignments
-            m_eastButtonIcon = m_eastButtonParent.GetComponentInChildren<Image>();
-            m_eastButtonText = m_eastButtonParent.GetComponentsInChildren<Image>()[1];
-            m_eastButtonTarget = m_eastButtonParent.GetComponentsInChildren<Image>()[2];
+            m_eastButtonIcon = m_eastButtonParent.GetComponentInChildren<Image>(true);
+            m_eastButtonText = m_eastButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_eastButtonTarget = m_eastButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // South button assignments
-            m_southButtonIcon = m_southButtonParent.GetComponentInChildren<Image>();
-            m_southButtonText = m_southButtonParent.GetComponentsInChildren<Image>()[1];
-            m_southButtonTarget = m_southButtonParent.GetComponentsInChildren<Image>()[2];
+            m_southButtonIcon = m_southButtonParent.GetComponentInChildren<Image>(true);
+            m_southButtonText = m_southButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_southButtonTarget = m_southButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // West button assignments
-            m_westButtonIcon = m_westButtonParent.GetComponentInChildren<Image>();
-            m_westButtonText = m_westButtonParent.GetComponentsInChildren<Image>()[1];
-            m_westButtonTarget = m_westButtonParent.GetComponentsInChildren<Image>()[2];
+            m_westButtonIcon = m_westButtonParent.GetComponentInChildren<Image>(true);
+            m_westButtonText = m_westButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_westButtonTarget = m_westButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // Left Shoulder button assignments
-            m_lShoulderButtonIcon = m_lShoulderButtonParent.GetComponentInChildren<Image>();
-            m_lShoulderButtonText = m_lShoulderButtonParent.GetComponentsInChildren<Image>()[1];
-            m_lShoulderButtonTarget = m_lShoulderButtonParent.GetComponentsInChildren<Image>()[2];
+            m_lShoulderButtonIcon = m_lShoulderButtonParent.GetComponentInChildren<Image>(true);
+            m_lShoulderButtonText = m_lShoulderButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_lShoulderButtonTarget = m_lShoulderButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // Left Trigger button assignments
-            m_lTriggerButtonIcon = m_lTriggerButtonParent.GetComponentInChildren<Image>();
-            m_lTriggerButtonText = m_lTriggerButtonParent.GetComponentsInChildren<Image>()[1];
-            m_lTriggerButtonTarget = m_lTriggerButtonParent.GetComponentsInChildren<Image>()[2];
+            m_lTriggerButtonIcon = m_lTriggerButtonParent.GetComponentInChildren<Image>(true);
+            m_lTriggerButtonText = m_lTriggerButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_lTriggerButtonTarget = m_lTriggerButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // Right Shoulder button assignments
-            m_rShoulderButtonIcon = m_rShoulderButtonParent.GetComponentInChildren<Image>();
-            m_rShoulderButtonText = m_rShoulderButtonParent.GetComponentsInChildren<Image>()[1];
-            m_rShoulderButtonTarget = m_rShoulderButtonParent.GetComponentsInChildren<Image>()[2];
+            m_rShoulderButtonIcon = m_rShoulderButtonParent.GetComponentInChildren<Image>(true);
+            m_rShoulderButtonText = m_rShoulderButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_rShoulderButtonTarget = m_rShoulderButtonParent.GetComponentsInChildren<Image>(true)[2];
 
             // Right Trigger button assignments
-            m_rTriggerButtonIcon = m_rTriggerButtonParent.GetComponentInChildren<Image>();
-            m_rTriggerButtonText = m_rTriggerButtonParent.GetComponentsInChildren<Image>()[1];
-            m_rTriggerButtonTarget = m_rTriggerButtonParent.GetComponentsInChildren<Image>()[2];
-
+            m_rTriggerButtonIcon = m_rTriggerButtonParent.GetComponentInChildren<Image>(true);
+            m_rTriggerButtonText = m_rTriggerButtonParent.GetComponentsInChildren<Image>(true)[1];
+            m_rTriggerButtonTarget = m_rTriggerButtonParent.GetComponentsInChildren<Image>(true)[2];
         }
         //*** Panel ***//
         [SerializeField]
