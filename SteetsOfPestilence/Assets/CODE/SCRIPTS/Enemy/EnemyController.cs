@@ -82,6 +82,10 @@ namespace EnemyAI
         private bool m_isInCombat = false;
         #endregion
 
+        #region SFX Vars
+        private SFXController_Enemy m_enemySFX;
+        #endregion
+
         #region Mesh & Particles & Colliders Vars
         private bool m_particlesPlaying = false;
         private ParticleSystem[] m_enemyParticles;
@@ -99,6 +103,7 @@ namespace EnemyAI
             m_defaultStoppingDistance = m_agent.stoppingDistance;
             m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
             m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
+            m_enemySFX = transform.parent.GetComponentInChildren<SFXController_Enemy>();
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
             m_homeRotation = transform.parent.forward;
@@ -371,6 +376,5 @@ namespace EnemyAI
             m_agent.destination = m_combatPos;
             Recentering = false;
         }
-        
     }
 }

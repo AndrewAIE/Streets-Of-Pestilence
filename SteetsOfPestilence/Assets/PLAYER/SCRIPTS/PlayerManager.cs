@@ -110,6 +110,7 @@ namespace PlayerController
         #region Startup
         private void Awake()
         {
+            Debug.Log("Game Started");
             //get player scripts
             _animation = GetComponent<AnimationController>();
 
