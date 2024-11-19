@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: 0.19
+    m_OverrideState: 1
+    m_Value: 0.17
   contrast:
     m_OverrideState: 1
-    m_Value: 8.77
+    m_Value: 38
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -108,7 +108,7 @@ MonoBehaviour:
     m_Value: 0
   blueOutBlueIn:
     m_OverrideState: 1
-    m_Value: 113
+    m_Value: 49
 --- !u!114 &-5344818697184066043
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -124,7 +124,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   gaussianStart:
     m_OverrideState: 1
     m_Value: 51
@@ -170,7 +170,7 @@ MonoBehaviour:
   active: 1
   temperature:
     m_OverrideState: 1
-    m_Value: 6
+    m_Value: 16
   tint:
     m_OverrideState: 0
     m_Value: -22
@@ -197,6 +197,7 @@ MonoBehaviour:
   - {fileID: 1713014646086518778}
   - {fileID: -3143298905014941079}
   - {fileID: -8426296463006845045}
+  - {fileID: 3083402687877035430}
 --- !u!114 &663407709536188416
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -218,7 +219,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.243
+    m_Value: 0.36
   smoothness:
     m_OverrideState: 1
     m_Value: 0.869
@@ -265,10 +266,10 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.83860147, y: 0.86075026, z: 1, w: 0}
+    m_Value: {x: 0.79348975, y: 0.8830169, z: 1, w: 0.020040082}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8112614, z: 0.8039217, w: 0}
+    m_Value: {x: 1, y: 0.7965534, z: 0.7666209, w: 0}
   highlights:
     m_OverrideState: 0
     m_Value: {x: 1, y: 0.9760653, z: 0.9570484, w: 0}
@@ -284,6 +285,22 @@ MonoBehaviour:
   highlightsEnd:
     m_OverrideState: 0
     m_Value: 1
+--- !u!114 &3083402687877035430
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
 --- !u!114 &9182397257543230092
 MonoBehaviour:
   m_ObjectHideFlags: 3
