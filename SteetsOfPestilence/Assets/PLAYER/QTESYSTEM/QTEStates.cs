@@ -134,7 +134,7 @@ namespace QTESystem
             //set new time limit and reset timer
             m_qteManager.ActiveAction.Started = false;
             m_qteManager.ActiveAction.IncorrectInput = null;
-            m_qteManager.QteDisplay.SetIconColor(m_qteManager.ActiveDisplayList, Color.white);            
+            m_qteManager.QteDisplay.ResetAllActiveIconColours();
             m_timeLimit = m_qteManager.ActiveStream.BetweenActionTimer;
             m_qteManager.Timer = 0;
         }
