@@ -137,6 +137,15 @@ namespace QTESystem
                 return m_displayLeadInTime[0];
             }
         }
+
+        public override void CreateInputRings()
+        {
+            foreach(QTEInput input in InputList)
+            {
+                m_qteDisplay.CreateInputPrompt(input);
+            }    
+
+        }
     }
 }
 

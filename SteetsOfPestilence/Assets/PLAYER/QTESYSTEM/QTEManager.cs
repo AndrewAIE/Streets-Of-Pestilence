@@ -312,9 +312,7 @@ namespace QTESystem
                 default:
                     break;
             }            
-        }
-
-        
+        }        
 
         //Comment
         public QTEStreamData SelectRandomStream()
@@ -332,11 +330,15 @@ namespace QTESystem
             return selectedStream;
         }
 
-        public void ActivateInputCues(List<QTEInput> _streamInputs)
+        public void ActivateInputCues()
         {
-            foreach (QTEInput input in _streamInputs)
+            foreach (QTEStreamData streamData in ActiveStreamData)
             {
-                QteDisplay.CreateInputPrompt(input);
+                for(int i = 0; i < streamData.Actions.Count; i++)
+                {
+                    Debug.Log($"Creating Action {i} for {streamData.name}");
+                    streamData.Actions[i].CreateInputRings();
+                }
             }
         }
 

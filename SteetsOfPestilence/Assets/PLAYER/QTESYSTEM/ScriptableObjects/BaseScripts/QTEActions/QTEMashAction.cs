@@ -94,7 +94,12 @@ public class QTEMashAction : QTEAction
         {
             m_qteDisplay.AnimateMashCue(m_timeLimit, i, InputList[i]);
         }
-    }    
+    }
+
+    public override void CreateInputRings()
+    {
+        
+    }
 }
 
     
