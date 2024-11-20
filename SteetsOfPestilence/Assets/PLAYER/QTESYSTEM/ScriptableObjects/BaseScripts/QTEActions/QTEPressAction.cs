@@ -87,5 +87,14 @@ namespace QTESystem
         {
             
         }
+
+        public override void CreateInputRings()
+        {
+            foreach (QTEInput input in InputList)
+            {
+                m_qteDisplay.CreateInputPrompt(input);
+            }
+
+        }
     }
 }

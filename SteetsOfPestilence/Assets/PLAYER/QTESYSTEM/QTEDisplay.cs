@@ -33,6 +33,11 @@ namespace QTESystem
         GameObject m_faceButtonCue;
         [SerializeField]
         GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
+        [Header("Visual Cue Hold Prefabs")]
+        [SerializeField]
+        GameObject m_faceButtonHoldCue;
+        [SerializeField]
+        GameObject m_lShoulderButtonHoldCue, m_rShoulderButtonHoldCue, m_lTriggerHoldCue, m_rTriggerHoldCue;
 
         [SerializeField]
         float m_cueSizeRatio;
@@ -130,8 +135,6 @@ namespace QTESystem
                 }                
             }
         }
-
-
         public void SetIconColor(QTEInput _iconToSet, Color _color)
         {            
             switch (_iconToSet)
@@ -379,6 +382,37 @@ namespace QTESystem
             }            
         }
 
+        public void CreateHoldInputPrompt(QTEInput _input)
+        {
+            switch (_input)
+            {
+                case QTEInput.NorthFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[0].transform));
+                    break;
+                case QTEInput.EastFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[1].transform));
+                    break;
+                case QTEInput.SouthFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[2].transform));
+                    break;
+                case QTEInput.WestFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[3].transform));
+                    break;
+                case QTEInput.LeftShoulder:
+                    ActiveVisualCues.Add(Instantiate(m_lShoulderButtonHoldCue, m_buttonParents[4].transform));
+                    break;
+                case QTEInput.RightShoulder:
+                    ActiveVisualCues.Add(Instantiate(m_rShoulderButtonHoldCue, m_buttonParents[5].transform));
+                    break;
+                case QTEInput.LeftTrigger:
+                    ActiveVisualCues.Add(Instantiate(m_lTriggerHoldCue, m_buttonParents[6].transform));
+                    break;
+                case QTEInput.RightTrigger:
+                    ActiveVisualCues.Add(Instantiate(m_rTriggerHoldCue, m_buttonParents[7].transform));
+                    break;
+            }
+        }        
+
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
             Vector2 targetSize = GetIcon(_input).rectTransform.sizeDelta;            
@@ -427,7 +461,7 @@ namespace QTESystem
             
         }
         /// <summary>
-        /// Turn alphpa of cue to 0
+        /// Turn alpha of cue to 0
         /// </summary>
         /// <param name="_index"></param>
         public void DeactivateCue(int _index)

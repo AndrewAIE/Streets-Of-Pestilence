@@ -141,4 +141,13 @@ public class QTEHoldAction : QTEAction
             }
         }        
     }
+
+    public override void CreateInputRings()
+    {
+        foreach (QTEInput input in InputList)
+        {
+            m_qteDisplay.CreateHoldInputPrompt(input);
+        }
+
+    }
 }
