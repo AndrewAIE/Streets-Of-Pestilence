@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseAltitude: 0
   useXYZDistance: 1
-  densityLinear: 0.31
-  densityExponential: 0.7
-  maxHeight: 10000
+  densityLinear: 0.47
+  densityExponential: 0.66
+  maxHeight: 100000
   distanceMax: 100000
-  tintColor: {r: 0.2932983, g: 0.2932983, b: 0.3679245, a: 0.7372549}
+  tintColor: {r: 0.29142934, g: 0.29142934, b: 0.3490566, a: 0.7372549}
   useVerticalGradient: 1
   verticalGradient:
     serializedVersion: 2
@@ -53,11 +53,11 @@ MonoBehaviour:
   depthClip: 1
   noiseColorBlend: 0.1
   noiseColor: {r: 0.6862745, g: 0.7058824, b: 0.7137255, a: 1}
-  scale: 50
+  scale: 1
   shift: 0
   noiseDistanceAtten: 1
   turbulence: 10
-  speed: 0.1
+  speed: 0.05
   direction: {x: 0.1, y: 0, z: 0}
   lightDiffusionPower: 32
   lightDiffusionIntensity: 0.4
