@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b95293c9f79f6047b4b658dba2354e4, type: 3}
-  m_Name: Dog02_Stream_03_C
+  m_Name: Dog02_Stream_04_B
   m_EditorClassIdentifier: 
   Actions:
+  - {fileID: 11400000, guid: 6e04a6d15b3a84b4184607f057bb6e9f, type: 2}
   - {fileID: 11400000, guid: 451027793af232341af95965659343d2, type: 2}
-  ActionTimer: 0.75
+  ActionTimer: 0.6
   SuccessBuffer: 0.15
-  BetweenActionTimer: 0.2
+  BetweenActionTimer: 0
   BeginningOfStreamPause: 0
   EndOfStreamPause: 0
