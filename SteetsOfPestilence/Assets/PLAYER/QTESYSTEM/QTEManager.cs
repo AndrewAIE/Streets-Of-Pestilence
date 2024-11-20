@@ -472,13 +472,13 @@ namespace QTESystem
         {
             yield return new WaitForSecondsRealtime(0.35f);            
             int count = QteDisplay.FinishingCues.Count;
-            Debug.Log($"Number of rings to be removed {count}");
+            //Debug.Log($"Number of rings to be removed {count}");
             for (int i = 0; i < count; i++)
             {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);
-                Debug.Log($"Removing ring {i + 1}");
+                //Debug.Log($"Removing ring {i + 1}");
             }
         }
         #endregion
