@@ -49,22 +49,14 @@ namespace QTESystem
         private void Awake()
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
-            m_audio = FindObjectOfType<SFXController_Player>();
-
-            int x = 0;
-            int y = 0;
+            m_audio = FindObjectOfType<SFXController_Player>();            
             //assign all button parents and their icons
             for(int i = 0; i < m_buttonImages.GetLength(0); i++)
-            {
-                y = 0;
+            {                
                 for(int j = 0; j < m_buttonImages.GetLength(1); j++)
-                {
-                    
-                    Debug.Log($"Array number {x},{y}");
-                    m_buttonImages[i, j] = m_buttonParents[i].GetComponentsInChildren<Image>()[j];
-                    y++;
-                }
-                x++;
+                {                   
+                    m_buttonImages[i, j] = m_buttonParents[i].GetComponentsInChildren<Image>()[j];                    
+                }                
             }
         }
 
@@ -483,25 +475,22 @@ namespace QTESystem
                     Image[] iconImages = gObject.GetComponentsInChildren<Image>();
                     foreach(Image image in iconImages)
                     {
-                        images.Add(image);
+                        m_iconAnimation.FadeInUI(image, _duration, Color.white);
                     }
                 }
             }
-            //Get active mask panel image
+            //Fade mask panel images to reduced opacity
             foreach(GameObject gObject in m_maskPanels)
             {
+                Color fadedOpacity = new Color(1, 1, 1, 0.3f);
                 if(gObject.activeInHierarchy)
                 {
                     Image image = gObject.GetComponentInChildren<Image>();
-                    images.Add(image);
+                    m_iconAnimation.FadeInUI(image, _duration, fadedOpacity);
                     break;
                 }
             }
-            //Fade all UI images
-            foreach(Image image in images)
-            {
-                m_iconAnimation.FadeInUI(image, _duration);
-            }           
+                     
         }
         /// <summary>
         /// Fade Active UI panels to 0 alpha
@@ -544,17 +533,14 @@ namespace QTESystem
                 m_iconAnimation.FadeOutUI(image, _duration);
             }
         }
-
         public void Pause()
         {
             m_iconAnimation.Pause();
         }
-
         public void Resume()
         {
             m_iconAnimation.Resume();
         }
-
         public void ClearTweens()
         {
             m_iconAnimation.ClearTweens();
