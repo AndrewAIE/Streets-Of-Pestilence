@@ -499,7 +499,7 @@ namespace QTESystem
             Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
             foreach (Image image in poiseBarImages)
             {
-                images.Add(image);
+                m_iconAnimation.FadeInUI(image, _duration, Color.white);
             }
             //Get all Images from the active icon panels
             foreach (GameObject gObject in m_iconPanels)

@@ -336,6 +336,7 @@ namespace QTESystem
             {
                 for(int i = 0; i < streamData.Actions.Count; i++)
                 {
+                    Debug.Log($"Creating Action {i} for {streamData.name}");
                     streamData.Actions[i].CreateInputRings();
                 }
             }

@@ -48,8 +48,7 @@ namespace QTESystem
             m_qteManager.ChangeInPoiseValue = 0;
             m_qteManager.StreamPosition = 0;
             m_qteManager.AvailableSuccessPoints = 0;
-            m_qteManager.CurrentSuccessPoints = 0;
-            m_qteManager.ActivateInputCues(m_qteManager.GetStreamActionInputs());
+            m_qteManager.CurrentSuccessPoints = 0;            
             //set new timer data and set timer to 0                    
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
             m_qteManager.Timer = 0;            
@@ -83,8 +82,9 @@ namespace QTESystem
             m_activeAction = _manager.ActiveAction;
             m_qteManager.Timer = 0;            
             //Set new active action
-            m_activeAction = m_qteManager.CreateAction();            
+            m_activeAction = m_qteManager.CreateAction();
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
+            m_activeAction.CreateInputRings();
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
             m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;        
                         

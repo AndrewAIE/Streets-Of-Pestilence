@@ -14,10 +14,11 @@ public class QTEHoldAction : QTEAction
     {       
         m_totalTime = m_holdDuration + m_timeLimit;
         m_inputsToBeHeld = new List<InputAction>();
+        Color ringColor = new Color(0.5f, 0, 0, 1);
         for(int i = 0; i < m_readyInputs.Count; i++)
         {
             m_inputsToBeHeld.Add(m_readyInputs[i]);
-            m_qteDisplay.ActivateCue(i, Color.red);            
+            m_qteDisplay.ActivateCue(i, ringColor);            
             m_qteDisplay.AnimateCue(m_timeLimit, i, InputList[i]);
         }
     }
