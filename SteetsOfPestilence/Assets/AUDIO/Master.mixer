@@ -106,7 +106,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ambience ~ Loops
+  m_Name: Ambience ~ Wind Loop
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a0f81272b474ed6428b0815db916ecc3
   m_Children: []
@@ -441,8 +441,12 @@ AudioMixerController:
   m_AudioMixerGroupViews:
   - guids:
     - 3eef1881db3f6b947aa1b3346326f867
+    - 723ff28b3e8b12f42a51fc68751cd160
+    - a0f81272b474ed6428b0815db916ecc3
+    - 2735ebad60a1d31429017b0200e9c28c
     - 7bb9281d12cebef48a05717ad01003ed
     - cbdf8528285039d4888e9f790f75604c
+    - 09d714fe46567b944991fbf2b0e982c8
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -552,9 +556,11 @@ AudioMixerSnapshotController:
     21dfb64b45e78de42a5aea13ebd7486f: 62.8
     7ce65c6b05602634eaaf998477d07bcb: 71.8
     0b3cd17be1770e749b05fa0827c51952: 0.129
+    fd95347b94b10d14c813a9f757efff98: -14.816608
     2cd674abb1e38254aa876c7de014547c: 3275
     465ebe6c5daa7d647b1b231322cb0944: -9171
     450ea89cea596b249ad68989b11caec9: -3.8468575
+    365f813d35f483d4d8a98b89026292df: 5.1526933
     9b77eb5d0a5924c449aa09e0ec5a439c: 1
     59689b8dad339274a95be6b1d2b67a25: 0.039
     6dc503cd8d0db6047bd5c38cb5283720: 157
@@ -562,16 +568,30 @@ AudioMixerSnapshotController:
     116c9b0e556785b488c439fb1b6a4a3e: -9336
     94ae1c3e915ba6b4d9d5973c11ee34fd: 0.03
     01892a0f380b88e42949f5b878b2e017: 0
-    8c24301f49715e44d96ba5b66246b2e6: 0.10800299
+    8c24301f49715e44d96ba5b66246b2e6: 0.23288241
     64b3672f812cdce4e8b1d119004d0bfa: -6401
     d41f877f1bcd14743813ae07d28a008d: 72.2
     efbb1dafdfe72b04fb11607382dbfce3: 0.444
-    9d40f2bf04b32d84cb320387043704e1: 0
+    9d40f2bf04b32d84cb320387043704e1: 9.757735
     98fceccf6ff9ea54eaff0980faeeeb8d: 2
     2ba3f2dff0ec6cf4a9921570d505c63b: 2152
     ae4bdaef60ca88f42b2225ba8693fd4d: 0
     41ba3aff87420ac46997325ded699a9d: 0.729
   m_TransitionOverrides: {}
+--- !u!244 &118803145776909358
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Attenuation
+  m_EffectID: 99aa89fe04a5e2b4b95eaa54946cb926
+  m_EffectName: Attenuation
+  m_MixLevel: 2963bf11505fc3245af851f9fc812241
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &139659055050919860
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -611,6 +631,7 @@ AudioMixerGroupController:
   m_GroupID: 723ff28b3e8b12f42a51fc68751cd160
   m_Children:
   - {fileID: -7747464166942717230}
+  - {fileID: 1043281952526869565}
   - {fileID: -3180489330221017291}
   m_Volume: 8c24301f49715e44d96ba5b66246b2e6
   m_Pitch: c2590cd0405091d4fbfb13d241877619
@@ -618,6 +639,25 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: 139659055050919860}
   - {fileID: -5299367542058798766}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &1043281952526869565
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ambience ~ Screams Loop
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 09d714fe46567b944991fbf2b0e982c8
+  m_Children: []
+  m_Volume: fd95347b94b10d14c813a9f757efff98
+  m_Pitch: 90dfa67f3a7c3fb468a857b4b56efebe
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 118803145776909358}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
