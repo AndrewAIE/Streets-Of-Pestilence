@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -151,18 +151,275 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_pausemenuSet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 408
+        width: 1082
+        height: 1640
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d627996bde3ba5d4db292e64b899f4db
+      internalID: 1184452382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_3
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 1762
+        width: 493
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42c3c69c09d26454681c4bc724b24528
+      internalID: 377665032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_14
+      rect:
+        serializedVersion: 2
+        x: 1165
+        y: 1437
+        width: 869
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1415f2568ea473248b05ffc80c30eb44
+      internalID: 279399237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_38
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 721
+        width: 863
+        height: 333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0b133071e95c0b4894754f69957fe64
+      internalID: -1199258418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_48
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 467
+        width: 589
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c2c682cf9937f046a9a2840a2ad2dca
+      internalID: -137812193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_54
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 19
+        width: 224
+        height: 315
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23cacafe77157c249842737b230de5c2
+      internalID: 1477232290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_59
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 124
+        width: 1025
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fe2e090933378446ad926bce209ffe1
+      internalID: -727939988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_pausemenuSet_80
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 40
+        width: 1262
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73e44eed1192097489acc143d264f84d
+      internalID: 254596271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b21f5faa1f881ef4b8b7494cb0d9d310
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_pausemenuSet_0: 1184452382
+      UI_pausemenuSet_1: -1736173804
+      UI_pausemenuSet_10: -1314198607
+      UI_pausemenuSet_11: 320793014
+      UI_pausemenuSet_12: -1698659335
+      UI_pausemenuSet_13: 308696079
+      UI_pausemenuSet_14: 279399237
+      UI_pausemenuSet_15: -83124008
+      UI_pausemenuSet_16: -417472690
+      UI_pausemenuSet_17: -1468781809
+      UI_pausemenuSet_18: 1134065010
+      UI_pausemenuSet_19: 1091930448
+      UI_pausemenuSet_2: -361281406
+      UI_pausemenuSet_20: 1819279745
+      UI_pausemenuSet_21: -1733001805
+      UI_pausemenuSet_22: 1956317886
+      UI_pausemenuSet_23: 501356921
+      UI_pausemenuSet_24: -671646923
+      UI_pausemenuSet_25: 125410400
+      UI_pausemenuSet_26: 1643430024
+      UI_pausemenuSet_27: 1922900609
+      UI_pausemenuSet_28: -211532501
+      UI_pausemenuSet_29: -1816286895
+      UI_pausemenuSet_3: 377665032
+      UI_pausemenuSet_30: 1727601080
+      UI_pausemenuSet_31: 738429838
+      UI_pausemenuSet_32: 155160054
+      UI_pausemenuSet_33: 222833977
+      UI_pausemenuSet_34: -90871551
+      UI_pausemenuSet_35: 226793875
+      UI_pausemenuSet_36: -2033011976
+      UI_pausemenuSet_37: 1437129089
+      UI_pausemenuSet_38: -1199258418
+      UI_pausemenuSet_39: 2014179444
+      UI_pausemenuSet_4: -412685100
+      UI_pausemenuSet_40: 1534519010
+      UI_pausemenuSet_41: 1902874419
+      UI_pausemenuSet_42: 128935725
+      UI_pausemenuSet_43: 254295018
+      UI_pausemenuSet_44: -1585261531
+      UI_pausemenuSet_45: -1238691167
+      UI_pausemenuSet_46: -1944838972
+      UI_pausemenuSet_47: 1290830843
+      UI_pausemenuSet_48: -137812193
+      UI_pausemenuSet_49: -1565301175
+      UI_pausemenuSet_5: -987237545
+      UI_pausemenuSet_50: -219452177
+      UI_pausemenuSet_51: 764378454
+      UI_pausemenuSet_52: 1597829901
+      UI_pausemenuSet_53: 1282216254
+      UI_pausemenuSet_54: 1477232290
+      UI_pausemenuSet_55: -833435140
+      UI_pausemenuSet_56: 2134496407
+      UI_pausemenuSet_57: 1634693691
+      UI_pausemenuSet_58: -587485743
+      UI_pausemenuSet_59: -727939988
+      UI_pausemenuSet_6: -708409013
+      UI_pausemenuSet_60: 1052647606
+      UI_pausemenuSet_61: -1929446946
+      UI_pausemenuSet_62: 965412952
+      UI_pausemenuSet_63: 72359912
+      UI_pausemenuSet_64: -749623392
+      UI_pausemenuSet_65: -142020839
+      UI_pausemenuSet_66: 967840698
+      UI_pausemenuSet_67: -1021954899
+      UI_pausemenuSet_68: -1829866845
+      UI_pausemenuSet_69: -687747973
+      UI_pausemenuSet_7: -1588653251
+      UI_pausemenuSet_70: -1035777829
+      UI_pausemenuSet_71: 1652786028
+      UI_pausemenuSet_72: 1542822662
+      UI_pausemenuSet_73: 982287157
+      UI_pausemenuSet_74: -1241144428
+      UI_pausemenuSet_75: 41459575
+      UI_pausemenuSet_76: -1296677268
+      UI_pausemenuSet_77: -639335173
+      UI_pausemenuSet_78: -1874973479
+      UI_pausemenuSet_79: 1128484803
+      UI_pausemenuSet_8: 826576588
+      UI_pausemenuSet_80: 254596271
+      UI_pausemenuSet_81: -559546659
+      UI_pausemenuSet_82: -940253280
+      UI_pausemenuSet_83: -1197670537
+      UI_pausemenuSet_84: -544548429
+      UI_pausemenuSet_85: -300481648
+      UI_pausemenuSet_86: -908679247
+      UI_pausemenuSet_87: 972427695
+      UI_pausemenuSet_88: 453459142
+      UI_pausemenuSet_9: 583593556
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

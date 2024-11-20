@@ -8,15 +8,16 @@ namespace Management
     {
         private void Awake()
         {
-            Button firstButton = GetComponentInChildren<Button>();
-            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
-        }
 
+        }
+        private Button button;
         private void Update()
         {
-            Button button = GetComponentInChildren<Button>();
-            if (EventSystem.current == null) 
+            if (button == null)
+            {
+                button = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(button.gameObject);
+            }
         }
 
         public void StartGame()
