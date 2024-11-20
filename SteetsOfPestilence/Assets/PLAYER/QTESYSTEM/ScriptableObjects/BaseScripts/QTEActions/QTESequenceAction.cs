@@ -56,14 +56,11 @@ namespace QTESystem
                 }
             }
             
+
             if (m_state == ActionState.running)
             {
-                //return success when sequence has finished
-                if (m_timer >= m_maxTime)
-                {
-                    m_state = ActionState.success;
-                    m_timeUp = true;
-                }              
+                
+                         
                 
                 if(m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) + m_inputTransferBuffer)
                 {                    
@@ -77,6 +74,12 @@ namespace QTESystem
                 m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                 m_qteDisplay.DeactivateCue(m_activeTimeSlot);
                 m_actionComplete = true;
+            }
+            //return success when sequence has finished
+            if (m_timer >= m_maxTime)
+            {
+                m_state = ActionState.success;
+                m_timeUp = true;
             }
             return m_state;
         }        

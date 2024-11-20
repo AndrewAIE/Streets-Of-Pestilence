@@ -19,6 +19,7 @@ public class QTECombatAnimation : MonoBehaviour
     {
         m_playerAnim.SetTrigger(_animation);
         m_enemyAnim.SetTrigger(_animation);
+        
     }
 
     public void ResetTriggers()
@@ -42,7 +43,7 @@ public class QTECombatAnimation : MonoBehaviour
     public void SelectAnimation(int _poiseValue)
     {
         EndState = false;
-        m_index++;
+        //m_index++;
         if (m_index >= 2)
             m_index = 0;
         switch(_poiseValue)
@@ -51,15 +52,17 @@ public class QTECombatAnimation : MonoBehaviour
                 break;
             case <= -10:
                 break;
-            case < -4:
+            case <= -4:
                 if(m_index == 0)
                 {
                     PlayAnimation("EnemyAdvantageOne");
+                    Debug.Log("enemyAttackOne");
                     break;
-                }
+                }                
                 PlayAnimation("EnemyAdvantageTwo");
-                    break;
-            case > 4:
+                Debug.Log("enemyAttackTwo");
+                break;
+            case >= 4:
                 if (m_index == 0)
                 {
                     PlayAnimation("PlayerAdvantageOne");
