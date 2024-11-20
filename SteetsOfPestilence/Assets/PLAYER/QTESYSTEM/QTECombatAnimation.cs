@@ -18,8 +18,7 @@ public class QTECombatAnimation : MonoBehaviour
     public void PlayAnimation(string _animation)
     {
         m_playerAnim.SetTrigger(_animation);
-        m_enemyAnim.SetTrigger(_animation);
-        
+        m_enemyAnim.SetTrigger(_animation);        
     }
 
     public void ResetTriggers()
@@ -43,7 +42,7 @@ public class QTECombatAnimation : MonoBehaviour
     public void SelectAnimation(int _poiseValue)
     {
         EndState = false;
-        //m_index++;
+        m_index++;
         if (m_index >= 2)
             m_index = 0;
         switch(_poiseValue)
