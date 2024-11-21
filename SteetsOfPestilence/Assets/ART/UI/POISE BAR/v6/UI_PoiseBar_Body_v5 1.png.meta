@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: e90091a7b88733640ad5019370d43d15
+guid: 7af3ded3e46147c45811bb0e9e413d6e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -151,18 +151,152 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_PoiseBar_Body_v6
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 872
+        width: 424
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62ac4d8b7265d846a54f0345666f648
+      internalID: 821674940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PoiseBar_Plunger_v6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 746
+        width: 1012
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71e06c2b85ee71c43ad24db3258b61e4
+      internalID: -925797962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PoiseBar_Handle_v6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 449
+        width: 129
+        height: 277
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12c2d92cd9d9769489fb676d510d6fd7
+      internalID: -656862627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PoiseBar_Tip_v6
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 552
+        width: 59
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8151f61a101f66242adf148aff062bbd
+      internalID: 379652708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PoiseBar_Needle_v6
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 587
+        width: 316
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 987951df782bd8d41a5297429f690eb9
+      internalID: 1091926934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_PoiseBar_Markers_v6
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 376
+        width: 638
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc09c5a413d783344913691d9aced996
+      internalID: 656656085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7ea5109256a94d444a03abd9d6a008b8
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_PoiseBar_Body_v5 1: 264074507
+      UI_PoiseBar_Body_v5 1_6: -695735462
+      UI_PoiseBar_Body_v6: 821674940
+      UI_PoiseBar_Handle_v6: -656862627
+      UI_PoiseBar_Markers_v6: 656656085
+      UI_PoiseBar_Needle_v6: 1091926934
+      UI_PoiseBar_Plunger_v6: -925797962
+      UI_PoiseBar_Tip_v6: 379652708
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
