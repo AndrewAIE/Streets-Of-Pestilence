@@ -99,6 +99,8 @@ namespace PlayerController
             //assign loops to player ambience
             _lampAmbience.clip = _playerData.SFX_Player_LampAmbience_clip;
             _lowPoiseAmbience.clip = _playerData.SFX_Player_LowPoiseAmbience_clip;
+
+
         }
 
         #endregion
@@ -587,28 +589,3 @@ namespace PlayerController
     }
 }
 
-
-/*
-#region SFX
-private void OnFootstep(AnimationEvent animationEvent)
-{
-    if (animationEvent.animatorClipInfo.weight > 0.5f)
-    {
-        if (FootstepAudioClips.Length > 0)
-        {
-            var index = Random.Range(0, FootstepAudioClips.Length);
-            AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_manager.centerPoint), FootstepAudioVolume);
-        }
-    }
-}
-
-private void OnLand(AnimationEvent animationEvent)
-{
-    if (animationEvent.animatorClipInfo.weight > 0.5f)
-    {
-        AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_manager.centerPoint), _manager._data.FootstepAudioVolume);
-    }
-}
-
-#endregion*/
-        
