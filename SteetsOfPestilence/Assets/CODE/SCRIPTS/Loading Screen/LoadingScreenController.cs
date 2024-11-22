@@ -24,7 +24,7 @@ public class LoadingScreenController : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             // Update progress bar (value between 0 and 1)
-            progressBar.value = asyncLoad.progress / 0.9f;
+            if(progressBar) progressBar.value = asyncLoad.progress / 0.9f;
 
             // Check if the scene has finished loading
             if (asyncLoad.progress >= 0.9f)
