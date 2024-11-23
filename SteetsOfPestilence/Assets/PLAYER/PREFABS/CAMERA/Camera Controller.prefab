@@ -281,6 +281,11 @@ PrefabInstance:
     - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
         type: 3}
       propertyPath: m_Damping
+      value: 3.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_Strategy
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
@@ -290,13 +295,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
         type: 3}
+      propertyPath: m_MaximumEffort
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
       propertyPath: m_SmoothingTime
-      value: 0.5
+      value: 0.329
       objectReference: {fileID: 0}
     - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
         type: 3}
       propertyPath: m_DampingWhenOccluded
-      value: 2
+      value: 3.41
       objectReference: {fileID: 0}
     - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
         type: 3}
