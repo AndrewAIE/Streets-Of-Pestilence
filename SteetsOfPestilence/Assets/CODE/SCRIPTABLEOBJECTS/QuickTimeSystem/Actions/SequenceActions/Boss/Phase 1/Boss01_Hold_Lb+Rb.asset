@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16ca1b527c7a27c4dbe5dce78971902a, type: 3}
-  m_Name: 3.1 Boss_Enounter_01
+  m_Script: {fileID: 11500000, guid: 793abb9986bccf8429421856e898bf9f, type: 3}
+  m_Name: Boss01_Hold_Lb+Rb
   m_EditorClassIdentifier: 
-  NeutralStreamData:
-  - {fileID: 11400000, guid: c1bbbb555e8d4944e922a64422890026, type: 2}
-  OffensiveStreamData: []
-  DefensiveStreamData: []
+  Started: 0
+  IncorrectInput: 
+  CorrectInputs: 0
+  InputList: 0600000004000000
+  m_holdDuration: 0.4
