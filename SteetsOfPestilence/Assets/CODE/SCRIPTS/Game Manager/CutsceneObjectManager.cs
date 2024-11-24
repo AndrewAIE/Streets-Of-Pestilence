@@ -8,6 +8,8 @@ public class CutsceneObjectManager : MonoBehaviour
     private GameObject m_levelLoader;
     [SerializeField]
     private GameObject[] m_enemyObjects;
+    [SerializeField]
+    private GameObject m_playerSFX;
 
     public void DeactivateLevels()
     {
@@ -19,5 +21,10 @@ public class CutsceneObjectManager : MonoBehaviour
         {
             enemy.SetActive(true);
         }
-    }        
+    }
+    
+    public void ActivatePlayerSFX()
+    {
+        m_playerSFX.SetActive(true);
+    }
 }
