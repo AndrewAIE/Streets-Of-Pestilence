@@ -9,8 +9,10 @@ namespace Management
     {
         [SerializeField] bool _interactable;
         [Space]
+        [SerializeField] GameObject _buttonParent;
         [SerializeField] Button _currentButton;
-        
+        [SerializeField] Button[] _buttons;
+        [SerializeField] int _buttonIndex;
         [Space]
         [SerializeField] Color _defaultUnderlay;
         [SerializeField] Color _redUnderlay;
@@ -23,15 +25,9 @@ namespace Management
 
         private void Awake()
         {
-            if (_currentButton == null)
-            {
-                _currentButton = GetComponentInChildren<Button>();
-                EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
-            }
+            _buttons = _buttonParent.GetComponentsInChildren<Button>();
 
-            _pointerOffset.x = _pointerTransform.position.x;
-    
-            _pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
+            _pointerTransform.position = _buttons[_buttonIndex].gameObject.transform.position + _pointerOffset;
         }
 
         private void Update()
@@ -41,18 +37,9 @@ namespace Management
                 _currentButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
             }
-            else
-            {
-                _currentButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-            }
 
             //set pointer position
-            if (_currentButton != null) {
-                //_pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
-                Vector3 newPos = _currentButton.gameObject.transform.position;
-                newPos.x = _pointerOffset.x;
-                _pointerTransform.position = Vector3.Lerp(_pointerTransform.position, newPos , _pointerSpeed * Time.deltaTime);
-            }
+            _pointerTransform.position = Vector3.Lerp(_pointerTransform.position, _buttons[_buttonIndex].gameObject.transform.position + _pointerOffset, _pointerSpeed * Time.deltaTime);
         }
 
         public void StartGame()
