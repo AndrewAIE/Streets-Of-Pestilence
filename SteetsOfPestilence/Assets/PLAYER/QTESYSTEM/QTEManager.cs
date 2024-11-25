@@ -312,9 +312,7 @@ namespace QTESystem
                 default:
                     break;
             }            
-        }
-
-        
+        }        
 
         //Comment
         public QTEStreamData SelectRandomStream()
@@ -332,11 +330,15 @@ namespace QTESystem
             return selectedStream;
         }
 
-        public void ActivateInputCues(List<QTEInput> _streamInputs)
+        public void ActivateInputCues()
         {
-            foreach (QTEInput input in _streamInputs)
+            foreach (QTEStreamData streamData in ActiveStreamData)
             {
-                QteDisplay.CreateInputPrompt(input);
+                for(int i = 0; i < streamData.Actions.Count; i++)
+                {
+                    Debug.Log($"Creating Action {i} for {streamData.name}");
+                    streamData.Actions[i].CreateInputRings();
+                }
             }
         }
 
@@ -397,6 +399,7 @@ namespace QTESystem
         //Player Win
         private void playerWin()
         {
+            
             CombatAnimation.PlayAnimation("PlayerWin");            
             EndOfEncounter();
             Invoke("ReactivatePlayer", 3.8f);
@@ -452,7 +455,7 @@ namespace QTESystem
             }
             if(_context.canceled)
             {
-                QteDisplay.InputReleased(_context.action.name);
+                QteDisplay.ResetAllActiveIconColours();
                 ActiveAction?.OnRelease(_context);
             }                    
         }
@@ -469,13 +472,13 @@ namespace QTESystem
         {
             yield return new WaitForSecondsRealtime(0.35f);            
             int count = QteDisplay.FinishingCues.Count;
-            Debug.Log($"Number of rings to be removed {count}");
+            //Debug.Log($"Number of rings to be removed {count}");
             for (int i = 0; i < count; i++)
             {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);
-                Debug.Log($"Removing ring {i + 1}");
+                //Debug.Log($"Removing ring {i + 1}");
             }
         }
         #endregion

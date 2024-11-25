@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2367929115929912586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5000, y: 50, z: 5000}
+  m_LocalScale: {x: 120, y: 50, z: 120}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3374426492922811478}
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2367929115929912586}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   maskBrushFuzziness: 0.5
   maskBrushOpacity: 0.15
   _fogOfWarTexture: {fileID: 0}
-  profile: {fileID: 11400000, guid: 269ca9cf254254c4d8df7973deb1f888, type: 2}
+  profile: {fileID: 11400000, guid: 99f38e33dd8bb0b4497a6cd62bad270a, type: 2}
   enableFade: 0
   fadeDistance: 1
   fadeController: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2367929116276421958}
   - component: {fileID: 2367929116276421959}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Dynamic Fog Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3374426492922811478}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -73,6 +73,7 @@ namespace QTESystem
             }
         }
         public abstract void CheckInput(InputAction.CallbackContext _context);
+        public abstract void CreateInputRings();
         public abstract void OnRelease(InputAction.CallbackContext _context);
         public List<QTEInput> InputList;
 
@@ -107,7 +108,6 @@ namespace QTESystem
             //Set QTE Display
             m_qteDisplay = _display;
         }
-
         public void CompleteAction()
         {
             m_state = ActionState.complete;

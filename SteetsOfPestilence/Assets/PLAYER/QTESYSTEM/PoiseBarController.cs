@@ -11,6 +11,7 @@ public class PoiseBarController : MonoBehaviour
 
     [Header("Poise Bar Values")]
     [SerializeField] public int _poise = 0;
+    [SerializeField] public int _startPoise = -5;
     [SerializeField] public int _maxPoise = 10;
     [SerializeField] public int _minPoise = -10;
 
@@ -66,7 +67,7 @@ public class PoiseBarController : MonoBehaviour
 
     public void ResetPoise()
     {
-        _poise = 0;
+        _poise = _startPoise;
         UpdatePoiseBar();
     }
 

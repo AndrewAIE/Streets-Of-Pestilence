@@ -9,8 +9,7 @@ namespace QTESystem
         private float[] m_actionTimeLimits;
         private int m_activeTimeSlot;
         private bool[] m_activeBools;                
-        private bool m_allStartBoolsActivated = false;
-        private bool m_sequenceComplete = false;
+        private bool m_allStartBoolsActivated = false;        
         private bool m_actionComplete = false;
         [SerializeField]
         private float[] m_displayLeadInTime;
@@ -56,29 +55,32 @@ namespace QTESystem
                     }
                 }
             }
+            
+
             if (m_state == ActionState.running)
             {
-                //return success when sequence has finished
-                if (m_timer >= m_maxTime)
-                {
-                    m_state = ActionState.success;
-                    m_timeUp = true;
-                }        
                 
-                if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) && !m_actionComplete)
-                {
-                    m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
-                    m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                    m_actionComplete = true;
-                    return m_state;
-                }
-
+                         
+                
                 if(m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) + m_inputTransferBuffer)
                 {                    
                     m_activeTimeSlot++;
                     m_actionComplete = false;
+                    m_qteDisplay.ResetAllActiveIconColours();
                 }
-            }            
+            }
+            if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f) && !m_actionComplete)
+            {
+                m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
+                m_qteDisplay.DeactivateCue(m_activeTimeSlot);
+                m_actionComplete = true;
+            }
+            //return success when sequence has finished
+            if (m_timer >= m_maxTime)
+            {
+                m_state = ActionState.success;
+                m_timeUp = true;
+            }
             return m_state;
         }        
 
@@ -88,14 +90,10 @@ namespace QTESystem
             {
                 return;   
             }
+            m_actionComplete = true;
             if (CheckSuccessWindow() && _context.action == m_readyInputs[m_activeTimeSlot])
             {
-                m_qteDisplay.SuccessfulInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
-                m_actionComplete = true;
-                if (m_activeTimeSlot >= m_activeBools.Length - 1)
-                {
-                    m_sequenceComplete = true;
-                }                              
+                m_qteDisplay.SuccessfulInput(InputList[m_activeTimeSlot], m_activeTimeSlot);                                                            
                 CorrectInputs++;
                 return;
             }
@@ -103,12 +101,7 @@ namespace QTESystem
             {
                 m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                 m_qteDisplay.IncorrectInput(_context.action.name);
-                m_qteDisplay.DeactivateCue(m_activeTimeSlot);
-                m_actionComplete = true;
-                if (m_activeTimeSlot >= m_activeBools.Length - 1)
-                {
-                    m_sequenceComplete = true;
-                }                
+                m_qteDisplay.DeactivateCue(m_activeTimeSlot);                                             
             }           
         }
 
@@ -125,7 +118,6 @@ namespace QTESystem
         {
             
         }
-
         private float GetTimeBetweenInputs(int i)
         {
             if(m_timeBetweenInputs.Length > 1)
@@ -137,7 +129,6 @@ namespace QTESystem
                 return m_timeBetweenInputs[0];
             }
         }
-
         private float GetDisplayLeadInTime(int i)
         {
             if (m_displayLeadInTime.Length > 1)
@@ -148,6 +139,15 @@ namespace QTESystem
             {
                 return m_displayLeadInTime[0];
             }
+        }
+
+        public override void CreateInputRings()
+        {
+            foreach(QTEInput input in InputList)
+            {
+                m_qteDisplay.CreateInputPrompt(input);
+            }    
+
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayerController;
+using UnityEngine.Windows;
+using UnityEngine.Rendering;
+using System.Linq;
 
 namespace QTESystem
 {
@@ -10,68 +13,36 @@ namespace QTESystem
     {
         //******************** Variables *******************//
         #region Variables
-        [Header("Button Icons")]
         [SerializeField]
-        private GameObject m_iconParent;
-        [Space]
-        [SerializeField]
-        private GameObject m_northButtonParent;
-        private Image m_northButtonIcon;
-        private Image m_northButtonText;
-        [SerializeField]
-        private GameObject m_eastButtonParent;
-        private Image m_eastButtonIcon;
-        private Image m_eastButtonText;
-        [SerializeField]
-        private GameObject m_southButtonParent;
-        private Image m_southButtonIcon;
-        private Image m_southButtonText;
-        [SerializeField]
-        private GameObject m_westButtonParent;
-        private Image m_westButtonIcon;
-        private Image m_westButtonText;
-        [SerializeField]
-        private GameObject m_lShoulderButtonParent;
-        private Image m_lShoulderButtonIcon;
-        private Image m_lShoulderButtonText;
-        [SerializeField]
-        private GameObject m_lTriggerButtonParent;
-        private Image m_lTriggerButtonIcon;
-        private Image m_lTriggerButtonText;
-        [SerializeField]
-        private GameObject m_rShoulderButtonParent;
-        private Image m_rShoulderButtonIcon;
-        private Image m_rShoulderButtonText;
-        [SerializeField]
-        private GameObject m_rTriggerButtonParent;
-        private Image m_rTriggerButtonIcon;
-        private Image m_rTriggerButtonText;
-
+        [Tooltip("Order: N, E, S, W, LS, RS, LT, RT")]
+        private GameObject[] m_buttonParents = new GameObject[8];
+        private Image[,] m_buttonImages = new Image[8, 3];
         [Space]
         [Header("QTE System")]
         private List<QTEInput> m_iconsToActivate = new List<QTEInput>();
-
         [Space]
         [Header("Poise Bar")]
         [SerializeField]
         private GameObject m_barObject;
         [SerializeField]
         private PoiseBarController m_poiseBar;
-
         [SerializeField]
-        private List<GameObject> m_iconPanels;        
-        
+        private List<GameObject> m_iconPanels;       
         [Header("Visual Cue Prefabs")]
         [SerializeField]
         GameObject m_faceButtonCue;
         [SerializeField]
         GameObject m_lShoulderButtonCue, m_rShoulderButtonCue, m_lTriggerCue, m_rTriggerCue;
+        [Header("Visual Cue Hold Prefabs")]
+        [SerializeField]
+        GameObject m_faceButtonHoldCue;
+        [SerializeField]
+        GameObject m_lShoulderButtonHoldCue, m_rShoulderButtonHoldCue, m_lTriggerHoldCue, m_rTriggerHoldCue;
 
         [SerializeField]
         float m_cueSizeRatio;
         [HideInInspector]
-        public List<GameObject> ActiveVisualCues, FinishingCues;
-        
+        public List<GameObject> ActiveVisualCues, FinishingCues;        
 
         [HideInInspector]
         public PoiseBarController poiseBarController;
@@ -83,41 +54,17 @@ namespace QTESystem
         private void Awake()
         {
             m_iconAnimation = GetComponentInChildren<QTEUIAnimation>();
-            m_audio = FindObjectOfType<SFXController_Player>();
-
-            // North button assignments
-            m_northButtonIcon = m_northButtonParent.GetComponentInChildren<Image>();
-            m_northButtonText = m_northButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // East button assignments
-            m_eastButtonIcon = m_eastButtonParent.GetComponentInChildren<Image>();
-            m_eastButtonText = m_eastButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // South button assignments
-            m_southButtonIcon = m_southButtonParent.GetComponentInChildren<Image>();
-            m_southButtonText = m_southButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // West button assignments
-            m_westButtonIcon = m_westButtonParent.GetComponentInChildren<Image>();
-            m_westButtonText = m_westButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // Left Shoulder button assignments
-            m_lShoulderButtonIcon = m_lShoulderButtonParent.GetComponentInChildren<Image>();
-            m_lShoulderButtonText = m_lShoulderButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // Left Trigger button assignments
-            m_lTriggerButtonIcon = m_lTriggerButtonParent.GetComponentInChildren<Image>();
-            m_lTriggerButtonText = m_lTriggerButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // Right Shoulder button assignments
-            m_rShoulderButtonIcon = m_rShoulderButtonParent.GetComponentInChildren<Image>();
-            m_rShoulderButtonText = m_rShoulderButtonParent.GetComponentsInChildren<Image>()[1];
-
-            // Right Trigger button assignments
-            m_rTriggerButtonIcon = m_rTriggerButtonParent.GetComponentInChildren<Image>();
-            m_rTriggerButtonText = m_rTriggerButtonParent.GetComponentsInChildren<Image>()[1];
-
+            m_audio = FindObjectOfType<SFXController_Player>();            
+            //assign all button parents and their icons
+            for(int i = 0; i < m_buttonImages.GetLength(0); i++)
+            {                
+                for(int j = 0; j < m_buttonImages.GetLength(1); j++)
+                {                   
+                    m_buttonImages[i, j] = m_buttonParents[i].GetComponentsInChildren<Image>()[j];                    
+                }                
+            }
         }
+
         //*** Panel ***//
         [SerializeField]
         private GameObject[] m_maskPanels;
@@ -173,80 +120,72 @@ namespace QTESystem
         public void SetIconColor(List<QTEInput> _iconsToSet, Color _color)
         {
             for (int i = 0; i < _iconsToSet.Count; i++)
-            {               
-                switch (_iconsToSet[i])
-                {                    
-                    case QTEInput.NorthFace:
-                        m_northButtonIcon.color = _color;
-                        m_northButtonText.color = _color;
-                        break;
-                    case QTEInput.EastFace:
-                        m_eastButtonIcon.color = _color;
-                        m_eastButtonText.color = _color;
-                        break;
-                    case QTEInput.SouthFace:
-                        m_southButtonIcon.color = _color;
-                        m_southButtonText.color = _color;
-                        break;
-                    case QTEInput.WestFace:
-                        m_westButtonIcon.color = _color;
-                        m_westButtonText.color = _color;
-                        break;
-                    case QTEInput.LeftShoulder:
-                        m_lShoulderButtonIcon.color = _color;
-                        m_lShoulderButtonText.color = _color;
-                        break;
-                    case QTEInput.LeftTrigger:
-                        m_lTriggerButtonIcon.color = _color;
-                        m_lTriggerButtonText.color = _color;
-                        break;
-                    case QTEInput.RightShoulder:
-                        m_rShoulderButtonIcon.color = _color;
-                        m_rShoulderButtonText.color = _color;
-                        break;
-                    case QTEInput.RightTrigger:
-                        m_rTriggerButtonIcon.color = _color;
-                        m_rTriggerButtonText.color = _color;
-                        break;
-                }
-            }           
+            {
+                SetIconColor(_iconsToSet[i], _color);
+            }                          
         }
 
+        public void ResetAllActiveIconColours() 
+        {
+            foreach(Image image in m_buttonImages)
+            {
+                if (image.gameObject.activeInHierarchy)
+                {
+                    image.color = Color.white;
+                }                
+            }
+        }
         public void SetIconColor(QTEInput _iconToSet, Color _color)
         {            
             switch (_iconToSet)
             {
                 case QTEInput.NorthFace:
-                    m_northButtonIcon.color = _color;
-                    m_northButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[0, j].color = _color;
+                    }
                     break;
                 case QTEInput.EastFace:
-                    m_eastButtonIcon.color = _color;
-                    m_eastButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[1, j].color = _color;
+                    }
                     break;
                 case QTEInput.SouthFace:
-                    m_southButtonIcon.color = _color;
-                    m_southButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[2, j].color = _color;
+                    }
                     break;
                 case QTEInput.WestFace:
-                    m_westButtonIcon.color = _color;
-                    m_westButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[3, j].color = _color;
+                    }
                     break;
                 case QTEInput.LeftShoulder:
-                    m_lShoulderButtonIcon.color = _color;
-                    m_lShoulderButtonText.color = _color;
-                    break;
-                case QTEInput.LeftTrigger:
-                    m_lTriggerButtonIcon.color = _color;
-                    m_lTriggerButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[4, j].color = _color;
+                    }
                     break;
                 case QTEInput.RightShoulder:
-                    m_rShoulderButtonIcon.color = _color;
-                    m_rShoulderButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[5, j].color = _color;
+                    }
+                    break;
+                case QTEInput.LeftTrigger:
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[6, j].color = _color;
+                    }
                     break;
                 case QTEInput.RightTrigger:
-                    m_rTriggerButtonIcon.color = _color;
-                    m_rTriggerButtonText.color = _color;
+                    for (int j = 0; j < m_buttonImages.GetLength(1); j++)
+                    {
+                        m_buttonImages[7, j].color = _color;
+                    }
                     break;
             }
         }
@@ -257,7 +196,7 @@ namespace QTESystem
             Image image = GetIcon(_incorrectInput);            
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
-            
+            SetIconColor(GetInput(_incorrectInput), Color.red);
             FinishingCues.Add(ActiveVisualCues[0]);
         }
 
@@ -271,17 +210,19 @@ namespace QTESystem
                 //animate corresponding icon and play audio
                 m_iconAnimation.IncorrectInput(image);
                 FinishingCues.Add(ActiveVisualCues[iterator]);
+                SetIconColor(input, Color.red);
                 iterator++;
             }
             m_audio.Play_Impact_QTEFailure();
         }
 
-        public void MissedInput(QTEInput _iconsToShake, int _iterator)
+        public void MissedInput(QTEInput _iconToShake, int _iterator)
         {
-            Image image = GetIcon(_iconsToShake);
+            Image image = GetIcon(_iconToShake);
             //animate corresponding icon and play audio
             m_iconAnimation.IncorrectInput(image);
             FinishingCues.Add(ActiveVisualCues[_iterator]);
+            SetIconColor(_iconToShake, Color.red);
             m_audio.Play_Impact_QTEFailure();
         }       
 
@@ -315,40 +256,28 @@ namespace QTESystem
 
 
         public Image GetIcon(string _input)
-        {            
-            Image image;
+        {              
             switch (_input)
             {
                 case "North":
-                    image = m_northButtonIcon;
-                    break;
+                    return m_buttonImages[0,0];                    
                 case "East":
-                    image = m_eastButtonIcon;
-                    break;
+                    return m_buttonImages[1, 0];
                 case "South":
-                    image = m_southButtonIcon;
-                    break;
+                    return m_buttonImages[2,0];                    
                 case "West":
-                    image = m_westButtonIcon;
-                    break;
+                    return m_buttonImages[3,0];                    
                 case "LShoulder":
-                    image = m_lShoulderButtonIcon;
-                    break;
-                case "LTrigger":
-                    image = m_lTriggerButtonIcon;
-                    break;
+                    return m_buttonImages[4,0];
                 case "RShoulder":
-                    image = m_rShoulderButtonIcon;
-                    break;
+                    return m_buttonImages[5,0];
+                case "LTrigger":
+                    return m_buttonImages[6,0];
                 case "RTrigger":
-                    image = m_rTriggerButtonIcon;
-                    break;
-                default:
-                    image = null;
-                    Debug.LogWarning("QTEDisplay - GetIcon(): No Corresponding Icon to String Parameter");
-                    break;
-            }
-            return image;
+                    return m_buttonImages[7,0];
+                default:                   
+                    return m_buttonImages[0,0];                    
+            }            
         }
 
         public Image GetIcon(QTEInput _input)
@@ -356,23 +285,23 @@ namespace QTESystem
             switch (_input)
             {
                 case QTEInput.NorthFace:
-                    return m_northButtonIcon;                    
+                    return m_buttonImages[0,0];                  
                 case QTEInput.EastFace:
-                    return m_eastButtonIcon;                    
+                    return m_buttonImages[1,0];                  
                 case QTEInput.SouthFace:
-                    return m_southButtonIcon;                    
+                    return m_buttonImages[2,0];                   
                 case QTEInput.WestFace:
-                    return m_westButtonIcon;                    
+                    return m_buttonImages[3,0];                   
                 case QTEInput.LeftShoulder:
-                    return m_lShoulderButtonIcon;                    
-                case QTEInput.LeftTrigger:
-                    return m_lTriggerButtonIcon;                    
+                    return m_buttonImages[4,0];                 
                 case QTEInput.RightShoulder:
-                    return m_rShoulderButtonIcon;                    
+                    return m_buttonImages[5,0];                    
+                case QTEInput.LeftTrigger:
+                    return m_buttonImages[6,0];                  
                 case QTEInput.RightTrigger:
-                    return m_rTriggerButtonIcon;                    
+                    return m_buttonImages[7,0];                   
                 default:
-                    return m_northButtonIcon;
+                    return m_buttonImages[0, 0];
             }
         }
 
@@ -390,10 +319,10 @@ namespace QTESystem
                     return QTEInput.WestFace;
                 case "LShoulder":
                     return QTEInput.LeftShoulder;
-                case "LTrigger":
-                    return QTEInput.LeftTrigger;
                 case "RShoulder":
                     return QTEInput.RightShoulder;
+                case "LTrigger":
+                    return QTEInput.LeftTrigger;                
                 case "RTrigger":
                     return QTEInput.RightTrigger;
                 default:
@@ -427,31 +356,62 @@ namespace QTESystem
             switch(_input)
             {
                 case QTEInput.NorthFace:
-                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_northButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_buttonParents[0].transform));
                     break;
                 case QTEInput.EastFace:
-                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_eastButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_buttonParents[1].transform));
                     break;
                 case QTEInput.SouthFace:
-                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_southButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_buttonParents[2].transform));
                     break;
                 case QTEInput.WestFace:
-                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_westButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonCue, m_buttonParents[3].transform));
                     break;
                 case QTEInput.LeftShoulder:
-                    ActiveVisualCues.Add(Instantiate(m_lShoulderButtonCue, m_lShoulderButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_lShoulderButtonCue, m_buttonParents[4].transform));
                     break;
                 case QTEInput.RightShoulder:
-                    ActiveVisualCues.Add(Instantiate(m_rShoulderButtonCue, m_rShoulderButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_rShoulderButtonCue, m_buttonParents[5].transform));
                     break;
                 case QTEInput.LeftTrigger:
-                    ActiveVisualCues.Add(Instantiate(m_lTriggerCue, m_lTriggerButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_lTriggerCue, m_buttonParents[6].transform));
                     break;                
                 case QTEInput.RightTrigger:
-                    ActiveVisualCues.Add(Instantiate(m_rTriggerCue, m_rTriggerButtonParent.transform));
+                    ActiveVisualCues.Add(Instantiate(m_rTriggerCue, m_buttonParents[7].transform));
                     break;
             }            
         }
+
+        public void CreateHoldInputPrompt(QTEInput _input)
+        {
+            switch (_input)
+            {
+                case QTEInput.NorthFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[0].transform));
+                    break;
+                case QTEInput.EastFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[1].transform));
+                    break;
+                case QTEInput.SouthFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[2].transform));
+                    break;
+                case QTEInput.WestFace:
+                    ActiveVisualCues.Add(Instantiate(m_faceButtonHoldCue, m_buttonParents[3].transform));
+                    break;
+                case QTEInput.LeftShoulder:
+                    ActiveVisualCues.Add(Instantiate(m_lShoulderButtonHoldCue, m_buttonParents[4].transform));
+                    break;
+                case QTEInput.RightShoulder:
+                    ActiveVisualCues.Add(Instantiate(m_rShoulderButtonHoldCue, m_buttonParents[5].transform));
+                    break;
+                case QTEInput.LeftTrigger:
+                    ActiveVisualCues.Add(Instantiate(m_lTriggerHoldCue, m_buttonParents[6].transform));
+                    break;
+                case QTEInput.RightTrigger:
+                    ActiveVisualCues.Add(Instantiate(m_rTriggerHoldCue, m_buttonParents[7].transform));
+                    break;
+            }
+        }        
 
         public void AnimateCue(float _targetTime, int _selector, QTEInput _input)
         {
@@ -480,8 +440,7 @@ namespace QTESystem
         /// <param name="_selector"></param>
         /// <param name="_transform"></param>
         public void SetCueSize(float _sizePercentage, int _selector, RectTransform _transform)
-        {           
-            
+        {            
             Vector2 targetSize = _transform.sizeDelta;
             float sizeRangeX = (m_cueSizeRatio * targetSize.x) - targetSize.x;
             float sizeRangeY = (m_cueSizeRatio * targetSize.y) - targetSize.y;
@@ -502,7 +461,7 @@ namespace QTESystem
             
         }
         /// <summary>
-        /// Turn alphpa of cue to 0
+        /// Turn alpha of cue to 0
         /// </summary>
         /// <param name="_index"></param>
         public void DeactivateCue(int _index)
@@ -540,7 +499,7 @@ namespace QTESystem
             Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
             foreach (Image image in poiseBarImages)
             {
-                images.Add(image);
+                m_iconAnimation.FadeInUI(image, _duration, Color.white);
             }
             //Get all Images from the active icon panels
             foreach (GameObject gObject in m_iconPanels)
@@ -550,25 +509,22 @@ namespace QTESystem
                     Image[] iconImages = gObject.GetComponentsInChildren<Image>();
                     foreach(Image image in iconImages)
                     {
-                        images.Add(image);
+                        m_iconAnimation.FadeInUI(image, _duration, Color.white);
                     }
                 }
             }
-            //Get active mask panel image
+            //Fade mask panel images to reduced opacity
             foreach(GameObject gObject in m_maskPanels)
             {
+                Color fadedOpacity = new Color(1, 1, 1, 0.3f);
                 if(gObject.activeInHierarchy)
                 {
                     Image image = gObject.GetComponentInChildren<Image>();
-                    images.Add(image);
+                    m_iconAnimation.FadeInUI(image, _duration, fadedOpacity);
                     break;
                 }
             }
-            //Fade all UI images
-            foreach(Image image in images)
-            {
-                m_iconAnimation.FadeInUI(image, _duration);
-            }           
+                     
         }
         /// <summary>
         /// Fade Active UI panels to 0 alpha
@@ -611,17 +567,14 @@ namespace QTESystem
                 m_iconAnimation.FadeOutUI(image, _duration);
             }
         }
-
         public void Pause()
         {
             m_iconAnimation.Pause();
         }
-
         public void Resume()
         {
             m_iconAnimation.Resume();
         }
-
         public void ClearTweens()
         {
             m_iconAnimation.ClearTweens();
