@@ -135,6 +135,9 @@ GameObject:
   - component: {fileID: 81119999}
   - component: {fileID: 81119998}
   - component: {fileID: 81120000}
+  - component: {fileID: 81120003}
+  - component: {fileID: 81120002}
+  - component: {fileID: 81120001}
   m_Layer: 19
   m_Name: UI_EveDeadPup_L_LowerLeg
   m_TagString: Untagged
@@ -250,7 +253,55 @@ SpringJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_DampingRatio: 1
-  m_Frequency: 3
+  m_Frequency: 5
+--- !u!70 &81120001
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81119995}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.08, y: 0.1}
+  m_Size: {x: 2.39, y: 0.91}
+  m_Direction: 1
+--- !u!70 &81120002
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81119995}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.83, y: -0.82}
+  m_Size: {x: 1.14, y: 3.38}
+  m_Direction: 0
+--- !u!70 &81120003
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81119995}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.63, y: -2.11}
+  m_Size: {x: 2.39, y: 0.91}
+  m_Direction: 1
 --- !u!1 &93647133
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,6 +847,8 @@ GameObject:
   - component: {fileID: 499191926}
   - component: {fileID: 499191925}
   - component: {fileID: 499191927}
+  - component: {fileID: 499191929}
+  - component: {fileID: 499191928}
   m_Layer: 19
   m_Name: UI_EveDeadPup_L_LowerArm
   m_TagString: Untagged
@@ -911,7 +964,39 @@ SpringJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_DampingRatio: 1
-  m_Frequency: 4
+  m_Frequency: 5
+--- !u!70 &499191928
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499191923}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.092317216, y: -0.22}
+  m_Size: {x: 2.3299997, y: 0.69}
+  m_Direction: 1
+--- !u!70 &499191929
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499191923}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.74, y: -1.06}
+  m_Size: {x: 0.47, y: 2.25}
+  m_Direction: 0
 --- !u!1 &569590911
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +1009,7 @@ GameObject:
   - component: {fileID: 569590915}
   - component: {fileID: 569590914}
   - component: {fileID: 569590916}
+  - component: {fileID: 569590917}
   m_Layer: 19
   m_Name: UI_EveDeadPup_R_LowerLeg
   m_TagString: Untagged
@@ -1039,7 +1125,23 @@ SpringJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_DampingRatio: 1
-  m_Frequency: 4
+  m_Frequency: 5
+--- !u!70 &569590917
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569590911}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.59082395, y: 0.7657376}
+  m_Size: {x: 1.28, y: 3.52}
+  m_Direction: 0
 --- !u!1 &580539668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,7 +1196,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1119,7 +1221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580539668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -1.96, z: -12.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1422,7 +1524,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.823205, y: -0.40670717}
+  m_Offset: {x: -0.823205, y: -0.23}
   m_Size: {x: 1.61, y: 0.95}
   m_Direction: 1
 --- !u!1 &929661730
@@ -1938,6 +2040,7 @@ GameObject:
   - component: {fileID: 1134919100}
   - component: {fileID: 1134919099}
   - component: {fileID: 1134919101}
+  - component: {fileID: 1134919102}
   m_Layer: 19
   m_Name: UI_EveDeadPup_R_LowerArm
   m_TagString: Untagged
@@ -2053,7 +2156,23 @@ SpringJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_DampingRatio: 1
-  m_Frequency: 4
+  m_Frequency: 5
+--- !u!70 &1134919102
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134919096}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.34893283, y: 0.24423943}
+  m_Size: {x: 1.1999999, y: 2.6399999}
+  m_Direction: 0
 --- !u!1 &1384380696
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,7 +2641,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525989800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -1.96, z: -12.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2542,6 +2661,7 @@ GameObject:
   - component: {fileID: 1669971859}
   - component: {fileID: 1669971858}
   - component: {fileID: 1669971860}
+  - component: {fileID: 1669971861}
   m_Layer: 19
   m_Name: UI_EveDeadPup_L_UpperLeg
   m_TagString: Untagged
@@ -2661,6 +2781,22 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!70 &1669971861
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669971855}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.6506638, y: 1.5566782}
+  m_Size: {x: 1.3, y: 3.9599998}
+  m_Direction: 0
 --- !u!1 &1755435006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2788,6 +2924,7 @@ GameObject:
   - component: {fileID: 1828004452}
   - component: {fileID: 1828004451}
   - component: {fileID: 1828004453}
+  - component: {fileID: 1828004454}
   m_Layer: 19
   m_Name: UI_EveDeadPup_R_UpperLeg
   m_TagString: Untagged
@@ -2907,6 +3044,22 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!70 &1828004454
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828004448}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.2224737, y: 0.83}
+  m_Size: {x: 3.1499999, y: 1.64}
+  m_Direction: 1
 --- !u!4 &4524529052569885030
 Transform:
   m_ObjectHideFlags: 0
