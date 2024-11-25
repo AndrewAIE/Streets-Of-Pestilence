@@ -25,9 +25,15 @@ namespace Management
 
         private void Awake()
         {
-            _buttons = _buttonParent.GetComponentsInChildren<Button>();
+            if (_currentButton == null)
+            {
+                _currentButton = GetComponentInChildren<Button>();
+                EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
+            }
 
-            _pointerTransform.position = _buttons[_buttonIndex].gameObject.transform.position + _pointerOffset;
+            _pointerOffset.x = _pointerTransform.position.x;
+
+            _pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
         }
 
         private void Update()
@@ -37,9 +43,19 @@ namespace Management
                 _currentButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
             }
+            else
+            {
+                _currentButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+            }
 
             //set pointer position
-            _pointerTransform.position = Vector3.Lerp(_pointerTransform.position, _buttons[_buttonIndex].gameObject.transform.position + _pointerOffset, _pointerSpeed * Time.deltaTime);
+            if (_currentButton != null)
+            {
+                //_pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
+                Vector3 newPos = _currentButton.gameObject.transform.position;
+                newPos.x = _pointerOffset.x;
+                _pointerTransform.position = Vector3.Lerp(_pointerTransform.position, newPos, _pointerSpeed * Time.deltaTime);
+            }
         }
 
         public void StartGame()
