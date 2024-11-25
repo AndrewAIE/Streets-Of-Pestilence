@@ -63,7 +63,8 @@ namespace Management
             {
                 Destroy(gameObject);
             }
-
+            //Set frame rate to 60
+            Application.targetFrameRate = 60;
             //assign scripts
             AssignScripts();
         }
