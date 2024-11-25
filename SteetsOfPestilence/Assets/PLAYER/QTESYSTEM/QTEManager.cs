@@ -67,8 +67,8 @@ namespace QTESystem
         public List<QTEInput> ActiveDisplayList;        
         [SerializeField] private float m_canvasFadeDuration;
 
-        private bool m_isBossFight = false;
-        private bool m_bossPhaseOneComplete = false;
+        [SerializeField] private bool m_isBossFight = false;
+        [SerializeField] private bool m_bossPhaseOneComplete = false;
         #endregion
 
         //*** Poise Bar ***//
