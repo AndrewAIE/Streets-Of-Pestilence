@@ -1058,11 +1058,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 601799134}
     m_Modifications:
-    - target: {fileID: 1493415461725612754, guid: 902758a0982f90f4593b485fe5f4d64c,
-        type: 3}
-      propertyPath: m_AdditionalLightsShadowResolutionTier
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3798763508448860153, guid: 902758a0982f90f4593b485fe5f4d64c,
         type: 3}
       propertyPath: m_Name
@@ -1122,16 +1117,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7256697447005344328, guid: 902758a0982f90f4593b485fe5f4d64c,
-        type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7876754555368886934, guid: 902758a0982f90f4593b485fe5f4d64c,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8571354803585660174, guid: 902758a0982f90f4593b485fe5f4d64c,
         type: 3}
@@ -1740,56 +1725,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883464, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: far clip plane
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883464, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: near clip plane
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883464, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: orthographic size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.3180791
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.4695277
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.3456296
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.8236651
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.04264473
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.56532925
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772453626612883471, guid: dc41b6ebed8156145a6d956db49685a8,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.012655564
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc41b6ebed8156145a6d956db49685a8, type: 3}
 --- !u!20 &1833989933 stripped
@@ -1966,18 +1901,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 211913658}
     m_Modifications:
-    - target: {fileID: 1535462931, guid: d9d50bf0c6f89034b9b9df7687bc0df8, type: 3}
-      propertyPath: m_Range
-      value: 49.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1535462931, guid: d9d50bf0c6f89034b9b9df7687bc0df8, type: 3}
-      propertyPath: m_Intensity
-      value: 1042
-      objectReference: {fileID: 0}
-    - target: {fileID: 1535462931, guid: d9d50bf0c6f89034b9b9df7687bc0df8, type: 3}
-      propertyPath: m_SpotAngle
-      value: 48.406517
-      objectReference: {fileID: 0}
     - target: {fileID: 7044235897749208260, guid: d9d50bf0c6f89034b9b9df7687bc0df8,
         type: 3}
       propertyPath: m_Name
