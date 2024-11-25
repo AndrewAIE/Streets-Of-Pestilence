@@ -67,8 +67,8 @@ namespace QTESystem
         public List<QTEInput> ActiveDisplayList;        
         [SerializeField] private float m_canvasFadeDuration;
 
-        [SerializeField] private bool m_isBossFight = false;
-        [SerializeField] private bool m_bossPhaseOneComplete = false;
+        private bool m_isBossFight = false;
+        private bool m_bossPhaseOneComplete = false;
         #endregion
 
         //*** Poise Bar ***//
@@ -239,8 +239,10 @@ namespace QTESystem
         public void LoadBossEncounterTwo()
         {
             m_bossPhaseOneComplete = true;
+            
             EncounterData = Enemy.transform.parent.GetComponentInChildren<BossSecondPhaseData>().SecondPhaseData;
             ActiveStreamData = EncounterData.NeutralStreamData;
+            ActiveStream = null;
             WaitingStreams = new List<QTEStreamData>();
             for (int i = 0; i < EncounterData.NeutralStreamData.Count; i++)
             {
