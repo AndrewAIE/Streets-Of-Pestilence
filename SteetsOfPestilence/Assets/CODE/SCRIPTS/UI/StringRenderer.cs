@@ -7,7 +7,8 @@ public class StringRenderer : MonoBehaviour
 
     void Start()
     {
-        lineRenderer = GetComponentInChildren<LineRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
+        points = GetComponentsInChildren<Transform>();
         lineRenderer.positionCount = points.Length; // Match the number of points
     }
 
