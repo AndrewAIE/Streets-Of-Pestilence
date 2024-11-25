@@ -36,8 +36,6 @@ namespace Management
 
         private void Update()
         {
-            
-
             if (_currentButton == null)
             {
                 _currentButton = GetComponentInChildren<Button>();
