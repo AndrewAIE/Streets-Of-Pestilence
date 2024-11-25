@@ -7,15 +7,19 @@ using UnityEngine.UI;
 public class LoadingScreenController : MonoBehaviour
 {
     public Slider progressBar; // Reference to your UI loading bar slider
+    private bool m_Loading;
 
-    void Start()
+
+    IEnumerator Start()
     {
-        // Start loading the main scene
+        yield return null;
         StartCoroutine(LoadMainSceneAsync());
     }
 
     IEnumerator LoadMainSceneAsync()
     {
+        m_Loading = true;
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(2);
 
         // Prevent the main scene from activating immediately
