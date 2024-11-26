@@ -51,7 +51,7 @@ namespace Management
         private void Awake()
         {
             m_input = new PlayerInputMap();
-            m_PauseMenu = GetComponentInChildren<PauseMenu>();
+            /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
             if (gameManagers.Length == 1)
