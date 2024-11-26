@@ -389,7 +389,7 @@ namespace PlayerController
 
         private IEnumerator RespawnPlayer()
         {
-            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration + 1f);
+            yield return new WaitForSeconds(m_playerUI._deathScreenFadeOn_Duration);
             m_qteManager.FadeOutUI();
             _animation.ResetAnimation();
             SetPlayerActive(false);
@@ -398,7 +398,9 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
             m_recenterTarget = null;
-            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
+            m_playerUI._deathScreen.GetComponent<Animator>().SetTrigger("Death Screen Off Trigger");
+            yield return new WaitForSeconds(m_playerUI._deathScreenFadeOff_Duration);
+
             SetPlayerActive(true);
         }
         private SpawnPoint GetClosestSpawnPoint()
