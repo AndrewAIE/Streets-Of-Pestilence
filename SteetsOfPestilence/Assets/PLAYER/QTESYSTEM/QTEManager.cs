@@ -66,6 +66,9 @@ namespace QTESystem
 
         public List<QTEInput> ActiveDisplayList;        
         [SerializeField] private float m_canvasFadeDuration;
+
+        private bool m_isBossFight = false;
+        private bool m_bossPhaseOneComplete = false;
         #endregion
 
         //*** Poise Bar ***//
@@ -80,8 +83,8 @@ namespace QTESystem
         public int AvailableSuccessPoints;
         public int CurrentSuccessPoints;
         [SerializeField]
-        public int m_poiseChangeValue = 2;
-        
+        private int m_defaultPoiseChangeValue = 2;
+        private float m_poiseChangeValue;
 
         #endregion
 
@@ -175,7 +178,6 @@ namespace QTESystem
 
         #endregion
 
-
         #region Update
         void Update()
         {
@@ -199,7 +201,6 @@ namespace QTESystem
             CurrentState.StateUpdate(Timer);
         }
         #endregion
-
         
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
@@ -210,6 +211,11 @@ namespace QTESystem
             EnterStance(PlayerStance.NeutralStance);
             QteDisplay.ActivatePoiseBar();            
             LoadUI(_enemy.m_EType);
+            //check if boss fight
+            if(_enemy.m_EType == EnemyType.Boss)
+            {
+                m_isBossFight = true;
+            }
             //Load Stream Data
             ActiveStreamData = EncounterData.NeutralStreamData;            
             WaitingStreams = new List<QTEStreamData>();
@@ -219,13 +225,33 @@ namespace QTESystem
             }
             SelectStream();
             SetQTEAnimators();
+            //reset all poise data
             PoiseBar.gameObject.SetActive(true);
             PoiseBar.ResetPoise();
+            m_poiseChangeValue = m_defaultPoiseChangeValue;
             Timer = 0;
             //Set Encounter State and begin Encounter
             CurrentState = EncounterStart;
             CurrentState.EnterState(this);
             
+        }
+
+        public void LoadBossEncounterTwo()
+        {
+            m_bossPhaseOneComplete = true;
+            
+            EncounterData = Enemy.transform.parent.GetComponentInChildren<BossSecondPhaseData>().SecondPhaseData;
+            ActiveStreamData = EncounterData.NeutralStreamData;
+            ActiveStream = null;
+            WaitingStreams = new List<QTEStreamData>();
+            for (int i = 0; i < EncounterData.NeutralStreamData.Count; i++)
+            {
+                WaitingStreams.Add(Instantiate(ActiveStreamData[i]));
+            }
+            SelectStream();
+            //reset poise bar           
+            PoiseBar.ResetPoise();
+            m_poiseChangeValue = m_defaultPoiseChangeValue;
         }
 
         public void SelectStream()
@@ -276,7 +302,13 @@ namespace QTESystem
             if(QteDisplay.FinishingCues.Count > 0)
             {
                 StartCoroutine(DeleteCues());
-            }            
+            }
+            if (m_isBossFight)
+            {
+                m_isBossFight = false;
+                m_bossPhaseOneComplete = false;
+            }
+            
             Enemy.EndCombat();            
             WaitingStreams.Clear();            
             this.enabled = false;           
@@ -353,7 +385,6 @@ namespace QTESystem
         }
 
         #endregion
-
         
         #region Combat and Poise Bar
 
@@ -362,32 +393,40 @@ namespace QTESystem
         {
             float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;            
             int poiseChange;
+            m_poiseChangeValue += 0.3f;
+            Debug.Log($"Poise = {m_poiseChangeValue}");
             switch(successRate)
             {
                 case 0:
-                    poiseChange = -m_poiseChangeValue * 2;                    
+                    poiseChange = (int)-m_poiseChangeValue * 2;                    
                     break;
                 case < 0.5f:
-                    poiseChange = -m_poiseChangeValue;                    
+                    poiseChange = (int)-m_poiseChangeValue;                    
                     break;
                 case 0.5f:
                     poiseChange = 0;                    
                     break;
                 case 1:
-                    poiseChange = m_poiseChangeValue * 2;                    
+                    poiseChange = (int)m_poiseChangeValue * 2;                    
                     break;
                 case > 0.5f:
-                    poiseChange = m_poiseChangeValue;                   
+                    poiseChange = (int)m_poiseChangeValue;                   
                     break;
                 default:
                     poiseChange = 0;                    
                     break;
             }
-
-            //adjust poise value based of successes and falures in stream
+            //load second phase of boss fight if necessary           
+            
+            //adjust poise value based of successes and falures in stream 
             PoiseBar.SetPoise(poiseChange);
             if (PoiseBar._poise >= PoiseBar._maxPoise)
             {
+                if (m_isBossFight && !m_bossPhaseOneComplete)
+                {
+                    LoadBossEncounterTwo();                    
+                    return;
+                }
                 playerWin();
             }
             if (PoiseBar._poise <= PoiseBar._minPoise)

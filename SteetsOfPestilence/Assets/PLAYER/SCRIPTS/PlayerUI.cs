@@ -12,9 +12,9 @@ namespace PlayerController
     {
         private PlayerManager m_player;
         [Header("Death")]
-        [SerializeField] private CanvasGroup m_deathScreen;
-        public float DeathScreenFadeDuration;
-        public float DeathScreenDuration;
+        [SerializeField] public GameObject _deathScreen;
+        [SerializeField] public float _deathScreenFadeOn_Duration;
+        [SerializeField] public float _deathScreenFadeOff_Duration;
 
         [Header("Interaction")]
         [SerializeField] private Image m_interactPanel;
@@ -34,17 +34,7 @@ namespace PlayerController
 
         internal void DeathTransition()
         {
-            Debug.Log("Dead Player 2");
-            Tween.CanvasGroupAlpha(m_deathScreen, 1, DeathScreenFadeDuration, 0);            
-            StartCoroutine(Transition());
-        }
-
-        private IEnumerator Transition()
-        {
-            
-            yield return new WaitForSecondsRealtime(DeathScreenDuration + 1);
-            Debug.Log("Dead Player 3");
-            Tween.CanvasGroupAlpha(m_deathScreen, 0, DeathScreenFadeDuration, 0);                    
+            _deathScreen.SetActive(true);
         }
 
         public void Interact()

@@ -44,8 +44,7 @@ namespace QTESystem
         {            
             m_qteManager = _manager;
             m_qteManager.SlowTime(true);
-            //reset change in poise bar value and stream iterator                    
-            m_qteManager.ChangeInPoiseValue = 0;
+            //reset change in poise bar value and stream iterator            
             m_qteManager.StreamPosition = 0;
             m_qteManager.AvailableSuccessPoints = 0;
             m_qteManager.CurrentSuccessPoints = 0;            
@@ -160,7 +159,7 @@ namespace QTESystem
             m_qteManager.QteDisplay.ResetAllActiveIconColours();
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
-    }
+    }  
 
     public class CombatAnimation : QTEStates
     {
