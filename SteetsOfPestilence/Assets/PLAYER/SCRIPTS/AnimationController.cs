@@ -73,11 +73,11 @@ namespace PlayerController
         private void Movement()
         {
             
-            if (m_Manager._speed >= m_Manager._data.RunningSpeed)
-            {
-                _animator.SetBool(_animID_Running, true);
-            }
-            else _animator.SetBool(_animID_Running, false) ;
+            //if (m_Manager._speed >= m_Manager._data.RunningSpeed)
+            //{
+            //    _animator.SetBool(_animID_Running, true);
+            //}
+            //else _animator.SetBool(_animID_Running, false) ;
         }
         internal void Idle()
         {
