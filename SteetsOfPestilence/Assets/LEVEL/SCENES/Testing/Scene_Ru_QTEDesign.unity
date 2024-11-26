@@ -539,6 +539,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 348709094738427997, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 348709094738427997, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7066183
       objectReference: {fileID: 0}
@@ -585,17 +590,17 @@ PrefabInstance:
     - target: {fileID: 404953245483651058, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_XAxis.Value
-      value: -94.5
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: 404953245483651058, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_YAxisRecentering.m_enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 404953245483651058, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_RecenterToTargetHeading.m_enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 404953246256362707, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
@@ -659,8 +664,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1056987779498516081, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
+      propertyPath: m_XAxis.Value
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056987779498516081, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.350029
+      value: 0.9477425
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056987779498516081, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -1.03026
       objectReference: {fileID: 0}
     - target: {fileID: 1886082300289732542, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
@@ -680,12 +695,12 @@ PrefabInstance:
     - target: {fileID: 1886082300289732542, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70708215
+      value: 0.7070822
       objectReference: {fileID: 0}
     - target: {fileID: 1886082300289732542, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0058919364
+      value: -0.005891926
       objectReference: {fileID: 0}
     - target: {fileID: 1886082300289732542, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
@@ -695,17 +710,42 @@ PrefabInstance:
     - target: {fileID: 1886082300289732542, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.005891938
+      value: -0.005891904
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535046286978080706, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_XAxis.Value
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: 2535046286978080706, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.350029
+      value: 0.9477425
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535046286978080706, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -1.03026
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815960230540775006, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_XAxis.Value
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: 2815960230540775006, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.350029
+      value: 0.9477425
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815960230540775006, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -1.03026
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583654300136209271, guid: dc41b6ebed8156145a6d956db49685a8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7583654300136209271, guid: dc41b6ebed8156145a6d956db49685a8,
         type: 3}
