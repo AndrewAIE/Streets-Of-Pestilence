@@ -105,7 +105,7 @@ namespace Management
 
         private void Update()
         {
-            if (SceneChanger.CurrentScene != 0)
+            if (SceneChanger.CurrentScene > 1)
             {
                 if (m_pauseInput.WasPressedThisFrame())
                 {
@@ -115,15 +115,13 @@ namespace Management
                 {
                     m_PauseMenu.Pause();
                 }
+
+                if (m_PauseMenu.enabled == false) m_PauseMenu.enabled = true;
             }
-            else if(m_Gamestate == GameState.Paused)
-            {
-                m_PauseMenu.Pause();
-            }
+            else if(SceneChanger.CurrentScene <= 1){m_PauseMenu .enabled = false; }
         }
-
-
         #endregion
+
 
         /*** GAME STATE ***/
         #region Game State
