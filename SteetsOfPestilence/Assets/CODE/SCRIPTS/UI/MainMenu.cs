@@ -60,9 +60,15 @@ namespace Management
 
         public void StartGame()
         {
+            Invoke("LoadGame", 2.25f);
+            
+        }
+        public void LoadGame()
+        {
             Debug.Log("Starting Game...");
             SceneChanger.ChangeScene(1);
         }
+
         public void QuitGame()
         {
             SceneChanger.QuitGame();
