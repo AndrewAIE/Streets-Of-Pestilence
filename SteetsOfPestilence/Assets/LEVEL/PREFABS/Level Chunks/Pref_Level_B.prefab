@@ -24867,7 +24867,7 @@ PrefabInstance:
     - target: {fileID: 6532686406020878073, guid: 6757515e700567945952e426905b74c0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8474646044783154131, guid: 6757515e700567945952e426905b74c0,
         type: 3}
@@ -24883,6 +24883,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978366283863942560, guid: 6757515e700567945952e426905b74c0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.63
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6436475460950741199, guid: 6757515e700567945952e426905b74c0, type: 3}
@@ -40484,6 +40489,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7090568637691178885}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7093088840917908700
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6538312265201004737}
+    m_Modifications:
+    - target: {fileID: 3448029534637082604, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_Name
+      value: Lamp Spot Light (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.755
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5815
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757944898822809867, guid: 96ebdf368f06af649a35c6282f7e39f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96ebdf368f06af649a35c6282f7e39f1, type: 3}
 --- !u!1001 &7101506621755884561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41471,6 +41545,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1374805322365681513}
     m_Modifications:
+    - target: {fileID: 2917918695991430583, guid: 7dca9e786450eb346bef3ab860bb6567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5197575683724880191, guid: 7dca9e786450eb346bef3ab860bb6567,
         type: 3}
       propertyPath: m_RootOrder
@@ -41530,6 +41609,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pref_Wall_Lantern_Single
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391358500646817941, guid: 7dca9e786450eb346bef3ab860bb6567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dca9e786450eb346bef3ab860bb6567, type: 3}
