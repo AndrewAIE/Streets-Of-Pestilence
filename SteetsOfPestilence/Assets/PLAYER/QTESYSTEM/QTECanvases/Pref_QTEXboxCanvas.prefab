@@ -305,9 +305,9 @@ MonoBehaviour:
   FinishingCues: []
   poiseBarController: {fileID: 0}
   m_maskPanels:
+  - {fileID: 8981973429660402111}
   - {fileID: 3326544292290777251}
   - {fileID: 6694703518926697935}
-  - {fileID: 8981973429660402111}
   - {fileID: 6320724956466098509}
 --- !u!1 &4092845498970674093
 GameObject:
@@ -922,6 +922,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3790841598648854531, guid: 76765ed1d6ad65d4699e5477c36346a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3977110355815323500, guid: 76765ed1d6ad65d4699e5477c36346a7,
         type: 3}
       propertyPath: m_Color.a
@@ -1026,6 +1031,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 8458285201416103859, guid: 76765ed1d6ad65d4699e5477c36346a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132511538953896049, guid: 76765ed1d6ad65d4699e5477c36346a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76765ed1d6ad65d4699e5477c36346a7, type: 3}
