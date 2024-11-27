@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.17
+    m_Value: 0.32
   contrast:
     m_OverrideState: 1
-    m_Value: 38
+    m_Value: 10
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -26,8 +26,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 4.28
   saturation:
-    m_OverrideState: 0
-    m_Value: -4.62
+    m_OverrideState: 1
+    m_Value: -96
 --- !u!114 &-7451747858565301548
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -43,7 +43,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.184
+    m_Value: 0.05
 --- !u!114 &-6763100276650360025
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -65,7 +65,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.105
+    m_Value: 0.115
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
@@ -108,7 +108,7 @@ MonoBehaviour:
     m_Value: 0
   blueOutBlueIn:
     m_OverrideState: 1
-    m_Value: 49
+    m_Value: 40
 --- !u!114 &-5344818697184066043
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -127,10 +127,10 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 51
+    m_Value: 20
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 29.52
+    m_Value: 75
   gaussianMaxRadius:
     m_OverrideState: 0
     m_Value: 1
@@ -155,25 +155,6 @@ MonoBehaviour:
   bladeRotation:
     m_OverrideState: 0
     m_Value: 0
---- !u!114 &-3143298905014941079
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
-  m_Name: WhiteBalance
-  m_EditorClassIdentifier: 
-  active: 1
-  temperature:
-    m_OverrideState: 1
-    m_Value: 16
-  tint:
-    m_OverrideState: 0
-    m_Value: -22
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,18 +165,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: PP Profile Combat SloMo
+  m_Name: PP Profile DeathGreyscale
   m_EditorClassIdentifier: 
   components:
   - {fileID: -6763100276650360025}
   - {fileID: -7451747858565301548}
-  - {fileID: 824842753669852367}
   - {fileID: 663407709536188416}
   - {fileID: 9182397257543230092}
   - {fileID: -5606163467619517345}
   - {fileID: -5344818697184066043}
   - {fileID: 1713014646086518778}
-  - {fileID: -3143298905014941079}
   - {fileID: -8426296463006845045}
   - {fileID: 3083402687877035430}
 --- !u!114 &663407709536188416
@@ -219,38 +198,13 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.36
+    m_Value: 0.1
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.869
+    m_Value: 0.6
   rounded:
-    m_OverrideState: 0
-    m_Value: 0
---- !u!114 &824842753669852367
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
-  m_Name: FilmGrain
-  m_EditorClassIdentifier: 
-  active: 1
-  type:
     m_OverrideState: 1
     m_Value: 0
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.416
-  response:
-    m_OverrideState: 1
-    m_Value: 0.8
-  texture:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
 --- !u!114 &1713014646086518778
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -316,7 +270,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.11
+    m_Value: 0.1
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
