@@ -12,9 +12,7 @@ namespace PlayerController
     {
         private PlayerManager m_player;
         [Header("Death")]
-        [SerializeField] public GameObject _deathScreen;
-        [SerializeField] public float _deathScreenFadeOn_Duration;
-        [SerializeField] public float _deathScreenFadeOff_Duration;
+        [SerializeField] public Animator _deathScreen;
 
         [Header("Interaction")]
         [SerializeField] private Image m_interactPanel;
@@ -32,9 +30,25 @@ namespace PlayerController
             currentInteractableActions = new List<Interactable>();
         }
 
-        internal void DeathTransition()
+        public void TriggerDeathScreenOn()
         {
-            _deathScreen.SetActive(true);
+            _deathScreen.SetTrigger("Death Screen On Trigger");
+        }
+
+        public void TriggerDeathScreenOff()
+        {
+            Debug.Log("Trigger Death Screen off");
+            _deathScreen.SetTrigger("Death Screen Off Trigger");
+        }
+
+        public void CallRespawnPlayer()
+        {
+            GetComponentInParent<PlayerManager>().StartRespawn();
+        }
+
+        public void CallSetPlayerActive()
+        {
+            GetComponentInParent<PlayerManager>().SetPlayerActive();
         }
 
         public void Interact()
