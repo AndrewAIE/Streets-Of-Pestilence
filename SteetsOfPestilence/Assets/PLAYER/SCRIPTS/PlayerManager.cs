@@ -382,14 +382,23 @@ namespace PlayerController
         /// </summary>
         public void KillPlayer()
         {            
-            m_playerUI.DeathTransition();            
+            m_playerUI.TriggerDeathScreenOn();            
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
+        public void StartRespawn()
+        {
             StartCoroutine(RespawnPlayer());
+        }
+
+        public void SetPlayerActive()
+        {
+            SetPlayerActive(true);
         }
 
         private IEnumerator RespawnPlayer()
         {
-            yield return new WaitForSeconds(m_playerUI._deathScreenFadeOn_Duration);
+            Debug.Log("Respawn Player Start");
             m_qteManager.FadeOutUI();
             _animation.ResetAnimation();
             SetPlayerActive(false);
@@ -398,11 +407,13 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
             m_recenterTarget = null;
-            m_playerUI._deathScreen.GetComponent<Animator>().SetTrigger("Death Screen Off Trigger");
-            yield return new WaitForSeconds(m_playerUI._deathScreenFadeOff_Duration);
+            yield return new WaitForSeconds(1f);
 
-            SetPlayerActive(true);
+            m_playerUI.TriggerDeathScreenOff();
+
+            Debug.Log("Respawn Player End");
         }
+
         private SpawnPoint GetClosestSpawnPoint()
         {
             SpawnPoint closest = m_unlockedCheckpoints[0];
