@@ -70,6 +70,11 @@ namespace EnemyAI
             Vector3 originPos = transform.position;
             Vector3 otherPos = m_player.transform.position;
             float distance = Vector3.Distance(originPos, otherPos);
+
+            Vector3 direction = (otherPos - originPos).normalized;
+
+            bool sphereHit = Physics.SphereCast(originPos, .5f, direction, out RaycastHit hitInfo, combatDistance);
+
             if (distance < combatDistance)
             {
                 return true;
