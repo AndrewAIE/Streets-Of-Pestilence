@@ -44,7 +44,7 @@ namespace Management
             }
         }
         
-        private void DIsableMenu()
+        private void DisableMenu()
         {
             EventSystem.current.SetSelectedGameObject(null);
             EnableChildren(false);
