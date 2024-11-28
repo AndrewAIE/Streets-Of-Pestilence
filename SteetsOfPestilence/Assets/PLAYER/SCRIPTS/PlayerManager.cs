@@ -409,6 +409,7 @@ namespace PlayerController
             m_Mesh.localRotation = Quaternion.identity;
             m_recenterTarget = null;
             m_cameraController.PP_Greyscale_Off();
+            m_cameraController.TriggerRecenter();
 
             yield return new WaitForSeconds(1f);
 
