@@ -37,8 +37,12 @@ public class QTEUIAnimation : MonoBehaviour
         GameObject parent = _icon.transform.parent.gameObject;
         Vector3 position = parent.transform.localPosition;
         Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
-        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
-        StartCoroutine("StopControllerVibrate");
+
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
+            StartCoroutine("StopControllerVibrate");
+        }
     }
 
     public void IncorrectInput(Image _icon)
@@ -46,8 +50,12 @@ public class QTEUIAnimation : MonoBehaviour
         GameObject parent = _icon.transform.parent.gameObject;
         Vector3 position = parent.transform.localPosition;
         Tween.Shake(parent.transform, position, new Vector3(5, 0, 0), m_incorrectVibrateLength, 0, Tween.LoopType.None, null, null, false);
-        Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength/3,m_incorrectVibrateStrength);
-        StartCoroutine("StopControllerVibrate");
+
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(m_incorrectVibrateStrength / 3, m_incorrectVibrateStrength);
+            StartCoroutine("StopControllerVibrate");
+        }
     }      
 
     public void InputButton(Image _icon)
@@ -70,7 +78,6 @@ public class QTEUIAnimation : MonoBehaviour
     public void StartRingAnimation(RectTransform _ring, Vector2 _targetSize, float _timer)
     {
         m_activeTweens.Add(Tween.Size(_ring, _targetSize, _timer, 0, ringShrinkCurve, Tween.LoopType.None, null, null, false));
-
     }
 
     public void HoldShake(RectTransform _ring, float _timer)

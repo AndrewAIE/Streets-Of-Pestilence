@@ -384,6 +384,7 @@ namespace PlayerController
         {            
             m_playerUI.TriggerDeathScreenOn();            
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            m_cameraController.PP_Greyscale_On();
         }
 
         public void StartRespawn()
@@ -407,6 +408,9 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
             m_recenterTarget = null;
+            m_cameraController.PP_Greyscale_Off();
+            m_cameraController.TriggerRecenter();
+
             yield return new WaitForSeconds(1f);
 
             m_playerUI.TriggerDeathScreenOff();

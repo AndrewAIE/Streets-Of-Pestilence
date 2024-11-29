@@ -1,3 +1,4 @@
+using PlayerController;
 using UnityEngine;
 
 public class SlowMotionManager : MonoBehaviour
@@ -7,10 +8,12 @@ public class SlowMotionManager : MonoBehaviour
     private float m_timeScale = 1;
     private bool timeSlowDown = false;
     private bool timeSpeedUp = false;
+
+    private CameraController _camera;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _camera = FindObjectOfType<CameraController>();
     }
 
     // Update is called once per frame
@@ -40,11 +43,13 @@ public class SlowMotionManager : MonoBehaviour
     {
         timeSpeedUp = false;
         timeSlowDown = true;
+        _camera.PP_Slowmo_On();
     }
 
     public void TimeSpeedUp()
     {
         timeSlowDown = false;
         timeSpeedUp = true;
+        _camera.PP_Slowmo_Off();
     }
 }

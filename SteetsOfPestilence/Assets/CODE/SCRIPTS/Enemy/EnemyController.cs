@@ -93,7 +93,7 @@ namespace EnemyAI
         private CapsuleCollider m_mainCollider;
         #endregion
 
-
+        private Animator m_EndGameAnimator;
 
         private void Awake()
         {
@@ -107,6 +107,8 @@ namespace EnemyAI
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
             m_homeRotation = transform.parent.forward;
+
+            m_EndGameAnimator = GameObject.FindGameObjectWithTag("Start and End Blackout").GetComponent<Animator>();
         }
         public Vector3 Dest;
         private void Update()
@@ -170,6 +172,11 @@ namespace EnemyAI
                 col.enabled = false;
             }
             StartCoroutine(WaitForDestroy());
+
+            if(m_EType == EnemyType.Boss)
+            {
+                m_EndGameAnimator.SetTrigger("End Trigger");
+            }
         }
 
         public void DisableEnemy()

@@ -61,24 +61,7 @@ namespace PlayerController
 
         #endregion
 
-        /*** UPDATE ***/
-        #region Update
-        // Update is called once per frame
-        void Update()
-        {
-            Movement();
-        }
 
-        #endregion
-        private void Movement()
-        {
-            
-            if (m_Manager._speed >= m_Manager._data.RunningSpeed)
-            {
-                _animator.SetBool(_animID_Running, true);
-            }
-            else _animator.SetBool(_animID_Running, false) ;
-        }
         internal void Idle()
         {
             m_movementSpeed = 0;
@@ -115,7 +98,8 @@ namespace PlayerController
 
         public void SetAnimationFloat_MoveInput(float _inputFloat)
         {
-            _animator.SetFloat("MoveInput", _inputFloat);
+            _inputFloat = Mathf.Clamp01(_inputFloat);
+            _animator.SetFloat(_animID_Input_Move, _inputFloat);
             m_inputFloat = _inputFloat;
         }
 

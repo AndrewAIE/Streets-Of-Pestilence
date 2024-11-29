@@ -1,6 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
+using Pixelplacement;
+using Pixelplacement.TweenSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 
 namespace PlayerController
@@ -60,6 +65,19 @@ namespace PlayerController
         /*** MERCHANT CAM ***/
         #region Merchant Cam
         [SerializeField] CinemachineVirtualCamera _merchantCam;
+
+
+        #endregion
+
+        /*** Post Processing ***/
+        #region Post Processing
+        [Header("Post Processing")]
+        [SerializeField] private UnityEngine.Rendering.Volume _pp_General;
+        [SerializeField] private UnityEngine.Rendering.Volume _pp_Combat_Slowmo;
+        [SerializeField] private UnityEngine.Rendering.Volume _pp_DeathGreyscale;
+        [Space]
+        [SerializeField] private float _pp_SlowMoTime;
+
 
 
         #endregion
@@ -341,7 +359,56 @@ namespace PlayerController
 
         #endregion
 
+        //******************* POST PROCESSING *****************//
+        #region Post Processing
 
+        //** Greyscale **//
+        #region Greyscale
+
+        public void PP_Greyscale_On()
+        {
+            Tween.Value(1f, 0f, HandlePPTween_GreyScale_On, 5f, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, false);
+        }
+
+        private void HandlePPTween_GreyScale_On(float value)
+        {
+            _pp_Combat_Slowmo.weight = value;
+            _pp_General.weight = value;
+        }
+
+        public void PP_Greyscale_Off()
+        {
+            _pp_Combat_Slowmo.weight = 1f;
+            _pp_General.weight = 1f;
+        }
+
+        #endregion
+
+        //** Slowmo **//
+        #region Slowmo
+
+        public void PP_Slowmo_On()
+        {
+            Tween.Value(1f, 0f, HandlePPTween_Slowmo, _pp_SlowMoTime, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, false);
+        }
+
+        public void PP_Slowmo_Off()
+        {
+            Tween.Value(0f, 1f, HandlePPTween_Slowmo, _pp_SlowMoTime, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, false);
+        }
+
+        private void HandlePPTween_Slowmo(float value)
+        {
+            _pp_General.weight = value;
+        }
+        
+
+        #endregion
+
+
+
+
+        #endregion
 
         //******************* INFRASTRUCTURE *****************//
         #region Infrastructure
