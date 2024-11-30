@@ -20,37 +20,37 @@ PrefabInstance:
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 34.340996
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.34207106
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.033
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4453300654042465132, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
@@ -81,7 +81,25 @@ PrefabInstance:
     - target: {fileID: 7865841620056122714, guid: 7e08b8ee39b082544865eef29b5facdc,
         type: 3}
       propertyPath: m_Name
-      value: 1.0 Pref_Enemy_Dog_01
+      value: 1.1 Pref_Enemy_Dog_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e08b8ee39b082544865eef29b5facdc, type: 3}
+--- !u!1 &2637196549097265620 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2193647438941753109, guid: 7e08b8ee39b082544865eef29b5facdc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4244733843288200897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3604059826373288928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637196549097265620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0524313b2174894baea99fa225677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

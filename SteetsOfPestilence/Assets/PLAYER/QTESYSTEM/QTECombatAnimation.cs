@@ -42,43 +42,15 @@ public class QTECombatAnimation : MonoBehaviour
     public void SelectAnimation(int _poiseValue)
     {
         EndState = false;
-
-        PlayAnimation("CombatSequence");
-        //m_index++;
-        //if (m_index >= 2)
-        //    m_index = 0;
-        //switch(_poiseValue)
-        //{
-        //    case >= 10:
-        //        break;
-        //    case <= -10:
-        //        break;
-        //    case <= -4:
-        //        if(m_index == 0)
-        //        {
-        //            PlayAnimation("EnemyAdvantageOne");
-        //            Debug.Log("enemyAttackOne");
-        //            break;
-        //        }                
-        //        PlayAnimation("EnemyAdvantageTwo");
-        //        Debug.Log("enemyAttackTwo");
-        //        break;
-        //    case >= 4:
-        //        if (m_index == 0)
-        //        {
-        //            PlayAnimation("PlayerAdvantageOne");
-        //            break;
-        //        }
-        //        PlayAnimation("PlayerAdvantageTwo");
-        //        break;            
-        //    default:
-        //        if (m_index == 0)
-        //        {
-        //            PlayAnimation("NeutralOne");
-        //            break;
-        //        }
-        //        PlayAnimation("NeutralTwo");
-        //        break;
-        //}
-    }    
+        switch(_poiseValue)
+        {
+            case >= 10:
+                break;
+            case <= -10:
+                break;            
+            default:
+                PlayAnimation("CombatSequence");
+                break;
+        }
+    }
 }
