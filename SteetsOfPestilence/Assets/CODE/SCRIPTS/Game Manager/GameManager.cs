@@ -51,7 +51,7 @@ namespace Management
         private void Awake()
         {
             m_input = new PlayerInputMap();
-            m_PauseMenu = GetComponentInChildren<PauseMenu>();
+            /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
             if (gameManagers.Length == 1)
@@ -106,7 +106,7 @@ namespace Management
 
         private void Update()
         {
-            if (SceneChanger.CurrentScene != 0)
+            if (SceneChanger.CurrentScene > 1)
             {
                 if (m_pauseInput.WasPressedThisFrame())
                 {
@@ -116,15 +116,13 @@ namespace Management
                 {
                     m_PauseMenu.Pause();
                 }
+
+                if (m_PauseMenu.enabled == false) m_PauseMenu.enabled = true;
             }
-            else if(m_Gamestate == GameState.Paused)
-            {
-                m_PauseMenu.Pause();
-            }
+            else if(SceneChanger.CurrentScene <= 1){m_PauseMenu .enabled = false; }
         }
-
-
         #endregion
+
 
         /*** GAME STATE ***/
         #region Game State

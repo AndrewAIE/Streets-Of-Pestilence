@@ -239,8 +239,10 @@ namespace QTESystem
         public void LoadBossEncounterTwo()
         {
             m_bossPhaseOneComplete = true;
+            
             EncounterData = Enemy.transform.parent.GetComponentInChildren<BossSecondPhaseData>().SecondPhaseData;
             ActiveStreamData = EncounterData.NeutralStreamData;
+            ActiveStream = null;
             WaitingStreams = new List<QTEStreamData>();
             for (int i = 0; i < EncounterData.NeutralStreamData.Count; i++)
             {

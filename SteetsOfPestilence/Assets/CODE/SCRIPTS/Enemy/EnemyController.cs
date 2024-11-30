@@ -93,7 +93,7 @@ namespace EnemyAI
         private CapsuleCollider m_mainCollider;
         #endregion
 
-
+        private Animator m_EndGameAnimator;
 
         private void Awake()
         {
@@ -107,6 +107,8 @@ namespace EnemyAI
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
             m_homeRotation = transform.parent.forward;
+
+            m_EndGameAnimator = GameObject.FindGameObjectWithTag("Start and End Blackout").GetComponent<Animator>();
         }
         private void Update()
         {
@@ -170,6 +172,11 @@ namespace EnemyAI
                 col.enabled = false;
             }
             StartCoroutine(WaitForDestroy());
+
+            if(m_EType == EnemyType.Boss)
+            {
+                m_EndGameAnimator.SetTrigger("End Trigger");
+            }
         }
 
         public void DisableEnemy()
@@ -243,10 +250,7 @@ namespace EnemyAI
 
         private void Standby()
         {
-            if (m_agent.remainingDistance < 1) m_waitingAtDestination = true;
-
             m_agent.stoppingDistance = 0;
-            if (m_waitingAtDestination) return;
             if (m_patrolPositions.Length > 0)
             {
                 if (m_circlePath)
@@ -264,15 +268,18 @@ namespace EnemyAI
                     if (m_patrolNum >= m_patrolPositions.Length - 1) m_forwardPath = false;
                     else if (m_patrolNum <= 0) m_forwardPath = true;
                 }
-                float waitTime = Random.Range(0, 3);
                 
-                    StartCoroutine(SetPath(waitTime, m_agent.destination = m_patrolPositions[m_patrolNum]));
+                float waitTime = Random.Range(0, m_waitTime);
+
+                if (m_waitingAtDestination)
+                    StartCoroutine(SetPath(waitTime, m_patrolPositions[m_patrolNum]));
             }
             else
             {
                 if(m_agent.destination != m_homeDestination) 
-                    StartCoroutine(SetPath(3, m_agent.destination = m_homeDestination));
+                    StartCoroutine(SetPath(3, m_homeDestination));
             }
+            
         }
 
         /// <summary>
