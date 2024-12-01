@@ -89,7 +89,8 @@ namespace EnemyAI
         #region Mesh & Particles & Colliders Vars
         private bool m_particlesPlaying = false;
         private ParticleSystem[] m_enemyParticles;
-        private SkinnedMeshRenderer m_enemyMesh;
+        private SkinnedMeshRenderer[] m_enemyMesh;
+        [SerializeField]private GameObject m_maskObject;
         private CapsuleCollider m_mainCollider;
         #endregion
 
@@ -102,7 +103,7 @@ namespace EnemyAI
             m_detector = GetComponent<EnemyDetector>();
             m_defaultStoppingDistance = m_agent.stoppingDistance;
             m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
-            m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
+            m_enemyMesh = transform.parent.GetComponentsInChildren<SkinnedMeshRenderer>();            
             m_enemySFX = transform.parent.GetComponentInChildren<SFXController_Enemy>();
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
@@ -161,11 +162,20 @@ namespace EnemyAI
         /// </summary>
         public void KillEnemy()
         {
+            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
+
+            if (m_maskObject)
+            {
+                m_maskObject.SetActive(false);
+            }
             m_agent.enabled = false;
-            m_enemyMesh.enabled = false;
+            foreach (SkinnedMeshRenderer mesh in m_enemyMesh)
+            {
+                mesh.enabled = false;
+            }           
             m_detector.enabled = false;
             m_deactivated = true;
-            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
+            
             Collider[] colliders = GetComponents<Collider>();
             foreach (Collider col in colliders)
             {

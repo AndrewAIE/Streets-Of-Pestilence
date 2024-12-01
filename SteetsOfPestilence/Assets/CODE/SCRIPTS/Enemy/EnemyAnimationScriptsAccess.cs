@@ -9,7 +9,7 @@ namespace EnemyAi
 
         private void Awake()
         {
-            m_enemyController = transform.parent.GetComponentInChildren<EnemyController>();
+            m_enemyController = transform.parent.parent.GetComponentInChildren<EnemyController>();
         }
 
         public void KillEnemy()
