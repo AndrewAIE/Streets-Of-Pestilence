@@ -115,7 +115,7 @@ namespace PlayerController
 
         public void SetAnimationFloat_MoveInput(float _inputFloat)
         {
-            _animator.SetFloat("MoveInput", _inputFloat);
+            _animator.SetFloat("MoveInput", Mathf.Clamp01(_inputFloat));
             m_inputFloat = _inputFloat;
         }
 
