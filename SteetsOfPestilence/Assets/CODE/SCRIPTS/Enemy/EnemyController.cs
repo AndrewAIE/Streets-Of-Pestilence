@@ -110,10 +110,8 @@ namespace EnemyAI
 
             m_EndGameAnimator = GameObject.FindGameObjectWithTag("Start and End Blackout").GetComponent<Animator>();
         }
-        public Vector3 Dest;
         private void Update()
         {
-            Dest = m_agent.destination;
             if (!m_deactivated && !m_combatEnding)
             {
                 if (Recentering)

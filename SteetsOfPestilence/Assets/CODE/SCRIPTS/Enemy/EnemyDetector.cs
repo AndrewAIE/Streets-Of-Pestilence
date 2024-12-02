@@ -14,7 +14,7 @@ namespace EnemyAI
         /// </summary>
         [SerializeField] private float m_viewAngle = 40;
         [SerializeField] private float combatDistance = 2f;
-        [SerializeField] float angle;
+        [SerializeField] float m_angle;
         public LayerMask m_obstructMask;
         [SerializeField]public bool m_canSeePlayer;// { get; private set; }
 
@@ -29,8 +29,7 @@ namespace EnemyAI
         {
             m_canSeePlayer = FieldOfViewCheck();              
         }
-        public Vector3 Dir;
-        public float dis;
+
         private bool FieldOfViewCheck()
         {
             Vector3 originPos = transform.position;
@@ -39,15 +38,13 @@ namespace EnemyAI
             otherPos.y = 0;
 
             float distance = Vector3.Distance(originPos, otherPos);
-            dis = distance;
             if (distance > m_viewRadius) return false;
             
             Vector3 direction = (otherPos - originPos).normalized;
             
-            Dir = direction;
             //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), direction, Color.yellow);
-            angle = Vector3.Angle(direction, transform.forward);
-            if (angle < m_viewAngle && m_player)
+            m_angle = Vector3.Angle(direction, transform.forward);
+            if (m_angle < m_viewAngle && m_player)
             {
                 originPos.y = transform.position.y + 1;
                 Ray ray = new Ray(originPos, direction);
