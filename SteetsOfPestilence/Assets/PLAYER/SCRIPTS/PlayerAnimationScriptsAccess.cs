@@ -59,5 +59,20 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_SFX.Play_Footstep_Walk_Stone();
     }
 
+    public void PlaySFX_LightSwing()
+    {
+        m_SFX.Play_LightSwing();
+    }
+
+    public void PlaySFX_HeavySwing()
+    {
+        m_SFX.Play_HeavySwing();
+    }
+
+    public void PlaySFX_MetalClash()
+    {
+        m_SFX.Play_MetalClash();
+    }
+
    
 }
