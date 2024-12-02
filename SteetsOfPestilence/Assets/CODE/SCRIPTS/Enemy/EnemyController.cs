@@ -133,8 +133,6 @@ namespace EnemyAI
                     else
                     {
                         Standby();
-                        if (m_waitingAtDestination)
-                            transform.parent.forward = Vector3.MoveTowards(transform.parent.forward, m_homeRotation, 10 * Time.deltaTime);
                     }
                 }
                 else if (m_player.PlayerInCombat() && m_isInCombat) { 
@@ -237,6 +235,7 @@ namespace EnemyAI
         }
 
         #region Nav
+        
         private void GoToPlayer()
         {
             m_waitingAtDestination = false;
@@ -257,9 +256,12 @@ namespace EnemyAI
                 m_agent.destination = m_targetPosition;
             }
         }
-
+        
         private void Standby()
         {
+            if (m_agent.remainingDistance > 0.5f) return;
+            m_waitingAtDestination = (m_agent.remainingDistance < 0.5f);
+
             m_agent.stoppingDistance = 0;
             if (m_patrolPositions.Length > 0)
             {
@@ -281,16 +283,20 @@ namespace EnemyAI
                 
                 float waitTime = Random.Range(0, m_waitTime);
 
-                if (m_waitingAtDestination)
+                if (m_waitingAtDestination && !settingPath)
                     StartCoroutine(SetPath(waitTime, m_patrolPositions[m_patrolNum]));
             }
             else
             {
-                if(m_agent.destination != m_homeDestination) 
+                
+                if(m_agent.destination != m_homeDestination && !settingPath) 
                     StartCoroutine(SetPath(3, m_homeDestination));
+                if (m_waitingAtDestination)
+                    transform.parent.forward = Vector3.MoveTowards(transform.parent.forward, m_homeRotation, 10 * Time.deltaTime);
             }
             
         }
+        private bool settingPath;
 
         /// <summary>
         /// waits to set path to target after <c>_seconds</c> have passed
@@ -300,9 +306,11 @@ namespace EnemyAI
         /// <returns></returns>
         private IEnumerator SetPath(float _seconds, Vector3 _target)
         {
+            settingPath = true;
             yield return new WaitForSeconds(_seconds);
             m_agent.destination = _target;
             m_waitingAtDestination = false;
+            settingPath = false;
         }
 
         /// <summary>

@@ -18,26 +18,33 @@ namespace Management
         [SerializeField] Color _redUnderlay;
 
 
+        private AudioSource m_audioSource;
+        public AudioClip m_selectChangeAudio;
+
         [Space]
         [SerializeField] RectTransform _pointerTransform;
         [SerializeField] Vector3 _pointerOffset;
         [SerializeField] float _pointerSpeed;
+        private Vector3 m_prevPos;
 
         private void Awake()
         {
+            m_audioSource = GetComponent<AudioSource>();
             if (_currentButton == null)
             {
                 _currentButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
             }
-
+            
             _pointerOffset.x = _pointerTransform.position.x;
 
             _pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
+            m_prevPos = _currentButton.gameObject.transform.position;
         }
 
         private void Update()
         {
+            if(!_interactable) { return; }
             if (_currentButton == null)
             {
                 _currentButton = GetComponentInChildren<Button>();
@@ -51,10 +58,16 @@ namespace Management
             //set pointer position
             if (_currentButton != null)
             {
-                //_pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
                 Vector3 newPos = _currentButton.gameObject.transform.position;
+               
                 newPos.x = _pointerOffset.x;
                 _pointerTransform.position = Vector3.Lerp(_pointerTransform.position, newPos, _pointerSpeed * Time.deltaTime);
+
+                if (m_prevPos != newPos)
+                {
+                    m_audioSource.Play();
+                    m_prevPos = newPos;
+                }
             }
         }
 
