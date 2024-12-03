@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -18,14 +20,22 @@ namespace Management
         [SerializeField] Color _redUnderlay;
 
 
-        private AudioSource m_audioSource;
-        public AudioClip m_selectChangeAudio;
+        public AudioSource m_audioSource;
+        public AudioClip m_selectionChangeAudioClip;
 
         [Space]
+        [SerializeField] Vector2 _pointerStartPosition;
         [SerializeField] RectTransform _pointerTransform;
         [SerializeField] Vector3 _pointerOffset;
         [SerializeField] float _pointerSpeed;
         private Vector3 m_prevPos;
+
+        [SerializeField] AudioMixer m_mainMenuMixer;
+        public string exposedParameter = "Main Menu Volume"; // Make sure this matches your exposed parameter name
+        public float fadeDuration = 2.0f; // Time to fade in (seconds)
+        public float targetVolume_ON = 0.0f; // Target volume in decibels (0 is default max in Unity)
+        public float targetVolume_OFF = -80.0f; // Target volume in decibels (0 is default max in Unity)
+        public float currentVolume;
 
         private void Awake()
         {
@@ -38,7 +48,7 @@ namespace Management
             
             _pointerOffset.x = _pointerTransform.position.x;
 
-            _pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
+            _pointerTransform.localPosition = _pointerStartPosition;
             m_prevPos = _currentButton.gameObject.transform.position;
         }
 
@@ -65,20 +75,41 @@ namespace Management
 
                 if (m_prevPos != newPos)
                 {
-                    m_audioSource.Play();
+                    m_audioSource.PlayOneShot(m_selectionChangeAudioClip);
                     m_prevPos = newPos;
                 }
             }
         }
 
+        private IEnumerator FadeOutAudio()
+        {
+            float currentTime = 0f;
+
+            // Set the starting volume
+            m_mainMenuMixer.SetFloat(exposedParameter, targetVolume_ON);
+
+            while (currentTime < fadeDuration)
+            {
+                currentTime += Time.deltaTime;
+                float newVolume = Mathf.Lerp(targetVolume_ON, targetVolume_OFF, currentTime / fadeDuration);
+                m_mainMenuMixer.SetFloat(exposedParameter, newVolume);
+                currentVolume = newVolume;
+                yield return null;
+            }
+
+            // Ensure final value is set
+            currentVolume = targetVolume_OFF;
+            m_mainMenuMixer.SetFloat(exposedParameter, targetVolume_OFF);
+        }
+
         public void StartGame()
         {
-            Invoke("LoadGame", 2.25f);
-            
+            TriggerTransitionAnimation();
         }
+
         public void LoadGame()
         {
-            Debug.Log("Starting Game...");
+            //Debug.Log("Starting Game...");
             SceneChanger.ChangeScene(1);
         }
 
