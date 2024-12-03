@@ -19,7 +19,10 @@ public class QTEUIAnimation : MonoBehaviour
 
     private void OnDisable()
     {
-        Gamepad.current.SetMotorSpeeds(0, 0);
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0, 0);
+        }
     }
 
     [SerializeField] AnimationCurve ringShrinkCurve;
