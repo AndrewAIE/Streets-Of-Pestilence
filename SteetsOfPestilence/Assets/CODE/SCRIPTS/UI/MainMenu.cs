@@ -24,6 +24,7 @@ namespace Management
         public AudioClip m_selectionChangeAudioClip;
 
         [Space]
+        [SerializeField] Vector2 _pointerStartPosition;
         [SerializeField] RectTransform _pointerTransform;
         [SerializeField] Vector3 _pointerOffset;
         [SerializeField] float _pointerSpeed;
@@ -47,7 +48,7 @@ namespace Management
             
             _pointerOffset.x = _pointerTransform.position.x;
 
-            _pointerTransform.position = _currentButton.gameObject.transform.position + _pointerOffset;
+            _pointerTransform.localPosition = _pointerStartPosition;
             m_prevPos = _currentButton.gameObject.transform.position;
         }
 

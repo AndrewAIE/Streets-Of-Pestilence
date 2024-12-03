@@ -745,11 +745,18 @@ MonoBehaviour:
   _defaultUnderlay: {r: 0.5568628, g: 0.40392157, b: 0.19215687, a: 1}
   _redUnderlay: {r: 1, g: 0, b: 0, a: 1}
   m_audioSource: {fileID: 5306616993692958134}
-  m_selectionChangeAudioClip: {fileID: 8300000, guid: 24a61e92bc23a1743a3a8a315dd299ac,
+  m_selectionChangeAudioClip: {fileID: 8300000, guid: 7c11deabf5e90e646bc82349a287e4c9,
     type: 3}
+  _pointerStartPosition: {x: -1851.609, y: 31.71057}
   _pointerTransform: {fileID: 5157269628282243794}
   _pointerOffset: {x: -230, y: 0, z: 0}
   _pointerSpeed: 7.5
+  m_mainMenuMixer: {fileID: 0}
+  exposedParameter: Main Menu Volume
+  fadeDuration: 2
+  targetVolume_ON: 0
+  targetVolume_OFF: -80
+  currentVolume: 0
 --- !u!95 &1211210776
 Animator:
   serializedVersion: 5
@@ -782,7 +789,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4968769092060818597, guid: 7b01446d9214d3b41ba5728275d1388f,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 24a61e92bc23a1743a3a8a315dd299ac, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -959,19 +966,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: a81be6fc5faee934e89cf2c87c75fe2b,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 173037285518095699}
         m_TargetAssemblyTypeName: Management.MainMenu, Assembly-CSharp
         m_MethodName: StartGame
