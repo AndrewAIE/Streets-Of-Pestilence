@@ -202,7 +202,7 @@ namespace EnemyAI
 
         public IEnumerator EnableEnemy()
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(20);
             m_agent.enabled = true;            
             m_detector.enabled = true;
             m_deactivated = false;
