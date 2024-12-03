@@ -74,5 +74,10 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_SFX.Play_MetalClash();
     }
 
+    public void ExitCombat()
+    {
+        m_player.EndCombat();
+    }
+
    
 }

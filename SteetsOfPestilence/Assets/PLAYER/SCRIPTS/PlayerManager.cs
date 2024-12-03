@@ -183,8 +183,7 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    if (m_recenterTarget != null) Recenter();
-                    if (m_qteManager.enabled == false) m_playerState = PlayerState.Exploring;
+                    if (m_recenterTarget != null) Recenter();                    
                     MoveCameraPoint();
                     break;
             }
