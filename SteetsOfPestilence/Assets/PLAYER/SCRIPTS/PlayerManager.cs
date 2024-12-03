@@ -385,6 +385,7 @@ namespace PlayerController
             m_playerUI.TriggerDeathScreenOn();            
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
             m_cameraController.PP_Greyscale_On();
+            FindObjectOfType<PoiseBarController>()._lowPoiseAnimator.SetTrigger("LowPoiseOff");
         }
 
         public void StartRespawn()

@@ -39,7 +39,7 @@ public class PoiseBarController : MonoBehaviour
     [SerializeField] float _MoveTime;
 
     [Header("Low Poise")]
-    [SerializeField] Animator _lowPoiseAnimator;
+    [SerializeField] public Animator _lowPoiseAnimator;
     [Space]
     [SerializeField] bool _isLowPoise;
     [SerializeField] float _lowPoiseThres;
@@ -70,12 +70,12 @@ public class PoiseBarController : MonoBehaviour
         //do other stuff
         UpdatePoiseBar();
 
-        if(_poise + _maxPoise / (_maxPoise*2) <= _lowPoiseThres && !_isLowPoise)
+        if(_targetAmount <= _lowPoiseThres && !_isLowPoise)
         {
             _lowPoiseAnimator.SetTrigger("LowPoiseOn");
             _isLowPoise = true;
         }
-        else
+        else if(_targetAmount > _lowPoiseThres && _isLowPoise) 
         {
             _lowPoiseAnimator.SetTrigger("LowPoiseOff");
             _isLowPoise = false;
@@ -85,7 +85,9 @@ public class PoiseBarController : MonoBehaviour
     public void ResetPoise()
     {
         _poise = _startPoise;
+        _isLowPoise = false;
         UpdatePoiseBar();
+
     }
 
 
