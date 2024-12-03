@@ -8,6 +8,9 @@ namespace QTESystem
 {
     public abstract class QTEAction : ScriptableObject
     {
+        protected QTEDisplay m_qteDisplay;
+
+        //timing variables
         [HideInInspector]
         public bool Started = false;
         protected ActionState m_state;
@@ -15,17 +18,19 @@ namespace QTESystem
         protected float m_timer = 0;
         protected float m_minTime, m_maxTime;
         protected float m_successBuffer;
+        protected bool m_timeUp;
+
+        //Input variables
         [HideInInspector]
-        public string IncorrectInput;
-        private List<Image> m_timingRings;
-        protected QTEDisplay m_qteDisplay;
+        public string IncorrectInput;       
         [HideInInspector]
         public int CorrectInputs = 0;
-        protected List<InputAction> m_readyInputs = new List<InputAction>();       
+        protected List<InputAction> m_readyInputs = new List<InputAction>();
+        public List<QTEInput> InputList;
 
         protected abstract ActionState onUpdate();
         protected abstract void onStart();
-        protected abstract bool CheckSuccessWindow();
+        protected abstract bool checkSuccessWindow();
         
         public void RemoveTimingRings()
         {
@@ -75,9 +80,9 @@ namespace QTESystem
         public abstract void CheckInput(InputAction.CallbackContext _context);
         public abstract void CreateInputRings();
         public abstract void OnRelease(InputAction.CallbackContext _context);
-        public List<QTEInput> InputList;
+        
 
-        protected bool m_timeUp;
+        
         public bool TimeUp()
         {
             return m_timeUp;
