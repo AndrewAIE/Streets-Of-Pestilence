@@ -100,7 +100,7 @@ namespace EnemyAI
 
         private void Awake()
         {
-            m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
+            m_player = GameObject.FindObjectOfType<PlayerManager>();
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
             m_defaultStoppingDistance = m_agent.stoppingDistance;
@@ -112,9 +112,13 @@ namespace EnemyAI
             m_homeRotation = transform.parent.forward;
             m_anim = transform.parent.GetComponentInChildren<Animator>();
             m_EndGameAnimator = GameObject.FindGameObjectWithTag("Start and End Blackout").GetComponent<Animator>();
+
+            Debug.Log("Detector Reference: " + m_detector);
+            Debug.Log("Player Reference: " + m_player);
         }
         private void Update()
         {
+           
             if (m_deactivated || m_combatEnding) { 
                 return; 
             }

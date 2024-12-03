@@ -26,22 +26,7 @@ namespace Management
         public void Pause()
         {
             bool pause = m_manager.m_Gamestate != GameState.Paused;
-            if (pause)
-            {
-                EnableChildren(true);
-                Button m_firstButton = GetComponentInChildren<Button>();
-                EventSystem.current.SetSelectedGameObject(m_firstButton.gameObject);
-                m_currentTimeScale = Time.timeScale;
-                Time.timeScale = 0;
-                m_manager.SetGameState(GameState.Paused);
-            }
-            else
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                EnableChildren(false);
-                Time.timeScale = m_currentTimeScale;
-                m_manager.SetGameState(GameState.Playing);
-            }
+            Pause(pause);
         }
         public void Pause(bool pause)
         {
@@ -56,6 +41,8 @@ namespace Management
             }
             else
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 EventSystem.current.SetSelectedGameObject(null);
                 EnableChildren(false);
                 Time.timeScale = m_currentTimeScale;
