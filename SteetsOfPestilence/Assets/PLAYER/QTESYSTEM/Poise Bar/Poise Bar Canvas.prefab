@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -19, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1012, y: 107}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &3819375196762453930
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.6698113, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 810, y: 0, z: 0, w: 0}
+  m_Padding: {x: 564.5, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
 --- !u!1 &8266788563315808511
 GameObject:
@@ -1108,7 +1108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8266788563315808450
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1236,14 +1236,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _fillMask: {fileID: 6667133749567332423}
-  _maskPlayerWin: 0
-  _maskEnemyWin: 810
+  _maskPlayerWin: 2
+  _maskEnemyWin: 564.5
   _bubbleRect: {fileID: 2945132175222271504}
   _startingYPos: -530
   _endYPos: 530
   _plungerTransform: {fileID: 5842663879839077139}
-  _plungerX_PlayerWin: -820
-  _plungerX_EnemyWin: -19
+  _plungerX_PlayerWin: -826
+  _plungerX_EnemyWin: 0
   _timer: 0
   _MoveTime: 1
   _lowPoiseAnimator: {fileID: 7115100577379595221}
@@ -1295,7 +1295,7 @@ RectTransform:
   m_GameObject: {fileID: 8266788563696557100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5313827518991999455}
