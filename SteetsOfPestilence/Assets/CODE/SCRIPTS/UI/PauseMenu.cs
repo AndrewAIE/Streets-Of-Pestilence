@@ -43,7 +43,26 @@ namespace Management
                 m_manager.SetGameState(GameState.Playing);
             }
         }
-        
+        public void Pause(bool pause)
+        {
+            if (pause)
+            {
+                EnableChildren(true);
+                Button m_firstButton = GetComponentInChildren<Button>();
+                EventSystem.current.SetSelectedGameObject(m_firstButton.gameObject);
+                m_currentTimeScale = Time.timeScale;
+                Time.timeScale = 0;
+                m_manager.SetGameState(GameState.Paused);
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EnableChildren(false);
+                Time.timeScale = m_currentTimeScale;
+                m_manager.SetGameState(GameState.Playing);
+            }
+        }
+
         private void DisableMenu()
         {
             EventSystem.current.SetSelectedGameObject(null);
@@ -63,11 +82,13 @@ namespace Management
 
         public void RestartLevel()
         {
+            Pause(false);
             SceneChanger.ResetScene();
         }
 
         public void GoToMainMenu()
         {
+            Pause(false);
             SceneChanger.ChangeScene(m_MainMenuName);
         }
         public void QuitGame()

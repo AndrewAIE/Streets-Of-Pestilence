@@ -25,7 +25,7 @@ namespace EnemyAi
             m_enemyController = transform.parent.parent.GetComponentInChildren<EnemyController>();
             m_enemySFXManager = transform.parent.transform.parent.GetComponentInChildren<SFXController_Enemy>();
             m_playerSFXManager = FindObjectOfType<SFXController_Player>();
-        }
+        }            
 
         public void KillEnemy()
         {

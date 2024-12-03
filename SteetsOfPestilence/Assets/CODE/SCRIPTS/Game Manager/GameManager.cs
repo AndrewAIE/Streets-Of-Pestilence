@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static Cinemachine.DocumentationSortingAttribute;
 
 namespace Management
 {
@@ -50,6 +51,7 @@ namespace Management
         #region Awake & Start
         private void Awake()
         {
+            SceneManager.sceneLoaded += onSceneLoad;
             m_input = new PlayerInputMap();
             /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
@@ -94,6 +96,7 @@ namespace Management
         }
 
 
+
         private void AssignScripts()
         {
             m_PlayerManager = FindObjectOfType<PlayerManager>();
@@ -119,7 +122,7 @@ namespace Management
 
                 if (m_PauseMenu.enabled == false) m_PauseMenu.enabled = true;
             }
-            else if(SceneChanger.CurrentScene <= 1){m_PauseMenu .enabled = false; }
+            else if (SceneChanger.CurrentScene <= 1) { m_PauseMenu.enabled = false; }
         }
         #endregion
 
@@ -129,7 +132,8 @@ namespace Management
         public void SetGameState(GameState state)
         {
             m_Gamestate = state;
-
+            if (m_PlayerManager == null)
+                m_PlayerManager = FindObjectOfType<PlayerManager>();
             switch (m_Gamestate)
             {
                 case GameState.Cutscene:
@@ -157,6 +161,20 @@ namespace Management
         {
             SetGameState(GameState.Playing);
         }
+
+
+/*        private void OnLevelWasLoaded(int level)
+        {
+            if (level == 2)
+                m_PauseMenu.gameObject.SetActive(true);
+        }*/
+
+        private void onSceneLoad(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.buildIndex == 2)
+                m_PauseMenu.gameObject.SetActive(true);
+        }
+
 
         #endregion
 
