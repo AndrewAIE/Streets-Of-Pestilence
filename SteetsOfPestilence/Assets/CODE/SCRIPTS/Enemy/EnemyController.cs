@@ -115,7 +115,9 @@ namespace EnemyAI
         }
         private void Update()
         {
-            if (m_deactivated && m_combatEnding) { return; }
+            if (m_deactivated || m_combatEnding) { 
+                return; 
+            }
             HandleAnimation();
             if (Recentering)
             {
