@@ -74,5 +74,15 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_SFX.Play_MetalClash();
     }
 
+    public void PlaySFX_LightHit()
+    {
+        m_SFX.Play_LightHit();
+    }
+
+    public void PlaySFX_HeavyHit()
+    {
+        m_SFX.Play_HeavyHit();
+    }
+
    
 }

@@ -76,7 +76,17 @@ namespace EnemyAi
         {
             m_enemySFXManager.Play_Enemy_OnDefeatPlayer();
         }
-       
+
+        public void PlaySFX_LightHit()
+        {
+            m_playerSFXManager.Play_LightHit();
+        }
+
+        public void PlaySFX_HeavyHit()
+        {
+            m_playerSFXManager.Play_HeavyHit();
+        }
+
     }
 }
 

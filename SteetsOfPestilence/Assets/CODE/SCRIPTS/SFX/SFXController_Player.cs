@@ -48,12 +48,16 @@ namespace PlayerController
         [SerializeField] SFX_SO_Weapon _weaponData;
         [SerializeField] Transform _clashPos;
         [Space]
-        [SerializeField] GameObject metalClash_Prefab;
-        [SerializeField] GameObject swing_Prefab;
-        
+        [SerializeField] GameObject weapon_metalClash_Prefab;
+        [SerializeField] GameObject weapon_swing_Prefab;
+        [SerializeField] GameObject weapon_lightHit_Prefab;
+        [SerializeField] GameObject weapon_heavyHit_Prefab;
+
         [HideInInspector] AudioClip metalClash_lastPlayedClip;
         [HideInInspector] AudioClip swingLight_lastPlayedClip;
         [HideInInspector] AudioClip swingHeavy_lastPlayedClip;
+        [HideInInspector] AudioClip lightHit_lastPlayedClip;
+        [HideInInspector] AudioClip heavyHit_lastPlayedClip;
 
         [Space]
         [Header("Player")]
@@ -378,7 +382,7 @@ namespace PlayerController
         private void CreateMetalClash(AudioClip clip, Vector3 position)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(metalClash_Prefab, position, Quaternion.identity);
+            GameObject audioOneshot = Instantiate(weapon_metalClash_Prefab, position, Quaternion.identity);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -404,7 +408,7 @@ namespace PlayerController
         private void CreateSwing(AudioClip clip, Vector3 position)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(swing_Prefab, position, Quaternion.identity);
+            GameObject audioOneshot = Instantiate(weapon_swing_Prefab, position, Quaternion.identity);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -428,6 +432,61 @@ namespace PlayerController
         {
             swingHeavy_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_HeavySwing, swingHeavy_lastPlayedClip);
             CreateSwing(swingHeavy_lastPlayedClip, _clashPos.position);
+        }
+
+        #endregion
+
+        #region Hit
+
+        //Light Hit
+        public void Play_LightHit()
+        {
+            lightHit_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_LightHits, lightHit_lastPlayedClip);
+            CreateLightHit(lightHit_lastPlayedClip, _clashPos.position);
+        }
+
+
+        //Heavy Hit
+        public void Play_HeavyHit()
+        {
+            heavyHit_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_HeavyHits, heavyHit_lastPlayedClip);
+            CreateHeavyHit(heavyHit_lastPlayedClip, _clashPos.position);
+        }
+
+
+        //Create Hit
+        private void CreateLightHit(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(weapon_lightHit_Prefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_Hit_volumeMin, _weaponData.SFX_Weapon_Hit_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_Hit_pitchMin, _weaponData.SFX_Weapon_Hit_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_Hit_rangeMin, _weaponData.SFX_Weapon_Hit_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        private void CreateHeavyHit(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(weapon_heavyHit_Prefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_Hit_volumeMin, _weaponData.SFX_Weapon_Hit_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_Hit_pitchMin, _weaponData.SFX_Weapon_Hit_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_Hit_rangeMin, _weaponData.SFX_Weapon_Hit_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
         }
 
         #endregion
