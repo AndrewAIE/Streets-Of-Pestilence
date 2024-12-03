@@ -67,18 +67,16 @@ namespace QTESystem
         public List<QTEInput> ActiveDisplayList;        
         [SerializeField] private float m_canvasFadeDuration;
 
-        private bool m_isBossFight = false;
-        private bool m_bossPhaseOneComplete = false;
+        
         #endregion
 
         //*** Poise Bar ***//
         #region Poise Bar
         public PoiseBarController PoiseBar;        
 
-        //comment
-        public int StreamPosition;
+        
 
-        //comment
+        //Poise variables
         public int ChangeInPoiseValue;
         public int AvailableSuccessPoints;
         public int CurrentSuccessPoints;
@@ -87,6 +85,11 @@ namespace QTESystem
         private float m_poiseChangeValue;
 
         #endregion
+
+        //Combat Variables
+        public int StreamPosition;
+        private bool m_isBossFight = false;
+        private bool m_bossPhaseOneComplete = false;
 
         //*** Timers ***//
         #region Timers
@@ -101,8 +104,7 @@ namespace QTESystem
         //*** Enum Variables ***//
         #region Enum Variables
         public ActionState ActionState;        
-        public PlayerStance CurrentPlayerStance;
-        private EncounterState m_encounterState;
+        public PlayerStance CurrentPlayerStance;        
 
         #endregion
 
@@ -121,7 +123,7 @@ namespace QTESystem
         public StreamStart StreamStart = new StreamStart();
         public ActionActive ActionActive = new ActionActive();
         public BetweenActions BetweenActions = new BetweenActions();
-        public CombatAnimation BetweenStreams = new CombatAnimation();
+        public CombatAnimation CombatAnim = new CombatAnimation();
 
         //******************** Enums **********************//
         #region Enums

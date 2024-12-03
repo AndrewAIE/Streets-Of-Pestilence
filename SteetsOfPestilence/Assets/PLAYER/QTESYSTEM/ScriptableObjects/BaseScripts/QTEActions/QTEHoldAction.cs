@@ -66,7 +66,7 @@ public class QTEHoldAction : QTEAction
         bool inputCorrect = false;
         if (_context.action.name != "Directional")
         {
-            if (!CheckSuccessWindow())
+            if (!checkSuccessWindow())
             {
                 m_qteDisplay.MissedInput(InputList);
                 m_qteDisplay.IncorrectInput(_context.action.name);
@@ -110,7 +110,7 @@ public class QTEHoldAction : QTEAction
         }        
     }
 
-    protected override bool CheckSuccessWindow()
+    protected override bool checkSuccessWindow()
     {
         if (m_timer >= m_minTime && m_timer <= m_maxTime)
         {

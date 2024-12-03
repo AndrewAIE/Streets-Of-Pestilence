@@ -52,7 +52,6 @@ namespace QTESystem
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
             m_qteManager.Timer = 0;            
         }
-
         public override void StateUpdate(float _timer)
         {
             if (_timer >= m_timeLimit)
@@ -61,7 +60,6 @@ namespace QTESystem
                 ExitState();
             }
         }
-
         public override void ExitState()
         {
             m_qteManager.CurrentState.EnterState(m_qteManager);        
@@ -85,8 +83,7 @@ namespace QTESystem
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.CreateInputRings();
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;        
-                        
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;                                
         }
 
         public override void StateUpdate(float _timer)
@@ -139,7 +136,7 @@ namespace QTESystem
 
         public override void StateUpdate(float _timer)
         {
-            if (_timer > m_timeLimit)
+            if (_timer >= m_timeLimit)
             {                
                 if (m_qteManager.StreamPosition < m_qteManager.ActiveStream.Actions.Count)
                 {
@@ -148,7 +145,7 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;                    
+                    m_qteManager.CurrentState = m_qteManager.CombatAnim;                    
                     ExitState();
                 }                
             }

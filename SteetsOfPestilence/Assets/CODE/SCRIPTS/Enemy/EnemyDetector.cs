@@ -58,7 +58,6 @@ namespace EnemyAI
                     return true;
                 }
             }
-
             return false;
         }
 

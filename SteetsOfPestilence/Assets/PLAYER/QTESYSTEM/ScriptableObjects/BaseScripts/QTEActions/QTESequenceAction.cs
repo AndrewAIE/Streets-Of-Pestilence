@@ -86,7 +86,7 @@ namespace QTESystem
             {
                 return;   
             }            
-            if (CheckSuccessWindow() && _context.action == m_readyInputs[m_activeTimeSlot])
+            if (checkSuccessWindow() && _context.action == m_readyInputs[m_activeTimeSlot])
             {
                 m_qteDisplay.SuccessfulInput(InputList[m_activeTimeSlot], m_activeTimeSlot);                                                            
                 CorrectInputs++;
@@ -94,8 +94,7 @@ namespace QTESystem
                 return;
             }
             if (m_activeBools[m_activeTimeSlot])
-            {
-                Debug.Log("ZOOOOM");
+            {                
                 m_actionComplete = true;
                 m_qteDisplay.MissedInput(InputList[m_activeTimeSlot], m_activeTimeSlot);
                 m_qteDisplay.IncorrectInput(_context.action.name);
@@ -103,7 +102,7 @@ namespace QTESystem
             }           
         }
 
-        protected override bool CheckSuccessWindow()
+        protected override bool checkSuccessWindow()
         {
             if (m_timer >= m_actionTimeLimits[m_activeTimeSlot] - (m_successBuffer / 1.5f) && m_timer <= m_actionTimeLimits[m_activeTimeSlot] + (m_successBuffer / 2f))
             {
@@ -116,11 +115,11 @@ namespace QTESystem
         {
             
         }
-        private float GetTimeBetweenInputs(int i)
+        private float GetTimeBetweenInputs(int _index)
         {
             if(m_timeBetweenInputs.Length > 1)
             {
-                return m_timeBetweenInputs[i];
+                return m_timeBetweenInputs[_index];
             }
             else
             {
