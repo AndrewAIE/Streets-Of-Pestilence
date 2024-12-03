@@ -1,5 +1,7 @@
 using UnityEngine;
 using Pixelplacement;
+using UnityEngine.Audio;
+using System.Collections;
 
 namespace PlayerController
 {
@@ -9,6 +11,12 @@ namespace PlayerController
         #region Variables
         [HideInInspector] PlayerManager _manager;
         [HideInInspector] SFXTester _tester;
+        [Space]
+        [SerializeField] AudioMixer _mixerGameScene;
+        public string exposedParameter = "Volume"; // Make sure this matches your exposed parameter name
+        public float fadeDuration = 2.0f; // Time to fade in (seconds)
+        public float targetVolume = 0.0f; // Target volume in decibels (0 is default max in Unity)
+
         [Space]
         [SerializeField] AmbienceMode ambienceMode;
 
@@ -100,7 +108,32 @@ namespace PlayerController
             _lampAmbience.clip = _playerData.SFX_Player_LampAmbience_clip;
             _lowPoiseAmbience.clip = _playerData.SFX_Player_LowPoiseAmbience_clip;
 
+            
+        }
 
+        private void Start()
+        {
+            StartCoroutine(FadeInAudio());
+        }
+
+        private IEnumerator FadeInAudio()
+        {
+            float currentTime = 0.0f;
+            float startVolume = -80.0f; // Starting volume (usually silence)
+
+            // Set the starting volume
+            _mixerGameScene.SetFloat(exposedParameter, startVolume);
+
+            while (currentTime < fadeDuration)
+            {
+                currentTime += Time.deltaTime;
+                float newVolume = Mathf.Lerp(startVolume, targetVolume, currentTime / fadeDuration);
+                _mixerGameScene.SetFloat(exposedParameter, newVolume);
+                yield return null;
+            }
+
+            // Ensure final value is set
+            _mixerGameScene.SetFloat(exposedParameter, targetVolume);
         }
 
         #endregion
