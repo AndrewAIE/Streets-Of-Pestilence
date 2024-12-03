@@ -12,7 +12,7 @@ namespace EnemyAI
         /// <summary>
         /// 
         /// </summary>
-        [SerializeField] private float m_viewAngle = 90;
+        [SerializeField] private float m_viewAngle = 50;
         [SerializeField] private float combatDistance = 2f;
         [SerializeField] float m_angle;
         public LayerMask m_obstructMask;

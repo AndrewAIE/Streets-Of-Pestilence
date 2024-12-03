@@ -84,5 +84,10 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_SFX.Play_HeavyHit();
     }
 
+    public void ExitCombat()
+    {
+        m_player.EndCombat();
+    }
+
    
 }
