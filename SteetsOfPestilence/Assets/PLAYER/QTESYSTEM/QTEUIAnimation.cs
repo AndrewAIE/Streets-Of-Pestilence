@@ -161,7 +161,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void FadeOutUI(Image _image, float _duration)
     {
-        _image.color = Color.white;
+        //_image.color = Color.white;
         Color color = Color.clear;
         m_activeTweens.Add(Tween.Color(_image, color, _duration, 0, null, Tween.LoopType.None, null, null, false));
         
