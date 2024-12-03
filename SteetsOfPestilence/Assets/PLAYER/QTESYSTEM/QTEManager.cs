@@ -295,8 +295,7 @@ namespace QTESystem
 
         public void LoadUI(EnemyType _enemyType)
         {
-            QteDisplay.LoadUI(_enemyType);
-            QteDisplay.FadeInUI(m_canvasFadeDuration);
+            QteDisplay.LoadUI(_enemyType);            
         }
 
         public void EndOfEncounter()
