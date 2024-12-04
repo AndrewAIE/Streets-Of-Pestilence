@@ -128,7 +128,7 @@ namespace EnemyAI
                 FacePlayer();
                 RecenterEnemy(m_player);
             }
-            else if (!m_player.PlayerInCombat())
+            else if (m_player.PlayerNotInCombat())
             {
                 if (m_detector.m_canSeePlayer)
                     m_timer = m_waitTime;
@@ -250,15 +250,17 @@ namespace EnemyAI
             }
             m_agent.stoppingDistance = m_defaultStoppingDistance;
             m_targetPosition = m_detector.LastPosition();
-            if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
+
+            if (!m_detector.EnemyIsClose())
+            {
+                m_agent.destination = m_targetPosition;
+                             
+            }
+            else if(m_player.PlayerNotInCombat())
             {
                 m_player.EnterCombat(m_EncounterData, this);
                 m_isInCombat = true;
                 return;
-            }
-            else
-            {
-                m_agent.destination = m_targetPosition;
             }
         }
 

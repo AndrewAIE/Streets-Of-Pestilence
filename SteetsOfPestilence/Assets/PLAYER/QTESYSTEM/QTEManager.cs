@@ -157,7 +157,7 @@ namespace QTESystem
 
         private void Awake()
         {
-            InputActions = new QTEInputs();
+            
             ActiveDisplayList = new List<QTEInput>();
             CombatAnimation = GetComponentInChildren<QTECombatAnimation>();
             m_slowMoManager = GetComponentInChildren<SlowMotionManager>();
@@ -166,7 +166,8 @@ namespace QTESystem
         }
         
         private void OnEnable()
-        {            
+        {
+            InputActions = new QTEInputs();
             InputActions.Enable();
             m_actionMap = InputActions.Inputs;
             m_actionMap.actionTriggered += onActionInput;
@@ -207,6 +208,11 @@ namespace QTESystem
         #region LoadingEncounterData
         public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
         {
+            //make sure active stream has been cleared
+            if (ActiveStream)
+            {
+                ActiveStream = null;
+            }            
             //load data from enemy encounter data and start encounter            
             EncounterData = _encounterData;            
             Enemy = _enemy;
@@ -295,7 +301,7 @@ namespace QTESystem
 
         public void LoadUI(EnemyType _enemyType)
         {
-            QteDisplay.LoadUI(_enemyType);            
+            QteDisplay.LoadUI(_enemyType, m_canvasFadeDuration);            
         }
 
         public void EndOfEncounter()
@@ -309,9 +315,9 @@ namespace QTESystem
                 m_isBossFight = false;
                 m_bossPhaseOneComplete = false;
             }
-            
-            Enemy.EndCombat();            
-            WaitingStreams.Clear();            
+            WaitingStreams.Clear();
+            Enemy.EndCombat();           
+                       
             this.enabled = false;           
         }
 
@@ -319,8 +325,7 @@ namespace QTESystem
         {
             QteDisplay.DeactivatePoiseBar();
             QteDisplay.DeactivatePanels();
-            Player.SetPlayerActive(true);
-            ActiveStream = null;
+            Player.SetPlayerActive(true);            
         }
 
         #endregion
@@ -369,7 +374,7 @@ namespace QTESystem
             {
                 for(int i = 0; i < streamData.Actions.Count; i++)
                 {
-                    Debug.Log($"Creating Action {i} for {streamData.name}");
+                    
                     streamData.Actions[i].CreateInputRings();
                 }
             }
@@ -389,13 +394,15 @@ namespace QTESystem
         
         #region Combat and Poise Bar
 
-        //Comment
+        /// <summary>
+        /// Check current poise value is and make decision on next phase
+        /// </summary>
         public void PoiseValueCheck()
         {
             float successRate = (float)CurrentSuccessPoints/(float)AvailableSuccessPoints;            
             int poiseChange;
             m_poiseChangeValue += 0.3f;
-            Debug.Log($"Poise = {m_poiseChangeValue}");
+            
             switch(successRate)
             {
                 case 0:
@@ -417,12 +424,13 @@ namespace QTESystem
                     poiseChange = 0;                    
                     break;
             }
-            //load second phase of boss fight if necessary           
+                   
             
             //adjust poise value based of successes and falures in stream 
             PoiseBar.SetPoise(poiseChange);
             if (PoiseBar._poise >= PoiseBar._maxPoise)
             {
+                //load second phase of boss fight if necessary    
                 if (m_isBossFight && !m_bossPhaseOneComplete)
                 {
                     LoadBossEncounterTwo();                    
@@ -436,16 +444,18 @@ namespace QTESystem
             }            
         }
         
-        //Player Win
+        /// <summary>
+        /// Player has won encounter
+        /// </summary>
         private void playerWin()
-        {
-            
+        {           
             CombatAnimation.PlayAnimation("PlayerWin");            
-            EndOfEncounter();
-            Invoke("ReactivatePlayer", 3.8f);
+            EndOfEncounter();            
         }
 
-        //Player Loss
+        /// <summary>
+        /// Player has lost encounter
+        /// </summary>
         private void playerLoss()
         {            
             Enemy.DisableEnemy();
@@ -453,7 +463,10 @@ namespace QTESystem
             CombatAnimation.PlayAnimation("EnemyWin");
             
         }       
-
+        /// <summary>
+        /// "true" slow down time, "false" restore to full speed
+        /// </summary>
+        /// <param name="_activate"></param>
         public void SlowTime(bool _activate)
         {
             if(_activate)
@@ -463,23 +476,31 @@ namespace QTESystem
             }
             m_slowMoManager.TimeSpeedUp();
         }
-
+        /// <summary>
+        /// Set Endstate to true to trigger next qte
+        /// </summary>
         public void ResetAnimationState()
         {
             CombatAnimation.EndState = true;
             CombatAnimation.ResetTriggers();            
         }   
-
+        /// <summary>
+        /// Fade in QTE UI
+        /// </summary>
         public void FadeInUI()
         {
-            QteDisplay.FadeInUI(m_canvasFadeDuration);
+            StartCoroutine(QteDisplay.FadeInUI(m_canvasFadeDuration));
         }
-
+        /// <summary>
+        /// Fade Out QTE UI
+        /// </summary>
         public void FadeOutUI()
         {
             QteDisplay.FadeOutUI(m_canvasFadeDuration);
         }
-
+        /// <summary>
+        /// Instantly win combat for debugging and testing purposes
+        /// </summary>
         public void InstantWin()
         {
             playerWin();
@@ -494,14 +515,6 @@ namespace QTESystem
         {
             if(_context.performed)
             {
-                print(_context.action.name);
-#if UNITY_EDITOR
-                if (_context.action.name == "Win")
-                {
-                    print("WIN");
-                    InstantWin();
-                }
-#endif
                 QteDisplay.Input(_context.action.name);
                 if (ActionState == ActionState.running)
                 {
@@ -521,19 +534,22 @@ namespace QTESystem
             Timer = 0;            
             ActiveDisplayList.Clear();
             StartCoroutine(DeleteCues());
+            
         }
+
+        
 
         private IEnumerator DeleteCues()
         {
             yield return new WaitForSecondsRealtime(0.35f);            
             int count = QteDisplay.FinishingCues.Count;
-            //Debug.Log($"Number of rings to be removed {count}");
+            
             for (int i = 0; i < count; i++)
             {                
                 GameObject holder = QteDisplay.FinishingCues[0];
                 QteDisplay.FinishingCues.Remove(holder);
                 Destroy(holder);
-                //Debug.Log($"Removing ring {i + 1}");
+                
             }
         }
         #endregion

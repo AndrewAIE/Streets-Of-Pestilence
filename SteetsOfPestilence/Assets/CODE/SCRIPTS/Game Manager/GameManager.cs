@@ -52,7 +52,7 @@ namespace Management
         private void Awake()
         {
             SceneManager.sceneLoaded += onSceneLoad;
-            m_input = new PlayerInputMap();
+            
             /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
@@ -85,6 +85,7 @@ namespace Management
         }
         private void OnEnable()
         {
+            m_input = new PlayerInputMap();
             m_pauseInput = m_input.UI.Pause;
             m_pauseInput.Enable();
             m_exitInput = m_input.UI.Exit;

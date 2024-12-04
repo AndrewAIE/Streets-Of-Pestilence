@@ -34,11 +34,6 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_player.KillPlayer();
     }
 
-    public void ReactivatePlayerControl()
-    {
-        m_player.SetPlayerActive(true);
-    }
-
     public void FadeInUI()
     {
         m_qte.FadeInUI();
@@ -86,6 +81,7 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
 
     public void ExitCombat()
     {
+        m_qte.ReactivatePlayer();
         m_player.EndCombat();
     }
 
