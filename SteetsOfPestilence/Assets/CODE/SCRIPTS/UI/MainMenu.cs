@@ -37,6 +37,7 @@ namespace Management
 
         private void Start()
         {
+            _interactable = true;
             m_audioSource = GetComponent<AudioSource>();
             if (_currentButton == null)
             {
@@ -102,6 +103,7 @@ namespace Management
 
         public void StartGame()
         {
+            _interactable = false;
             TriggerTransitionAnimation();
         }
 

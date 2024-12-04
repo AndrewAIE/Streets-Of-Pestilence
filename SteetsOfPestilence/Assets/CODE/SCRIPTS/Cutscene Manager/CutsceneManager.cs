@@ -32,7 +32,7 @@ namespace Management
         // Update is called once per frame
         void Update()
         {
-            if (_gameManager.m_Gamestate == GameState.Cutscene)
+            if (_gameManager.m_gameState == GameState.Cutscene)
             {
                 if (Input.GetButtonDown("Fire1") && !_skipCutscene && _pressAtoskipActive)
                 {

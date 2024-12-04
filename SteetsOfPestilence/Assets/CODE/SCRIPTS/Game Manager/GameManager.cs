@@ -18,7 +18,7 @@ namespace Management
     {
         //*************************************** VARAIBLES **********************************************//
         #region Variables
-        internal GameState m_Gamestate;
+        internal GameState m_gameState;
 
 
         #region OtherObjects
@@ -115,7 +115,7 @@ namespace Management
                 {
                     m_PauseMenu.Pause();
                 }
-                else if (m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+                else if (m_exitInput.WasPressedThisFrame() && m_gameState == GameState.Paused)
                 {
                     m_PauseMenu.Pause();
                 }
@@ -131,10 +131,10 @@ namespace Management
         #region Game State
         public void SetGameState(GameState state)
         {
-            m_Gamestate = state;
+            m_gameState = state;
             if (m_PlayerManager == null)
                 m_PlayerManager = FindObjectOfType<PlayerManager>();
-            switch (m_Gamestate)
+            switch (m_gameState)
             {
                 case GameState.Cutscene:
                     m_PlayerManager.SetPlayerActive(false);
@@ -160,6 +160,11 @@ namespace Management
         public void SetGameState_Playing()
         {
             SetGameState(GameState.Playing);
+        }
+
+        public GameState GetGameState()
+        {
+            return m_gameState;
         }
 
 

@@ -184,13 +184,13 @@ namespace QTESystem
         void Update()
         {
             //check for pause functionality
-            if (m_manager.m_Gamestate == GameState.Paused && !m_paused)
+            if (m_manager.m_gameState == GameState.Paused && !m_paused)
             {
                 m_paused = true;
                 QteDisplay.Pause();
                 InputActions.Disable();
             }
-            if(m_manager.m_Gamestate !=GameState.Paused && m_paused)
+            if(m_manager.m_gameState !=GameState.Paused && m_paused)
             {
                 m_paused = false;
                 QteDisplay.Resume();
@@ -479,6 +479,12 @@ namespace QTESystem
         {
             QteDisplay.FadeOutUI(m_canvasFadeDuration);
         }
+
+        public void InstantWin()
+        {
+            playerWin();
+            Enemy.KillEnemy();
+        }
         #endregion
 
         
@@ -487,6 +493,12 @@ namespace QTESystem
         {
             if(_context.performed)
             {
+#if UNITY_EDITOR
+                if (_context.action.name == "Win")
+                {
+                    InstantWin();
+                }
+#endif
                 QteDisplay.Input(_context.action.name);
                 if (ActionState == ActionState.running)
                 {

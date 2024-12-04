@@ -189,6 +189,7 @@ namespace EnemyAI
 
             if (m_EType == EnemyType.Boss)
             {
+                m_player.SetPlayerActive(false);
                 m_EndGameAnimator.SetTrigger("End Trigger");
             }
         }

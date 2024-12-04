@@ -25,7 +25,7 @@ namespace Management
 
         public void Pause()
         {
-            bool pause = m_manager.m_Gamestate != GameState.Paused;
+            bool pause = m_manager.m_gameState != GameState.Paused;
             Pause(pause);
         }
         public void Pause(bool pause)
