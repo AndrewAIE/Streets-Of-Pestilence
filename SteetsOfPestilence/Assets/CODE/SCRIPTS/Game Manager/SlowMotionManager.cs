@@ -60,4 +60,11 @@ public class SlowMotionManager : MonoBehaviour
         timeSpeedUp = true;
         _camera.PP_Slowmo_Off();
     }
+
+    public void CancelTimeWarp()
+    {
+        timeSlowDown = false;
+        timeSpeedUp = false;
+        _camera.PP_Slowmo_Off();
+    }
 }

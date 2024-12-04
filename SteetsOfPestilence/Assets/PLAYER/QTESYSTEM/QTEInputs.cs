@@ -100,6 +100,15 @@ namespace QTESystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Win"",
+                    ""type"": ""Button"",
+                    ""id"": ""006c37c4-c578-4a7e-96ce-f1307d1f35e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -278,6 +287,17 @@ namespace QTESystem
                     ""action"": ""LTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6416960-dba6-4eee-8700-87edc7d57962"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Win"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -294,6 +314,7 @@ namespace QTESystem
             m_Inputs_LShoulder = m_Inputs.FindAction("LShoulder", throwIfNotFound: true);
             m_Inputs_RTrigger = m_Inputs.FindAction("RTrigger", throwIfNotFound: true);
             m_Inputs_LTrigger = m_Inputs.FindAction("LTrigger", throwIfNotFound: true);
+            m_Inputs_Win = m_Inputs.FindAction("Win", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -363,6 +384,7 @@ namespace QTESystem
         private readonly InputAction m_Inputs_LShoulder;
         private readonly InputAction m_Inputs_RTrigger;
         private readonly InputAction m_Inputs_LTrigger;
+        private readonly InputAction m_Inputs_Win;
         public struct InputsActions
         {
             private @QTEInputs m_Wrapper;
@@ -375,6 +397,7 @@ namespace QTESystem
             public InputAction @LShoulder => m_Wrapper.m_Inputs_LShoulder;
             public InputAction @RTrigger => m_Wrapper.m_Inputs_RTrigger;
             public InputAction @LTrigger => m_Wrapper.m_Inputs_LTrigger;
+            public InputAction @Win => m_Wrapper.m_Inputs_Win;
             public InputActionMap Get() { return m_Wrapper.m_Inputs; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -408,6 +431,9 @@ namespace QTESystem
                 @LTrigger.started += instance.OnLTrigger;
                 @LTrigger.performed += instance.OnLTrigger;
                 @LTrigger.canceled += instance.OnLTrigger;
+                @Win.started += instance.OnWin;
+                @Win.performed += instance.OnWin;
+                @Win.canceled += instance.OnWin;
             }
 
             private void UnregisterCallbacks(IInputsActions instance)
@@ -436,6 +462,9 @@ namespace QTESystem
                 @LTrigger.started -= instance.OnLTrigger;
                 @LTrigger.performed -= instance.OnLTrigger;
                 @LTrigger.canceled -= instance.OnLTrigger;
+                @Win.started -= instance.OnWin;
+                @Win.performed -= instance.OnWin;
+                @Win.canceled -= instance.OnWin;
             }
 
             public void RemoveCallbacks(IInputsActions instance)
@@ -463,6 +492,7 @@ namespace QTESystem
             void OnLShoulder(InputAction.CallbackContext context);
             void OnRTrigger(InputAction.CallbackContext context);
             void OnLTrigger(InputAction.CallbackContext context);
+            void OnWin(InputAction.CallbackContext context);
         }
     }
 }

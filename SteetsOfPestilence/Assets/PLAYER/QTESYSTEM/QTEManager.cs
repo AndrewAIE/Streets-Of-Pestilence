@@ -484,6 +484,7 @@ namespace QTESystem
         {
             playerWin();
             Enemy.KillEnemy();
+            Time.timeScale = 1;
         }
         #endregion
 
@@ -493,9 +494,11 @@ namespace QTESystem
         {
             if(_context.performed)
             {
+                print(_context.action.name);
 #if UNITY_EDITOR
                 if (_context.action.name == "Win")
                 {
+                    print("WIN");
                     InstantWin();
                 }
 #endif

@@ -12,11 +12,12 @@ namespace Management
         /// </summary>
         [SerializeField] private string m_MainMenuName = "MainMenu";
         private GameManager m_manager;
+        private SlowMotionManager m_slomo;
         private float m_currentTimeScale;
         private void Start()
         {
             m_manager = GetComponentInParent<GameManager>();
-
+            m_slomo = FindObjectOfType<SlowMotionManager>();
             EventSystem.current.SetSelectedGameObject(null);
             EnableChildren(false);
             Time.timeScale = 1;
@@ -70,12 +71,16 @@ namespace Management
         public void RestartLevel()
         {
             Pause(false);
+            m_slomo.CancelTimeWarp();
+            Time.timeScale = 1;
             SceneChanger.ResetScene();
         }
 
         public void GoToMainMenu()
         {
             Pause(false);
+            m_slomo.CancelTimeWarp();
+            Time.timeScale = 1;
             SceneChanger.ChangeScene(m_MainMenuName);
         }
         public void QuitGame()
