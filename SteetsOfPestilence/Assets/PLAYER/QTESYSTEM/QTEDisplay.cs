@@ -69,7 +69,9 @@ namespace QTESystem
         [SerializeField]
         private GameObject[] m_maskPanels;
         #region Panel       
-        
+        /// <summary>
+        /// Deactivate all QTE UI Panels
+        /// </summary>
         public void DeactivatePanels()
         {
             foreach (GameObject panel in m_iconPanels)
@@ -81,7 +83,11 @@ namespace QTESystem
                 panel.SetActive(false);            
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_enemyType"></param>
+        /// <param name="_fadeDuration"></param>
         internal void LoadUI(EnemyAI.EnemyType _enemyType, float _fadeDuration)
         {
             

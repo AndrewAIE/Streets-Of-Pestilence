@@ -206,6 +206,11 @@ namespace QTESystem
         #endregion
         
         #region LoadingEncounterData
+        /// <summary>
+        /// Load Encounter Data from Enemy
+        /// </summary>
+        /// <param name="_encounterData"></param>
+        /// <param name="_enemy"></param>
         public void LoadEncounter(QTEEncounterData _encounterData, EnemyController _enemy)
         {
             //make sure active stream has been cleared
@@ -243,7 +248,9 @@ namespace QTESystem
             CurrentState.EnterState(this);
             
         }
-
+        /// <summary>
+        /// Load second phase of boss encounter
+        /// </summary>
         public void LoadBossEncounterTwo()
         {
             m_bossPhaseOneComplete = true;
@@ -261,7 +268,9 @@ namespace QTESystem
             PoiseBar.ResetPoise();
             m_poiseChangeValue = m_defaultPoiseChangeValue;
         }
-
+        /// <summary>
+        /// Randomly select stream from available streams
+        /// </summary>
         public void SelectStream()
         {
             if(WaitingStreams.Count == 0)
@@ -273,7 +282,10 @@ namespace QTESystem
                 ActiveStream = Instantiate(SelectRandomStream());
             }            
         }
-
+        /// <summary>
+        /// Get list of all QTE Inputs from the active stream
+        /// </summary>
+        /// <returns></returns>
         public List<QTEInput> GetStreamActionInputs()
         {
             List<QTEInput> actions = new List<QTEInput>();
@@ -286,24 +298,33 @@ namespace QTESystem
             }
             return actions;
         }
-
+        /// <summary>
+        /// Find Animators from Player and Enemy in current QTE encounter
+        /// </summary>
         public void SetQTEAnimators()
         {
             Animator player = Player.GetComponentInChildren<Animator>();
             Animator enemy = Enemy.transform.parent.GetComponentInChildren<Animator>();            
             CombatAnimation.SetQTEAnimations(player, enemy);
         }
-
+        /// <summary>
+        /// Select next animation to play
+        /// </summary>
         public void SelectQTECombatAnimations()
         {
             CombatAnimation.SelectAnimation(PoiseBar._poise);
         }
-
+        /// <summary>
+        /// Load QTE UI based on current enemy type
+        /// </summary>
+        /// <param name="_enemyType"></param>
         public void LoadUI(EnemyType _enemyType)
         {
             QteDisplay.LoadUI(_enemyType, m_canvasFadeDuration);            
         }
-
+        /// <summary>
+        /// Delete all remaining cues, streams, detach enemy from encounter and disable QTE Manager
+        /// </summary>
         public void EndOfEncounter()
         {
             if(QteDisplay.FinishingCues.Count > 0)
@@ -320,7 +341,9 @@ namespace QTESystem
                        
             this.enabled = false;           
         }
-
+        /// <summary>
+        /// Deactivate QTE UI Panels and Reactivate Player Controls
+        /// </summary>
         public void ReactivatePlayer()
         {
             QteDisplay.DeactivatePoiseBar();
@@ -332,7 +355,10 @@ namespace QTESystem
         
         #region Stream Data
 
-        //Comment
+        /// <summary>
+        /// Enter Different Combat Stance and select appropriate stream data
+        /// </summary>
+        /// <param name="_stance"></param>
         public void EnterStance(PlayerStance _stance)
         {
             CurrentPlayerStance = _stance;
@@ -352,7 +378,10 @@ namespace QTESystem
             }            
         }        
 
-        //Comment
+        /// <summary>
+        /// Select Random Stream from available streams
+        /// </summary>
+        /// <returns></returns>
         public QTEStreamData SelectRandomStream()
         {
             //Clear tweens from previous stream
@@ -367,7 +396,9 @@ namespace QTESystem
             }
             return selectedStream;
         }
-
+        /// <summary>
+        /// TUrn on input cues for current action
+        /// </summary>
         public void ActivateInputCues()
         {
             foreach (QTEStreamData streamData in ActiveStreamData)
@@ -379,12 +410,12 @@ namespace QTESystem
                 }
             }
         }
-
+        //Instantiate Action and set to active action
         public QTEAction CreateAction()
         {
             return ActiveAction = Instantiate(ActiveStream.Actions[StreamPosition]);
         }
-
+        //Destroy Active Action
         public void DestroyAction()
         {
             Destroy(ActiveAction);
@@ -395,7 +426,7 @@ namespace QTESystem
         #region Combat and Poise Bar
 
         /// <summary>
-        /// Check current poise value is and make decision on next phase
+        /// Check current poise value is and select next phase based on poise amount
         /// </summary>
         public void PoiseValueCheck()
         {
@@ -511,6 +542,10 @@ namespace QTESystem
 
         
         #region Inputs
+        /// <summary>
+        /// Takes in Input data and checks it against the Active Action
+        /// </summary>
+        /// <param name="_context"></param>
         private void onActionInput(InputAction.CallbackContext _context)
         {
             if(_context.performed)
@@ -527,7 +562,9 @@ namespace QTESystem
                 ActiveAction?.OnRelease(_context);
             }                    
         }
-
+        /// <summary>
+        /// Reset stream index, timer and UI data from Stream Data
+        /// </summary>
         public void ResetStreamData()
         {
             StreamPosition = 0;
@@ -535,10 +572,11 @@ namespace QTESystem
             ActiveDisplayList.Clear();
             StartCoroutine(DeleteCues());
             
-        }
-
-        
-
+        }        
+        /// <summary>
+        /// Remove and destroy all cues from the waiting cues list
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator DeleteCues()
         {
             yield return new WaitForSecondsRealtime(0.35f);            
