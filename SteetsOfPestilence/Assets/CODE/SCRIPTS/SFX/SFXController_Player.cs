@@ -69,10 +69,13 @@ namespace PlayerController
         [SerializeField] GameObject armourClink_Prefab;
         [SerializeField] GameObject bodyDrop_Prefab;
         [SerializeField] GameObject deathScream_Prefab;
+        [SerializeField] GameObject grunt_Prefab;
+        [SerializeField] GameObject longGrunt_Prefab;
         [Space]
         [HideInInspector] AudioClip armourClink_LastPlayedClip;
         [HideInInspector] AudioClip bodyDrop_LastPlayedClip;
         [HideInInspector] AudioClip deathScream_LastPlayedClip;
+        [HideInInspector] AudioClip grunt_LastPlayedClip;
 
         [Space]
         [SerializeField] SFX_SO_Impact _impactData;
@@ -676,6 +679,59 @@ namespace PlayerController
         #endregion
 
         #endregion
+
+        /*** Grunts ***/
+
+        #region Player Grunts
+        private void Create_Player_Grunt(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(grunt_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_playerData.SFX_Player_Grunts_volumeMin, _playerData.SFX_Player_Grunts_volumeMax);
+            audioSource.pitch = Random.Range(_playerData.SFX_Player_Grunts_pitchMin, _playerData.SFX_Player_Grunts_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Player_Grunt()
+        {
+            AudioClip lastPlayedClip = null;
+            AudioClip uniqueClip = GetUniqueClip(_playerData.SFX_Player_Grunts_clips, lastPlayedClip);
+            lastPlayedClip = uniqueClip;
+            Create_Player_Grunt(uniqueClip);
+        }
+        #endregion
+
+        #region Player Long Grunt
+        private void Create_Player_LongGrunt(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(longGrunt_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_playerData.SFX_Player_LongGrunt_volumeMin, _playerData.SFX_Player_LongGrunt_volumeMax);
+            audioSource.pitch = Random.Range(_playerData.SFX_Player_LongGrunt_pitchMin, _playerData.SFX_Player_LongGrunt_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Player_LongGrunt()
+        {
+            AudioClip lastPlayedClip = null;
+            AudioClip uniqueClip = GetUniqueClip(_playerData.SFX_Player_LongGrunt_clips, lastPlayedClip);
+            lastPlayedClip = uniqueClip;
+            Create_Player_LongGrunt(uniqueClip);
+        }
+        #endregion
+
 
         #endregion
     }
