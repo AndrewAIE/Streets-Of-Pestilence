@@ -32,4 +32,20 @@ public class SFX_SO_Player : ScriptableObject
     [SerializeField] public float SFX_Player_DeathScream_volumeMin;
     [SerializeField] public float SFX_Player_DeathScream_pitchMax;
     [SerializeField] public float SFX_Player_DeathScream_pitchMin;
+
+    [Header("Player Grunts")]
+    [SerializeField] public AudioClip[] SFX_Player_Grunts_clips;
+    [SerializeField] public float SFX_Player_Grunts_volumeMax;
+    [SerializeField] public float SFX_Player_Grunts_volumeMin;
+    [SerializeField] public float SFX_Player_Grunts_pitchMax;
+    [SerializeField] public float SFX_Player_Grunts_pitchMin;
+
+    [Header("Player Long Grunt")]
+    [SerializeField] public AudioClip[] SFX_Player_LongGrunt_clips;
+    [SerializeField] public float SFX_Player_LongGrunt_volumeMax;
+    [SerializeField] public float SFX_Player_LongGrunt_volumeMin;
+    [SerializeField] public float SFX_Player_LongGrunt_pitchMax;
+    [SerializeField] public float SFX_Player_LongGrunt_pitchMin;
+
+
 }

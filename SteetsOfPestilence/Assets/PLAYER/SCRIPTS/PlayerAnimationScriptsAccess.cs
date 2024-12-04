@@ -89,5 +89,15 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_player.EndCombat();
     }
 
+    public void PlaySFX_Grunt()
+    {
+       m_SFX.Play_Player_Grunt();
+    }
+
+    public void PlaySFX_LongGrunt()
+    {
+        m_SFX.Play_Player_LongGrunt();
+    }
+
    
 }
