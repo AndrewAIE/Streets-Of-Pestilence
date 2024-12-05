@@ -58,7 +58,7 @@ MonoBehaviour:
   _pp_General: {fileID: 5707620037973360797}
   _pp_Combat_Slowmo: {fileID: 5793219144064260059}
   _pp_DeathGreyscale: {fileID: 7850610213773527325}
-  _pp_SlowMoTime: 2
+  _pp_SlowMoTime: 1
 --- !u!1 &1343300042823386666
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,17 +113,17 @@ PrefabInstance:
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.192859
+      value: 2.4285264
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.469528
+      value: 2.398653
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.17337805
+      value: 0.4546427
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
@@ -230,10 +230,75 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410234, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_YAxisRecentering.m_enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410234, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_RecenterToTargetHeading.m_enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 974449609491410235, guid: c710607dc959bd3469ad91fc17db2758,
         type: 3}
       propertyPath: m_Name
       value: CM FreeLook
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410238, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_ApplyAfter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_Damping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_Strategy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_CameraRadius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_MaximumEffort
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_SmoothingTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_DampingWhenOccluded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_MinimumOcclusionTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_CollideAgainst.m_Bits
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_OptimalTargetDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 974449609491410239, guid: c710607dc959bd3469ad91fc17db2758,
+        type: 3}
+      propertyPath: m_MinimumDistanceFromTarget
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c710607dc959bd3469ad91fc17db2758, type: 3}

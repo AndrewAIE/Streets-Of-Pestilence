@@ -65,7 +65,7 @@ namespace Management
             }
 
             //set pointer position
-            if (_currentButton != null)
+            if (_currentButton != null && _pointerTransform.gameObject.activeInHierarchy)
             {
                 Vector3 newPos = _currentButton.gameObject.transform.position;
                
