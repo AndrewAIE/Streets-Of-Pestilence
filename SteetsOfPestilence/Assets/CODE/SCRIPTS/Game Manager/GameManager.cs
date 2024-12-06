@@ -111,6 +111,12 @@ namespace Management
 
         private void Update()
         {
+            if(Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+
+            }
+
             if (SceneChanger.CurrentScene > 1)
             {
                 if (m_pauseInput.WasPressedThisFrame())
