@@ -13,8 +13,6 @@ namespace Management
         [Space]
         [SerializeField] GameObject _buttonParent;
         [SerializeField] Button _currentButton;
-        [SerializeField] Button[] _buttons;
-        [SerializeField] int _buttonIndex;
         [Space]
         [SerializeField] Color _defaultUnderlay;
         [SerializeField] Color _redUnderlay;
@@ -37,15 +35,16 @@ namespace Management
         public float targetVolume_OFF = -80.0f; // Target volume in decibels (0 is default max in Unity)
         public float currentVolume;
 
-        private void Awake()
+        private void Start()
         {
+            _interactable = true;
             m_audioSource = GetComponent<AudioSource>();
             if (_currentButton == null)
             {
                 _currentButton = GetComponentInChildren<Button>();
                 EventSystem.current.SetSelectedGameObject(_currentButton.gameObject);
             }
-            
+
             _pointerOffset.x = _pointerTransform.position.x;
 
             _pointerTransform.localPosition = _pointerStartPosition;
@@ -66,7 +65,7 @@ namespace Management
             }
 
             //set pointer position
-            if (_currentButton != null)
+            if (_currentButton != null && _pointerTransform.gameObject.activeInHierarchy)
             {
                 Vector3 newPos = _currentButton.gameObject.transform.position;
                
@@ -104,6 +103,7 @@ namespace Management
 
         public void StartGame()
         {
+            _interactable = false;
             TriggerTransitionAnimation();
         }
 

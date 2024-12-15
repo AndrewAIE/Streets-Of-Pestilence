@@ -70,7 +70,7 @@ public class PoiseBarController : MonoBehaviour
         //do other stuff
         UpdatePoiseBar();
 
-        if(_targetAmount <= _lowPoiseThres && !_isLowPoise)
+        /*if(_targetAmount <= _lowPoiseThres && !_isLowPoise)
         {
             _lowPoiseAnimator.SetTrigger("LowPoiseOn");
             _isLowPoise = true;
@@ -79,7 +79,7 @@ public class PoiseBarController : MonoBehaviour
         {
             _lowPoiseAnimator.SetTrigger("LowPoiseOff");
             _isLowPoise = false;
-        }
+        }*/
     }
 
     public void ResetPoise()

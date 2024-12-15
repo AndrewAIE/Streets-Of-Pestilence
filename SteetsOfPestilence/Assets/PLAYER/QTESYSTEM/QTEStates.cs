@@ -8,11 +8,22 @@ namespace QTESystem
         protected float m_timer;
         
         protected bool m_started = false;
+        /// <summary>
+        /// Called on the first frame that this state runs
+        /// </summary>
+        /// <param name="_manager"></param>
         public abstract void EnterState(QTEManager _manager);
+        /// <summary>
+        /// Update fucntion for State
+        /// </summary>
+        /// <param name="_timer"></param>
         public abstract void StateUpdate(float _timer);
+        /// <summary>
+        /// Called on the last frame that this state runs
+        /// </summary>
         public abstract void ExitState();        
     }
-
+    //Puase at the start of the encounter, only called once at beginning of encounter
     public class EncounterStart : QTEStates
     {
         private float m_timeLimit;
@@ -36,7 +47,7 @@ namespace QTESystem
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
     }
-
+    //reset stream data and slow down time for beginning of stream
     public class StreamStart : QTEStates
     {
         private float m_timeLimit;
@@ -65,7 +76,7 @@ namespace QTESystem
             m_qteManager.CurrentState.EnterState(m_qteManager);        
         }
     }
-
+    //QTE Action curently active
     public class ActionActive : QTEStates
     {
         QTEAction m_activeAction;
@@ -118,7 +129,7 @@ namespace QTESystem
         }
     }
     
-
+    //reset action data and move to next action
     public class BetweenActions : QTEStates
     {
         float m_timeLimit;
@@ -157,7 +168,7 @@ namespace QTESystem
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
     }  
-
+    //decide outcome of stream and play animation, either finish encounter or load new stream depending on poise
     public class CombatAnimation : QTEStates
     {
         public override void EnterState(QTEManager _manager)

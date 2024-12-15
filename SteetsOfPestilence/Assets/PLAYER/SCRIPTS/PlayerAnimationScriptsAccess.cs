@@ -34,11 +34,6 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
         m_player.KillPlayer();
     }
 
-    public void ReactivatePlayerControl()
-    {
-        m_player.SetPlayerActive(true);
-    }
-
     public void FadeInUI()
     {
         m_qte.FadeInUI();
@@ -86,7 +81,18 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
 
     public void ExitCombat()
     {
+        m_qte.ReactivatePlayer();
         m_player.EndCombat();
+    }
+
+    public void PlaySFX_Grunt()
+    {
+       m_SFX.Play_Player_Grunt();
+    }
+
+    public void PlaySFX_LongGrunt()
+    {
+        m_SFX.Play_Player_LongGrunt();
     }
 
    

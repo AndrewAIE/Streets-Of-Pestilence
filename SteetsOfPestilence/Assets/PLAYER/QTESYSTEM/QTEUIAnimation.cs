@@ -155,6 +155,7 @@ public class QTEUIAnimation : MonoBehaviour
 
     public void FadeInUI(Image _image, float _duration, Color _color)
     {
+        
         _image.color = Color.clear;        
         m_activeTweens.Add(Tween.Color(_image, _color, _duration, 0, null, Tween.LoopType.None, null, null, false));
     }
@@ -182,10 +183,33 @@ public class QTEUIAnimation : MonoBehaviour
             tweenBase.Resume();
         }
     }
-
+    /// <summary>
+    /// Stop all tweens and clear active tween list     
+    /// </summary>
     public void ClearTweens()
     {
-        m_activeTweens.Clear();
+        if(m_activeTweens.Count > 0)
+        {
+            foreach (TweenBase tween in m_activeTweens)
+            {
+                tween.Stop();
+            }
+            m_activeTweens.Clear();
+        }        
+    }
+    /// <summary>
+    /// Cancel all tweens and clear active tween list
+    /// </summary>
+    public void CancelTweens() 
+    {
+        if (m_activeTweens.Count > 0)
+        {
+            foreach (TweenBase tween in m_activeTweens)
+            {
+                tween.Cancel();
+            }
+            m_activeTweens.Clear();
+        }
     }
 
     

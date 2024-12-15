@@ -18,7 +18,7 @@ namespace Management
     {
         //*************************************** VARAIBLES **********************************************//
         #region Variables
-        internal GameState m_Gamestate;
+        internal GameState m_gameState;
 
 
         #region OtherObjects
@@ -52,7 +52,7 @@ namespace Management
         private void Awake()
         {
             SceneManager.sceneLoaded += onSceneLoad;
-            m_input = new PlayerInputMap();
+            
             /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
@@ -75,8 +75,9 @@ namespace Management
         // Start is called before the first frame update
         void Start()
         {
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-
+            
             //trigger cutscene if not played yet
             /*if (!_hasTriggeredCutscene)
                 Debug.Log("Triggered Cutscene");
@@ -84,6 +85,7 @@ namespace Management
         }
         private void OnEnable()
         {
+            m_input = new PlayerInputMap();
             m_pauseInput = m_input.UI.Pause;
             m_pauseInput.Enable();
             m_exitInput = m_input.UI.Exit;
@@ -109,13 +111,19 @@ namespace Management
 
         private void Update()
         {
+            if(Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+
+            }
+
             if (SceneChanger.CurrentScene > 1)
             {
                 if (m_pauseInput.WasPressedThisFrame())
                 {
                     m_PauseMenu.Pause();
                 }
-                else if (m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+                else if (m_exitInput.WasPressedThisFrame() && m_gameState == GameState.Paused)
                 {
                     m_PauseMenu.Pause();
                 }
@@ -131,10 +139,10 @@ namespace Management
         #region Game State
         public void SetGameState(GameState state)
         {
-            m_Gamestate = state;
+            m_gameState = state;
             if (m_PlayerManager == null)
                 m_PlayerManager = FindObjectOfType<PlayerManager>();
-            switch (m_Gamestate)
+            switch (m_gameState)
             {
                 case GameState.Cutscene:
                     m_PlayerManager.SetPlayerActive(false);
@@ -160,6 +168,11 @@ namespace Management
         public void SetGameState_Playing()
         {
             SetGameState(GameState.Playing);
+        }
+
+        public GameState GetGameState()
+        {
+            return m_gameState;
         }
 
 

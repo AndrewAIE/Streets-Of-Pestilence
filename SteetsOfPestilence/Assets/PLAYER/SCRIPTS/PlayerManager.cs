@@ -343,6 +343,14 @@ namespace PlayerController
 
         public bool PlayerInCombat() { return (m_playerState == PlayerState.Combat); }
 
+        public bool PlayerNotInCombat()
+        {
+            if(m_playerState != PlayerState.Combat)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
