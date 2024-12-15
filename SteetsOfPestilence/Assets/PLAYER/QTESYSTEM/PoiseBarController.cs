@@ -38,11 +38,11 @@ public class PoiseBarController : MonoBehaviour
     [SerializeField] float _timer;
     [SerializeField] float _MoveTime;
 
-    [Header("Low Poise")]
+    /*[Header("Low Poise")]
     [SerializeField] public Animator _lowPoiseAnimator;
     [Space]
     [SerializeField] bool _isLowPoise;
-    [SerializeField] float _lowPoiseThres;
+    [SerializeField] float _lowPoiseThres;*/
     #endregion
 
 
@@ -85,7 +85,7 @@ public class PoiseBarController : MonoBehaviour
     public void ResetPoise()
     {
         _poise = _startPoise;
-        _isLowPoise = false;
+        //_isLowPoise = false;
         UpdatePoiseBar();
 
     }
