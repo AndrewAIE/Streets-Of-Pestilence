@@ -89,19 +89,20 @@ namespace QTESystem
         /// <param name="_enemyType"></param>
         /// <param name="_fadeDuration"></param>
         internal void LoadUI(EnemyAI.EnemyType _enemyType, float _fadeDuration)
-        {
+        {          
             
             switch (_enemyType)
             {
+                
                 case EnemyAI.EnemyType.Rabbit:
                     m_iconPanels[0].SetActive(true);
                     m_iconPanels[2].SetActive(true);
-                    m_maskPanels[0].SetActive(true);
+                    m_maskPanels[0].SetActive(true);                    
                     break;
                 case EnemyAI.EnemyType.Rat:
                     m_iconPanels[1].SetActive(true);
                     m_iconPanels[2].SetActive(true);
-                    m_maskPanels[2].SetActive(true);
+                    m_maskPanels[2].SetActive(true);                    
                     break;
                 case EnemyAI.EnemyType.Dog:
                     m_iconPanels[2].SetActive(true);
@@ -111,10 +112,37 @@ namespace QTESystem
                     m_iconPanels[0].SetActive(true);
                     m_iconPanels[1].SetActive(true);
                     m_iconPanels[2].SetActive(true);
-                    m_maskPanels[3].SetActive(true);
+                    m_maskPanels[3].SetActive(true);                    
                     break;
                 default:
                     break;
+            }
+            int iconPanelIndex = 0;
+            bool allIconsSet = false;
+
+            for (int i = 0; i < m_maskPanels.Length; i++)
+            {
+                //Set alpha for all mask images to zero
+                Image[] maskPanels = m_maskPanels[i].GetComponentsInChildren<Image>();
+                foreach (Image image in maskPanels)
+                {
+                    Debug.Log("SET MASK TO 0");
+                    image.color = Color.clear;
+                }
+
+                //set alpha for all icon images to 0
+                if (allIconsSet) { continue; }
+                Image[] iconPanels = m_iconPanels[iconPanelIndex].GetComponentsInChildren<Image>();
+                foreach (Image image in iconPanels)
+                {
+                    Debug.Log("SET ICON TO 0");
+                    image.color = Color.clear;
+                }
+                iconPanelIndex++;
+                if (iconPanelIndex >= m_iconPanels.Count - 1)
+                {
+                    allIconsSet = true;
+                }
             }
             StartCoroutine(FadeInUI(_fadeDuration));
         }
@@ -504,7 +532,7 @@ namespace QTESystem
         public IEnumerator FadeInUI(float _duration)
         {
             yield return new WaitForSeconds(0.3f);
-            CancelTweens();
+            ClearTweens();
             //Get all Images from the Poise bar
             Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
             foreach (Image image in poiseBarImages)

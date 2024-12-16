@@ -43,12 +43,13 @@ namespace PlayerController
 
         public void CallRespawnPlayer()
         {
-            GetComponentInParent<PlayerManager>().StartRespawn();
+            m_player.StartRespawn();
         }
 
         public void CallSetPlayerActive()
         {
-            GetComponentInParent<PlayerManager>().SetPlayerActive();
+            m_player.SetPlayerActive();
+            m_player.EndCombat();
         }
 
         public void Interact()
