@@ -83,7 +83,7 @@ public class QTEMashAction : QTEAction
     {
 
     }
-    protected override bool CheckSuccessWindow()
+    protected override bool checkSuccessWindow()
     {
         return false;
     }

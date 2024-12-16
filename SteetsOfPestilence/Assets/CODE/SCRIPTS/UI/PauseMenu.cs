@@ -12,11 +12,12 @@ namespace Management
         /// </summary>
         [SerializeField] private string m_MainMenuName = "MainMenu";
         private GameManager m_manager;
+        private SlowMotionManager m_slomo;
         private float m_currentTimeScale;
         private void Start()
         {
             m_manager = GetComponentInParent<GameManager>();
-
+            m_slomo = FindObjectOfType<SlowMotionManager>();
             EventSystem.current.SetSelectedGameObject(null);
             EnableChildren(false);
             Time.timeScale = 1;
@@ -25,7 +26,11 @@ namespace Management
 
         public void Pause()
         {
-            bool pause = m_manager.m_Gamestate != GameState.Paused;
+            bool pause = m_manager.m_gameState != GameState.Paused;
+            Pause(pause);
+        }
+        public void Pause(bool pause)
+        {
             if (pause)
             {
                 EnableChildren(true);
@@ -37,14 +42,16 @@ namespace Management
             }
             else
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 EventSystem.current.SetSelectedGameObject(null);
                 EnableChildren(false);
                 Time.timeScale = m_currentTimeScale;
                 m_manager.SetGameState(GameState.Playing);
             }
         }
-        
-        private void DIsableMenu()
+
+        private void DisableMenu()
         {
             EventSystem.current.SetSelectedGameObject(null);
             EnableChildren(false);
@@ -63,11 +70,17 @@ namespace Management
 
         public void RestartLevel()
         {
+            Pause(false);
+            m_slomo.CancelTimeWarp();
+            Time.timeScale = 1;
             SceneChanger.ResetScene();
         }
 
         public void GoToMainMenu()
         {
+            Pause(false);
+            m_slomo.CancelTimeWarp();
+            Time.timeScale = 1;
             SceneChanger.ChangeScene(m_MainMenuName);
         }
         public void QuitGame()

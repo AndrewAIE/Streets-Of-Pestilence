@@ -6,6 +6,7 @@ using PlayerController;
 using UnityEngine.AI;
 using Pixelplacement.TweenSystem;
 using System.Net;
+using EnemyAi;
 
 namespace EnemyAI
 {
@@ -89,62 +90,68 @@ namespace EnemyAI
         #region Mesh & Particles & Colliders Vars
         private bool m_particlesPlaying = false;
         private ParticleSystem[] m_enemyParticles;
-        private SkinnedMeshRenderer m_enemyMesh;
+        private SkinnedMeshRenderer[] m_enemyMesh;
+        [SerializeField] private GameObject m_maskObject;
         private CapsuleCollider m_mainCollider;
         #endregion
 
-
+        private Animator m_anim;
+        private Animator m_EndGameAnimator;
 
         private void Awake()
         {
-            m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
+            m_player = GameObject.FindObjectOfType<PlayerManager>();
             m_agent = GetComponentInParent<NavMeshAgent>();
             m_detector = GetComponent<EnemyDetector>();
             m_defaultStoppingDistance = m_agent.stoppingDistance;
             m_enemyParticles = transform.parent.GetComponentsInChildren<ParticleSystem>();
-            m_enemyMesh = transform.parent.GetComponentInChildren<SkinnedMeshRenderer>();
+            m_enemyMesh = transform.parent.GetComponentsInChildren<SkinnedMeshRenderer>();
             m_enemySFX = transform.parent.GetComponentInChildren<SFXController_Enemy>();
             m_mainCollider = GetComponent<CapsuleCollider>();
             m_homeDestination = transform.position;
             m_homeRotation = transform.parent.forward;
+            m_anim = transform.parent.GetComponentInChildren<Animator>();
+            m_EndGameAnimator = GameObject.FindGameObjectWithTag("Start and End Blackout").GetComponent<Animator>();
+
+            Debug.Log("Detector Reference: " + m_detector);
+            Debug.Log("Player Reference: " + m_player);
         }
         private void Update()
         {
-            if (!m_deactivated && !m_combatEnding)
+           
+            if (m_deactivated || m_combatEnding) { 
+                return; 
+            }
+            HandleAnimation();
+            if (Recentering)
             {
-                if (Recentering)
-                {
-                    FacePlayer();
-                    RecenterEnemy(m_player);
-                }
-                else if (!m_player.PlayerInCombat())
-                {
-                    if (m_detector.m_canSeePlayer)
-                        m_timer = m_waitTime;
+                FacePlayer();
+                RecenterEnemy(m_player);
+            }
+            else if (m_player.PlayerNotInCombat())
+            {
+                if (m_detector.m_canSeePlayer)
+                    m_timer = m_waitTime;
 
-                    if (m_timer > 0)
-                    {
-                        GoToPlayer();
-                        m_timer -= Time.deltaTime;
-                    }
-                    else
-                    {
-                        Standby();
-                        if (m_waitingAtDestination)
-                            transform.parent.forward = Vector3.MoveTowards(transform.parent.forward, m_homeRotation, 10 * Time.deltaTime);
-                    }
+                if (m_timer > 0)
+                {
+                    GoToPlayer();
+                    m_timer -= Time.deltaTime;
                 }
-                else if (m_player.PlayerInCombat() && m_isInCombat) { 
-                    FacePlayer();
-                    m_agent.destination = m_combatPos;
+                else
+                {
+                    Standby();
                 }
-
-                
+            }
+            else if (m_player.PlayerInCombat() && m_isInCombat)
+            {
+                FacePlayer();
+                m_agent.destination = m_combatPos;
             }
             else if (m_deactivated)
             {
                 m_particlesPlaying = false;
-                for(int i = 0; i < m_enemyParticles.Length; i++)
+                for (int i = 0; i < m_enemyParticles.Length; i++)
                 {
                     if (m_enemyParticles[i].isPlaying)
                     {
@@ -159,22 +166,35 @@ namespace EnemyAI
         /// </summary>
         public void KillEnemy()
         {
+            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
+
+            if (m_maskObject)
+            {
+                m_maskObject.SetActive(false);
+            }
             m_agent.enabled = false;
-            m_enemyMesh.enabled = false;
+            foreach (SkinnedMeshRenderer mesh in m_enemyMesh)
+            {
+                mesh.enabled = false;
+            }
             m_detector.enabled = false;
             m_deactivated = true;
-            for (int i = 0; i < m_enemyParticles.Length; i++) m_enemyParticles[i].Play();
+
             Collider[] colliders = GetComponents<Collider>();
             foreach (Collider col in colliders)
             {
                 col.enabled = false;
             }
             StartCoroutine(WaitForDestroy());
+            if (m_EType == EnemyType.Boss)
+            {
+                m_EndGameAnimator.SetTrigger("End Trigger");
+            }
         }
 
         public void DisableEnemy()
         {
-            m_agent.enabled = false;            
+            m_agent.enabled = false;
             m_detector.enabled = false;
             m_deactivated = true;
             Collider[] colliders = GetComponents<Collider>();
@@ -187,8 +207,8 @@ namespace EnemyAI
 
         public IEnumerator EnableEnemy()
         {
-            yield return new WaitForSeconds(5);
-            m_agent.enabled = true;            
+            yield return new WaitForSeconds(20);
+            m_agent.enabled = true;
             m_detector.enabled = true;
             m_deactivated = false;
             Collider[] colliders = GetComponents<Collider>();
@@ -201,7 +221,7 @@ namespace EnemyAI
         {
             m_combatEnding = true;
             m_isInCombat = false;
-            StartCoroutine(WaitEndCombat()); 
+            StartCoroutine(WaitEndCombat());
         }
         /// <summary>
         /// hard coded to wait until particles/
@@ -212,7 +232,7 @@ namespace EnemyAI
             yield return new WaitForSeconds(5);
             Destroy(gameObject.transform.parent.gameObject);
         }
-        
+
         private IEnumerator WaitEndCombat()
         {
             yield return new WaitForSeconds(10);
@@ -220,6 +240,7 @@ namespace EnemyAI
         }
 
         #region Nav
+
         private void GoToPlayer()
         {
             m_waitingAtDestination = false;
@@ -229,24 +250,26 @@ namespace EnemyAI
             }
             m_agent.stoppingDistance = m_defaultStoppingDistance;
             m_targetPosition = m_detector.LastPosition();
-            if (m_detector.EnemyIsClose() && !m_player.PlayerInCombat())
+
+            if (!m_detector.EnemyIsClose())
+            {
+                m_agent.destination = m_targetPosition;
+                             
+            }
+            else if(m_player.PlayerNotInCombat())
             {
                 m_player.EnterCombat(m_EncounterData, this);
                 m_isInCombat = true;
                 return;
             }
-            else
-            {
-                m_agent.destination = m_targetPosition;
-            }
         }
 
         private void Standby()
         {
-            if (m_agent.remainingDistance < 1) m_waitingAtDestination = true;
+            if (m_agent.remainingDistance > 0.5f) return;
+            m_waitingAtDestination = (m_agent.remainingDistance < 0.5f);
 
             m_agent.stoppingDistance = 0;
-            if (m_waitingAtDestination) return;
             if (m_patrolPositions.Length > 0)
             {
                 if (m_circlePath)
@@ -264,16 +287,23 @@ namespace EnemyAI
                     if (m_patrolNum >= m_patrolPositions.Length - 1) m_forwardPath = false;
                     else if (m_patrolNum <= 0) m_forwardPath = true;
                 }
-                float waitTime = Random.Range(0, 3);
-                
-                    StartCoroutine(SetPath(waitTime, m_agent.destination = m_patrolPositions[m_patrolNum]));
+
+                float waitTime = Random.Range(0, m_waitTime);
+
+                if (m_waitingAtDestination && !settingPath)
+                    StartCoroutine(SetPath(waitTime, m_patrolPositions[m_patrolNum]));
             }
             else
             {
-                if(m_agent.destination != m_homeDestination) 
-                    StartCoroutine(SetPath(3, m_agent.destination = m_homeDestination));
+
+                if (m_agent.destination != m_homeDestination && !settingPath)
+                    StartCoroutine(SetPath(3, m_homeDestination));
+                if (m_waitingAtDestination)
+                    transform.parent.forward = Vector3.MoveTowards(transform.parent.forward, m_homeRotation, 10 * Time.deltaTime);
             }
+
         }
+        private bool settingPath;
 
         /// <summary>
         /// waits to set path to target after <c>_seconds</c> have passed
@@ -283,9 +313,11 @@ namespace EnemyAI
         /// <returns></returns>
         private IEnumerator SetPath(float _seconds, Vector3 _target)
         {
+            settingPath = true;
             yield return new WaitForSeconds(_seconds);
-            m_agent.destination = _target;
             m_waitingAtDestination = false;
+            m_agent.destination = _target;            
+            settingPath = false;
         }
 
         /// <summary>
@@ -300,9 +332,25 @@ namespace EnemyAI
             transform.parent.forward = faceDir;
         }
         #endregion
+        #region Anim
+        public float speed;
+        private void HandleAnimation()
+        {
+            if (Mathf.Abs(m_agent.velocity.magnitude) > 0.1)
+            {
+                m_anim.SetBool("Moving", true);
+                speed = (m_agent.velocity.magnitude/m_agent.speed);
+                m_anim.SetFloat("Speed", speed);
+            }
+            else
+            {
+                m_anim.SetBool("Moving", false);
+            }
+        }
+        #endregion
         private void RecenterEnemy(PlayerManager player)
         {
-            
+
             //make agent stop exactly at point;
             m_agent.stoppingDistance = 0;
 
@@ -311,7 +359,7 @@ namespace EnemyAI
             /*Vector3 m_combatPos;*/
             Vector3 playerPos = player.transform.position;
 
-            Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);            
+            Vector3 castPosition = new(transform.position.x, transform.position.y + 1, transform.position.z);
 
             bool leftHit = Physics.Raycast(castPosition, -transform.right, out RaycastHit leftInfo, m_minWallDistance);
             bool rightHit = Physics.Raycast(castPosition, transform.right, out RaycastHit rightInfo, m_minWallDistance);
@@ -325,16 +373,18 @@ namespace EnemyAI
             if (leftHit && rightHit)
             {
                 float halfdistance = Vector3.Distance(leftPos, rightPos) / 2f; // get a distance halfway between both points the left and right raycasts hit
-                if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance <  halfdistance - distanceBuffer) return; 
+                if (leftInfo.distance < halfdistance - distanceBuffer && rightInfo.distance < halfdistance - distanceBuffer) return;
                 Vector3 centerPoint = (leftPos + rightPos) / 2;  // the point between the two walls
                 Debug.Log("enemy in tight space", this);
-                m_combatPos = centerPoint; 
-            }else if (leftHit)
+                m_combatPos = centerPoint;
+            }
+            else if (leftHit)
             {
                 Vector3 point = transform.position + transform.right; // a point slightly to the right of the position hit
                 Debug.Log("enemy has wall on left", this);
-                m_combatPos = point; 
-            }else if (rightHit)
+                m_combatPos = point;
+            }
+            else if (rightHit)
             {
                 Vector3 point = transform.position - transform.right; // a point slightly left of the position hit
                 Debug.Log("enemy has wall on right", this);
@@ -351,8 +401,8 @@ namespace EnemyAI
             {
                 float dist = (distTotal - m_distanceToPlayer);
                 Dir = (playerPos - m_combatPos).normalized;
-                m_combatPos += Dir * dist ;
-            } 
+                m_combatPos += Dir * dist;
+            }
             if (distTotal < m_distanceToPlayer - m_distancebuffer)
             {
                 bool againstWall = Physics.SphereCast(transform.position + m_mainCollider.center, m_mainCollider.radius, -transform.forward, out RaycastHit backHit, 2);
@@ -369,7 +419,7 @@ namespace EnemyAI
                     Dir = -transform.forward;
                     m_combatPos += Dir * dist;
                 }
-                
+
             }
 
             m_combatPos.y = transform.position.y;

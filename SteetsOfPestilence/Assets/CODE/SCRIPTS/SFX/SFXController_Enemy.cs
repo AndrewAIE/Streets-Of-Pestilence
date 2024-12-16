@@ -8,7 +8,8 @@ public class SFXController_Enemy : MonoBehaviour
     [Space]
     [Header("Enemy")]
     [SerializeField] SFX_SO_Enemy _enemyData;
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject enemySFXPrefab_Voice;
+    [SerializeField] GameObject enemySFXPrefab_Burn;
     [SerializeField] EnemySFXMode enemySFXMode;
 
     [Header("Idle")]
@@ -59,10 +60,10 @@ public class SFXController_Enemy : MonoBehaviour
         }
     }
 
-    private void CreateEnemySFX(AudioClip clip)
+    private void CreateEnemySFX_Voice(AudioClip clip)
     {
         float length = clip.length;
-        GameObject audioOneshot = Instantiate(enemyPrefab, transform.position, Quaternion.identity, transform);
+        GameObject audioOneshot = Instantiate(enemySFXPrefab_Voice, transform.position, Quaternion.identity, transform);
         AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
         audioSource.clip = clip;
@@ -73,6 +74,23 @@ public class SFXController_Enemy : MonoBehaviour
 
         Destroy(audioOneshot, length);
     }
+
+    private void CreateEnemySFX_Burn(AudioClip clip)
+    {
+        float length = clip.length;
+        GameObject audioOneshot = Instantiate(enemySFXPrefab_Burn, transform.position, Quaternion.identity, transform);
+        AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+        audioSource.clip = clip;
+        audioSource.volume = Random.Range(_enemyData.SFX_Enemy_Voice_volumeMin, _enemyData.SFX_Enemy_Voice_volumeMax);
+        audioSource.pitch = Random.Range(_enemyData.SFX_Enemy_Voice_pitchMin, _enemyData.SFX_Enemy_Voice_pitchMax);
+
+        audioSource.Play();
+
+        Destroy(audioOneshot, length);
+    }
+
+
 
     /*** Idle ***/
     #region Idle
@@ -90,7 +108,7 @@ public class SFXController_Enemy : MonoBehaviour
     public void Play_Enemy_Idle()
     {
         _lastPlayedClip_Idle = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_idle, _lastPlayedClip_Idle);
-        CreateEnemySFX(_lastPlayedClip_Idle);
+        CreateEnemySFX_Voice(_lastPlayedClip_Idle);
     }
 
     #endregion
@@ -98,49 +116,49 @@ public class SFXController_Enemy : MonoBehaviour
     public void Play_Enemy_Burn()
     {
         _lastPlayedClip_Burn = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_burn, _lastPlayedClip_Burn);
-        CreateEnemySFX(_lastPlayedClip_Burn);
+        CreateEnemySFX_Burn(_lastPlayedClip_Burn);
     }
 
     public void Play_Enemy_MidCombat()
     {
         _lastPlayedClip_MidCombat = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_midCombat, _lastPlayedClip_MidCombat);
-        CreateEnemySFX(_lastPlayedClip_MidCombat);
+        CreateEnemySFX_Voice(_lastPlayedClip_MidCombat);
     }
 
     public void Play_Enemy_OnAttack()
     {
         _lastPlayedClip_OnAttack = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnAttack, _lastPlayedClip_OnAttack);
-        CreateEnemySFX(_lastPlayedClip_OnAttack);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnAttack);
     }
 
     public void Play_Enemy_OnDeath()
     {
         _lastPlayedClip_OnDeath = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnDeath, _lastPlayedClip_OnDeath);
-        CreateEnemySFX(_lastPlayedClip_OnDeath);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnDeath);
     }
 
     public void Play_Enemy_OnDefeatPlayer()
     {
         _lastPlayedClip_OnDefeatPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnDefeatPlayer, _lastPlayedClip_OnDefeatPlayer);
-        CreateEnemySFX(_lastPlayedClip_OnDefeatPlayer);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnDefeatPlayer);
     }
 
     public void Play_Enemy_OnLoseTrackOfPlayer()
     {
         _lastPlayedClip_OnLoseTrackOfPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnLoseTrackOfPlayer, _lastPlayedClip_OnLoseTrackOfPlayer);
-        CreateEnemySFX(_lastPlayedClip_OnLoseTrackOfPlayer);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnLoseTrackOfPlayer);
     }
 
     public void Play_Enemy_OnSpotPlayer()
     {
         _lastPlayedClip_OnSpotPlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnSpotPlayer, _lastPlayedClip_OnSpotPlayer);
-        CreateEnemySFX(_lastPlayedClip_OnSpotPlayer);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnSpotPlayer);
     }
 
     public void Play_Enemy_OnSurprisePlayer()
     {
         _lastPlayedClip_OnSurprisePlayer = _playerSFXController.GetUniqueClip(_enemyData.SFX_enemy_OnSurprisePlayer, _lastPlayedClip_OnSurprisePlayer);
-        CreateEnemySFX(_lastPlayedClip_OnSurprisePlayer);
+        CreateEnemySFX_Voice(_lastPlayedClip_OnSurprisePlayer);
     }
 
 }

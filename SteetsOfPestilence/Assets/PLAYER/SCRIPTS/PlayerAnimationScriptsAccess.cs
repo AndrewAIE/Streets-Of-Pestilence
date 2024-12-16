@@ -30,14 +30,8 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
     }
 
     public void PlayerDeath()
-    {
-        
+    {        
         m_player.KillPlayer();
-    }
-
-    public void ReactivatePlayerControl()
-    {
-        m_player.SetPlayerActive(true);
     }
 
     public void FadeInUI()
@@ -58,6 +52,47 @@ public class PlayerAnimationScriptsAccess : MonoBehaviour
     public void PlaySFX_WalkStone()
     {
         m_SFX.Play_Footstep_Walk_Stone();
+    }
+
+    public void PlaySFX_LightSwing()
+    {
+        m_SFX.Play_LightSwing();
+    }
+
+    public void PlaySFX_HeavySwing()
+    {
+        m_SFX.Play_HeavySwing();
+    }
+
+    public void PlaySFX_MetalClash()
+    {
+        m_SFX.Play_MetalClash();
+    }
+
+    public void PlaySFX_LightHit()
+    {
+        m_SFX.Play_LightHit();
+    }
+
+    public void PlaySFX_HeavyHit()
+    {
+        m_SFX.Play_HeavyHit();
+    }
+
+    public void ExitCombat()
+    {
+        m_qte.ReactivatePlayer();
+        m_player.EndCombat();
+    }
+
+    public void PlaySFX_Grunt()
+    {
+       m_SFX.Play_Player_Grunt();
+    }
+
+    public void PlaySFX_LongGrunt()
+    {
+        m_SFX.Play_Player_LongGrunt();
     }
 
    

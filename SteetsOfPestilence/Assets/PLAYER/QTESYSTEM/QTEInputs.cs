@@ -100,6 +100,15 @@ namespace QTESystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Win"",
+                    ""type"": ""Button"",
+                    ""id"": ""006c37c4-c578-4a7e-96ce-f1307d1f35e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -107,6 +116,17 @@ namespace QTESystem
                     ""name"": """",
                     ""id"": ""09392281-0458-4b77-8c08-ac47a3096afe"",
                     ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""North"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff72c5c0-5e94-4329-9bdf-260f26e76029"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -127,8 +147,30 @@ namespace QTESystem
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4170ec7c-1d4e-434e-8905-c5b47709ea3d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""East"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e5027396-33d9-4f3d-8662-800346073c0f"",
                     ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""South"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64004a21-8184-4bc2-ab96-680d7620117b"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -149,8 +191,30 @@ namespace QTESystem
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f6445513-61bc-46b0-a39e-ddfab6d87c72"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""West"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0ce98986-000b-4af9-b5f1-732aebadcb45"",
                     ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""343139c8-1d38-446d-a462-e3d2745d0482"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -171,8 +235,30 @@ namespace QTESystem
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c79cfdf6-630a-4b5d-8d98-a3da35c988a3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""245b96a0-be96-4d29-a3d0-65f879f905c9"",
                     ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""385e0aeb-a950-4b84-b095-6691293651cf"",
+                    ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -188,6 +274,28 @@ namespace QTESystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba141ed1-e719-49bb-a744-42d075b38408"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6416960-dba6-4eee-8700-87edc7d57962"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Win"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -206,6 +314,7 @@ namespace QTESystem
             m_Inputs_LShoulder = m_Inputs.FindAction("LShoulder", throwIfNotFound: true);
             m_Inputs_RTrigger = m_Inputs.FindAction("RTrigger", throwIfNotFound: true);
             m_Inputs_LTrigger = m_Inputs.FindAction("LTrigger", throwIfNotFound: true);
+            m_Inputs_Win = m_Inputs.FindAction("Win", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -275,6 +384,7 @@ namespace QTESystem
         private readonly InputAction m_Inputs_LShoulder;
         private readonly InputAction m_Inputs_RTrigger;
         private readonly InputAction m_Inputs_LTrigger;
+        private readonly InputAction m_Inputs_Win;
         public struct InputsActions
         {
             private @QTEInputs m_Wrapper;
@@ -287,6 +397,7 @@ namespace QTESystem
             public InputAction @LShoulder => m_Wrapper.m_Inputs_LShoulder;
             public InputAction @RTrigger => m_Wrapper.m_Inputs_RTrigger;
             public InputAction @LTrigger => m_Wrapper.m_Inputs_LTrigger;
+            public InputAction @Win => m_Wrapper.m_Inputs_Win;
             public InputActionMap Get() { return m_Wrapper.m_Inputs; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -320,6 +431,9 @@ namespace QTESystem
                 @LTrigger.started += instance.OnLTrigger;
                 @LTrigger.performed += instance.OnLTrigger;
                 @LTrigger.canceled += instance.OnLTrigger;
+                @Win.started += instance.OnWin;
+                @Win.performed += instance.OnWin;
+                @Win.canceled += instance.OnWin;
             }
 
             private void UnregisterCallbacks(IInputsActions instance)
@@ -348,6 +462,9 @@ namespace QTESystem
                 @LTrigger.started -= instance.OnLTrigger;
                 @LTrigger.performed -= instance.OnLTrigger;
                 @LTrigger.canceled -= instance.OnLTrigger;
+                @Win.started -= instance.OnWin;
+                @Win.performed -= instance.OnWin;
+                @Win.canceled -= instance.OnWin;
             }
 
             public void RemoveCallbacks(IInputsActions instance)
@@ -375,6 +492,7 @@ namespace QTESystem
             void OnLShoulder(InputAction.CallbackContext context);
             void OnRTrigger(InputAction.CallbackContext context);
             void OnLTrigger(InputAction.CallbackContext context);
+            void OnWin(InputAction.CallbackContext context);
         }
     }
 }

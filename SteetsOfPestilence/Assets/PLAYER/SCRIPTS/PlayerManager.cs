@@ -183,8 +183,7 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    if (m_recenterTarget != null) Recenter();
-                    if (m_qteManager.enabled == false) m_playerState = PlayerState.Exploring;
+                    if (m_recenterTarget != null) Recenter();                    
                     MoveCameraPoint();
                     break;
             }
@@ -344,6 +343,14 @@ namespace PlayerController
 
         public bool PlayerInCombat() { return (m_playerState == PlayerState.Combat); }
 
+        public bool PlayerNotInCombat()
+        {
+            if(m_playerState != PlayerState.Combat)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public void EnterCombat(QTEEncounterData _encounterData, EnemyController _enemy)
         {
@@ -382,14 +389,25 @@ namespace PlayerController
         /// </summary>
         public void KillPlayer()
         {            
-            m_playerUI.DeathTransition();            
+            m_playerUI.TriggerDeathScreenOn();            
             m_Mesh.rotation = new Quaternion(0, 0, 0, 0);
+            m_cameraController.PP_Greyscale_On();
+            //FindObjectOfType<PoiseBarController>()._lowPoiseAnimator.SetTrigger("LowPoiseOff");
+        }
+
+        public void StartRespawn()
+        {
             StartCoroutine(RespawnPlayer());
+        }
+
+        public void SetPlayerActive()
+        {
+            SetPlayerActive(true);
         }
 
         private IEnumerator RespawnPlayer()
         {
-            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration + 1f);
+            Debug.Log("Respawn Player Start");
             m_qteManager.FadeOutUI();
             _animation.ResetAnimation();
             SetPlayerActive(false);
@@ -398,9 +416,16 @@ namespace PlayerController
             transform.rotation = m_spawnPoint.rotation;
             m_Mesh.localRotation = Quaternion.identity;
             m_recenterTarget = null;
-            yield return new WaitForSeconds(m_playerUI.DeathScreenFadeDuration);
-            SetPlayerActive(true);
+            m_cameraController.PP_Greyscale_Off();
+            m_cameraController.TriggerRecenter();
+
+            yield return new WaitForSeconds(1f);
+
+            m_playerUI.TriggerDeathScreenOff();
+
+            Debug.Log("Respawn Player End");
         }
+
         private SpawnPoint GetClosestSpawnPoint()
         {
             SpawnPoint closest = m_unlockedCheckpoints[0];

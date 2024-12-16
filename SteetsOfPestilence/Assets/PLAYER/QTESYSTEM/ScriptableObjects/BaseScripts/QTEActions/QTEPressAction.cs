@@ -38,7 +38,7 @@ namespace QTESystem
             bool inputCorrect = false;            
             if (m_state == ActionState.running && _context.action.name != "Directional")
             {
-                if (CheckSuccessWindow())
+                if (checkSuccessWindow())
                 {
                     for (int i = 0; i < m_readyInputs.Count; i++)
                     {
@@ -74,7 +74,7 @@ namespace QTESystem
                 }                                            
             }                       
         }
-        protected override bool CheckSuccessWindow()
+        protected override bool checkSuccessWindow()
         {
             if (m_timer >= m_minTime && m_timer <= m_maxTime)
             {

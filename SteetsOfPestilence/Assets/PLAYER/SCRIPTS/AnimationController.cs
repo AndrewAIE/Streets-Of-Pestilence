@@ -73,11 +73,11 @@ namespace PlayerController
         private void Movement()
         {
             
-            if (m_Manager._speed >= m_Manager._data.RunningSpeed)
-            {
-                _animator.SetBool(_animID_Running, true);
-            }
-            else _animator.SetBool(_animID_Running, false) ;
+            //if (m_Manager._speed >= m_Manager._data.RunningSpeed)
+            //{
+            //    _animator.SetBool(_animID_Running, true);
+            //}
+            //else _animator.SetBool(_animID_Running, false) ;
         }
         internal void Idle()
         {
@@ -115,7 +115,7 @@ namespace PlayerController
 
         public void SetAnimationFloat_MoveInput(float _inputFloat)
         {
-            _animator.SetFloat("MoveInput", _inputFloat);
+            _animator.SetFloat("MoveInput", Mathf.Clamp01(_inputFloat));
             m_inputFloat = _inputFloat;
         }
 

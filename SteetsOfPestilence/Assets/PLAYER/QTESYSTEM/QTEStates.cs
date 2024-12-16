@@ -8,11 +8,22 @@ namespace QTESystem
         protected float m_timer;
         
         protected bool m_started = false;
+        /// <summary>
+        /// Called on the first frame that this state runs
+        /// </summary>
+        /// <param name="_manager"></param>
         public abstract void EnterState(QTEManager _manager);
+        /// <summary>
+        /// Update fucntion for State
+        /// </summary>
+        /// <param name="_timer"></param>
         public abstract void StateUpdate(float _timer);
+        /// <summary>
+        /// Called on the last frame that this state runs
+        /// </summary>
         public abstract void ExitState();        
     }
-
+    //Puase at the start of the encounter, only called once at beginning of encounter
     public class EncounterStart : QTEStates
     {
         private float m_timeLimit;
@@ -36,7 +47,7 @@ namespace QTESystem
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
     }
-
+    //reset stream data and slow down time for beginning of stream
     public class StreamStart : QTEStates
     {
         private float m_timeLimit;
@@ -44,8 +55,7 @@ namespace QTESystem
         {            
             m_qteManager = _manager;
             m_qteManager.SlowTime(true);
-            //reset change in poise bar value and stream iterator                    
-            m_qteManager.ChangeInPoiseValue = 0;
+            //reset change in poise bar value and stream iterator            
             m_qteManager.StreamPosition = 0;
             m_qteManager.AvailableSuccessPoints = 0;
             m_qteManager.CurrentSuccessPoints = 0;            
@@ -53,7 +63,6 @@ namespace QTESystem
             m_timeLimit = m_qteManager.ActiveStream.BeginningOfStreamPause;
             m_qteManager.Timer = 0;            
         }
-
         public override void StateUpdate(float _timer)
         {
             if (_timer >= m_timeLimit)
@@ -62,13 +71,12 @@ namespace QTESystem
                 ExitState();
             }
         }
-
         public override void ExitState()
         {
             m_qteManager.CurrentState.EnterState(m_qteManager);        
         }
     }
-
+    //QTE Action curently active
     public class ActionActive : QTEStates
     {
         QTEAction m_activeAction;
@@ -86,8 +94,7 @@ namespace QTESystem
             m_activeAction.SetData(m_qteManager.ActiveStream.ActionTimer, m_qteManager.ActiveStream.SuccessBuffer, _manager.QteDisplay);
             m_activeAction.CreateInputRings();
             m_activeAction.SetTargetInputs(m_qteManager.InputActions);
-            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;        
-                        
+            m_qteManager.AvailableSuccessPoints += m_activeAction.InputList.Count;                                
         }
 
         public override void StateUpdate(float _timer)
@@ -122,7 +129,7 @@ namespace QTESystem
         }
     }
     
-
+    //reset action data and move to next action
     public class BetweenActions : QTEStates
     {
         float m_timeLimit;
@@ -140,7 +147,7 @@ namespace QTESystem
 
         public override void StateUpdate(float _timer)
         {
-            if (_timer > m_timeLimit)
+            if (_timer >= m_timeLimit)
             {                
                 if (m_qteManager.StreamPosition < m_qteManager.ActiveStream.Actions.Count)
                 {
@@ -149,7 +156,7 @@ namespace QTESystem
                 }
                 else
                 {
-                    m_qteManager.CurrentState = m_qteManager.BetweenStreams;                    
+                    m_qteManager.CurrentState = m_qteManager.CombatAnim;                    
                     ExitState();
                 }                
             }
@@ -160,8 +167,8 @@ namespace QTESystem
             m_qteManager.QteDisplay.ResetAllActiveIconColours();
             m_qteManager.CurrentState.EnterState(m_qteManager);
         }
-    }
-
+    }  
+    //decide outcome of stream and play animation, either finish encounter or load new stream depending on poise
     public class CombatAnimation : QTEStates
     {
         public override void EnterState(QTEManager _manager)

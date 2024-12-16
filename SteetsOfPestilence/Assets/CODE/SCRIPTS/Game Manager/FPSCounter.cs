@@ -8,7 +8,7 @@ public class FPSCounter : MonoBehaviour
 
     private IEnumerator Start()
     {
-        //Debug.Log("FPSCounter Starting....");
+        Debug.Log("FPSCounter Starting....");
         Debug.developerConsoleVisible = true;
 
         GUI.depth = 2;

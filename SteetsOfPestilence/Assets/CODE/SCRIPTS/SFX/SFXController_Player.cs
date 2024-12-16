@@ -1,5 +1,7 @@
 using UnityEngine;
 using Pixelplacement;
+using UnityEngine.Audio;
+using System.Collections;
 
 namespace PlayerController
 {
@@ -9,6 +11,12 @@ namespace PlayerController
         #region Variables
         [HideInInspector] PlayerManager _manager;
         [HideInInspector] SFXTester _tester;
+        [Space]
+        [SerializeField] AudioMixer _mixerGameScene;
+        public string exposedParameter = "Volume"; // Make sure this matches your exposed parameter name
+        public float fadeDuration = 2.0f; // Time to fade in (seconds)
+        public float targetVolume = 0.0f; // Target volume in decibels (0 is default max in Unity)
+
         [Space]
         [SerializeField] AmbienceMode ambienceMode;
 
@@ -40,12 +48,16 @@ namespace PlayerController
         [SerializeField] SFX_SO_Weapon _weaponData;
         [SerializeField] Transform _clashPos;
         [Space]
-        [SerializeField] GameObject metalClash_Prefab;
-        [SerializeField] GameObject swing_Prefab;
-        
+        [SerializeField] GameObject weapon_metalClash_Prefab;
+        [SerializeField] GameObject weapon_swing_Prefab;
+        [SerializeField] GameObject weapon_lightHit_Prefab;
+        [SerializeField] GameObject weapon_heavyHit_Prefab;
+
         [HideInInspector] AudioClip metalClash_lastPlayedClip;
         [HideInInspector] AudioClip swingLight_lastPlayedClip;
         [HideInInspector] AudioClip swingHeavy_lastPlayedClip;
+        [HideInInspector] AudioClip lightHit_lastPlayedClip;
+        [HideInInspector] AudioClip heavyHit_lastPlayedClip;
 
         [Space]
         [Header("Player")]
@@ -57,10 +69,13 @@ namespace PlayerController
         [SerializeField] GameObject armourClink_Prefab;
         [SerializeField] GameObject bodyDrop_Prefab;
         [SerializeField] GameObject deathScream_Prefab;
+        [SerializeField] GameObject grunt_Prefab;
+        [SerializeField] GameObject longGrunt_Prefab;
         [Space]
         [HideInInspector] AudioClip armourClink_LastPlayedClip;
         [HideInInspector] AudioClip bodyDrop_LastPlayedClip;
         [HideInInspector] AudioClip deathScream_LastPlayedClip;
+        [HideInInspector] AudioClip grunt_LastPlayedClip;
 
         [Space]
         [SerializeField] SFX_SO_Impact _impactData;
@@ -100,7 +115,32 @@ namespace PlayerController
             _lampAmbience.clip = _playerData.SFX_Player_LampAmbience_clip;
             _lowPoiseAmbience.clip = _playerData.SFX_Player_LowPoiseAmbience_clip;
 
+            
+        }
 
+        private void Start()
+        {
+            StartCoroutine(FadeInAudio());
+        }
+
+        private IEnumerator FadeInAudio()
+        {
+            float currentTime = 0.0f;
+            float startVolume = -80.0f; // Starting volume (usually silence)
+
+            // Set the starting volume
+            _mixerGameScene.SetFloat(exposedParameter, startVolume);
+
+            while (currentTime < fadeDuration)
+            {
+                currentTime += Time.deltaTime;
+                float newVolume = Mathf.Lerp(startVolume, targetVolume, currentTime / fadeDuration);
+                _mixerGameScene.SetFloat(exposedParameter, newVolume);
+                yield return null;
+            }
+
+            // Ensure final value is set
+            _mixerGameScene.SetFloat(exposedParameter, targetVolume);
         }
 
         #endregion
@@ -345,7 +385,7 @@ namespace PlayerController
         private void CreateMetalClash(AudioClip clip, Vector3 position)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(metalClash_Prefab, position, Quaternion.identity);
+            GameObject audioOneshot = Instantiate(weapon_metalClash_Prefab, position, Quaternion.identity);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -371,7 +411,7 @@ namespace PlayerController
         private void CreateSwing(AudioClip clip, Vector3 position)
         {
             float length = clip.length;
-            GameObject audioOneshot = Instantiate(swing_Prefab, position, Quaternion.identity);
+            GameObject audioOneshot = Instantiate(weapon_swing_Prefab, position, Quaternion.identity);
             AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
 
             audioSource.clip = clip;
@@ -395,6 +435,61 @@ namespace PlayerController
         {
             swingHeavy_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_HeavySwing, swingHeavy_lastPlayedClip);
             CreateSwing(swingHeavy_lastPlayedClip, _clashPos.position);
+        }
+
+        #endregion
+
+        #region Hit
+
+        //Light Hit
+        public void Play_LightHit()
+        {
+            lightHit_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_LightHits, lightHit_lastPlayedClip);
+            CreateLightHit(lightHit_lastPlayedClip, _clashPos.position);
+        }
+
+
+        //Heavy Hit
+        public void Play_HeavyHit()
+        {
+            heavyHit_lastPlayedClip = GetUniqueClip(_weaponData.SFX_Weapon_HeavyHits, heavyHit_lastPlayedClip);
+            CreateHeavyHit(heavyHit_lastPlayedClip, _clashPos.position);
+        }
+
+
+        //Create Hit
+        private void CreateLightHit(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(weapon_lightHit_Prefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_Hit_volumeMin, _weaponData.SFX_Weapon_Hit_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_Hit_pitchMin, _weaponData.SFX_Weapon_Hit_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_Hit_rangeMin, _weaponData.SFX_Weapon_Hit_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        private void CreateHeavyHit(AudioClip clip, Vector3 position)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(weapon_heavyHit_Prefab, position, Quaternion.identity);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_weaponData.SFX_Weapon_Hit_volumeMin, _weaponData.SFX_Weapon_Hit_volumeMax);
+            audioSource.pitch = Random.Range(_weaponData.SFX_Weapon_Hit_pitchMin, _weaponData.SFX_Weapon_Hit_pitchMax);
+
+            audioSource.maxDistance = Random.Range(_weaponData.SFX_Weapon_Hit_rangeMin, _weaponData.SFX_Weapon_Hit_rangeMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
         }
 
         #endregion
@@ -584,6 +679,59 @@ namespace PlayerController
         #endregion
 
         #endregion
+
+        /*** Grunts ***/
+
+        #region Player Grunts
+        private void Create_Player_Grunt(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(grunt_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_playerData.SFX_Player_Grunts_volumeMin, _playerData.SFX_Player_Grunts_volumeMax);
+            audioSource.pitch = Random.Range(_playerData.SFX_Player_Grunts_pitchMin, _playerData.SFX_Player_Grunts_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Player_Grunt()
+        {
+            AudioClip lastPlayedClip = null;
+            AudioClip uniqueClip = GetUniqueClip(_playerData.SFX_Player_Grunts_clips, lastPlayedClip);
+            lastPlayedClip = uniqueClip;
+            Create_Player_Grunt(uniqueClip);
+        }
+        #endregion
+
+        #region Player Long Grunt
+        private void Create_Player_LongGrunt(AudioClip clip)
+        {
+            float length = clip.length;
+            GameObject audioOneshot = Instantiate(longGrunt_Prefab, transform.position, Quaternion.identity, transform);
+            AudioSource audioSource = audioOneshot.GetComponent<AudioSource>();
+
+            audioSource.clip = clip;
+            audioSource.volume = Random.Range(_playerData.SFX_Player_LongGrunt_volumeMin, _playerData.SFX_Player_LongGrunt_volumeMax);
+            audioSource.pitch = Random.Range(_playerData.SFX_Player_LongGrunt_pitchMin, _playerData.SFX_Player_LongGrunt_pitchMax);
+
+            audioSource.Play();
+
+            Destroy(audioOneshot, length);
+        }
+
+        public void Play_Player_LongGrunt()
+        {
+            AudioClip lastPlayedClip = null;
+            AudioClip uniqueClip = GetUniqueClip(_playerData.SFX_Player_LongGrunt_clips, lastPlayedClip);
+            lastPlayedClip = uniqueClip;
+            Create_Player_LongGrunt(uniqueClip);
+        }
+        #endregion
+
 
         #endregion
     }

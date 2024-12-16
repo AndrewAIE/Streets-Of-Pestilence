@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static Cinemachine.DocumentationSortingAttribute;
 
 namespace Management
 {
@@ -17,7 +18,7 @@ namespace Management
     {
         //*************************************** VARAIBLES **********************************************//
         #region Variables
-        internal GameState m_Gamestate;
+        internal GameState m_gameState;
 
 
         #region OtherObjects
@@ -50,8 +51,9 @@ namespace Management
         #region Awake & Start
         private void Awake()
         {
-            m_input = new PlayerInputMap();
-            m_PauseMenu = GetComponentInChildren<PauseMenu>();
+            SceneManager.sceneLoaded += onSceneLoad;
+            
+            /*m_PauseMenu = GetComponentInChildren<PauseMenu>();*/
             //make sure theres only 1 game manager
             GameManager[] gameManagers = FindObjectsOfType<GameManager>();
             if (gameManagers.Length == 1)
@@ -63,7 +65,8 @@ namespace Management
             {
                 Destroy(gameObject);
             }
-
+            //Set frame rate to 60
+            Application.targetFrameRate = 60;
             //assign scripts
             AssignScripts();
         }
@@ -72,8 +75,9 @@ namespace Management
         // Start is called before the first frame update
         void Start()
         {
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-
+            
             //trigger cutscene if not played yet
             /*if (!_hasTriggeredCutscene)
                 Debug.Log("Triggered Cutscene");
@@ -81,6 +85,7 @@ namespace Management
         }
         private void OnEnable()
         {
+            m_input = new PlayerInputMap();
             m_pauseInput = m_input.UI.Pause;
             m_pauseInput.Enable();
             m_exitInput = m_input.UI.Exit;
@@ -91,6 +96,7 @@ namespace Management
             m_pauseInput.Disable();
             m_exitInput.Disable();
         }
+
 
 
         private void AssignScripts()
@@ -105,33 +111,38 @@ namespace Management
 
         private void Update()
         {
-            if (SceneChanger.CurrentScene != 0)
+            if(Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+
+            }
+
+            if (SceneChanger.CurrentScene > 1)
             {
                 if (m_pauseInput.WasPressedThisFrame())
                 {
                     m_PauseMenu.Pause();
                 }
-                else if (m_exitInput.WasPressedThisFrame() && m_Gamestate == GameState.Paused)
+                else if (m_exitInput.WasPressedThisFrame() && m_gameState == GameState.Paused)
                 {
                     m_PauseMenu.Pause();
                 }
+
+                if (m_PauseMenu.enabled == false) m_PauseMenu.enabled = true;
             }
-            else if(m_Gamestate == GameState.Paused)
-            {
-                m_PauseMenu.Pause();
-            }
+            else if (SceneChanger.CurrentScene <= 1) { m_PauseMenu.enabled = false; }
         }
-
-
         #endregion
+
 
         /*** GAME STATE ***/
         #region Game State
         public void SetGameState(GameState state)
         {
-            m_Gamestate = state;
-
-            switch (m_Gamestate)
+            m_gameState = state;
+            if (m_PlayerManager == null)
+                m_PlayerManager = FindObjectOfType<PlayerManager>();
+            switch (m_gameState)
             {
                 case GameState.Cutscene:
                     m_PlayerManager.SetPlayerActive(false);
@@ -158,6 +169,25 @@ namespace Management
         {
             SetGameState(GameState.Playing);
         }
+
+        public GameState GetGameState()
+        {
+            return m_gameState;
+        }
+
+
+/*        private void OnLevelWasLoaded(int level)
+        {
+            if (level == 2)
+                m_PauseMenu.gameObject.SetActive(true);
+        }*/
+
+        private void onSceneLoad(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.buildIndex == 2)
+                m_PauseMenu.gameObject.SetActive(true);
+        }
+
 
         #endregion
 

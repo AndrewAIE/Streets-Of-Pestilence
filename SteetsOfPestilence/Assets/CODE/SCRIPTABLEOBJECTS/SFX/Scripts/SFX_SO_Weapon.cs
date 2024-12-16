@@ -23,4 +23,15 @@ public class SFX_SO_Weapon : ScriptableObject
     [SerializeField, Range(0, 4)] public float SFX_Weapon_Swing_pitchMin;
     [SerializeField] public float SFX_Weapon_Swing_rangeMax;
     [SerializeField] public float SFX_Weapon_Swing_rangeMin;
+
+    [Header("Hits")]
+    [SerializeField] public AudioClip[] SFX_Weapon_LightHits;
+    [SerializeField] public AudioClip[] SFX_Weapon_HeavyHits;
+    [Space]
+    [SerializeField, Range(0, 1)] public float SFX_Weapon_Hit_volumeMax;
+    [SerializeField, Range(0, 1)] public float SFX_Weapon_Hit_volumeMin;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_Hit_pitchMax;
+    [SerializeField, Range(0, 4)] public float SFX_Weapon_Hit_pitchMin;
+    [SerializeField] public float SFX_Weapon_Hit_rangeMax;
+    [SerializeField] public float SFX_Weapon_Hit_rangeMin;
 }

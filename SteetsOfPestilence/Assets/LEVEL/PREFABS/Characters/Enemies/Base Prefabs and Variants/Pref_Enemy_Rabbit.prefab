@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3494821680675163380
+--- !u!1001 &2695889370676266545
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 8843890449073875741, guid: ad8b66c74fd39ba4982c6a985a2b4707,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8843890449073875741, guid: ad8b66c74fd39ba4982c6a985a2b4707,
         type: 3}
@@ -79,13 +79,19 @@ PrefabInstance:
     - target: {fileID: 4079095235884604522, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: m_Name
-      value: Pref_Enemy_Rabbit
+      value: 2.4 Pref_Enemy_Rabbit_02
       objectReference: {fileID: 0}
     - target: {fileID: 7231910023988882352, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: m_EType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7231910023988882352, guid: ca121c96ebbc63443b329455f008afe9,
+        type: 3}
+      propertyPath: m_EncounterData
+      value: 
+      objectReference: {fileID: 11400000, guid: af98d11e9a04f274bb057b344e5937af,
+        type: 2}
     - target: {fileID: 7529881823715342940, guid: ca121c96ebbc63443b329455f008afe9,
         type: 3}
       propertyPath: m_RootOrder

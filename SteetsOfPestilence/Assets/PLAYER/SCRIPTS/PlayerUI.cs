@@ -12,9 +12,7 @@ namespace PlayerController
     {
         private PlayerManager m_player;
         [Header("Death")]
-        [SerializeField] private CanvasGroup m_deathScreen;
-        public float DeathScreenFadeDuration;
-        public float DeathScreenDuration;
+        [SerializeField] public Animator _deathScreen;
 
         [Header("Interaction")]
         [SerializeField] private Image m_interactPanel;
@@ -32,19 +30,25 @@ namespace PlayerController
             currentInteractableActions = new List<Interactable>();
         }
 
-        internal void DeathTransition()
+        public void TriggerDeathScreenOn()
         {
-            Debug.Log("Dead Player 2");
-            Tween.CanvasGroupAlpha(m_deathScreen, 1, DeathScreenFadeDuration, 0);            
-            StartCoroutine(Transition());
+            _deathScreen.SetTrigger("Death Screen On Trigger");
         }
 
-        private IEnumerator Transition()
+        public void TriggerDeathScreenOff()
         {
-            
-            yield return new WaitForSecondsRealtime(DeathScreenDuration + 1);
-            Debug.Log("Dead Player 3");
-            Tween.CanvasGroupAlpha(m_deathScreen, 0, DeathScreenFadeDuration, 0);                    
+            Debug.Log("Trigger Death Screen off");
+            _deathScreen.SetTrigger("Death Screen Off Trigger");
+        }
+
+        public void CallRespawnPlayer()
+        {
+            GetComponentInParent<PlayerManager>().StartRespawn();
+        }
+
+        public void CallSetPlayerActive()
+        {
+            GetComponentInParent<PlayerManager>().SetPlayerActive();
         }
 
         public void Interact()

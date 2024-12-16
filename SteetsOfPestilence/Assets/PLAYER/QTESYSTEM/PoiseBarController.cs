@@ -37,6 +37,12 @@ public class PoiseBarController : MonoBehaviour
     [Header("Slider Timing Variables")]
     [SerializeField] float _timer;
     [SerializeField] float _MoveTime;
+
+    /*[Header("Low Poise")]
+    [SerializeField] public Animator _lowPoiseAnimator;
+    [Space]
+    [SerializeField] bool _isLowPoise;
+    [SerializeField] float _lowPoiseThres;*/
     #endregion
 
 
@@ -63,12 +69,25 @@ public class PoiseBarController : MonoBehaviour
         _poise += deltaPoise;
         //do other stuff
         UpdatePoiseBar();
+
+        /*if(_targetAmount <= _lowPoiseThres && !_isLowPoise)
+        {
+            _lowPoiseAnimator.SetTrigger("LowPoiseOn");
+            _isLowPoise = true;
+        }
+        else if(_targetAmount > _lowPoiseThres && _isLowPoise) 
+        {
+            _lowPoiseAnimator.SetTrigger("LowPoiseOff");
+            _isLowPoise = false;
+        }*/
     }
 
     public void ResetPoise()
     {
         _poise = _startPoise;
+        //_isLowPoise = false;
         UpdatePoiseBar();
+
     }
 
 

@@ -69,7 +69,9 @@ namespace QTESystem
         [SerializeField]
         private GameObject[] m_maskPanels;
         #region Panel       
-        
+        /// <summary>
+        /// Deactivate all QTE UI Panels
+        /// </summary>
         public void DeactivatePanels()
         {
             foreach (GameObject panel in m_iconPanels)
@@ -81,9 +83,14 @@ namespace QTESystem
                 panel.SetActive(false);            
             }
         }
-
-        internal void LoadUI(EnemyAI.EnemyType _enemyType)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_enemyType"></param>
+        /// <param name="_fadeDuration"></param>
+        internal void LoadUI(EnemyAI.EnemyType _enemyType, float _fadeDuration)
         {
+            
             switch (_enemyType)
             {
                 case EnemyAI.EnemyType.Rabbit:
@@ -109,7 +116,10 @@ namespace QTESystem
                 default:
                     break;
             }
+            StartCoroutine(FadeInUI(_fadeDuration));
         }
+
+        
 
         #endregion
 
@@ -491,10 +501,10 @@ namespace QTESystem
         /// Fade Active UI panels to 1 alpha
         /// </summary>
         /// <param name="_duration"></param>
-        public void FadeInUI(float _duration)
+        public IEnumerator FadeInUI(float _duration)
         {
-
-            List<Image> images = new List<Image>();
+            yield return new WaitForSeconds(0.3f);
+            CancelTweens();
             //Get all Images from the Poise bar
             Image[] poiseBarImages = m_poiseBar.GetComponentsInChildren<Image>();            
             foreach (Image image in poiseBarImages)
@@ -567,17 +577,33 @@ namespace QTESystem
                 m_iconAnimation.FadeOutUI(image, _duration);
             }
         }
+        /// <summary>
+        /// Pause all tweens as they do not run on timescale
+        /// </summary>
         public void Pause()
         {
             m_iconAnimation.Pause();
         }
+        /// <summary>
+        /// Resume all tweens as they do not run on timescale
+        /// </summary>
         public void Resume()
         {
             m_iconAnimation.Resume();
         }
+        /// <summary>
+        /// Stop all tweens and clear active tween list
+        /// </summary>
         public void ClearTweens()
         {
             m_iconAnimation.ClearTweens();
+        }
+        /// <summary>
+        /// Cancel all tweens and clear active tween list
+        /// </summary>
+        public void CancelTweens()
+        {
+            m_iconAnimation.CancelTweens();
         }
         #endregion
 
