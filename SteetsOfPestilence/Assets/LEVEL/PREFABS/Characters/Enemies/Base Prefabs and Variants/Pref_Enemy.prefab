@@ -9889,6 +9889,8 @@ MonoBehaviour:
   m_timer: 0
   m_combatPos: {x: 0, y: 0, z: 0}
   m_minWallDistance: 2
+  m_maskObject: {fileID: 0}
+  speed: 0
 --- !u!114 &8434067885878388334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9904,13 +9906,11 @@ MonoBehaviour:
   m_viewRadius: 10
   m_viewAngle: 40
   combatDistance: 4
-  angle: 0
+  m_angle: 0
   m_obstructMask:
     serializedVersion: 2
     m_Bits: 89
   m_canSeePlayer: 0
-  Dir: {x: 0, y: 0, z: 0}
-  dis: 0
 --- !u!136 &7253596041934022756
 CapsuleCollider:
   m_ObjectHideFlags: 0
