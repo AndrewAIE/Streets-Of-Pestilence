@@ -173,6 +173,14 @@ namespace PlayerController
 
             DebugStuff();
 
+            
+
+
+
+            AnimationHandler();
+        }
+        private void FixedUpdate()
+        {
             switch (m_playerState)
             {
                 case PlayerState.Exploring:
@@ -183,18 +191,10 @@ namespace PlayerController
 
                     break;
                 case PlayerState.Combat:
-                    if (m_recenterTarget != null) Recenter();                    
+                    if (m_recenterTarget != null) Recenter();
                     MoveCameraPoint();
                     break;
             }
-
-
-
-            AnimationHandler();
-        }
-        private void FixedUpdate()
-        {
-
         }
 
         private void CheckStateChange()
@@ -239,6 +239,10 @@ namespace PlayerController
             _speed = m_input.sprint ? _data.RunningSpeed : _data.WalkingSpeed;
             Vector2 motion = Vector3.zero;
             Vector2 input = m_input.movement;
+
+            if (input.magnitude <= 0.1f)
+                return;
+
             if (input.x != 0) motion.x += input.x * _speed;
             else motion.x = 0;
             if (input.y != 0) motion.y += input.y * _speed;
